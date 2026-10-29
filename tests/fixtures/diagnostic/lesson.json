@@ -1,0 +1,14 @@
+{
+  "id": "00",
+  "title": "框架诊断场景",
+  "module": "框架验收",
+  "summary": "用于框架验证的离线落体，不计入正式课程。",
+  "order": 0,
+  "profile": "classic11-noetic",
+  "requires_ros": false,
+  "world": "world.sdf",
+  "objectives": ["验证真实仿真、暂停、单步、模型重置及会话隔离"],
+  "commands": [{"title": "观察诊断方块", "command": "gz model -m diagnostic_block -p"}],
+  "verify": "verify.py",
+  "verify_timeout": 40
+}
