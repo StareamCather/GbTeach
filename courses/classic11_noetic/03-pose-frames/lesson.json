@@ -1,0 +1,35 @@
+{
+  "id": "03",
+  "title": "正确安装传感器：坐标与姿态",
+  "module": "环境与建模",
+  "summary": "在安装架、命名frame和传感器占位标记之间计算真实位姿变换。",
+  "order": 3,
+  "profile": "classic11-noetic",
+  "requires_ros": false,
+  "world": "world.sdf",
+  "objectives": [
+    "使用SI与右手坐标系，解释RPY和四元数",
+    "计算world/model/link的刚体变换链",
+    "区分relative_to、attached_to与机械关节"
+  ],
+  "commands": [
+    {
+      "title": "查询安装架世界位姿",
+      "command": "gz model -m rig -p"
+    },
+    {
+      "title": "查询标记模型世界位姿",
+      "command": "gz model -m sensor_marker -p"
+    },
+    {
+      "title": "查看标记的link相对位姿与四元数",
+      "command": "gz model -m sensor_marker -i"
+    },
+    {
+      "title": "查看安装参考轴的世界位姿",
+      "command": "gz model -m mount_axes -p"
+    }
+  ],
+  "verify": "verify.py",
+  "reference": "reference.md"
+}
