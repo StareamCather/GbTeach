@@ -5,8 +5,14 @@ This check requires the real ikaros graphical session; offscreen rendering is
 explicitly rejected. It creates private settings/data and closes only its own
 window and session. Example:
   python3 tests/ui_probe.py --screenshot /tmp/gazeboteach-ui.png --report /tmp/ui.json
+  python3 tests/ui_probe.py --lesson 01 --profile classic11-noetic --screenshot /tmp/lesson01.png
+
+The default keeps the framework-only fixture. --lesson loads the published
+catalog through the same course tree as the normal application. Reference
+inspection compares the personal world hash before and after the read-only view.
 """
 import argparse
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -113,6 +119,8 @@ def terminal_pty_status(session):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--screenshot", required=True)
+    parser.add_argument("--lesson", metavar="ID", help="Use a published course from the local catalog; default is diagnostic fixture 00")
+    parser.add_argument("--profile", default="classic11-noetic", help="Course profile used with --lesson")
     parser.add_argument("--gazebo-screenshot", help="PNG of only this session's real Gazebo window")
     parser.add_argument("--report")
     parser.add_argument("--timeout", type=float, default=90)
@@ -126,7 +134,7 @@ def main():
 
     from PyQt5 import QtCore, QtGui, QtWidgets
     from gazeboteach.app import create_application
-    from gazeboteach.catalog import Lesson
+    from gazeboteach.catalog import Lesson, load_catalog
     from gazeboteach.storage import Storage
 
     screenshot = Path(arguments.screenshot).expanduser().resolve()
@@ -155,10 +163,23 @@ def main():
         QtCore.QSettings.setDefaultFormat(QtCore.QSettings.IniFormat)
         QtCore.QSettings.setPath(QtCore.QSettings.IniFormat, QtCore.QSettings.UserScope,
                                 str(private / "settings"))
-        fixture_folder = ROOT / "tests/fixtures/diagnostic"
-        lesson = Lesson(fixture_folder, json.loads((fixture_folder / "lesson.json").read_text(encoding="utf-8")))
+        if arguments.lesson:
+            lessons, errors = load_catalog(ROOT)
+            lesson_id = str(arguments.lesson).zfill(2)
+            candidates = [candidate for candidate in lessons
+                          if candidate.id == lesson_id and candidate.profile == arguments.profile]
+            require(len(candidates) == 1, "Expected one published course {}:{}; catalog errors: {}".format(
+                arguments.profile, lesson_id, errors))
+            lesson = candidates[0]
+            fixture_override = None
+        else:
+            fixture_folder = ROOT / "tests/fixtures/diagnostic"
+            lesson = Lesson(fixture_folder, json.loads((fixture_folder / "lesson.json").read_text(encoding="utf-8")))
+            fixture_override = lesson
+        report.update(lesson=lesson.id, profile=lesson.profile, title=lesson.title,
+                      fixture=fixture_override is not None)
         storage = Storage(private / "data")
-        application, window = create_application(ROOT, fixture=lesson, storage=storage)
+        application, window = create_application(ROOT, fixture=fixture_override, storage=storage)
         application.setQuitOnLastWindowClosed(False)
         require(application.platformName() not in ("offscreen", "minimal"), "Qt did not select a real desktop platform")
         window.autostart.setChecked(False)
@@ -213,18 +234,21 @@ def main():
                     if window.environment is None or window.busy:
                         return
                     require(window.isVisible(), "Workbench is not visible")
-                    require(window.environment.get("classic_version", "").startswith("11."), "Expected detected Classic 11")
-                    require(window.select_lesson("00", profile="classic11-noetic"), "Diagnostic lesson is not selectable")
+                    if lesson.profile == "classic11-noetic":
+                        require(window.environment.get("classic_version", "").startswith("11."), "Expected detected Classic 11")
+                    require(window.select_lesson(lesson.id, profile=lesson.profile), "Requested lesson is not selectable")
                     state["stage"] = "selected"
                     return
 
                 if stage == "selected":
                     if window.busy:
                         return
-                    require(window.current_lesson is not None and window.current_lesson.id == "00", "Wrong current lesson")
-                    require("框架诊断场景" in window.document.toPlainText(), "Lesson document was not shown")
-                    record("environment_and_lesson", classic=window.environment["classic_version"],
-                           lesson=window.current_lesson.id, document_characters=len(window.document.toPlainText()))
+                    require(window.current_lesson is not None and window.current_lesson.key == lesson.key, "Wrong current lesson")
+                    require(lesson.title in window.course_title.text(), "Selected course title was not shown")
+                    require(len(window.document.toPlainText().strip()) >= 80, "Lesson document is missing or too short")
+                    record("environment_and_lesson", classic=window.environment.get("classic_version"),
+                           lesson=window.current_lesson.id, profile=lesson.profile,
+                           title=window.course_title.text(), document_characters=len(window.document.toPlainText()))
                     click("start")
                     state["stage"] = "starting"
                     return
@@ -287,10 +311,32 @@ def main():
                     result = window._last_verification
                     require(result is not None and result[0] == window.session.token,
                             "Verify button did not return a result for this session")
-                    require(result[1].get("passed") is True, "Real diagnostic verification failed")
-                    require("verified" in storage.progress().get("classic11-noetic:00", set()),
+                    require(result[1].get("passed") is True, "Real course verification failed or was not provided")
+                    require("verified" in storage.progress().get(lesson.key, set()),
                             "Successful verification was not persisted")
                     record("verify_button", result=result[1])
+                    if lesson.data.get("reference"):
+                        world = window.session.workspace / lesson.data.get("world", "world.sdf")
+                        state["reference_world_hash"] = hashlib.sha256(world.read_bytes()).hexdigest()
+                        click("reference")
+                        state["stage"] = "reference"
+                        return
+                    click("records")
+                    state["stage"] = "records"
+                    return
+
+                if stage == "reference":
+                    if window.busy:
+                        return
+                    require(window.tabs.currentWidget() is window.reference_view, "Reference button did not open the reference tab")
+                    require(window.reference_view.isReadOnly(), "Reference view is editable")
+                    require(len(window.reference_view.toPlainText().strip()) >= 10, "Reference answer is empty")
+                    world = window.session.workspace / lesson.data.get("world", "world.sdf")
+                    actual = hashlib.sha256(world.read_bytes()).hexdigest()
+                    require(actual == state["reference_world_hash"], "Opening the reference answer changed the personal world file")
+                    record("reference_preserves_personal_world", world_sha256=actual,
+                           reference_characters=len(window.reference_view.toPlainText()))
+                    window.tabs.setCurrentWidget(window.document)
                     click("records")
                     state["stage"] = "records"
                     return

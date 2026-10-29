@@ -1,0 +1,35 @@
+{
+  "id": "01",
+  "title": "第一个落地方块",
+  "module": "环境与建模",
+  "summary": "用一次真实落体认识 Gazebo 的客户端、服务端和仿真时钟。",
+  "order": 1,
+  "profile": "classic11-noetic",
+  "requires_ros": false,
+  "world": "world.sdf",
+  "objectives": [
+    "区分 gzserver 与 gzclient",
+    "使用暂停、单步与重置",
+    "解释方块落地后的中心高度"
+  ],
+  "commands": [
+    {
+      "title": "查询方块位姿",
+      "command": "gz model -m falling_block -p"
+    },
+    {
+      "title": "查看本课通信主题",
+      "command": "gz topic -l"
+    },
+    {
+      "title": "先暂停，再把方块抬至2米（保持暂停）",
+      "command": "gz topic -p /gazebo/default/world_control -m 'pause: true' && sleep 0.2 && gz model -m falling_block -z 2"
+    },
+    {
+      "title": "继续运行，观察下落",
+      "command": "gz topic -p /gazebo/default/world_control -m 'pause: false'"
+    }
+  ],
+  "verify": "verify.py",
+  "reference": "reference.md"
+}
