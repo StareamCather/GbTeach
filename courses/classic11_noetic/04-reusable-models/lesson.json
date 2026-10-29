@@ -1,0 +1,44 @@
+{
+  "id": "04",
+  "title": "可复用的障碍物模型包",
+  "module": "环境与建模",
+  "summary": "将同一离线模型包放置为四个独立实例，验证公共模板尺寸与布局。",
+  "order": 4,
+  "profile": "classic11-noetic",
+  "requires_ros": false,
+  "world": "world.sdf",
+  "objectives": [
+    "组织model.config与model.sdf并区分三种版本号",
+    "按model:// URI和GAZEBO_MODEL_PATH查找资源",
+    "使用include设置独立实例名称和位姿，验证公共模板参数生效"
+  ],
+  "commands": [
+    {
+      "title": "查看实际模型搜索路径",
+      "command": "printf \"%s\\n\" \"$GAZEBO_MODEL_PATH\""
+    },
+    {
+      "title": "查看本课离线模型包",
+      "command": "ls -R models/teach_crate"
+    },
+    {
+      "title": "查看公共模型描述",
+      "command": "sed -n '1,160p' models/teach_crate/model.sdf"
+    },
+    {
+      "title": "查询左箱子真实位姿",
+      "command": "gz model -m crate_left -p"
+    },
+    {
+      "title": "查看左箱子实际几何与惯性",
+      "command": "gz model -m crate_left -i"
+    },
+    {
+      "title": "只移动右箱（基准0.5m已落地，先暂停）",
+      "command": "gz topic -p /gazebo/default/world_control -m 'pause: true' && sleep 0.2 && gz model -m crate_right -x 2 -y 0 -z 0.25 -R 0 -P 0 -Y 0.35"
+    }
+  ],
+  "verify": "verify.py",
+  "reference": "reference.md",
+  "verify_timeout": 45
+}

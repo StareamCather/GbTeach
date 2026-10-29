@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<sdf version="1.6">
+  <world name="default">
+    <!-- GAZEBO_MODEL_PATH应包含当前练习的models目录；此世界无需访问在线模型库。 -->
+    <gravity>0 0 -9.81</gravity>
+    <physics name="ode" type="ode">
+      <max_step_size>0.001</max_step_size>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+    <scene>
+      <ambient>0.35 0.35 0.35 1</ambient>
+      <background>0.82 0.87 0.95 1</background>
+      <shadows>true</shadows>
+    </scene>
+    <light name="sun" type="directional">
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.9 0.9 0.9 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <direction>-0.5 0.1 -1</direction>
+      <cast_shadows>true</cast_shadows>
+    </light>
+    <model name="ground">
+      <static>true</static>
+      <link name="surface">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>40 40</size>
+            </plane>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>0.8</mu>
+                <mu2>0.8</mu2>
+              </ode>
+            </friction>
+          </surface>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>40 40</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.65 0.68 0.72 1</ambient>
+            <diffuse>0.65 0.68 0.72 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <!-- 四次include引用同一离线模型包。name/pose属于实例，尺寸和惯性来自公共model.sdf。 -->
+    <include>
+      <uri>model://teach_crate</uri>
+      <name>crate_left</name>
+      <pose>-1.5 0 1.25 0 0 0</pose>
+    </include>
+    <include>
+      <uri>model://teach_crate</uri>
+      <name>crate_right</name>
+      <pose>1.5 0 1.25 0 0 0.35</pose>
+    </include>
+    <include>
+      <uri>model://teach_crate</uri>
+      <name>crate_back</name>
+      <pose>0 1.5 1.25 0 0 0.7</pose>
+    </include>
+    <include>
+      <uri>model://teach_crate</uri>
+      <name>crate_front</name>
+      <pose>0 -1.5 1.25 0 0 -0.35</pose>
+    </include>
+    <gui>
+      <camera name="user_camera">
+        <pose>7 -8 6 0 0.45 2.3</pose>
+      </camera>
+    </gui>
+  </world>
+</sdf>

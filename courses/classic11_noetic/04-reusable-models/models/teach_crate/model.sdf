@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<sdf version="1.6">
+  <!-- include的name覆盖运行实例名；模板名称不用与每个实例相同。 -->
+  <model name="teach_crate">
+    <static>false</static>
+    <pose>0 0 0 0 0 0</pose>
+    <link name="body">
+      <inertial>
+        <mass>1.0</mass>
+        <!-- 均匀box：Ixx=m*(sy²+sz²)/12，其余两项按相应尺寸计算。 -->
+        <inertia>
+          <ixx>0.041666666666666664</ixx>
+          <iyy>0.041666666666666664</iyy>
+          <izz>0.041666666666666664</izz>
+        </inertia>
+      </inertial>
+      <!-- 改公共尺寸时同步collision、visual和惯性；所有include实例重载后共同生效。 -->
+      <collision name="collision">
+        <geometry>
+          <box><size>0.5 0.5 0.5</size></box>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.5 0.5 0.5</size></box>
+        </geometry>
+        <material>
+          <ambient>0.7 0.4 0.15 1</ambient>
+          <diffuse>0.7 0.4 0.15 1</diffuse>
+        </material>
+      </visual>
+    </link>
+  </model>
+</sdf>
