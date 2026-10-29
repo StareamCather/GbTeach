@@ -1,0 +1,35 @@
+{
+  "id": "02",
+  "title": "积木房间：外观与碰撞",
+  "module": "环境与建模",
+  "summary": "让两个相同方块落在看起来相同、物理定义不同的平台上。",
+  "order": 2,
+  "profile": "classic11-noetic",
+  "requires_ros": false,
+  "world": "world.sdf",
+  "objectives": [
+    "解释world/model/link及visual/collision/inertial的分工",
+    "比较同外观、不同碰撞定义的平台落点",
+    "区分保存场景、练习文件重载与运行状态"
+  ],
+  "commands": [
+    {
+      "title": "查询黄色探针的实际位姿",
+      "command": "gz model -m solid_probe -p"
+    },
+    {
+      "title": "查询紫色探针的实际位姿",
+      "command": "gz model -m ghost_probe -p"
+    },
+    {
+      "title": "暂停，便于重置和观察两枚探针",
+      "command": "gz topic -p /gazebo/default/world_control -m 'pause: true'"
+    },
+    {
+      "title": "继续观察落体",
+      "command": "gz topic -p /gazebo/default/world_control -m 'pause: false'"
+    }
+  ],
+  "verify": "verify.py",
+  "reference": "reference.md"
+}
