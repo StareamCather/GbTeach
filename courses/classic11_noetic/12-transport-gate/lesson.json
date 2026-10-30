@@ -1,0 +1,29 @@
+{
+  "id": "12",
+  "title": "Gazebo Transport：消息驱动滑门",
+  "module": "通信与场景",
+  "summary": "通过真实Classic话题、消息类型、请求响应和三层ACK，区分消息发送、控制应用与滑门物理到位。",
+  "order": 12,
+  "profile": "classic11-noetic",
+  "requires_ros": false,
+  "requires_tools": ["g++", "pkg-config"],
+  "world": "world.sdf",
+  "server_args": ["--seed", "42"],
+  "prepare": ["python3 prepare.py"],
+  "prepare_timeout": 150,
+  "verify": "verify.py",
+  "reference": "reference.md",
+  "verify_timeout": 150,
+  "objectives": ["发现真实Classic topic与消息schema并发布命令", "区分pub/sub、相关请求响应和三层执行证据", "诊断错误命名空间、类型、重复消息与暂停执行"],
+  "commands": [
+    {"title": "通过真实RPC读取状态", "command": "python3 lab.py status"},
+    {"title": "查看原生entity_info实际模型", "command": "python3 lab.py entity"},
+    {"title": "观察真实网络状态两秒", "command": "python3 lab.py watch --seconds 2"},
+    {"title": "实际开门并等待物理到位", "command": "python3 lab.py open"},
+    {"title": "实际关门并等待物理到位", "command": "python3 lab.py close"},
+    {"title": "完整初始化、开门、关门验收", "command": "python3 lab.py demo"},
+    {"title": "生成含新标识的原生gz发布命令", "command": "python3 lab.py cli-example"},
+    {"title": "编辑目标位置，保存后重新加载", "command": "gedit --new-window parameters.json"},
+    {"title": "查看command话题的真实类型与连接", "command": "gz topic -w default -i /gazebo/default/transport_lab/command"}
+  ]
+}

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<sdf version="1.7"><world name="default">
+  <gravity>0 0 -9.81</gravity>
+  <physics name="ode" type="ode"><max_step_size>.001</max_step_size><real_time_update_rate>1000</real_time_update_rate><ode><solver><type>quick</type><iters>100</iters></solver></ode></physics>
+  <scene><ambient>.6 .6 .6 1</ambient><background>.84 .89 .95 1</background><shadows>true</shadows></scene>
+  <light name="sun" type="directional"><pose>0 0 8 0 0 0</pose><diffuse>.9 .9 .9 1</diffuse><direction>-.5 .1 -1</direction></light>
+  <gui><camera name="user_camera"><pose>2.6 -3.6 2 0 .25 2.1</pose></camera></gui>
+  <model name="frame"><static>true</static><link name="visual_reference">
+    <visual name="floor"><geometry><plane><normal>0 0 1</normal><size>20 20</size></plane></geometry><material><ambient>.72 .76 .8 1</ambient><diffuse>.72 .76 .8 1</diffuse></material></visual>
+    <visual name="rail"><pose>.4 0 1.04 0 0 0</pose><geometry><box><size>1.55 .09 .04</size></box></geometry><material><ambient>.2 .25 .3 1</ambient><diffuse>.2 .25 .3 1</diffuse></material></visual>
+    <visual name="closed_mark"><pose>0 -.10 .13 0 0 0</pose><geometry><box><size>.012 .10 .015</size></box></geometry><material><ambient>.85 .2 .1 1</ambient><diffuse>.85 .2 .1 1</diffuse></material></visual>
+    <visual name="open_mark"><pose>.6 -.10 .13 0 0 0</pose><geometry><box><size>.012 .10 .015</size></box></geometry><material><ambient>.15 .65 .25 1</ambient><diffuse>.15 .65 .25 1</diffuse></material></visual>
+  </link></model>
+  <model name="transport_gate"><static>false</static><self_collide>false</self_collide><allow_auto_disable>false</allow_auto_disable>
+    <link name="panel"><pose>0 0 .6 0 0 0</pose><velocity_decay><linear>0</linear><angular>0</angular></velocity_decay>
+      <inertial><mass>2</mass><inertia><ixx>.10726666666666667</ixx><iyy>.16666666666666667</iyy><izz>.0606</izz><ixy>0</ixy><ixz>0</ixz><iyz>0</iyz></inertia></inertial>
+      <collision name="panel_collision"><geometry><box><size>.6 .06 .8</size></box></geometry></collision>
+      <visual name="panel"><geometry><box><size>.6 .06 .8</size></box></geometry><material><ambient>.1 .5 .8 1</ambient><diffuse>.1 .5 .8 1</diffuse></material></visual>
+      <visual name="handle"><pose>.21 -.045 0 0 0 0</pose><geometry><box><size>.025 .03 .16</size></box></geometry><material><ambient>1 .7 .12 1</ambient><diffuse>1 .7 .12 1</diffuse></material></visual>
+    </link>
+    <joint name="slide_joint" type="prismatic"><parent>world</parent><child>panel</child><pose relative_to="panel">0 0 0 0 0 0</pose><axis><xyz expressed_in="__model__">1 0 0</xyz><limit><lower>0</lower><upper>.8</upper><effort>20</effort><velocity>10</velocity></limit><dynamics><damping>4</damping><friction>0</friction></dynamics></axis><physics><ode><implicit_spring_damper>false</implicit_spring_damper></ode></physics></joint>
+    <plugin name="message_force_gate" filename="libgazeboteach_transport_gate.so"/>
+  </model>
+</world></sdf>
