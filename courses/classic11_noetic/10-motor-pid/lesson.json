@@ -1,0 +1,27 @@
+{
+  "id": "10",
+  "title": "电机转台：力矩、速度与位置PID",
+  "module": "执行器与控制",
+  "summary": "用真实关节力矩、速度P/PI、位置P/PD与限幅实验理解电机反馈，观察负载阶跃及积分项。",
+  "order": 10,
+  "profile": "classic11-noetic",
+  "requires_ros": false,
+  "requires_tools": ["g++", "pkg-config"],
+  "world": "world.sdf",
+  "server_args": ["--seed", "42"],
+  "prepare": ["python3 prepare.py"],
+  "prepare_timeout": 80,
+  "verify": "verify.py",
+  "reference": "reference.md",
+  "verify_timeout": 120,
+  "objectives": ["区分力矩输入与速度、位置闭环目标", "比较P、I、D、负载扰动和两种限幅", "用真实状态、PID内部量与动力学平衡验证反馈"],
+  "commands": [
+    {"title": "查看当前配置与真实控制器", "command": "python3 lab.py inspect"},
+    {"title": "编辑参数，保存后重载项目", "command": "gedit --new-window parameters.json"},
+    {"title": "重新演示六个有限实验阶段", "command": "python3 lab.py demo"},
+    {"title": "仅观察速度P与负载", "command": "python3 lab.py run speed-p"},
+    {"title": "仅观察速度PI与负载", "command": "python3 lab.py run speed-pi"},
+    {"title": "仅观察位置PD", "command": "python3 lab.py run position-pd"},
+    {"title": "仅观察输出饱和", "command": "python3 lab.py run saturation"}
+  ]
+}
