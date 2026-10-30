@@ -3,6 +3,7 @@
 import datetime
 import json
 import os
+import re
 import shlex
 import shutil
 import signal
@@ -427,26 +428,89 @@ class LessonSession:
             self.cancelled.wait(0.1)
         raise RuntimeError(label + "未就绪或启动已取消。")
 
+    def _read_pause_state(self, timeout=3):
+        """Read an actual world_stats sample through the owned command path."""
+        if not self.running:
+            raise RuntimeError("当前没有正在运行的实验，无法读取暂停状态。")
+        capture = self.session_dir / (".pause-state-" + uuid.uuid4().hex + ".txt")
+        topic = "/gazebo/{}/world_stats".format(self.world_name)
+        try:
+            self.command("gz topic -e {} -d 1 > {}".format(shlex.quote(topic), shlex.quote(str(capture))),
+                         timeout=timeout, label="读取暂停状态")
+            if not self.running:
+                raise RuntimeError("实验已结束，未确认暂停状态。")
+            text = capture.read_text(encoding="utf-8", errors="replace")
+            values = re.findall(r"^\s*paused:\s*(true|false)\s*$", text, re.MULTILINE)
+            if not values:
+                raise RuntimeError("world_stats 未提供实际 paused 状态。")
+            return values[-1] == "true"
+        finally:
+            try:
+                capture.unlink()
+            except FileNotFoundError:
+                pass
+
+    def _confirm_pause_state(self, paused, timeout=4):
+        """Allow transport delivery time, retrying only bounded read-only samples."""
+        deadline = time.monotonic() + timeout
+        last = "尚未收到 world_stats"
+        while True:
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                break
+            if not self.running:
+                raise RuntimeError("实验已结束，未确认暂停状态。")
+            try:
+                observed = self._read_pause_state(timeout=min(3, remaining))
+                if observed == paused:
+                    return
+                last = "world_stats paused={}".format(str(observed).lower())
+            except (OSError, RuntimeError) as exc:
+                last = str(exc)
+            if not self.running:
+                raise RuntimeError("实验已结束，未确认暂停状态。")
+            self.cancelled.wait(min(0.1, max(0, deadline - time.monotonic())))
+        raise RuntimeError("暂停状态回读未确认目标 paused={}：{}".format(str(paused).lower(), last))
+
     def pause(self, paused):
         if not self.running:
             raise RuntimeError("当前没有正在运行的实验。")
-        self.command("gz world -w {} -p {}".format(shlex.quote(self.world_name), "1" if paused else "0"),
-                     timeout=8, label="暂停/继续")
+        paused = bool(paused)
+        observed = self._read_pause_state()
+        command_error = None
+        if observed != paused:
+            try:
+                self.command("gz world -w {} -p {}".format(shlex.quote(self.world_name), "1" if paused else "0"),
+                             timeout=8, label="暂停/继续")
+            except (OSError, RuntimeError) as exc:
+                command_error = exc
+                self.log("暂停/继续命令报告错误，保留原错误且仅回读，不重发：{}".format(exc))
+            try:
+                self._confirm_pause_state(paused)
+            except RuntimeError as exc:
+                if command_error is not None:
+                    raise RuntimeError("{}；{}".format(command_error, exc)) from command_error
+                raise
         with self.lock:
-            if self.cancelled.is_set():
-                raise RuntimeError("实验已结束。")
-            self.paused = bool(paused)
+            if not self.running:
+                raise RuntimeError("实验已结束，未记录暂停状态。")
+            self.paused = paused
             self.state = "已暂停" if paused else "运行中"
             self._save_metadata()
-        self._record("paused" if paused else "resumed")
+            details = {"observed_paused": paused, "observation": "world_stats"}
+            if command_error is not None:
+                details["command_error"] = str(command_error)
+                self.log("警告：暂停/继续命令报告错误（{}），但 world_stats 已确认 paused={}；未重发控制。".format(
+                    command_error, str(paused).lower()))
+            self._record("paused" if paused else "resumed", **details)
 
     def step(self, count=1):
         if isinstance(count, bool) or not isinstance(count, int) or count < 1:
             raise ValueError("步数必须为正整数。")
         if not self.running:
             raise RuntimeError("当前没有正在运行的实验。")
-        if not self.paused:
-            self.pause(True)
+        # A GUI or lesson terminal may have changed the world since our last read.
+        self.pause(True)
         flag = "-s" if count == 1 else "-m " + str(count)
         self.command("gz world -w {} {}".format(shlex.quote(self.world_name), flag),
                      timeout=8, label="单步/多步")
