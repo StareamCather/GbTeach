@@ -1,0 +1,25 @@
+{
+  "id": "06",
+  "title": "质量、质心与惯性实验台",
+  "module": "动力学基础",
+  "summary": "定量比较不同质量的自由落体、质心与倾覆，以及相同扭矩下不同惯量的旋转。",
+  "order": 6,
+  "profile": "classic11-noetic",
+  "requires_ros": false,
+  "world": "world.sdf",
+  "objectives": [
+    "以米、千克和千克平方米正确描述质量、质心与中心惯性张量",
+    "通过定步落体与支撑投影区分质量、质心和几何的作用",
+    "用已知单步扭矩与自由转动观测验证主轴转动惯量影响运动",
+    "识别非正定及违反主惯量三角不等式的配置并修复"
+  ],
+  "commands": [
+    {"title": "预测当前个人配置的三站结果", "command": "python3 lab.py predict"},
+    {"title": "重置本课仪器并运行定量实验", "command": "python3 lab.py experiment"},
+    {"title": "查看低质心塔实际质量与惯量", "command": "gz model -m tower_low -i"},
+    {"title": "查看环形飞轮实际惯量", "command": "gz model -m flywheel_ring -i"}
+  ],
+  "verify": "verify.py",
+  "reference": "reference.md",
+  "verify_timeout": 100
+}

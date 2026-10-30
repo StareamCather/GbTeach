@@ -1,0 +1,9 @@
+{
+  "freefall_steps": 200,
+  "tower_steps": 2500,
+  "flywheel_coast_steps": 500,
+  "torque_z_Nm": 50.0,
+  "ring_inner_radius_m": 0.32,
+  "tower_column_mass_kg": 1.0,
+  "tower_ballast_mass_kg": 4.0
+}

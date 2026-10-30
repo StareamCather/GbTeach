@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<sdf version="1.6">
+  <model name="inertia_ring">
+    <static>true</static>
+    <link name="display">
+      <visual name="ring">
+        <geometry>
+          <mesh>
+            <uri>model://inertia_ring/meshes/ring.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>.9 .45 .08 1</ambient>
+          <diffuse>.9 .45 .08 1</diffuse>
+        </material>
+      </visual>
+    </link>
+  </model>
+</sdf>
