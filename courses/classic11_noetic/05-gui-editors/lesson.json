@@ -1,0 +1,25 @@
+{
+  "id": "05",
+  "title": "用图形编辑器制作桌子与房间",
+  "module": "环境与建模",
+  "summary": "在 Model Editor 与 Building Editor 保存离线模型，重新加载并验证真实碰撞和门洞。",
+  "order": 5,
+  "profile": "classic11-noetic",
+  "requires_ros": false,
+  "world": "world.sdf",
+  "objectives": [
+    "使用 Model Editor 组合静态桌子并另存模型包",
+    "使用 Building Editor 绘制带真实门洞的房间并导出模型包",
+    "重新加载保存资源，区分视觉、碰撞、自动检查与人工编辑技能"
+  ],
+  "commands": [
+    {"title": "显示当前练习的绝对保存路径", "command": "python3 lab.py show-paths"},
+    {"title": "使用已保存的两份学生模型（随后重载）", "command": "python3 lab.py use-exports"},
+    {"title": "切回离线参考模型（随后重载）", "command": "python3 lab.py use-reference"},
+    {"title": "查看实际加载的桌子碰撞与外观", "command": "gz model -m table_example -i"},
+    {"title": "查看实际加载的房间碰撞与外观", "command": "gz model -m room_example -i"}
+  ],
+  "verify": "verify.py",
+  "reference": "reference.md",
+  "verify_timeout": 60
+}

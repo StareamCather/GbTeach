@@ -1,0 +1,11 @@
+cmake_minimum_required(VERSION 3.13)
+project(GazeboTeachEditorProbe LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+find_package(gazebo REQUIRED)
+find_package(Qt5 REQUIRED COMPONENTS Widgets Test OpenGL)
+add_library(GazeboTeachEditorProbe SHARED EditorProbe.cc)
+target_include_directories(GazeboTeachEditorProbe PRIVATE ${GAZEBO_INCLUDE_DIRS})
+target_link_directories(GazeboTeachEditorProbe PRIVATE ${GAZEBO_LIBRARY_DIRS})
+target_link_libraries(GazeboTeachEditorProbe PRIVATE gazebo_gui ${GAZEBO_LIBRARIES}
+  Qt5::Widgets Qt5::Test Qt5::OpenGL)

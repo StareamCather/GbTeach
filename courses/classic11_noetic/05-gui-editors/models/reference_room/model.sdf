@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='utf-8'?>
+<sdf version="1.6">
+  <model name="reference_room">
+    <static>true</static>
+    <link name="back">
+      <pose>0 1.25 1 0 0 0</pose>
+      <collision name="collision">
+        <geometry>
+          <box>
+            <size>3 0.12 2</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <box>
+            <size>3 0.12 2</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>.78 .82 .87 1</ambient>
+          <diffuse>.78 .82 .87 1</diffuse>
+        </material>
+      </visual>
+    </link>
+    <link name="left">
+      <pose>-1.5 0 1 0 0 0</pose>
+      <collision name="collision">
+        <geometry>
+          <box>
+            <size>0.12 2.5 2</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <box>
+            <size>0.12 2.5 2</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>.78 .82 .87 1</ambient>
+          <diffuse>.78 .82 .87 1</diffuse>
+        </material>
+      </visual>
+    </link>
+    <link name="right">
+      <pose>1.5 0 1 0 0 0</pose>
+      <collision name="collision">
+        <geometry>
+          <box>
+            <size>0.12 2.5 2</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <box>
+            <size>0.12 2.5 2</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>.78 .82 .87 1</ambient>
+          <diffuse>.78 .82 .87 1</diffuse>
+        </material>
+      </visual>
+    </link>
+    <link name="front_left">
+      <pose>-0.95 -1.25 1 0 0 0</pose>
+      <collision name="collision">
+        <geometry>
+          <box>
+            <size>1.1 0.12 2</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <box>
+            <size>1.1 0.12 2</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>.78 .82 .87 1</ambient>
+          <diffuse>.78 .82 .87 1</diffuse>
+        </material>
+      </visual>
+    </link>
+    <link name="front_right">
+      <pose>0.95 -1.25 1 0 0 0</pose>
+      <collision name="collision">
+        <geometry>
+          <box>
+            <size>1.1 0.12 2</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <box>
+            <size>1.1 0.12 2</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>.78 .82 .87 1</ambient>
+          <diffuse>.78 .82 .87 1</diffuse>
+        </material>
+      </visual>
+    </link>
+    <link name="door_lintel">
+      <pose>0 -1.25 1.7 0 0 0</pose>
+      <collision name="collision">
+        <geometry>
+          <box>
+            <size>0.8 0.12 0.6</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <box>
+            <size>0.8 0.12 0.6</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>.78 .82 .87 1</ambient>
+          <diffuse>.78 .82 .87 1</diffuse>
+        </material>
+      </visual>
+    </link>
+  </model>
+</sdf>

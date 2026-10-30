@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='utf-8'?>
+<sdf version="1.6">
+  <model name="reference_table">
+    <static>true</static>
+    <link name="tabletop">
+      <pose>0 0 0.8 0 0 0</pose>
+      <collision name="collision">
+        <geometry>
+          <box>
+            <size>1.2 0.8 0.1</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <box>
+            <size>1.2 0.8 0.1</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>.55 .28 .10 1</ambient>
+          <diffuse>.55 .28 .10 1</diffuse>
+        </material>
+      </visual>
+    </link>
+    <link name="leg_1">
+      <pose>-0.5 -0.3 0.375 0 0 0</pose>
+      <collision name="collision">
+        <geometry>
+          <box>
+            <size>0.1 0.1 0.75</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <box>
+            <size>0.1 0.1 0.75</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>.25 .28 .32 1</ambient>
+          <diffuse>.25 .28 .32 1</diffuse>
+        </material>
+      </visual>
+    </link>
+    <link name="leg_2">
+      <pose>-0.5 0.3 0.375 0 0 0</pose>
+      <collision name="collision">
+        <geometry>
+          <box>
+            <size>0.1 0.1 0.75</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <box>
+            <size>0.1 0.1 0.75</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>.25 .28 .32 1</ambient>
+          <diffuse>.25 .28 .32 1</diffuse>
+        </material>
+      </visual>
+    </link>
+    <link name="leg_3">
+      <pose>0.5 -0.3 0.375 0 0 0</pose>
+      <collision name="collision">
+        <geometry>
+          <box>
+            <size>0.1 0.1 0.75</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <box>
+            <size>0.1 0.1 0.75</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>.25 .28 .32 1</ambient>
+          <diffuse>.25 .28 .32 1</diffuse>
+        </material>
+      </visual>
+    </link>
+    <link name="leg_4">
+      <pose>0.5 0.3 0.375 0 0 0</pose>
+      <collision name="collision">
+        <geometry>
+          <box>
+            <size>0.1 0.1 0.75</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <box>
+            <size>0.1 0.1 0.75</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>.25 .28 .32 1</ambient>
+          <diffuse>.25 .28 .32 1</diffuse>
+        </material>
+      </visual>
+    </link>
+  </model>
+</sdf>
