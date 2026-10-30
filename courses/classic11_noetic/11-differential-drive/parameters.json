@@ -1,0 +1,6 @@
+{
+  "schema": 1,
+  "forward_speed_m_s": 0.25,
+  "spin_yaw_rate_rad_s": 0.6,
+  "arc_yaw_rate_rad_s": 0.5
+}

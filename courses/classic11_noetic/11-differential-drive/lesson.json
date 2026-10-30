@@ -1,0 +1,29 @@
+{
+  "id": "11",
+  "title": "差速小车：轮速、转弯与里程计",
+  "module": "执行器与控制",
+  "summary": "通过真实左右轮接触驱动直行、原地转向与圆弧，比较编码器里程计和世界真值，观察低摩擦滑移。",
+  "order": 11,
+  "profile": "classic11-noetic",
+  "requires_ros": false,
+  "requires_tools": ["g++", "pkg-config"],
+  "world": "world.sdf",
+  "server_args": ["--seed", "42"],
+  "prepare": ["python3 prepare.py"],
+  "prepare_timeout": 80,
+  "verify": "verify.py",
+  "reference": "reference.md",
+  "verify_timeout": 120,
+  "objectives": ["将车体线速度与角速度映射到左右轮角速度", "从真实轮角增量计算里程计并与世界位姿对照", "通过低摩擦理解滑移和运动学模型的适用条件"],
+  "commands": [
+    {"title": "查看真实模型、表面与命令接口", "command": "python3 lab.py inspect"},
+    {"title": "编辑速度参数，保存后重新加载", "command": "gedit --new-window parameters.json"},
+    {"title": "重新演示当前表面下的有限阶段", "command": "python3 lab.py demo"},
+    {"title": "仅直行", "command": "python3 lab.py run straight"},
+    {"title": "仅原地旋转（正常摩擦）", "command": "python3 lab.py run spin"},
+    {"title": "仅圆弧（正常摩擦）", "command": "python3 lab.py run arc"},
+    {"title": "改为低摩擦练习，随后点击重新加载", "command": "python3 lab.py set-surface slip"},
+    {"title": "恢复正常摩擦，随后点击重新加载", "command": "python3 lab.py set-surface normal"},
+    {"title": "同一真实轨迹离线重算错误轮距", "command": "python3 lab.py replay-calibration 0.48"}
+  ]
+}
