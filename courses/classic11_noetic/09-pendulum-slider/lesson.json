@@ -1,0 +1,27 @@
+{
+  "id": "09",
+  "title": "被动单摆与重力滑轨",
+  "module": "关节与机构",
+  "summary": "建立固定、转动和移动关节，用真实关节坐标测量自由摆周期及滑轨限位。",
+  "order": 9,
+  "profile": "classic11-noetic",
+  "requires_ros": false,
+  "requires_tools": ["g++", "pkg-config"],
+  "world": "world.sdf",
+  "server_args": ["--seed", "42"],
+  "prepare": ["python3 prepare.py"],
+  "prepare_timeout": 45,
+  "objectives": [
+    "按parent/child拓扑与SDF1.7参考系构造fixed/revolute/prismatic关节",
+    "区分joint零位坐标q与摆相对重力的几何角，用物理摆惯量预测小角周期",
+    "测量真实joint.angle时间序列、被动滑轨位移和限位，区分阻尼与关节摩擦"
+  ],
+  "commands": [
+    {"title": "预测当前机构与测量窗口", "command": "python3 lab.py predict"},
+    {"title": "读取真实关节与模型配置", "command": "python3 lab.py inspect"},
+    {"title": "重置后测量自由摆和重力滑轨", "command": "python3 lab.py experiment"}
+  ],
+  "verify": "verify.py",
+  "reference": "reference.md",
+  "verify_timeout": 80
+}

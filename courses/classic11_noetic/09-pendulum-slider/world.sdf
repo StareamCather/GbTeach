@@ -1,0 +1,299 @@
+<?xml version='1.0' encoding='utf-8'?>
+<sdf version="1.7">
+  <world name="default">
+    <gravity>0 0 -9.81</gravity>
+    <physics name="ode" type="ode">
+      <max_step_size>0.001</max_step_size>
+      <real_time_update_rate>0</real_time_update_rate>
+      <ode>
+        <solver>
+          <type>quick</type>
+          <iters>100</iters>
+        </solver>
+        <constraints>
+          <cfm>0</cfm>
+          <erp>0.2</erp>
+          <contact_max_correcting_vel>10</contact_max_correcting_vel>
+          <contact_surface_layer>0.0001</contact_surface_layer>
+        </constraints>
+      </ode>
+    </physics>
+    <scene>
+      <ambient>0.35 0.35 0.35 1</ambient>
+      <background>0.82 0.87 0.95 1</background>
+      <shadows>true</shadows>
+    </scene>
+    <light name="sun" type="directional">
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.9 0.9 0.9 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <direction>-0.5 0.1 -1</direction>
+      <cast_shadows>true</cast_shadows>
+    </light>
+    <model name="ground">
+      <static>true</static>
+      <link name="surface">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>40 40</size>
+            </plane>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>0.8</mu>
+                <mu2>0.8</mu2>
+              </ode>
+            </friction>
+          </surface>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>40 40</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.65 0.68 0.72 1</ambient>
+            <diffuse>0.65 0.68 0.72 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <gui>
+      <camera name="user_camera">
+        <pose>5 -6 4 0 .35 2.25</pose>
+      </camera>
+    </gui>
+    <model name="pendulum_rig">
+      <pose>-1.4 0 2 0 0 0</pose>
+      <static>false</static>
+      <allow_auto_disable>false</allow_auto_disable>
+      <self_collide>false</self_collide>
+      <link name="frame">
+        <pose>0 0 0 0 0 0</pose>
+        <gravity>true</gravity>
+        <velocity_decay>
+          <linear>0</linear>
+          <angular>0</angular>
+        </velocity_decay>
+        <inertial>
+          <mass>1</mass>
+          <inertia>
+            <ixx>0.00375</ixx>
+            <iyy>0.00375</iyy>
+            <izz>0.00375</izz>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyz>0</iyz>
+          </inertia>
+        </inertial>
+        <visual name="base_visual">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.15 0.15 0.15</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.35 .4 .45 1</ambient>
+            <diffuse>.35 .4 .45 1</diffuse>
+          </material>
+        </visual>
+      </link>
+      <joint name="anchor_fixed" type="fixed">
+        <parent>world</parent>
+        <child>frame</child>
+        <pose relative_to="frame">0 0 0 0 0 0</pose>
+      </joint>
+      <link name="bob">
+        <pose>-0.15893546463605 0 -0.78405326227299 0 0.2 0</pose>
+        <gravity>true</gravity>
+        <velocity_decay>
+          <linear>0</linear>
+          <angular>0</angular>
+        </velocity_decay>
+        <inertial>
+          <mass>1</mass>
+          <inertia>
+            <ixx>0.004</ixx>
+            <iyy>0.004</iyy>
+            <izz>0.004</izz>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyz>0</iyz>
+          </inertia>
+        </inertial>
+        <collision name="collision">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.1</radius>
+            </sphere>
+          </geometry>
+        </collision>
+        <visual name="bob_visual">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.1</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>.15 .65 .95 1</ambient>
+            <diffuse>.15 .65 .95 1</diffuse>
+          </material>
+        </visual>
+        <visual name="rod_visual">
+          <pose>0 0 0.4 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.015</radius>
+              <length>0.8</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>.75 .75 .78 1</ambient>
+            <diffuse>.75 .75 .78 1</diffuse>
+          </material>
+        </visual>
+      </link>
+      <joint name="swing_joint" type="revolute">
+        <parent>frame</parent>
+        <child>bob</child>
+        <pose relative_to="frame">0 0 0 0 0 0</pose>
+        <axis>
+          <xyz expressed_in="frame">0 1 0</xyz>
+          <limit>
+            <lower>-0.6</lower>
+            <upper>0.6</upper>
+            <effort>-1</effort>
+            <velocity>-1</velocity>
+            <stiffness>1000000</stiffness>
+            <dissipation>100</dissipation>
+          </limit>
+          <dynamics>
+            <damping>0.002</damping>
+            <friction>0</friction>
+          </dynamics>
+        </axis>
+      </joint>
+    </model>
+    <model name="slider_rig">
+      <pose>1.4 0 1.5 0 0 0</pose>
+      <static>false</static>
+      <allow_auto_disable>false</allow_auto_disable>
+      <self_collide>false</self_collide>
+      <link name="guide">
+        <pose>0 0 0 0 0 0</pose>
+        <gravity>true</gravity>
+        <velocity_decay>
+          <linear>0</linear>
+          <angular>0</angular>
+        </velocity_decay>
+        <inertial>
+          <mass>1</mass>
+          <inertia>
+            <ixx>0.00375</ixx>
+            <iyy>0.00375</iyy>
+            <izz>0.00375</izz>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyz>0</iyz>
+          </inertia>
+        </inertial>
+        <visual name="base_visual">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.15 0.15 0.15</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.35 .4 .45 1</ambient>
+            <diffuse>.35 .4 .45 1</diffuse>
+          </material>
+        </visual>
+        <visual name="rail_visual">
+          <pose>0 0 -0.25 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.025 0.025 1</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.7 .72 .75 1</ambient>
+            <diffuse>.7 .72 .75 1</diffuse>
+          </material>
+        </visual>
+      </link>
+      <joint name="guide_fixed" type="fixed">
+        <parent>world</parent>
+        <child>guide</child>
+        <pose relative_to="guide">0 0 0 0 0 0</pose>
+      </joint>
+      <link name="carriage">
+        <pose>0 0 0 0 0 0</pose>
+        <gravity>true</gravity>
+        <velocity_decay>
+          <linear>0</linear>
+          <angular>0</angular>
+        </velocity_decay>
+        <inertial>
+          <mass>1</mass>
+          <inertia>
+            <ixx>0.010833333333333334</ixx>
+            <iyy>0.007366666666666667</iyy>
+            <izz>0.011533333333333333</izz>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyz>0</iyz>
+          </inertia>
+        </inertial>
+        <collision name="collision">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.22 0.3 0.2</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="carriage_visual">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.22 0.3 0.2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.95 .45 .12 1</ambient>
+            <diffuse>.95 .45 .12 1</diffuse>
+          </material>
+        </visual>
+      </link>
+      <joint name="slide_joint" type="prismatic">
+        <parent>guide</parent>
+        <child>carriage</child>
+        <pose relative_to="guide">0 0 0 0 0 0</pose>
+        <axis>
+          <xyz expressed_in="guide">0 0 1</xyz>
+          <limit>
+            <lower>-0.6</lower>
+            <upper>0.1</upper>
+            <effort>-1</effort>
+            <velocity>-1</velocity>
+            <stiffness>1000000</stiffness>
+            <dissipation>100</dissipation>
+          </limit>
+          <dynamics>
+            <damping>0.5</damping>
+            <friction>0.1</friction>
+          </dynamics>
+        </axis>
+      </joint>
+    </model>
+  </world>
+</sdf>
