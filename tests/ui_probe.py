@@ -10,6 +10,8 @@ window and session. Example:
 The default keeps the framework-only fixture. --lesson loads the published
 catalog through the same course tree as the normal application. Reference
 inspection compares the personal world hash before and after the read-only view.
+For an exercise with learner.py, --expect-unfinished checks an ungraded demo;
+--exercise-reference fills only this probe's temporary student copy.
 """
 import argparse
 import hashlib
@@ -124,6 +126,11 @@ def main():
     parser.add_argument("--gazebo-screenshot", help="PNG of only this session's real Gazebo window")
     parser.add_argument("--report")
     parser.add_argument("--timeout", type=float, default=90)
+    exercise = parser.add_mutually_exclusive_group()
+    exercise.add_argument("--expect-unfinished", action="store_true",
+                          help="Require a rejected assignment check and no completed learning record")
+    exercise.add_argument("--exercise-reference", action="store_true",
+                          help="Fill learner.py only in this probe's private Storage and select student mode")
     arguments = parser.parse_args()
     if not os.environ.get("DISPLAY"):
         raise RuntimeError("UI acceptance requires the real X11 DISPLAY")
@@ -179,6 +186,26 @@ def main():
         report.update(lesson=lesson.id, profile=lesson.profile, title=lesson.title,
                       fixture=fixture_override is not None)
         storage = Storage(private / "data")
+        exercise_sources = {}
+        if arguments.expect_unfinished or arguments.exercise_reference:
+            require(arguments.lesson is not None, "Exercise flags require --lesson")
+            for name in ("learner.py", "reference_controller.py", "runtime.json"):
+                path = lesson.folder / name
+                require(path.is_file(), "Exercise test contract is missing " + name)
+                exercise_sources[name] = hashlib.sha256(path.read_bytes()).hexdigest()
+            practice = storage.prepare(lesson)
+            if arguments.exercise_reference:
+                (practice / "learner.py").write_bytes((lesson.folder / "reference_controller.py").read_bytes())
+                (practice / "runtime.json").write_text(json.dumps({"mode": "student"}) + "\n", encoding="utf-8")
+            else:
+                require(json.loads((practice / "runtime.json").read_text(encoding="utf-8"))["mode"] == "reference_demo",
+                        "Unfinished exercise probe requires the published default reference_demo mode")
+            report["exercise_test"] = {
+                "mode": "private_reference_as_student" if arguments.exercise_reference else "unfinished_demo",
+                "private_learner_sha256": hashlib.sha256((practice / "learner.py").read_bytes()).hexdigest(),
+                "source_learner_sha256": exercise_sources["learner.py"],
+                "source_templates_unchanged": None,
+            }
         application, window = create_application(ROOT, fixture=fixture_override, storage=storage)
         application.setQuitOnLastWindowClosed(False)
         require(application.platformName() not in ("offscreen", "minimal"), "Qt did not select a real desktop platform")
@@ -311,9 +338,16 @@ def main():
                     result = window._last_verification
                     require(result is not None and result[0] == window.session.token,
                             "Verify button did not return a result for this session")
-                    require(result[1].get("passed") is True, "Real course verification failed or was not provided")
-                    require("verified" in storage.progress().get(lesson.key, set()),
-                            "Successful verification was not persisted")
+                    expected = not arguments.expect_unfinished
+                    require(result[1].get("passed") is expected,
+                            "Course verification result differs from the explicitly requested exercise state")
+                    completed = "verified" in storage.progress().get(lesson.key, set())
+                    require(completed is expected,
+                            "Exercise completion record differs from the actual assignment result")
+                    if arguments.expect_unfinished or arguments.exercise_reference:
+                        learner_hash = hashlib.sha256((window.session.workspace / "learner.py").read_bytes()).hexdigest()
+                        require(learner_hash == report["exercise_test"]["private_learner_sha256"],
+                                "UI verification changed the personal learner.py")
                     record("verify_button", result=result[1])
                     if lesson.data.get("reference"):
                         world = window.session.workspace / lesson.data.get("world", "world.sdf")
@@ -344,7 +378,12 @@ def main():
                 if stage == "records":
                     require(window.tabs.currentWidget() is window.records_view, "Records button did not show the records tab")
                     text = window.records_view.toPlainText()
-                    require("verified" in text and "started" in text, "Records view is missing run and verification events")
+                    event = "verification_failed" if arguments.expect_unfinished else "verified"
+                    require(event in text and "started" in text, "Records view is missing run and verification events")
+                    if arguments.expect_unfinished:
+                        require(not any(item.get("event") == "verified" and item.get("key") == lesson.key
+                                        for item in storage.records(10000)),
+                                "A reference demonstration was incorrectly recorded as completed work")
                     record("records_button", record_characters=len(text))
                     window.tabs.setCurrentWidget(window.document)
                     state["stage"] = "screenshot"
@@ -459,6 +498,13 @@ def main():
             application.processEvents()
             sys.excepthook = original_hook
             report["elapsed_seconds"] = round(time.monotonic() - started, 3)
+            if exercise_sources:
+                unchanged = all(hashlib.sha256((lesson.folder / name).read_bytes()).hexdigest() == value
+                                for name, value in exercise_sources.items())
+                report["exercise_test"]["source_templates_unchanged"] = unchanged
+                if not unchanged:
+                    report["passed"] = False
+                    report.setdefault("error", "UI exercise test changed a published source template")
             if arguments.report:
                 path = Path(arguments.report).expanduser().resolve()
                 path.parent.mkdir(parents=True, exist_ok=True)

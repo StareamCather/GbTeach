@@ -1,0 +1,26 @@
+{
+  "id": "091",
+  "title": "L09选做A：单级倒立摆控制",
+  "module": "关节与机构",
+  "summary": "用几行 Python 完成真实小车单级倒立摆的局部 LQR 反馈：状态误差、负反馈与双向限幅。",
+  "order": 9,
+  "profile": "classic11-noetic",
+  "requires_ros": false,
+  "requires_tools": ["g++", "pkg-config", "python3-config"],
+  "world": "world.sdf",
+  "server_args": ["--seed", "42"],
+  "prepare": ["python3 prepare.py"],
+  "prepare_timeout": 80,
+  "objectives": ["理解直立平衡附近的四维状态与已给定的 LQR 增益", "完成角度包裹、负状态反馈和双向力限幅", "用真实 Gazebo 关节及正负初值、扰动试验验证闭环稳定性"],
+  "commands": [
+    {"title": "编辑三个 TODO 的 learner.py", "command": "gedit --new-window learner.py"},
+    {"title": "查看当前真实控制模式与源文件指纹", "command": "python3 lab.py inspect"},
+    {"title": "完成三个 TODO 后检查函数行为", "command": "python3 lab.py unit-check"},
+    {"title": "切换学生模式（保存后需重载项目）", "command": "python3 lab.py mode student"},
+    {"title": "切换参考演示（需重载，不计作业通过）", "command": "python3 lab.py mode reference_demo"},
+    {"title": "只验证参考演示的真实物理表现", "command": "python3 lab.py demo-check"}
+  ],
+  "verify": "verify.py",
+  "reference": "reference.md",
+  "verify_timeout": 150
+}
