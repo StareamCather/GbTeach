@@ -34,8 +34,11 @@ class Lesson:
             if name in data and not isinstance(data[name], bool):
                 raise ValueError(name + " must be boolean")
         self.requires_ros = data.get("requires_ros", False)
+        attempts = data.get("gui_start_attempts", 1)
+        if type(attempts) is not int or not 1 <= attempts <= 3:
+            raise ValueError("gui_start_attempts must be an integer within [1,3]")
         for name in ("requires_plugins", "requires_ros_packages", "requires_tools",
-                     "prepare", "after_start", "server_args", "gui_args", "objectives"):
+                     "prepare", "after_start", "after_gui", "server_args", "gui_args", "objectives"):
             values = data.get(name, [])
             if not isinstance(values, list) or any(not isinstance(x, str) or not x.strip() for x in values):
                 raise ValueError(name + " must be a list of strings")

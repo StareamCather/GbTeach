@@ -166,10 +166,14 @@ class LessonSession:
                                       self.ros_port, session_token=self.token)
         self.env["GAZEBOTEACH_SESSION_DIR"] = str(self.session_dir)
         self.env["GAZEBOTEACH_LESSON_SOURCE"] = str(self.lesson.folder)
+        gazebo_log_path = self.session_dir / "gazebo-log"
+        gazebo_log_path.mkdir()
+        self.env["GAZEBO_LOG_PATH"] = str(gazebo_log_path)
         self.server = None
         self.gui = None
         self.world_name = "default"
         self._save_metadata()
+        self.log("本课 Gazebo 日志与地形缓存目录：" + self.env["GAZEBO_LOG_PATH"])
 
     @property
     def running(self):
@@ -192,6 +196,7 @@ class LessonSession:
                 "error": self.error, "owner_pid": os.getpid(), "token": self.token,
                 "workspace": str(self.workspace), "gazebo_port": self.gazebo_port,
                 "ros_port": self.ros_port, "ign_partition": self.env.get("IGN_PARTITION"),
+                "gazebo_log_path": self.env.get("GAZEBO_LOG_PATH"),
                 "processes": [{"name": name, "pid": process.pid, "returncode": process.poll(),
                                "start_time": getattr(process, "_gazeboteach_start_time", None)}
                               for name, process in self.processes],
@@ -329,19 +334,59 @@ class LessonSession:
             raise RuntimeError("没有图形 DISPLAY，请在 Ubuntu 图形桌面运行 launch.sh。")
         if not shutil.which("gzclient", path=self.env.get("PATH")):
             raise RuntimeError("未找到 gzclient。")
-        if self.gui and self.gui.poll() is None:
-            self.log("Gazebo 图形窗口仍在运行。")
+        attempts = self.lesson.data.get("gui_start_attempts", 1)
+        for attempt in range(1, attempts + 1):
+            with self.lock:
+                if self.gui and self.gui.poll() is None:
+                    self.log("Gazebo 图形窗口仍在运行。")
+                    return
+                if not self.running:
+                    raise RuntimeError("实验已取消或本课服务端已退出，停止打开 Gazebo 窗口。")
+                self.log("Gazebo 图形初始化尝试 {}/{}。".format(attempt, attempts))
+                arguments = ["gzclient", "--verbose"] + [str(x) for x in self.lesson.data.get("gui_args", [])]
+                new_gui = self._spawn("Gazebo 图形窗口", arguments)
+                self.gui = new_gui
+            try:
+                deadline = time.monotonic() + min(float(self.lesson.data.get("gui_ready_timeout", 3.0)), 10.0)
+                while time.monotonic() < deadline and not self.cancelled.is_set():
+                    if not self.running:
+                        raise RuntimeError("本课服务端已退出，停止图形初始化。")
+                    if new_gui.poll() is not None:
+                        raise RuntimeError("Gazebo 客户端提前退出，请查看图形/渲染错误日志。")
+                    self.cancelled.wait(0.1)
+                if self.cancelled.is_set():
+                    raise RuntimeError("打开 Gazebo 窗口已取消。")
+                if new_gui.poll() is not None:
+                    raise RuntimeError("Gazebo 客户端提前退出，请查看图形/渲染错误日志。")
+                for command in self.lesson.data.get("after_gui", []):
+                    if not self.running:
+                        raise RuntimeError("实验已取消或本课服务端已退出，停止图形初始化。")
+                    self.command(command, timeout=90, label="GUI 启动后准备")
+                if self.cancelled.is_set():
+                    raise RuntimeError("打开 Gazebo 窗口已取消。")
+                if not self.running:
+                    raise RuntimeError("本课服务端已退出，停止图形初始化。")
+                if new_gui.poll() is not None:
+                    raise RuntimeError("Gazebo 客户端提前退出，请查看图形/渲染错误日志。")
+            except Exception as exc:
+                self.log("Gazebo 图形初始化失败（尝试 {}/{}），仅关闭本次新建客户端：{}".format(attempt, attempts, exc))
+                try:
+                    terminate_owned(new_gui)
+                finally:
+                    with self.lock:
+                        if self.gui is new_gui:
+                            self.gui = None
+                        self._save_metadata()
+                if self.cancelled.is_set() or not self.running:
+                    raise
+                if attempt == attempts:
+                    if attempts > 1:
+                        raise RuntimeError("Gazebo 图形初始化已尝试 {} 次仍失败：{}".format(attempts, exc)) from exc
+                    raise
+                self.log("保留本课服务端，使用新客户端重试图形初始化（下一次 {}/{}）。".format(attempt + 1, attempts))
+                continue
+            self.log("Gazebo 客户端进程已启动；画面结果请在窗口中观察。")
             return
-        arguments = ["gzclient", "--verbose"] + [str(x) for x in self.lesson.data.get("gui_args", [])]
-        self.gui = self._spawn("Gazebo 图形窗口", arguments)
-        deadline = time.monotonic() + min(float(self.lesson.data.get("gui_ready_timeout", 3.0)), 10.0)
-        while time.monotonic() < deadline and not self.cancelled.is_set():
-            if self.gui.poll() is not None:
-                raise RuntimeError("Gazebo 客户端提前退出，请查看图形/渲染错误日志。")
-            self.cancelled.wait(0.1)
-        if self.cancelled.is_set():
-            raise RuntimeError("打开 Gazebo 窗口已取消。")
-        self.log("Gazebo 客户端进程已启动；画面结果请在窗口中观察。")
 
     def open_terminal(self, logs=False, command=None, title=None):
         if not self.running:
