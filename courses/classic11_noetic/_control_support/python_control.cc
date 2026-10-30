@@ -53,7 +53,9 @@ std::string PythonError() {
 struct ControllerState {
   std::mutex mutex;
   std::atomic<bool> closing{false};
-  physics::ModelPtr model; physics::WorldPtr world; physics::JointPtr cart,pole;
+  physics::ModelPtr model; physics::WorldPtr world; physics::JointPtr cart,pole,pole2;
+  int poles=1;
+  double forceLimit=15;
   PyObject *callback=nullptr,*module=nullptr;
   std::string directory,mode,sha,source,worldSha,numpy,error,loadError,episode="startup",lastRequest;
   std::ofstream csv;
@@ -81,32 +83,45 @@ struct ControllerState {
         << ",\"model\":{\"cart_mass_kg\":" << model->GetLink("cart")->GetInertial()->Mass()
         << ",\"pole_mass_kg\":" << inertia->Mass() << ",\"pole_Iyy_kg_m2\":" << inertia->IYY()
         << ",\"cart_damping\":" << cart->GetDamping(0) << ",\"pole_damping\":" << pole->GetDamping(0)
-        << ",\"physics_step_s\":" << world->Physics()->GetMaxStepSize() << ",\"gravity_z\":" << world->Gravity().Z() << "}}\n";
+        << ",\"physics_step_s\":" << world->Physics()->GetMaxStepSize() << ",\"gravity_z\":" << world->Gravity().Z();
+    if(poles==2) {
+      auto second=model->GetLink("pole2")->GetInertial();
+      out << ",\"pole2_mass_kg\":" << second->Mass() << ",\"pole2_Iyy_kg_m2\":" << second->IYY()
+          << ",\"pole2_damping\":" << pole2->GetDamping(0) << ",\"cart_effort_limit_N\":" << cart->GetEffortLimit(0);
+    }
+    out << '}'; if(poles==2) out << ",\"poles\":2"; out << "}\n";
     out.close(); std::rename((directory+"/status.json.tmp").c_str(),(directory+"/status.json").c_str()); lastStatus=now;
   }
-  void Begin(const std::string &id,double x,double xd,double q,double qd,double seconds,double external,double now,bool requested) {
+  void Begin(const std::string &id,double x,double xd,double q,double qd,double seconds,double external,double now,bool requested,double q2=0,double q2d=0) {
     // This is the ONLY trajectory initialization path, once at the episode boundary.
     cart->SetForce(0,0); pole->SetForce(0,0);
+    if(poles==2) pole2->SetForce(0,0);
     cart->SetPosition(0,x,true); pole->SetPosition(0,q,true);
+    if(poles==2) pole2->SetPosition(0,q2,true);
     cart->SetVelocity(0,xd); pole->SetVelocity(0,qd);
+    if(poles==2) pole2->SetVelocity(0,q2d);
     force=0;pythonForce=0;episodeCalls=0;error=loadError;episode=id;start=now;nextControl=now;
     duration=seconds;disturbance=external;manual=requested;initialized=true;Status(now);
   }
   void Request(double now) {
     std::ifstream in(directory+"/episode.request");
-    std::string id;double x,xd,q,qd,seconds,external;
-    if(!(in>>id>>x>>xd>>q>>qd>>seconds>>external)||id==lastRequest) return;
+    std::string id;double x,xd,q,qd,seconds,external,q2=0,q2d=0;
+    if(!(in>>id>>x>>xd>>q>>qd)) return;
+    if(poles==2 && !(in>>q2>>q2d)) return;
+    if(!(in>>seconds>>external)||id==lastRequest) return;
     lastRequest=id;
     if(id.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_")!=std::string::npos ||
        !std::isfinite(x)||!std::isfinite(xd)||!std::isfinite(q)||!std::isfinite(qd)||!std::isfinite(seconds)||!std::isfinite(external)||
+       !std::isfinite(q2)||!std::isfinite(q2d)||std::abs(q2)>.25||std::abs(q2d)>1||(poles==2 && std::abs(q+q2)>.25)||
        std::abs(x)>.3||std::abs(xd)>1||std::abs(q)>.25||std::abs(qd)>1||seconds<1||seconds>20||std::abs(external)>3) {
       error="Rejected invalid episode request";force=0;Status(now);return;
     }
-    Begin(id,x,xd,q,qd,seconds,external,now,true);
+    Begin(id,x,xd,q,qd,seconds,external,now,true,q2,q2d);
   }
   void ResetController() {
     std::lock_guard<std::mutex> lock(mutex);
     cart->SetForce(0,0);pole->SetForce(0,0);
+    if(poles==2) pole2->SetForce(0,0);
     force=0;pythonForce=0;calls=0;episodeCalls=0;physicsTicks=0;demoNumber=0;
     lastTime=-1;nextControl=0;lastStatus=-1;initialized=false;manual=false;error=loadError;
     ++resets;episode="reset-pending-"+std::to_string(resets);start=world->SimTime().Double();Status(start);
@@ -115,22 +130,30 @@ struct ControllerState {
     std::lock_guard<std::mutex> lock(mutex);
     if(closing) return;
     double now=info.simTime.Double(); ++physicsTicks;
-    if(!initialized || now<lastTime) Begin("startup-"+std::to_string(resets),.12,0,.08,0,12,2,now,false);
+    if(!initialized || now<lastTime) {
+      if(poles==2) Begin("startup-"+std::to_string(resets),.1,0,.03,0,14,2,now,false,0,0);
+      else Begin("startup-"+std::to_string(resets),.12,0,.08,0,12,2,now,false);
+    }
     lastTime=now;
     // File commands and controller callbacks are bounded to the 100 Hz control boundary.
     if(now+1e-9>=nextControl) {
       Request(now);
       if(mode=="reference_demo" && !manual && now-start>=duration) {
         ++demoNumber; double sign=(demoNumber%2)?-1:1;
-        Begin("demo-"+std::to_string(demoNumber),sign*.12,0,sign*.08,0,12,2,now,false);
+        if(poles==2) Begin("demo-"+std::to_string(demoNumber),sign*.1,0,sign*.03,0,14,2,now,false,0,0);
+        else Begin("demo-"+std::to_string(demoNumber),sign*.12,0,sign*.08,0,12,2,now,false);
       }
       double x=cart->Position(0),xd=cart->GetVelocity(0),q=pole->Position(0),qd=pole->GetVelocity(0);
       double angle=std::remainder(q,2*M_PI);
-      if(std::abs(x)>1.49||std::abs(angle)>.65) error="Local stabilization boundary exceeded (track/angle); force set to zero";
+      double q2=poles==2?pole2->Position(0):0,q2d=poles==2?pole2->GetVelocity(0):0;
+      double angle2=std::remainder(q+q2,2*M_PI);
+      if(std::abs(x)>1.49||std::abs(angle)>.65||(poles==2 && std::abs(angle2)>.65)) error="Local stabilization boundary exceeded (track/angle); force set to zero";
       pythonForce=0;force=0;
       if(error.empty() && callback) {
         GIL gil;
-        PyObject *observation=Py_BuildValue("{s:d,s:d,s:d,s:d}","x",x,"xdot",xd,"q1",q,"q1dot",qd);
+        PyObject *observation=poles==2?
+          Py_BuildValue("{s:d,s:d,s:d,s:d,s:d,s:d}","x",x,"xdot",xd,"q1",q,"q1dot",qd,"q2",q2,"q2dot",q2d):
+          Py_BuildValue("{s:d,s:d,s:d,s:d}","x",x,"xdot",xd,"q1",q,"q1dot",qd);
         ++calls;++episodeCalls;
         PyObject *answer=PyObject_CallFunctionObjArgs(callback,observation,nullptr);Py_DECREF(observation);
         if(!answer) error=PythonError();
@@ -138,7 +161,7 @@ struct ControllerState {
           pythonForce=PyFloat_AsDouble(answer);Py_DECREF(answer);
           if(PyErr_Occurred()) error=PythonError();
           else if(!std::isfinite(pythonForce)) error="Python control returned non-finite force";
-          else force=std::max(-15.0,std::min(15.0,pythonForce));
+          else force=std::max(-forceLimit,std::min(forceLimit,pythonForce));
         }
         if(!error.empty()) {force=0;pythonForce=0;gzerr << "[GazeboTeach Python control] " << error << "\n";}
       }
@@ -147,7 +170,16 @@ struct ControllerState {
       auto direction=model->GetLink("pole")->WorldPose().Rot().RotateVector(ignition::math::Vector3d::UnitZ);
       csv << std::setprecision(17) << episode << ',' << now << ',' << elapsed << ',' << x << ',' << xd << ',' << q << ',' << qd
           << ',' << angle << ',' << direction.X() << ',' << direction.Z() << ',' << pythonForce << ',' << force << ',' << external
-          << ',' << force+external << ',' << mode << ',' << sha << ',' << calls << ',' << episodeCalls << ',' << (error.empty()?1:0) << '\n';
+          << ',' << force+external << ',' << mode << ',' << sha << ',' << calls << ',' << episodeCalls << ',' << (error.empty()?1:0);
+      if(poles==2) {
+        auto direction2=model->GetLink("pole2")->WorldPose().Rot().RotateVector(ignition::math::Vector3d::UnitZ);
+        auto com1=model->GetLink("pole")->WorldPose().Pos(),com2=model->GetLink("pole2")->WorldPose().Pos();
+        auto upper=pole2->Anchor(0);
+        csv << ',' << q2 << ',' << q2d << ',' << angle2 << ',' << qd+q2d << ',' << direction2.X() << ',' << direction2.Z();
+        csv << ',' << com1.X() << ',' << com1.Y() << ',' << com1.Z() << ',' << com2.X() << ',' << com2.Y() << ',' << com2.Z()
+            << ',' << upper.X() << ',' << upper.Y() << ',' << upper.Z();
+      }
+      csv << '\n';
       csv.flush();
       nextControl=now+.01;
       if(!error.empty() || now-lastStatus>=.1) Status(now);
@@ -171,15 +203,23 @@ class PythonControl : public ModelPlugin {
     if(state) { std::lock_guard<std::mutex> lock(state->mutex); }
     state.reset();
   }
-  void Load(physics::ModelPtr model,sdf::ElementPtr) override {
+  void Load(physics::ModelPtr model,sdf::ElementPtr configuration) override {
     state=std::make_shared<ControllerState>();auto s=state;
     s->model=model;s->world=model->GetWorld();s->cart=model->GetJoint("cart_slide");s->pole=model->GetJoint("pole_hinge");
     if(!s->cart||!s->pole) throw std::runtime_error("Missing cart_slide/pole_hinge actual joints");
+    if(configuration->HasElement("poles")) s->poles=configuration->Get<int>("poles");
+    if(s->poles!=1 && s->poles!=2) throw std::runtime_error("Control bridge supports poles=1 or poles=2 only");
+    if(s->poles==2) {
+      s->pole2=model->GetJoint("pole_hinge_2");s->forceLimit=20;
+      if(!s->pole2||!model->GetLink("pole2")) throw std::runtime_error("poles=2 requires actual serial pole_hinge_2/pole2");
+    }
     s->directory=Env("GAZEBOTEACH_SESSION_DIR")+"/control";
     if(::mkdir(s->directory.c_str(),0700)!=0 && errno!=EEXIST) throw std::runtime_error("Cannot create scoped telemetry directory");
     s->csv.open(s->directory+"/control.csv");
     if(!s->csv) throw std::runtime_error("Cannot create actual-state CSV");
-    s->csv << "episode,sim_time_s,episode_time_s,x_m,xdot_m_s,q1_rad,q1dot_rad_s,theta_up_rad,pole_axis_x,pole_axis_z,python_force_N,command_force_N,disturbance_N,applied_force_N,mode,source_sha256,callback_count,episode_callback_count,controller_ok\n";
+    s->csv << "episode,sim_time_s,episode_time_s,x_m,xdot_m_s,q1_rad,q1dot_rad_s,theta_up_rad,pole_axis_x,pole_axis_z,python_force_N,command_force_N,disturbance_N,applied_force_N,mode,source_sha256,callback_count,episode_callback_count,controller_ok";
+    if(s->poles==2) s->csv << ",q2_rad,q2dot_rad_s,theta2_up_rad,omega2_abs_rad_s,pole2_axis_x,pole2_axis_z,pole_com_x_m,pole_com_y_m,pole_com_z_m,pole2_com_x_m,pole2_com_y_m,pole2_com_z_m,upper_hinge_x_m,upper_hinge_y_m,upper_hinge_z_m";
+    s->csv << '\n';
     try {
       Interpreter();GIL gil;
       auto lesson=Env("GAZEBOTEACH_LESSON_SOURCE");auto slash=lesson.find_last_of('/');

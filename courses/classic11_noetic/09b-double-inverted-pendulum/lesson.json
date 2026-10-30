@@ -1,0 +1,27 @@
+{
+  "id": "092",
+  "title": "L09选做B：双级倒立摆控制",
+  "module": "关节与机构",
+  "summary": "用几行 Python 将串联双杆的相对关节角转为六维绝对状态，再对真实小车双级倒立摆作局部反馈控制。",
+  "order": 9,
+  "profile": "classic11-noetic",
+  "requires_ros": false,
+  "requires_tools": ["g++", "pkg-config", "python3-config"],
+  "world": "world.sdf",
+  "server_args": ["--seed", "42"],
+  "prepare": ["python3 prepare.py"],
+  "prepare_timeout": 80,
+  "objectives": ["区分串联第二关节的相对角与第二杆的绝对角/角速度", "完成六维状态误差、负状态反馈和双向力限幅三个TODO", "用真实双杆几何、正负初值与外力扰动验证单输入反馈的局部稳定性"],
+  "commands": [
+    {"title": "编辑三个 TODO 的 learner.py", "command": "gedit --new-window learner.py"},
+    {"title": "查看真实控制模式、源文件指纹和双杆参数", "command": "python3 lab.py inspect"},
+    {"title": "检查个人六维状态、反馈和限幅函数", "command": "python3 lab.py unit-check"},
+    {"title": "切换学生模式（保存后需重载项目）", "command": "python3 lab.py mode student"},
+    {"title": "切换参考演示（需重载，不计作业通过）", "command": "python3 lab.py mode reference_demo"},
+    {"title": "验证参考演示真实物理（不计学分）", "command": "python3 lab.py demo-check"},
+    {"title": "短时真实状态观测（不计学分）", "command": "python3 lab.py observe --seconds 3"}
+  ],
+  "verify": "verify.py",
+  "reference": "reference.md",
+  "verify_timeout": 150
+}
