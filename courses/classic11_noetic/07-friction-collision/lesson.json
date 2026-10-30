@@ -1,0 +1,24 @@
+{
+  "id": "07",
+  "title": "摩擦滑移与碰撞反弹",
+  "module": "动力学基础",
+  "summary": "读取真实接触参数，用沿坡位移和反弹峰区分摩擦方向、配对规则与恢复系数。",
+  "order": 7,
+  "profile": "classic11-noetic",
+  "requires_ros": false,
+  "world": "world.sdf",
+  "objectives": [
+    "区分mu与mu2的两个切向方向，按collision局部fdir1解释摩擦金字塔",
+    "从两接触表面的参数配对预测滑移与反弹，并核对真实surface消息",
+    "测量沿坡位移和碰撞后上升/下降括出的反弹峰，理解数值约束近似"
+  ],
+  "commands": [
+    {"title": "预测当前接触参数与采样窗口", "command": "python3 lab.py predict"},
+    {"title": "重置本课仪器并测量滑移及反弹峰", "command": "python3 lab.py experiment"},
+    {"title": "查看低摩擦滑块实际surface", "command": "gz model -m slider_low -i"},
+    {"title": "查看反弹球实际surface", "command": "gz model -m ball_bouncy -i"}
+  ],
+  "verify": "verify.py",
+  "reference": "reference.md",
+  "verify_timeout": 80
+}
