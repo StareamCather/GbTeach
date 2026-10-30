@@ -1,0 +1,80 @@
+{
+  "id": "13",
+  "title": "场景展馆：材质、灯光、地形与 Actor",
+  "module": "通信与场景",
+  "summary": "用真实落球、射线和动画数据，分清画面外观、碰撞高度与脚本运动。",
+  "order": 13,
+  "profile": "classic11-noetic",
+  "requires_ros": false,
+  "requires_tools": [
+    "g++",
+    "pkg-config"
+  ],
+  "world": "world.sdf",
+  "server_args": [
+    "--seed",
+    "42"
+  ],
+  "after_gui": [
+    "python3 lab.py view --station overview --activate"
+  ],
+  "gui_start_attempts": 3,
+  "prepare": [
+    "python3 prepare.py"
+  ],
+  "prepare_timeout": 150,
+  "verify": "verify.py",
+  "reference": "reference.md",
+  "verify_timeout": 180,
+  "objectives": [
+    "辨认 Classic 材质与三类灯光并检查真实GUI效果",
+    "从灰度图预测真实heightfield碰撞与落球高度",
+    "区分Actor整体轨迹与骨骼动画"
+  ],
+  "commands": [
+    {
+      "title": "检查个人场景与离线资源",
+      "command": "python3 lab.py check-config"
+    },
+    {
+      "title": "查看实际SDK场景",
+      "command": "python3 lab.py inspect"
+    },
+    {
+      "title": "完整观察并验收真实物理和动画",
+      "command": "python3 lab.py observe"
+    },
+    {
+      "title": "切到材质展台视角",
+      "command": "python3 lab.py view --station materials"
+    },
+    {
+      "title": "切到灯光展台视角",
+      "command": "python3 lab.py view --station lights"
+    },
+    {
+      "title": "切到地形展台视角",
+      "command": "python3 lab.py view --station terrain"
+    },
+    {
+      "title": "切到Actor展台视角",
+      "command": "python3 lab.py view --station actors"
+    },
+    {
+      "title": "显式修改高度为.9m，之后重载",
+      "command": "python3 lab.py set-height --value .9"
+    },
+    {
+      "title": "显式修改周期为8s，之后重载",
+      "command": "python3 lab.py set-cycle --value 8"
+    },
+    {
+      "title": "显式调暗日光为.2，之后重载",
+      "command": "python3 lab.py set-daylight --value .2"
+    },
+    {
+      "title": "编辑个人场景",
+      "command": "gedit --new-window world.sdf"
+    }
+  ]
+}

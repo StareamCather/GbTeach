@@ -211,3 +211,36 @@
 - 公开Reset取消一个已received但未应用命令，旧nonce只取消一次，epoch更新、旧票据/旧epoch请求拒绝，新epoch真实开关重新通过；helper不写body pose/velocity，Gazebo正常模型复位与新hold0分工明确，不自动demo，不把复位跳变当轨迹。RPC另逐项检查Response.id/request/success/type、Any.STRING字段、反序列化、query nonce与boot/world；未知安全查询和无订阅者主题有墙钟上限，CLI退出0不冒充收到或执行成功。
 - 真实Qt桌面13项检查26.829s通过，报告`.deploy/lesson12-ui.json`：中文14项目课程树、真实gzclient与两PTY（交互终端含任务控制）、暂停/单步/继续、完整prepare/open/close验收、只读参考不改world、学习记录、归属截图与关闭清理。messages和关闭残留为空；已查看[中文三ACK工作台](images/lesson12-ui.png)及[真实滑门场景](images/lesson12-gazebo.png)，分别296134/123225字节，蓝门、灰轨、金把手与红绿标记可见。UI额外验证不混入上述正式2会话/14事务统计。
 - 算法流程：校验个人参数/固定模型/SDK与源指纹→查询当前boot/epoch并有界发现完整topic/type→先订阅ACK→生成逻辑/发布双标识并只发布一次→Transport缓存校验/received→物理Begin设目标、原生PD更新、pre-physics控制输入/applied→逐1 ms保存真实q/qd/几何并累计到位/completed→同attempt真实网络匹配与独立CSV/Model校核→确认原pause后保存成功结果。query守卫在初始化前，Reset取消旧身份并清基线，失败保留原始数据与异常，不恢复旧轨迹/时钟。本次提交、推送与远端哈希核对完成后L12目标完成，下一独立目标为L13；主课01–37编号不变，旧14–16草稿仍未部署、不计交付。
+
+## L13：场景展馆——材质、光照、地形与 Actor（2026-10-30至31日）
+
+本课以四个离线展台回答“画面变化时，物理世界改变了什么”。个人 world.sdf 是真实输入；准备程序校验输入、资源与版本并构建缓存，不重写 world/PNG。set-height、set-cycle、set-daylight 只原子修改指定字段，核对修改后的值并提示重载，格式变体、无关材质修改和注释均有回归。系统 walk.dae、木纹及地形 diffuse/normal 资源读取实际路径、SHA与包版权声明，不复制到 MIT 仓库。
+
+最终地形使用原始65×65灰度PNG、4×4m、视觉与碰撞 sampling=1，顶点间距0.0625m，索引16/48对应世界四个±1m平台点。原生高度按图像实际最大灰度归一；本图含0/255锚点，四平台灰度85/170/0/255，对应默认表面0.2/0.4/0/0.6m。SDK高度数据、命中实体的物理射线、四个真实落体球分别验证加载、碰撞和动力学；两个视觉材质不同而碰撞相同的支撑箱另接两个球。底板只有visual，零高度平台不会被隐藏碰撞平面代接。
+
+只读ModelPlugin在物理线程读取真实状态，约50Hz记录场景、射线和Actor，另在3–3.5仿真秒每个真实1ms物理步记录六球尾窗。验收要求同一段至少201连续快照、首末跨度至少0.2s，六球同时满足高度误差≤0.01m、水平偏移≤0.03m、速率≤0.03m/s；逐步iteration和时钟另核，不以50Hz概览插值充数。世界/模型复位由原生接口执行，观察器只清缓存与epoch；新epoch不得使用旧snapshot，完整观察恢复进入前的暂停状态。
+
+人物Actor用系统31骨节点walk网格，旁边无skin标记分离精确根路径与骨骼动作。用实际ScriptTime验证tension=1的零切线Hermite位置，记录真实更新与重复观察行；人物以脚相对Hips的SE(3)位姿变化验证骨骼运动，不能只看全局平移。Actor固定活动循环，仅用世界暂停/继续；static/kinematic/gravity/collision字段按实际报告，不作通用碰撞保证，也不把脚本姿态更新解释成受力步态或避障。
+
+相机助手先在有限预算内确认GUI连接及有效实际相机输出，再单次向 ~/gui 发布gazebo.msgs.GUI，等待 ~/user_camera/pose 的真实读回。先核有限且近单位四元数，再归一化比较旋转，保留原位置1e-4m与归一化dot1e-8界限及原始回包。公共after_gui可选入口在新客户端创建后执行本课一次总览；已有GUI直接返回，不抢后续学员视角；无GUI跳过，失败只清本次新客户端，整课启动异常仍统一清理。最终增加21项生命周期与隔离模拟检查，ikaros全部64项单元检查通过（0.176s）。
+
+最终正式物理验收一次完成6组、3个fresh私有会话、4次完整观察，耗时143.538s。约50Hz真实帧701/697/912/915，共3225；真实1kHz尾快照501×4，共2004，各六球共同稳定0.500s。基准、高度0.9、周期8及精确修复后观察均通过；实际循环间隔6/6/7.98/7.98s满足预先冻结的±0.08s界。射线最大误差2.3841858e-8m，标记路径最大误差8.8818e-16m。七项错误资源/PNG/非活动脚本/隐藏碰撞平面/stale输入在控制前拒绝；公开复位时钟38.057→38.058，再以实际确认的200步推进至38.258，无时间回退。三会话令牌均无残留、清理错误为空；18个冻结文件前后与两端逐项一致。
+
+正式物理证据为 .deploy/lesson13-scenarios-final.json、同名log/artifacts及 lesson13-formal-compact-final.json；紧凑摘要SHA673ec4555538a62d8ac47ed0b1fdf4b7e660221c97fc7515f9408f8db12b8ecd。纯PNG/LOD/样条/错开静止窗拒绝、配置局部编辑、SDK非零旋转坐标变换和相机回调回归单独标为无仿真，不混计实际观察次数。
+
+调试历史保留：17²版本物理通过，但真实GUI触发OGRE LOD断言；精确Classic固定minBatch17/maxBatch65与OGRE LOD公式要求本配置至少65²，故统一提升原图及两网格，不降低物理门限。65²首图修复崩溃后，实际float四元数norm=1.0000000206588051触发原始dot错误，按旋转表征归一化修正，原真实样本及错误旋转拒绝均保留；地形专用纹理补齐后平台清晰。一次GUI脚本把build及Storage元数据更新误判成输入修改，随后仅修测试为固定12个声明输入前后完整SHA比较、生成物另列。旧删除临时目录不能补取的hash不伪造，原失败报告不覆盖。正常工作台截图另发现远视图，源码存在heightmap在未采用SDF相机时拉至高度+200m的路径；最终after_gui的真实启动记录用于检验自动纠正，不根据截图反推不存在的旧pose记录。
+
+v1/v2/v3源ZIP与原私有、正式和GUI失败记录均保存在Windows .deploy；原先的17²正式报告、65²中间报告与最终报告各用不同名称，不能混称同一次运行。未修改宿主系统、GPU驱动、默认路由、SSH策略或用户gui.ini。后续图形、桌面与发布收尾记录如下。
+
+
+最终图形取景记录为 .deploy/lesson13-visual-final.json：3个fresh GUI串行，46.719s、9张原始PNG；每次start返回前已存在且仅一条自动overview真实相机记录，实际pre-PUB和post-PUB位置均为[8,-10,9]。12个输入前后逐项SHA相同，生成物另列，3个令牌无残留。先前v4九图95.164s亦完成人工逐图检查：相同相机下日光0.8→0.2使普通表面变暗，自发亮样本仍明亮；关闭三灯cast_shadows后投影消失而暖/蓝光斑保留；木纹、两角度高光、纹理四平台与两个人体动作阶段清晰。自动相机结果不充作像素评判，服务端Light字段不称renderer读回。原始截图保存在docs/images/lesson13-*.png。
+
+正常工作台随后暴露了间歇GUI初始化未就绪：旧截图为远小场景，另有有界真实诊断25s无Pose；单纯私有GZLOG没有修复此问题。调试器改变时序时成功，正常失败现场主线程事件循环正常，'/gazebo'经源码核为Server控制命名空间，并非假world；曝光对照未复现，不能认定缓存损坏、遮挡或命名空间就是已证根因。官方旧[2429](https://github.com/gazebosim/gazebo-classic/issues/2429)与[2053](https://github.com/gazebosim/gazebo-classic/issues/2053)针对自定义world命名的说明也不能直接套用当前default。
+
+最终采用应用可验证的启动恢复：每会话日志/地形缓存放在自己的gazebo-log，保留父环境和原全局文件；仅本课新GUI按token/PID/XID核实后激活，尝试一次尺寸刷新并恢复，窗口管理器忽略resize时如实记false而不把它当硬失败。之后仍必须原生单次相机PUB及真实PoseACK，激活请求本身不代表成功。课程gui_start_attempts=3，旧课默认1；未就绪时只回收该次客户端、保留本课server，取消或server退出即停止。上限耗尽保留日志并走原失败清理。这是有界自恢复，不声称修好了Gazebo上游竞态。
+
+发布入口最后一次真实Qt工作台验收 .deploy/lesson13-ui-release.json **PASS39.119s/13项**：开始按钮6.007s完成GUI真实总览及两个PTY，交互Bash有作业控制；暂停、单步、继续和完整物理验收通过，参考视图不改个人world，学习记录可读，退出令牌[]。Root实际查看最终Gazebo截图，已是清楚总览并有实时统计（非旧远视图），工作台15项目中文内容正常。之前各UI失败报告和首次resize误判均单列保留。最终GUI分支修改后，world/PNG/observer、物理算法与验收门限保持同一配置，此次桌面完整verify再次真实通过；没有无依据地重复全课程物理运行。
+
+公共框架修复已独立提交并推送：[e2471571261fc3f3798b0ebf50be333df6dcdc17](https://github.com/StareamCather/GazeboTeach/commit/e2471571261fc3f3798b0ebf50be333df6dcdc17)，远端哈希已核对。本课原生observer SHA66023a2ad0c0bcfc7cee46ea7f407c4a8f70cb24686747ecdbcfeb9485bda1d0、PNG53981aa62807a641f879c43b5da79549c3a0897d17297464f5e24ed16239497d、world37821455f1cf9f0779e06674a4a5cef2081abc0d2aa677114eadd96142f42f56；GUI helper6fb78481574102e5f8ca6597d472c4afba4a076491fba0670a2adc5fd9cd8f3d，最终instrumentc48c4d7b58d7c01029ceefc468dbb9d1c68833815ba6771cf53868106aa44fc5。完整最终指纹与原始日志保存在两端.deploy，不包含任何私钥。
+
+本次在L13独立提交推送、远端核对和清理后停止，交付范围为13门主课与091/092选做，共15项目。L14不开始；Windows的14–16旧草稿仍未部署、不计交付，无自动续跑或定时任务。用户下次明确发起后从L14审查开始。
