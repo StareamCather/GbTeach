@@ -1,0 +1,6 @@
+{
+  "warmup_time_s": 1.0,
+  "tail_interval_s": 0.1,
+  "tail_samples": 5,
+  "repeats": 2
+}

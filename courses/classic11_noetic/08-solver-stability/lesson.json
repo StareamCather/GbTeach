@@ -1,0 +1,28 @@
+{
+  "id": "08",
+  "title": "求解步长与接触稳定性",
+  "module": "动力学基础",
+  "summary": "以单接触承载的真实压缩与尾部波动，比较求解配置及重复测量。",
+  "order": 8,
+  "profile": "classic11-noetic",
+  "requires_ros": false,
+  "requires_tools": ["g++", "pkg-config"],
+  "world": "world.sdf",
+  "server_args": ["--seed", "42"],
+  "prepare": ["python3 prepare.py"],
+  "prepare_timeout": 45,
+  "objectives": [
+    "区分ODE quick/world求解器、步长和quick迭代数的作用",
+    "按接触配对kp/kd计算局部ERP/CFM，测量真实接触几何重叠与沉降",
+    "用重复尾部样本报告波动和仪器墙钟代价，理解分辨率及可重复性边界"
+  ],
+  "commands": [
+    {"title": "预测当前求解与接触配置", "command": "python3 lab.py predict"},
+    {"title": "运行两次接触稳定性测量", "command": "python3 lab.py experiment"},
+    {"title": "读取实际已加载physics配置", "command": "python3 lab.py physics"},
+    {"title": "查看软接触球实际配置", "command": "gz model -m probe_soft -i"}
+  ],
+  "verify": "verify.py",
+  "reference": "reference.md",
+  "verify_timeout": 75
+}
