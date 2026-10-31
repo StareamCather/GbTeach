@@ -106,12 +106,17 @@ class EnvironmentDialogStateTests(unittest.TestCase):
         window.environment_dialog.findChild(QtWidgets.QPushButton, "continue_learning").click()
         self.application.processEvents()
 
-    def test_startup_shows_all_26_projects_and_blocks_start_until_acknowledged(self):
+    def test_startup_shows_all_installed_projects_and_blocks_start_until_acknowledged(self):
         window = self.make_window()
-        self.assertEqual(len(window.lessons), 26)
+        self.assertGreater(len(self.lessons), 0)
+        self.assertEqual(len(window.lessons), len(self.lessons))
         self.assertTrue(window.environment_dialog.isVisible())
-        self.assertEqual(window.environment_dialog.table.rowCount(), 26)
-        self.assertEqual(window.environment_report["counts"]["ready"], 26)
+        self.assertEqual(window.environment_dialog.table.rowCount(), len(self.lessons))
+        self.assertEqual(window.environment_report["course_count"], len(self.lessons))
+        self.assertEqual(window.environment_report["counts"]["ready"], len(self.lessons))
+        self.assertEqual([window.environment_dialog.table.item(row, 0).text()
+                          for row in range(len(self.lessons))],
+                         [lesson.id for lesson in self.lessons])
         self.assertTrue(window.select_lesson("01"))
         self.assertFalse(window.buttons["start"].isEnabled())
         self.assertTrue(window._environment_dialog_pending)
@@ -125,7 +130,7 @@ class EnvironmentDialogStateTests(unittest.TestCase):
         self.detected.update(classic_version="", modern_simulators=[{"command": "gz", "versions": "8.0.0"}],
                              ros_installed=["humble"], profiles=[], course_profile=None)
         window = self.make_window()
-        self.assertEqual(window.environment_report["counts"]["unsupported"], 26)
+        self.assertEqual(window.environment_report["counts"]["unsupported"], len(self.lessons))
         self.assertTrue(window.select_lesson("24"))
         self.acknowledge(window)
         self.assertFalse(window.buttons["start"].isEnabled())
@@ -236,7 +241,7 @@ class EnvironmentDialogStateTests(unittest.TestCase):
         window._task_completed(9002, result)
         self.application.processEvents()
         self.assertTrue(window.environment_dialog.isVisible())
-        self.assertEqual(window.environment_report["counts"]["incomplete_detection"], 26)
+        self.assertEqual(window.environment_report["counts"]["incomplete_detection"], len(self.lessons))
         self.assertIn("PermissionError", window.environment_report["detection"]["errors"][0])
         self.acknowledge(window)
         self.assertTrue(window.select_lesson("24"))
