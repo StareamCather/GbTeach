@@ -988,3 +988,38 @@ demo正常结束恢复目标完整原生pose和入场暂停状态，不回填EMA
 报告SHA256：formal 9f3be67827677ece7012274441e59c7a1570c72b3cdaf9c2cf78b40812a26f36；UI 91d71a21e04fcd88b23718022e10bbe211816509f130edda23723fed5ed9d53c；独立测试 9985ee3b58f26c6682a55685cbfa6212b2a440b92c9defd3d4f82a3ef4e212ea。
 
 独立提交、Windows中转推送并精确核对远端后进入L31；当前继续全部39项目V2。
+
+
+## 2026-11-01 L31：SystemPlugin进程边界、实际重力与采样
+
+三组全新私有场景独立验收51.782s通过，真实桌面13项40.722s通过，额外stride1回归38.685s通过。root查看33项目中文工作台与真实Gazebo橙色落块。两CPP首版实机编译4.941/4.053s通过，最新源再次由正式prepare编译；原型GUI/两PTY完整闭环47.981s通过。
+
+| 全新场景 | 200tick后原生z(m) | 连续预测z(m) | 真实记录数 |
+| --- | --- | --- | --- |
+| g9.8、stride10 | 1.8030200000000005 | 1.804 | 20 |
+| 仅g改4.9 | 1.9015099999999994 | 1.902 | 20 |
+| 仅stride改20 | 1.8030200000000005 | 1.804 | 10 |
+
+实际落距比1.999999999999982，保持原值不强制写成2；原生ODE离散积分与连续预测残差分别-.00098/-.00049m。初始Physics消息实际均为SDF重力-9.8，首个真实更新后g4.9变式实际Physics为-4.9。改变采样间隔没有改变物理结果。独立测试解析原始protobuf，并在1→stride-1→stride→199→200逐边界原生查询位姿，交叉核对插件prephysics记录，不把插件自身姿态当唯一真值。
+
+算法：个人参数/源摘要检查→离线编译与按键flock原子缓存→生成个人system_plugin.cfg→gzserver -u -s加载进程插件(世界SDF不放plugin)→Load仅读配置并注册事件→Init→本课worldCreated绑定真实World并建原生观测→首WorldUpdateBegin前实际设置world重力→每个真实更新递增计数并在stride整倍数读取实际prephysics pose/time→ODE继续积分。worldAvailable表示本实例持有WorldPtr，named_world_exists额外实际调用physics.has_world确认全局是否已有该命名世界。
+
+实测生命周期严格Load1→Init1→worldCreated1：前两阶段worldAvailable/namedWorldExists均false，第三阶段均true；Reset0。标签n ms对应第n回调、姿态包含此前n-1次积分，因此200回调prephysics预测z1.80498与200步postphysics原生z1.80302分列。标签不减一毫秒或改写消息来掩盖回调相位。Load/Init不阻塞等世界，暂停ready明确重力尚未在首次更新应用；ODE::Init在本SDK为空，不把本课选择首update归因于虚构的重力覆盖。
+
+所有非幂等step/reset只发布一次后有界读取实际完成。基准保存未重载参数被拒绝且时间/状态不推进，原字节修复后恢复；完整world reset实际恢复原生clock/model并另触发worldReset事件，进程实例与Load/Init保持，SystemPlugin.Reset不自动调用。全局worldReset无world参数，本插件以本课实际时钟回退确认归属，不把其他世界事件直接当本课复位。
+
+边界回归：合法stride1在200tick产生200条累计记录，但recent只保留128条。静态审查发现原课程验收把累计数等同窗口长度，已仅修lab.verify：独立核total=200//stride，recent长度min(total,128)，核最后实际步号及每条源时刻/姿态。真实回归先单pulse200并独立查询Physics/实体/统计，确认总200、保留73..200；再真实复位、执行原课程verify，旁路观察器保留中间200tick与末尾reset，全部通过，不重写或补造记录。相同源字节已保存为tests/lesson31_stride1_acceptance.py，便于重跑，不仅留操作脚本。
+
+三个formal gzserver均核对实际私有ELF inode/device/SHA，GUI无该进程插件；原始JSONL/原生实体/Physics/生成配置/日志保留两端.deploy/lesson31-formal-artifacts与stride1-artifacts。观察器正常stop-file退出，经过已验证的主线程IO join；模板未改，三formal、边界、GUI各token结束均无残留。11课程文件及主独立测试冻结，边界测试另记摘要。桌面实际验收包含GUI、两个PTY、暂停/步进、编辑/持久化/重开与清理。verify会真实复位、200步、再复位，仅恢复入场暂停，不回填物理历史或进程对象；暂停恢复后若继续运行方块会再次落下。
+
+依据：[SystemPlugin接口](https://github.com/gazebosim/gazebo-classic/blob/gazebo11/gazebo/common/Plugin.hh)、[进程setup](https://github.com/gazebosim/gazebo-classic/blob/gazebo11/gazebo/gazebo_shared.cc)、[世界Reset调度](https://github.com/gazebosim/gazebo-classic/blob/gazebo11/gazebo/physics/World.cc)。
+
+证据SHA256 .deploy/lesson31-stride1.json：e007c287edb48316ed586ae6388e13b2f2b1d9f5e2d6466c0c250ac0ad74d7e9。
+
+证据SHA256 .deploy/lesson31-prototype.json：45ff5e5824d0932b3830e1478acb25f594c760420944aa7038bab0bd5c6eaac0。
+
+证据SHA256 tests/lesson31_stride1_acceptance.py：008778648d76aa506b0a6ebc935b53c1b41e05dd697f7db25855a6d8d30bb039。
+
+报告SHA256：formal de7081ea0e76e0ec747ec14053398d2ad733a4d73005072bccf1f5bf82edbaf0；UI 39f6c4599d1511b58101b617e35e6ffc213348cff464fef4d2fcbd6c648e0f3c；独立测试 4b5a388bf2d429303c0b3ce3a871f6dc4cb7b7c4c83f20f43e0e57ba84d08199。
+
+独立提交、Windows中转推送并精确核对远端后进入L32；当前继续全部39项目V2。

@@ -1,0 +1,23 @@
+{
+  "id": "31", "title": "SystemPlugin：进程生命周期、真实重力与步采样",
+  "module": "Classic插件开发", "order": 31, "profile": "classic11-noetic",
+  "summary": "由gzserver -s加载进程插件，区分世界创建和物理更新，用原生状态验收重力与采样。",
+  "requires_ros": false, "requires_tools": ["g++", "pkg-config"],
+  "world": "world.sdf", "server_args": ["-u", "-s", "libgazeboteach_l31_system.so"],
+  "prepare": ["python3 prepare.py"], "prepare_timeout": 150,
+  "after_start": ["python3 lab.py ready"], "verify": "verify.py", "verify_timeout": 180,
+  "reference": "reference.md",
+  "objectives": ["区分进程SystemPlugin与world内插件的加载和生命周期", "在首个真实物理更新前设置重力并检验落体积分", "用实际更新计数采样并保留prephysics时间语义"],
+  "commands": [
+    {"title": "检查暂停启动与真实生命周期", "command": "python3 lab.py ready"},
+    {"title": "先预测落体与采样", "command": "python3 lab.py predict"},
+    {"title": "推进200个真实物理步", "command": "python3 lab.py step --steps 200"},
+    {"title": "运行0.3仿真秒后暂停", "command": "python3 lab.py run --seconds 0.3"},
+    {"title": "观察原生姿态与插件记录", "command": "python3 lab.py watch --seconds 3"},
+    {"title": "继续真实世界", "command": "python3 lab.py resume"},
+    {"title": "暂停真实世界", "command": "python3 lab.py pause"},
+    {"title": "完整世界复位并检查Reset调度", "command": "python3 lab.py reset"},
+    {"title": "编辑参数或插件，重载后生效", "command": "gedit --new-window parameters.json system_plugin.cc"},
+    {"title": "完整有限验收", "command": "python3 verify.py"}
+  ]
+}
