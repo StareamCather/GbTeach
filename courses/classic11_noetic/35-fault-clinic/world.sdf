@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<sdf version="1.6"><world name="lesson35">
+  
+  <gravity>0 0 -9.8</gravity>
+  <physics name="ode" type="ode"><max_step_size>0.001</max_step_size><real_time_update_rate>1000</real_time_update_rate></physics>
+  <scene><ambient>.45 .45 .45 1</ambient><background>.12 .16 .22 1</background></scene>
+  <light name="sun" type="directional"><pose>0 0 5 0 0 0</pose><diffuse>.9 .9 .9 1</diffuse><direction>-.4 -.3 -1</direction><cast_shadows>true</cast_shadows></light>
+  <gui><camera name="user_camera"><pose>4 -6 3 0 .3 2.15</pose></camera></gui>
+  <model name="floor"><static>true</static><pose>0 0 -.1 0 0 0</pose><link name="plate">
+    <collision name="body"><geometry><box><size>6 5 .2</size></box></geometry><surface><bounce><restitution_coefficient>0</restitution_coefficient></bounce></surface></collision>
+    <visual name="body"><geometry><box><size>6 5 .2</size></box></geometry><material><ambient>.66 .68 .72 1</ambient><diffuse>.66 .68 .72 1</diffuse></material></visual>
+  </link></model>
+  <model name="cube_000"><pose>0 0 2 0 0 0</pose><link name="body">
+    <inertial><mass>1</mass><inertia><ixx>0.006666666666666667</ixx><iyy>0.006666666666666667</iyy><izz>0.006666666666666667</izz><ixy>0</ixy><ixz>0</ixz><iyz>0</iyz></inertia></inertial>
+    <collision name="body"><geometry><box><size>.2 .2 .2</size></box></geometry><surface><bounce><restitution_coefficient>0</restitution_coefficient></bounce></surface></collision>
+    <visual name="body"><geometry><box><size>.2 .2 .2</size></box></geometry><material><ambient>.95 .4 .12 1</ambient><diffuse>.95 .4 .12 1</diffuse></material></visual>
+  </link><plugin name="fault_force" filename="libfault_force.so"><force_x>1</force_x></plugin></model></world></sdf>

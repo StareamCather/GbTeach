@@ -1118,3 +1118,29 @@ Gazebo模型alpha/beta、ROS /alpha|beta/{cmd_vel,odom,joint_states}、TF alpha|
 报告SHA256：formal 62e756844ab44a09cee449d68fba583f4dfd413add0fcd748e8fe88440c9c471；UI fbe79c425db6a322407bcd2e96adba857f405a0d981c31a4b9525bf3150e7d73；独立测试 ae58fef87f812fe9d625c77442873708592baf902069f92436d4308a7b53305f。
 
 独立提交、Windows中转推送并精确核对远端后进入L35；当前继续全部39项目V2。
+
+
+## 2026-11-01 L35：真实故障、匿名诊断与修复复验
+
+四类故障独立验收115.403s通过，8个真实物理服务端；桌面13项78.380s通过。root查看37项目中文桌面与正常插件方块Gazebo画面。正式验收包括正常对照、3种有效XML故障运行及4份修复运行；损坏XML由实际SDK解析拒绝，不伪称已运行物理。主预览与9个临床归属token全部结束无残留，原模板、原错误输入、学员文件及暂停预览保持。
+
+| 实际故障 | 真实证据 | 修复后实际结果 |
+| --- | --- | --- |
+| MALFORMED_SDF | SDK明确Error parsing XML，stdout无成功标记；实际退出码仍0 | 新文件解析通过并实际启动、运动 |
+| PLUGIN_LOAD_FAILURE | 加载器日志及私有ELF缺失，.2s原生x=0而z正常下落 | .2s x=.020100000000000014 |
+| GRAVITY_DISABLED | 原生重力0，实际时间推进到1s、x=.5005000000000005，但z=2 | .2s z=1.8030200000000005并落地 |
+| COLLISION_MISSING | 视觉仍在、实际碰撞体缺失，1s原生z=-2.90490000000002 | 实际落地z=.10000000015067952 |
+
+正常及全部4份修复的.2s原生(x,z)=(.020100000000000014,1.8030200000000005)，1s落地位置约(.1944357843058341,-.0000137459038467,.10000000015067952)。命令仅真实200+800物理步，阶段不重发。匿名路径输入不携带案例名，分类基于实际解析/结构/原生物理/加载证据；同一故障原始SHA在新文件修复及复验后保持。修复后的XML语义与正常参考核对，并保留支持范围内的学员内容与注释。
+
+算法：校验SDK与离线缓存编译→正常GUI世界加载真实ModelPlugin→为每个输入创建新临床目录、Master/partition/HOME和归属nonce→实际gz sdf -k及独立XML结构检查→有效SDF才启动gzserver→查询实际Physics/实体/进程/ELF，有限推进0/.2/1s→以证据判定问题→仅写新修复文件→新服务器同条件复验→保存原始protobuf序列化hex、响应、源码/SDK/ELF摘要、日志及输入→清理仅本试验拥有的进程。独立验收在同步checkpoint_hook内读取原生端点，服务器保持暂停直到查询结束，不依赖临近清理才新建的异步观察进程。
+
+正常插件持有boost weak Link，UpdateBegin仅AddForce世界+X方向1N到1kg刚体，实际由物理引擎积分；未设置模型位姿/速度。析构先断事件再释放weak Link，不在宿主内关闭transport。预览及临床实例rate1000，避免交互预览在不受限速时长时间漂移；固定dt1ms、重力-9.8。独立核对质量、碰撞、重力、步数/时间与Model身份、同一私有ELF的samefile/SHA及实际映射，未以“插件加载成功”代替物理效果。
+
+首原型编译、GUI和两PTY正常，但17.735s在损坏XML判定失败：本机/usr/bin/gz-11.15.1 sdf -k在stderr输出parser.cc:403解析错误仍返回0。实际正常输入同样返回0，stdout为Check complete。已保留首版全部源/报告/原始日志/数据两端后，只修判定：保留原始退出码和输出，规范ANSI后要求rc0且SDK成功标记、无原生解析错误、独立XML有效才接受；损坏XML分类还必须有实际SDK错误证据。没有把0改写为非0，也未放宽物理判据。教材同时解释解析通过、插件装入和行为正确是不同证据层。
+
+11课程文件及最终独立测试冻结，主线程IO guard与已验证版本逐字核对。正式证据保留9个临床上下文（含解析而未启物理者）、8个实际gzserver、正常和修复原生读数、盲输入与修复差异、原始坏文件/学员摘要和预览隔离检查。全部归档两端；功能检查与实际GUI窗口分开记录。只覆盖支持的单故障固定模型，不声称通用自动修复任意SDF或跨版本动力学问题。依据：[SDFormat解析与加载](https://github.com/gazebosim/sdformat/tree/sdf9)、[Classic插件入口](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/common/Plugin.hh)、[实际Link力接口](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/physics/Link.cc)。
+
+报告SHA256：formal 51795aa655e21aa584a19a9b38fd989add2f6a307304faf2c9ea8dea465119a1；UI 262315a2fdc195d3421a4e40ba4828628a95cc06a705975497a248a6944cf482；独立测试 6f9fb2cf16dec7200e03eef3df204ad308f20583a2e3d4bb9658653901d0b895。
+
+独立提交、Windows中转推送并精确核对远端后进入L36；当前继续全部39项目V2。

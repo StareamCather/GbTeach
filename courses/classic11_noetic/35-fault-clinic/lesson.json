@@ -1,0 +1,25 @@
+{
+  "id": "35", "title": "故障诊所：从真实证据定位、修复并复验",
+  "module": "Classic高级实验", "order": 35, "profile": "classic11-noetic",
+  "summary": "在私有世界注入SDF、插件、重力和碰撞故障，用原生日志与真实物理状态诊断，再对新文件修复复验。",
+  "requires_ros": false, "requires_tools": ["g++", "pkg-config"],
+  "world": "world.sdf", "server_args": ["-u"],
+  "prepare": ["python3 prepare.py"], "prepare_timeout": 180,
+  "after_start": ["python3 lab.py ready"], "verify": "verify.py", "verify_timeout": 420,
+  "reference": "reference.md",
+  "objectives": ["按实际解析、加载、物理参数与运动结果建立因果证据", "在独立实例复现四类故障并保留原始输入和日志", "只写新修复文件，以真实步进恢复结果验收"],
+  "commands": [
+    {"title": "检查健康预览原生状态", "command": "python3 lab.py ready"},
+    {"title": "预览推进200个真实物理步", "command": "python3 lab.py step --steps 200"},
+    {"title": "继续健康预览", "command": "python3 lab.py resume"},
+    {"title": "暂停健康预览", "command": "python3 lab.py pause"},
+    {"title": "完整复位健康预览", "command": "python3 lab.py reset"},
+    {"title": "私有世界：完整诊断并修复四类故障", "command": "python3 clinic.py run"},
+    {"title": "只检查SDF解析故障", "command": "python3 clinic.py run --case malformed-sdf"},
+    {"title": "只检查插件加载故障", "command": "python3 clinic.py run --case missing-plugin"},
+    {"title": "只检查重力故障", "command": "python3 clinic.py run --case zero-gravity"},
+    {"title": "只检查碰撞缺失故障", "command": "python3 clinic.py run --case missing-collision"},
+    {"title": "编辑健康参考，重载后生效", "command": "gedit --new-window world.sdf"},
+    {"title": "真实故障与修复完整验收", "command": "python3 verify.py"}
+  ]
+}
