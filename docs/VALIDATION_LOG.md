@@ -491,3 +491,96 @@ after_startup命令在所有startup辅助进程创建之后、GUI/终端打开�
 此前最小负例25.316517s：课内XMLRPC辅助函数与module同名遮蔽，真实启动后ready失败。框架正确阻止GUI/终端并清理roslaunch两节点、私有Master和gzserver；报告/准确源码包保存在.deploy/lesson22-framework-probe-v1。修复课内import alias后再得上述正例，没有通过放宽节点就绪门限解决。课内prepare另在私有Master已启动、gzserver之前显式设/use_sim_time=true；这属于L22课码，不修改旧课的时钟默认值。
 
 证据为两端.deploy/lesson22-framework-unit.log、lesson22-framework-legacy21.json/.log与lesson22-framework-probe.json/-runtime.log；最小ROS课包尚未完成物理实验/整课验收与发布，当前交付仍主课01–21及091/092共23项目。当前L22目标继续执行，先独立提交推送本框架支持，再完成课程的独立物理、桌面验收与发布；不跳到L23。原VALIDATION_LOG前114892字节完整保留。
+
+
+## 2026-10-31 L22：ROS启动、实际计算图与有限力任务
+
+tests/lesson22_acceptance.py正式PASS 102.024s：3个正常全新场景、9组核心场景、3组静态解析、2组launch故障及2组取消检查，共14项scenarios及2项cancellation_checks。3个正常场景为2N/cart_a基线、只改4N及只改cart_b；另一个全新错误remap启动场景，合计4个实际session token均无残留，cleanup_errors为空。17课源正式前后字节/SHA不变。正向含修复再验共4轮，以下原始计数只来自正式轮，不混最小探针或UI。
+
+L22流程为私有Master→个人源包overlay/输入指纹与/use_sim_time=true→Gazebo/API初始化→world-ready→真实roslaunch解析arg/include/group/私有param/remap并启动两个节点→after_startup核实际图/PID/缓存/新反馈→Trigger提交未来0.1模拟秒开始、持续0.3模拟秒的2或4N world+X有限ApplyBodyWrench→ODE真实加速→到期匀速→清本课body队列并恢复进入pose/twist/pause。服务调度包含开始/结束端点，实际速度可多一tick冲量；试块1kg、零g、零速度衰减，取消是清施力任务而非刹车。原队列、driver历史与已经流逝的模拟时间不倒回。
+
+Master负责名称发现与参数，不中转全部主题负载。ModelStates原生无header，source_stamp_ns=null，observer的50墙钟Hz是输出上限；其回调计数和接收ROS/monotonic时间不伪装成native采样。GetModelState header是API ros::Time::now读回，真实查询保留前后GetWorldProperties与主机时间包夹；coast反馈只按同主机接收邻近交叉检查，不称采样同步。scheduled、服务成功及空clear响应均不是物理完成证据。namespace只重命名ROS图，不复制Gazebo实体；arg须显式写入私有param，remap不改类型/实体名，driver只在启动时缓存参数，保存未重载与运行参数不一致都在物理控制前拒绝。
+
+公共ros_package_paths与after_startup支持已独立发布核对为aa1b335628836395eae531fe4f1686ef6345817f，74项Linux检查、既有L21图形回归和L22最小启动属于该框架修复证据，保留在原历史前缀，不混入本课正式计数。L22最小v1曾因xmlrpc模块名被函数遮蔽而就绪失败；修为独立模块别名，同时将/use_sim_time初始化前置到私有Master、再启动ROS API/节点。失败与修复最小探针都标startup_only且未发脉冲；它们不代表完整课程通过。
+
+| 正式轮次 | Master PID | roslaunch PID | driver PID | observer PID |
+| --- | --- | --- | --- | --- |
+| baseline | 85875 | 86150 | 86242 | 86243 |
+| force_only | 88124 | 88396 | 88487 | 88488 |
+| namespace_only | 90353 | 90625 | 90716 | 90717 |
+| exact_inputs_repaired | 90353 | 90625 | 90716 | 90717 |
+
+每轮由Master/XML-RPC读回实际节点URI/PID，并检查它们属于本次token和个人包，两课程节点共用同一roslaunch父进程，父进程与已有rosmaster分开；参数、source/settings指纹、实际remap及/gazebo服务/发布者一致。3次--nodes/--dump-params覆盖不同arg预览，前后当前节点URI与私有参数不变，预览namespace没有新节点；不把静态解析输出当作实时图，也不把仅URI对比夸称额外PID测量。
+
+| 正式轮次 | 力/N | namespace | active条数/跨度s | a拟合/m·s⁻² | coast vx/m·s⁻¹ | coast a/m·s⁻² | 最大位移误差/m | 反馈/邻近对 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| baseline | 2.0 | /lesson22/cart_a | 25/0.228 | 1.999432 | 0.602…0.602 | 0 | 0.002246 | 60/25 |
+| force_only | 4.0 | /lesson22/cart_a | 25/0.229 | 4 | 1.204…1.204 | 0 | 0.004636 | 60/25 |
+| namespace_only | 2.0 | /lesson22/cart_b | 25/0.232 | 1.998245 | 0.602…0.602 | 0 | 0.002264 | 59/24 |
+| exact_inputs_repaired | 2.0 | /lesson22/cart_b | 25/0.2295 | 1.99855 | 0.602…0.602 | 0 | 0.002256 | 60/25 |
+
+四轮共保留745条原始观测：506次独立状态服务查询、239条实际headerless反馈，形成99对coast接收邻近比较。每轮active剔两端30ms、至少10条/0.15模拟秒，vx最小二乘斜率与F/m相差≤5%；coast从end+50ms起至少10条/0.3秒，加速度绝对值≤0.05m/s²、速度误差≤0.02m/s、全周期位移误差≤0.01m。所有原始service_header、世界/主机包夹与反馈接收时间保留。API响应只证明接纳，轨迹证明先加速后匀速；inclusive端点导致本次2N/4N的终速见表，不改写成理想0.6/1.2。
+
+| 受控负例 | 实际拒绝诊断 |
+| --- | --- |
+| saved_without_reload | RuntimeError: Saved inputs differ from the loaded lesson: reload/restart required |
+| live_parameter_cache_mismatch | RuntimeError: Bounded launch readiness failed: RuntimeError: Actual private driver parameters differ from launch arguments |
+| wrong_mass | ValueError: Fixed world mass/inertia/gravity/damping/physics/body geometry differs from template |
+| wrong_damping | ValueError: Fixed world mass/inertia/gravity/damping/physics/body geometry differs from template |
+| wrong_timestep | ValueError: Fixed world mass/inertia/gravity/damping/physics/body geometry differs from template |
+
+五种负例均在物理控制前拒绝，trace为空且没有command。质量/阻尼/步长负例修改的是个人SDF输入并触发固定模板契约，不能描述成已加载错误物性后的运行对照；实际原世界保持原状。运行私有参数被改为与缓存不符时，也以有限就绪超时拒绝；精确恢复保存输入和参数后重新完整通过。namespace_only还预设非平凡位置、姿态与线/角速度，前后恢复检查按q/−q等价，不只验证零初态。
+
+| 取消场景 | 保留速度/m·s⁻¹ | 后段条数/跨度s | 后段a/m·s⁻² |
+| --- | --- | --- | --- |
+| cancel_queued | 0 | 89/0.848 | 0 |
+| cancel_active | 0.256 | 65/0.623 | 0 |
+
+queued取消发生在未来start前，active取消发生在实际加速后；随后观察跨越原end并继续匀速，实际vx保持、加速度归零，才证明取消效果。空clear响应不作为删除数量或测量证据。required=true故障向已确认token/start_time的driver PID发SIGTERM，实际driver/observer均退出；已有Master PID仍为90353，Gazebo仍活且dt=.001。其有限任务仍可到期，之后43条/0.4035模拟秒coast拟合a=0m/s²，说明launch进程生命周期不自动撤销Gazebo内部任务。新建错误observer输入remap在25.165116s内因真实图/订阅不符失败并清净，不能用server启动成功代替节点就绪。
+
+真实桌面tests/ui_probe.py另PASS 20.654s/13项，包括开始初始化、两个真实PTY、暂停/继续、模型复位、验收按钮、参考页保留个人world、学习记录、两张归属窗口截图与退出清理。UI内另一次verify为1.531277s，只列作界面证据，不加到正式四轮统计。根代理已查看报告指向的真实Qt与Gazebo原图，检查中文课程/验收状态及蓝色试块与黄色视觉尺；截图不替代真实状态数据。本课纯Python/标准消息源包不需catkin_make或新增下载；个人源包只在session环境overlay，不改父进程/全局ROS_PACKAGE_PATH。
+
+| 正向轮次 | 实际world SHA256 | 实际settings SHA256 |
+| --- | --- | --- |
+| baseline | 2d6bf76dc7babc9e707ce16e17be1f0aadea6e5b444524e5d2bf74cc034c62ad | b6a98bdc88aa8d49e606bc7c3f89d6eec06e606a612e42f3995148e2f31f6ba0 |
+| force_only | 2d6bf76dc7babc9e707ce16e17be1f0aadea6e5b444524e5d2bf74cc034c62ad | 8586498cce2a47caadf37eb0a154acb49a3d7577e8a7cf9a020876e015ed6186 |
+| namespace_only | 2d6bf76dc7babc9e707ce16e17be1f0aadea6e5b444524e5d2bf74cc034c62ad | 5c8c7ff908795a500c0b678ceaaa9d6daebfacc4ac103c9a9656cb8663ecde24 |
+| exact_inputs_repaired | 2d6bf76dc7babc9e707ce16e17be1f0aadea6e5b444524e5d2bf74cc034c62ad | 5c8c7ff908795a500c0b678ceaaa9d6daebfacc4ac103c9a9656cb8663ecde24 |
+
+| 冻结课文件 | SHA256 |
+| --- | --- |
+| config.py | b055b685fd3c9c81b654f8dd8a442de8de2665284566361829c6e9798d778d1d |
+| lab.py | 555fa106ad052bb66254d059c879dd7e8a799b64cae34553a4793b7d8a759549 |
+| launch_settings.json | b6a98bdc88aa8d49e606bc7c3f89d6eec06e606a612e42f3995148e2f31f6ba0 |
+| lesson.json | fb6ba17e1623a810f6cf6933422514232a81bb6cd08ee86db27d4119d2ac2b1a |
+| lesson.md | 1626b543c70076da5cd4d9fd547df092b594bf9dad343645f54cde0cd5a4457e |
+| prepare.py | 615055301cad651e9e9fd75f4e0d2871a61785e277779eb4c88051a878e99322 |
+| reference.md | 8f0be670916e3d55e621f65619c9a620b834597c2eecf8fa87aff30b87a84332 |
+| ros_entry.py | 52adc919b875f83e8c1e991c6d14c869a9d1c1f1655331c7814dafc5901c520b |
+| ros_lab.sh | 2856b4ea8cdbb4362fc9c1ecab55dd80cd0a8c050a15d7189924d1fcec5ecd9b |
+| ros_ws/src/gazeboteach_l22/launch/lab.launch | 6849df18f2139d72ae54c7419d599094bdc443d9bdd06b97f4455b649e5a2094 |
+| ros_ws/src/gazeboteach_l22/launch/nodes.launch | 9bb1e87f45ae1e30a54b3ea835767918849120b938c44120eba750a6a9c09370 |
+| ros_ws/src/gazeboteach_l22/package.xml | c68f834dc2035cd94860415ca3b9a90223da31de4fc6c09d64c78fb716854383 |
+| ros_ws/src/gazeboteach_l22/scripts/common.py | abf09baa1dd573e6201939ce18c075fc35dfd5d66e4e2d247f31d1a0f768e9e4 |
+| ros_ws/src/gazeboteach_l22/scripts/pulse_driver.py | dce27e7e8d97ff5b05946e574e8a7597f3ff991bbe95ec411b91cea9e2085b47 |
+| ros_ws/src/gazeboteach_l22/scripts/state_observer.py | 4e58166df9cf2d239848db358db6a6973b40242116a2626d69effa06820c1d7a |
+| verify.py | f0bc1a4b9d83f5198f71e3838d2308f52d49a44e1aef09e02ccac0a1dfe7019b |
+| world.sdf | 2d6bf76dc7babc9e707ce16e17be1f0aadea6e5b444524e5d2bf74cc034c62ad |
+
+| 正式原始报告 | 现存归档路径 | SHA256 |
+| --- | --- | --- |
+| baseline | .deploy/lesson22-formal-artifacts/baseline.json | 6a569ed1dc7aed78039ff098d5edd8dbefb6dd3cf6638a4b8b430fe822555ef0 |
+| force_only | .deploy/lesson22-formal-artifacts/force_only.json | 2321993faed7f6a5ba3e6f5aa8aa214dc278fd4343cebff3911bf6008d7894be |
+| namespace_only | .deploy/lesson22-formal-artifacts/namespace_only.json | f1171704e9d8caa2700f221fcee85a8481bedfe83b745df09b035d4d4836d8ec |
+| exact_inputs_repaired | .deploy/lesson22-formal-artifacts/exact_inputs_repaired.json | 6b45665a773f48694e6570dd3d3f057db915f9fc580a81a21de43f85dfddfe74 |
+| saved_without_reload | .deploy/lesson22-formal-artifacts/saved_without_reload.json | b45a287bd1f1b50ca7132ef2e085dd8bc0eedff6976a1bfbe091514ef30d4e26 |
+| live_parameter_cache_mismatch | .deploy/lesson22-formal-artifacts/live_parameter_cache_mismatch.json | 05a34098b09b31d66b05b89cbe0583d92f940ac02fb5bffffbf0dc2f375b882c |
+| wrong_mass | .deploy/lesson22-formal-artifacts/wrong_mass.json | 8e10dd9a4eb6ce4c4650a658dc1189dabb706e491d06b63b70768f2a540a7ae6 |
+| wrong_damping | .deploy/lesson22-formal-artifacts/wrong_damping.json | b51ca909565d99e11fa1f0658c970edff1276b824af52fdb58d15c222dbc0ae5 |
+| wrong_timestep | .deploy/lesson22-formal-artifacts/wrong_timestep.json | 1e7332fde019ce32b8e65fdf416b17aa84ac4e7efab252eaadbe435a6cc3891a |
+
+正式报告SHA256 8013111928cc00996f1fd29c2d070dce9076753d61f3457879f3aa2b0696e9a5；UI报告SHA256 6d9e6ab4539140245dcffc61ecadd20ae8b4613b2c8b774d601db394c60e2ef6。独立验收源码SHA256 5732aa6be4878f1867f1d775ac110ffe33053cc8b65c96f0a038eb2d8b96101b；UI探针SHA256 12cf64d65a476946a9b9bd907aed419c1c2ab0a5136a48371e66ef50171c89a0；运行框架runtime.py SHA256 e25447b2b2b4f4aece99e25568ac553de20fc46255b687fec6f166cce33a143e。原始报告、worker、ROSlaunch日志与session元信息在formal-artifacts归档；自动临时Storage删除后，不把旧/tmp身份路径称作现存文件。
+
+原VALIDATION_LOG前117801字节/SHA 7d4ba9db1b99ed0ac59ec16b583d97c8a264bf888384fe997dbb993637af2a3c原封保留，包含本课之前独立发布的框架验证；未使用旧114892字节l22-before快照覆盖它。SESSION_HANDOFF原20624字节正文及2026-10-29尾5054字节保持。完成本课独立提交、Windows中转推送与远端核对后进入L23；预交付01–22主22课与091/092共24项目，余L23–L37共15门主课及G02。
+
+依据：[Noetic Master API](https://github.com/ros/ros_comm/blob/noetic-devel/tools/rosmaster/src/rosmaster/master_api.py)、[roslaunch XML解析](https://github.com/ros/ros_comm/blob/noetic-devel/tools/roslaunch/src/roslaunch/xmlloader.py)、[ROS时间初始化](https://github.com/ros/ros_comm/blob/noetic-devel/clients/roscpp/src/libros/init.cpp)、[Gazebo ROS API](https://github.com/ros-simulation/gazebo_ros_pkgs/blob/noetic-devel/gazebo_ros/src/gazebo_ros_api_plugin.cpp)、[ApplyBodyWrench](https://github.com/ros-simulation/gazebo_ros_pkgs/blob/noetic-devel/gazebo_msgs/srv/ApplyBodyWrench.srv)、[ModelStates](https://github.com/ros-simulation/gazebo_ros_pkgs/blob/noetic-devel/gazebo_msgs/msg/ModelStates.msg)。

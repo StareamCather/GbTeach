@@ -1,0 +1,21 @@
+<launch>
+  <arg name="robot_ns"/><arg name="force_n"/>
+  <group ns="/lesson22"><group ns="$(arg robot_ns)">
+    <node pkg="gazeboteach_l22" type="pulse_driver.py" name="driver" output="screen" required="true">
+      <param name="force_n" value="$(arg force_n)" type="double"/>
+      <param name="duration_s" value="0.3" type="double"/>
+      <param name="lead_s" value="0.1" type="double"/>
+      <param name="body_name" value="launch_slider::body"/>
+      <remap from="pulse" to="start_pulse"/><remap from="cancel" to="cancel_pulse"/>
+      <remap from="apply_wrench" to="/gazebo/apply_body_wrench"/>
+      <remap from="clear_wrench" to="/gazebo/clear_body_wrenches"/>
+      <remap from="world_properties" to="/gazebo/get_world_properties"/>
+      <remap from="status" to="driver_status"/>
+    </node>
+    <node pkg="gazeboteach_l22" type="state_observer.py" name="observer" output="screen" required="true">
+      <param name="model_name" value="launch_slider"/><param name="publish_wall_hz" value="50" type="double"/>
+      <remap from="model_states" to="/gazebo/model_states"/>
+      <remap from="feedback" to="state_feedback"/><remap from="status" to="observer_status"/>
+    </node>
+  </group></group>
+</launch>

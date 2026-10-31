@@ -1,5 +1,15 @@
 # GazeboTeach 会话交接
 
+> 2026-10-31 当前L22 ROS启动已通过3个正常全新场景、9组核心场景、3组静态解析、2组launch故障及2组取消检查，正式102.024s；真实桌面13项20.654s通过。实际roslaunch图、参数/缓存、有限施力/到期匀速和状态恢复均有原始证据，4个会话token无残留。完成L22独立提交、推送与远端核对后进入L23 URDF/Xacro；主课01–22与091/092共24项目，尚余L23–L37共15门主课与G02最终回归。以下旧进度保留为历史。
+
+L22流程为私有Master→个人源包overlay/输入指纹与/use_sim_time=true→Gazebo/API初始化→world-ready→真实roslaunch解析arg/include/group/私有param/remap并启动两个节点→after_startup核实际图/PID/缓存/新反馈→Trigger提交未来0.1模拟秒开始、持续0.3模拟秒的2或4N world+X有限ApplyBodyWrench→ODE真实加速→到期匀速→清本课body队列并恢复进入pose/twist/pause。服务调度包含开始/结束端点，实际速度可多一tick冲量；试块1kg、零g、零速度衰减，取消是清施力任务而非刹车。原队列、driver历史与已经流逝的模拟时间不倒回。
+
+Master负责名称发现与参数，不中转全部主题负载。ModelStates原生无header，source_stamp_ns=null，observer的50墙钟Hz是输出上限；其回调计数和接收ROS/monotonic时间不伪装成native采样。GetModelState header是API ros::Time::now读回，真实查询保留前后GetWorldProperties与主机时间包夹；coast反馈只按同主机接收邻近交叉检查，不称采样同步。scheduled、服务成功及空clear响应均不是物理完成证据。namespace只重命名ROS图，不复制Gazebo实体；arg须显式写入私有param，remap不改类型/实体名，driver只在启动时缓存参数，保存未重载与运行参数不一致都在物理控制前拒绝。
+
+公共ros_package_paths与after_startup支持已独立发布核对为aa1b335628836395eae531fe4f1686ef6345817f，74项Linux检查、既有L21图形回归和L22最小启动属于该框架修复证据，保留在原历史前缀，不混入本课正式计数。L22最小v1曾因xmlrpc模块名被函数遮蔽而就绪失败；修为独立模块别名，同时将/use_sim_time初始化前置到私有Master、再启动ROS API/节点。失败与修复最小探针都标startup_only且未发脉冲；它们不代表完整课程通过。
+
+两端.deploy/lesson22-formal.json、formal-artifacts、日志及lesson22-ui*保留正式证据。临时Storage已清理；原报告中的/tmp/workspace身份路径仅描述当时实际节点，不宣称仍存在。当前17课源与正式SHA一致；下一目标23，继续逐课验收、提交、中转推送和核对，不把未验证草稿计入交付。
+
 > 2026-10-31 当前L21同步/频率/lockstep已通过3个全新私有场景、8组核心验收与2组真实取消检查，共124.404s；真实桌面13项34.906s通过。相机成功原生Update、接收标签覆盖密度及ROS交付分层验收，暂停/真正单步多步与隔离服务器重启均有原始证据。完成L21独立提交、推送与远端核对后进入L22 ROS启动；交付主课01–21及091/092共23项目，尚余L22–L37共16门主课与G02最终回归。下列旧进度保留为历史。
 
 L21运行流程为实际SDF/prepare指纹检查→完整--lockstep主world→SDK读取原生ImageStamped.time、IMU.stamp、WorldStats与无原生stamp的Perf/metadata→像素原字节外存→Python实际ROS事件发布/订阅→连续2模拟秒窗口→暂停墙钟保持→真实1步/0.1模拟秒多步→主world保持暂停并串行启动两个私有Master/IGN partition的纯原生child→恢复原pause并回收本课PID。child使用同一临时benchmark.sdf，仅共同把RTU改为0，argv模式差仅--lockstep；不将主限速场景与无上限child之差全归因于lockstep。
