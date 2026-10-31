@@ -751,3 +751,6 @@ L24流程：私有Master先设/use_sim_time→Xacro/URDF/SDF及SHA→现有Gazeb
 - 本机实际以太网状态 Disconnected、LinkSpeed0bps；192.168.50.2 SSH两次握手/初始远程检查均超时，ping2次丢包。未更改路由、SSH策略、驱动或系统。设备恢复前，独立安装目录中的 --list、--diagnose、--gui-check、环境弹窗验收、L01/L24真实图形回归及首次SDK构建仍待完成。
 - Windows Docker CLI存在但DockerDesktopLinuxEngine管道不存在，未启动daemon或下载镜像；文档Docker方案尚未端到端验证。
 - 候选保存到 wip/v1-environment-release；不发布 v1.0.0 标签或安装资产、不把未验收候选合入正式 main。后续必须先恢复 ikaros连接并完成上述检查，再核对正式提交/标签和上传资产的 SHA256。V1发布后按用户指令暂停，L25–L37和G02留待后续。
+
+
+候选保存补记：代码提交1f825db6705de0f168e0979f7be9e94c7504109f已通过Windows推送到wip/v1-environment-release，并以ls-remote精确核对；GitHub main仍为L24的048e4cedbb5edc78720a4c88e73252ab90675f1e。固定该候选提交构建436文件/26项目、安装器21116658字节和tar21103697字节；候选内嵌Python的--check以及SHA256SUMS全部通过，未执行Linux安装。安装器SHA256 67072677729abe795a3db56a5e0557842d2e877bdccb4743844c39fbe86c48a3；tar SHA256 dc9445381bf798a9bc184ad2223b9282ea1d5bbf0bd5d8a090d2a79a7a725ef6；manifest SHA256 07e2c7db3085d22de6cc5212927346ca5521c8676adaeadb3f59271014cc7c07。源与资产尚未作为正式V1发布；后续必须从最终实机验收提交重新构建。具体恢复顺序已写入SESSION_HANDOFF。

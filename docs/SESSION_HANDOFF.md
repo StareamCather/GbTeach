@@ -1,5 +1,22 @@
 # GazeboTeach 会话交接
 
+V1 候选保存点：代码提交 1f825db6705de0f168e0979f7be9e94c7504109f 已推送并通过 ls-remote 核对到 wip/v1-environment-release；正式 GitHub main 仍为 048e4cedbb5edc78720a4c88e73252ab90675f1e。无 v1.0.0 标签/Release，未部署到 ikaros。本节后的文档保存提交仅记录交接，不代表真实安装检查已完成。
+
+候选资产在 Windows 仓库 build/releases/v1-candidate：436 个载荷文件、26 项目，自解包安装器约21.1MB；source_commit=1f825db6705de0f168e0979f7be9e94c7504109f。已执行真实候选内嵌 Python --check 和三项外部 SHA256 校验，但未在 Linux 执行安装或包装器。安装器 SHA256=67072677729abe795a3db56a5e0557842d2e877bdccb4743844c39fbe86c48a3，tar.gz=dc9445381bf798a9bc184ad2223b9282ea1d5bbf0bd5d8a090d2a79a7a725ef6。它们是未发布候选，后续正式发布必须从最终验收提交重新构建。
+
+恢复顺序（仅 V1，不进入 L25）：
+
+1. 检查本机以太网与 ikaros SSH 恢复，严格核对既有主机身份；保留当前远端 main 和用户数据。不改默认路由、SSH安全策略或驱动。
+2. 通过现有 Windows 中转将候选 Git 历史/文件传入 ikaros，在独立候选分支验证，不能使用只传 main 的旧 relay 子命令遗漏此分支。
+3. ikaros 执行 python3 -m unittest discover -s tests -q，必须包含新 Linux 安装/包装器/修改保护/卸载测试；Windows 的3项跳过不得直接算Linux通过。
+4. 构建候选安装器并安装到项目 .deploy 内的独立 prefix（含空格路径也要测），通过 PREFIX/bin/gazeboteach 运行 --diagnose、--list（26项目）、--gui-check（真实启动弹窗+主窗口）。运行 tests/environment_ui_probe.py 并保留截图/JSON；其现代版本切换部分为合成事实，要与实际设备探测区分。
+5. 独立安装目录进行 L01 GUI/双终端真实运行、L24 的 tests/ui_probe.py 和 RViz窗口回归，以及 L12 全新工作区首次SDK编译/真实验收；验证退出只清本课进程。记录实际检查范围，不凭旧课程记录声称安装包全部重新测过。
+6. 修复具体失败并说明运行算法；更新指南/README候选标记和验证记录。按既有 ikaros提交→Windows获取→GitHub main快进推送→远端hash核对流程发布。由最终通过提交重建正式资产，上传 v1.0.0 Release（安装器、tar、manifest、SHA256SUMS、指南、最终验证记录），核对标签、来源提交和下载后摘要。
+7. 发布核对、清理测试进程并保存后暂停结束；L25目标保持paused，后续13门主课及G02等待用户另行发起。
+
+本地证据：.deploy/v1-windows-tests.log / .json（104项，101通过/3跳过）、v1-environment-synthetic.png（Windows离屏，已查看中文可读）、v1-global-baseline.json（旧全局文档摘要）、v1-candidate-payload-check.json、v1-candidate-push.json。现有旧验证记录原153506字节前缀与Handoff历史尾均保留。Docker手册已写，但本次未启动本机DockerDesktop daemon、未下载镜像，容器端到端仍未验证。
+
+
 2026-10-31 最新范围：L24 已完成独立提交、推送与远端核对（048e4cedbb5edc78720a4c88e73252ab90675f1e）。当前只准备 V1 环境检测弹窗、Docker 预留接口、安装包与指南；V1 发布核对后暂停，不开始 L25。此前“L24 后进入 L25”的文字保留为历史，已被本次停止点覆盖。当前本机以太网 Disconnected / 0 bps，ikaros SSH 握手连续超时，真实安装验收尚无法执行；V1 改动保存到独立候选分支 wip/v1-environment-release，不能视为正式部署或 Release 已发布。
 
 
