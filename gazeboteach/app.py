@@ -42,6 +42,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.environment_report = None
         self.environment_dialog = None
         self._environment_dialog_pending = True
+        self._environment_detection_active = False
         self.session = None
         self.current_lesson = None
         self._jobs = {}
@@ -352,6 +353,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self._build_commands(None)
 
     def _environment_ready(self, environment):
+        if self.environment_dialog is not None and self.environment_dialog.isVisible():
+            self.environment_dialog.reject()
+        self._environment_detection_active = False
+        self._environment_dialog_pending = True
         environment, self.docker_probe = environment
         self.environment = environment
         self.environment_report = build_compatibility_report(self.lessons, environment, self.catalog_errors)
@@ -371,7 +376,13 @@ class MainWindow(QtWidgets.QMainWindow):
         self.show_environment_report()
 
     def detect_runtime_environment(self):
+        if self._environment_detection_active or self.busy:
+            return
+        self._environment_detection_active = True
+        if self.environment_dialog is not None and self.environment_dialog.isVisible():
+            self.environment_dialog.reject()
         self._environment_dialog_pending = True
+        self.environment_button.setEnabled(False)
         def inspect():
             try:
                 detected = detect_environment()
@@ -384,7 +395,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.run_task("检测环境", inspect, self._environment_ready)
 
     def show_environment_report(self):
-        if self.environment_report is None:
+        if self.environment_report is None or self._environment_detection_active:
             return
         if self.environment_dialog is not None and self.environment_dialog.isVisible():
             self.environment_dialog.raise_()
@@ -396,10 +407,13 @@ class MainWindow(QtWidgets.QMainWindow):
         dialog.open()
 
     def _retry_environment(self, dialog):
-        dialog.reject()
+        if self.busy or self._environment_detection_active:
+            return
         self.detect_runtime_environment()
 
     def _environment_report_closed(self, result):
+        if self._environment_detection_active:
+            return
         was_pending = self._environment_dialog_pending
         self._environment_dialog_pending = False
         self._refresh_buttons()
@@ -573,6 +587,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.buttons["pause"].setText("继续" if self.session and self.session.paused else "暂停")
         self.tree.setEnabled(not busy)
         self.profile_selector.setEnabled(not busy and self.profile_selector.count() > 1)
+        self.environment_button.setEnabled(not busy and self.environment_report is not None
+                                           and not self._environment_detection_active)
 
     def _start(self):
         lesson = self.current_lesson

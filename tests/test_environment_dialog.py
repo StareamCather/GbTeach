@@ -168,6 +168,83 @@ class EnvironmentDialogStateTests(unittest.TestCase):
         self.assertEqual(self.requested_jobs, [])
         self.assertTrue(window.session.running)
 
+    def test_delayed_recheck_cannot_reopen_or_acknowledge_a_stale_report(self):
+        window = self.make_window(autostart=True)
+        window.select_lesson("01")
+        self.acknowledge(window)
+        self.requested_jobs.clear()
+        deferred = {}
+
+        def hold_probe(name, function, callback=None):
+            if name != "检测环境":
+                self.requested_jobs.append(name)
+                return
+            deferred.update(function=function, callback=callback)
+            window._jobs[9001] = (name, callback)
+            window._refresh_buttons()
+
+        window.run_task = hold_probe
+        window.environment_button.click()
+        self.application.processEvents()
+        stale = window.environment_dialog
+        self.assertTrue(stale.isVisible())
+        stale.retry_button.click()
+        self.application.processEvents()
+        self.assertTrue(window._environment_detection_active)
+        self.assertTrue(window._environment_dialog_pending)
+        self.assertFalse(window.environment_button.isEnabled())
+        self.assertFalse(stale.isVisible())
+        window.show_environment_report()
+        # A queued old-dialog callback cannot acknowledge the pending new result.
+        stale.accept()
+        self.application.processEvents()
+        self.assertFalse(stale.isVisible())
+        self.assertTrue(window._environment_dialog_pending)
+        self.assertEqual(self.requested_jobs, [])
+
+        window._task_completed(9001, (copy.deepcopy(self.detected), copy.deepcopy(self.docker_probe)))
+        self.application.processEvents()
+        self.assertIsNot(window.environment_dialog, stale)
+        self.assertTrue(window.environment_dialog.isVisible())
+        self.assertTrue(window._environment_dialog_pending)
+        self.assertFalse(window.buttons["start"].isEnabled())
+        self.assertEqual(self.requested_jobs, [])
+        self.acknowledge(window)
+        self.assertEqual(self.requested_jobs, ["准备实验"])
+
+    def test_failed_detector_shows_incomplete_report_and_keeps_reading_available(self):
+        window = self.make_window(autostart=True)
+        window.select_lesson("24")
+        self.acknowledge(window)
+        self.requested_jobs.clear()
+        deferred = {}
+
+        def hold_probe(name, function, callback=None):
+            if name != "检测环境":
+                self.requested_jobs.append(name)
+                return
+            deferred.update(function=function, callback=callback)
+            window._jobs[9002] = (name, callback)
+            window._refresh_buttons()
+
+        window.run_task = hold_probe
+        window.detect_runtime_environment()
+        backend = SimpleNamespace(probe=lambda: copy.deepcopy(self.docker_probe))
+        with mock.patch("gazeboteach.app.detect_environment", side_effect=PermissionError("fixture unreadable probe")), \
+                mock.patch("gazeboteach.app.get_backend", return_value=backend):
+            result = deferred["function"]()
+        window._task_completed(9002, result)
+        self.application.processEvents()
+        self.assertTrue(window.environment_dialog.isVisible())
+        self.assertEqual(window.environment_report["counts"]["incomplete_detection"], 26)
+        self.assertIn("PermissionError", window.environment_report["detection"]["errors"][0])
+        self.acknowledge(window)
+        self.assertTrue(window.select_lesson("24"))
+        self.assertGreater(len(window.document.toPlainText()), 100)
+        self.assertFalse(window.buttons["start"].isEnabled())
+        self.assertFalse(window.buttons["restart"].isEnabled())
+        self.assertEqual(self.requested_jobs, [])
+
     def test_invalid_docker_configuration_is_not_persisted_and_valid_config_never_executes(self):
         window = self.make_window()
         dialog = window.environment_dialog

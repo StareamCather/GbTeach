@@ -754,3 +754,39 @@ L24流程：私有Master先设/use_sim_time→Xacro/URDF/SDF及SHA→现有Gazeb
 
 
 候选保存补记：代码提交1f825db6705de0f168e0979f7be9e94c7504109f已通过Windows推送到wip/v1-environment-release，并以ls-remote精确核对；GitHub main仍为L24的048e4cedbb5edc78720a4c88e73252ab90675f1e。固定该候选提交构建436文件/26项目、安装器21116658字节和tar21103697字节；候选内嵌Python的--check以及SHA256SUMS全部通过，未执行Linux安装。安装器SHA256 67072677729abe795a3db56a5e0557842d2e877bdccb4743844c39fbe86c48a3；tar SHA256 dc9445381bf798a9bc184ad2223b9282ea1d5bbf0bd5d8a090d2a79a7a725ef6；manifest SHA256 07e2c7db3085d22de6cc5212927346ca5521c8676adaeadb3f59271014cc7c07。源与资产尚未作为正式V1发布；后续必须从最终实机验收提交重新构建。具体恢复顺序已写入SESSION_HANDOFF。
+
+
+## 2026-10-31 V1 实机框架与独立安装验收
+
+设备以太网恢复1Gbps后，严格SSH核对到ikaros-wh；原main为L24的048e4cedbb5edc78720a4c88e73252ab90675f1e，候选历史88c16bd完整中转，未覆盖原历史。最新授权继续全部课程和V2，V1后不再暂停。
+
+106项Linux单元/Qt状态/安装检查全部通过、无跳过；最初104项同样全过。新8项Qt测试覆盖旧报告重开、延迟检测/旧回调、新结果确认及全局探测失败。发现并修复重新检测时旧报告可清门禁的竞态：active期间禁用旧结果，关闭旧弹窗后探测，新结果重新pending并须确认；异常为incomplete。实际桌面探测Classic11.15.1/Noetic的26项目均满足声明，合成ROS2/现代Gazebo则26不兼容但教材可读，Docker合法配置只保存不执行。源码--gui-check观察真实弹窗与主窗口，root查看中文原图，发布图docs/images/v1-environment.png。
+
+候选88c16bd真实安装到含空格的独立前缀，全部436文件SHA/权限复核、--check、重复安装、实际bin/gazeboteach入口的--diagnose/--list26通过。此处不将旧课程记录声称为新版安装包全课程重测。代表性实际检查：
+
+| 检查 | 实际结果 |
+| --- | --- |
+| 源码L24桌面 | 13项通过，24.226s，包含新启动报告确认 |
+| 安装目录L01 | 实际Gazebo/双PTY终端/落块验收通过，14.327s |
+| 安装目录L12 | 实际Transport受力滑门验收通过，19.322s |
+| L12独立空SDK缓存 | 启动前确认XDG_CACHE_HOME不存在，真实g++生成407904字节client和484984字节plugin；GUI/双终端/行为验收通过，29.127s |
+| 安装目录L24桌面 | 13项通过，24.079s |
+| 安装目录demo前缀RViz | 新/旧PID、重开、服务端/终端存活和退出清理通过，13.516s；两张真实原图均由root查看，RobotModel/TF与Global Status OK可见 |
+
+安装探针首次在无.deploy的发行目录暴露维护脚本路径假设（启动前FileNotFound）；第二次归档路径同样暴露在finally。两次失败日志分别保留v1-installed-rviz.log与-v2.log，应用源载荷未改。维护探针改为系统临时练习与显式report父目录归档后v3通过；这是测试便携性修复，课程源与物理阈值未改变。源码tests/lesson24_rviz_acceptance.py因此产生新SHA，旧L24原验证历史不回写。
+
+汇总.deploy/v1-acceptance-summary.json含10份实际报告SHA；已检查4个报告可提取token均无残留。最终资产需从修复后的正式提交重建，并在新前缀再核对实际入口/GUI与清单；最终源提交、资产SHA和公共下载核对结果写发行附带V1_VERIFICATION.md。Docker指南未端到端实测，自动执行仍明确预留。新版本完整课程尚余13门主课及G02，不把V1称为37主课全量完成。
+
+
+报告摘要：
+
+- v1-environment-ui.json SHA256 15ffbda240c49a27ba6a24ffbddb6d6f407348cecdbc68bd9cc7b7807179d9ac
+- v1-source-gui-check.json SHA256 55b19f4e3e76ec2231d69af90473abce67f3555907316f8e582477e5afeee1a6
+- v1-source-l24-ui.json SHA256 05b8607596322832cbee9fb912b6f1b7f8d7004678a6950207ad6e5176cf03d4
+- v1-install-report.json SHA256 a60161229a1dca8b49537807d88bb19110d97971110e2f94ed86bf881b3caf0e
+- v1-installed-gui.json SHA256 2b4329641c1f587ef90ad7dadd684daa125278f55f578b3ca3b068227018e7b9
+- v1-installed-smoke01.json SHA256 41afd2b3d0dcaaf331fab90ad3ed272377e3656f28f65c04ebc33aac3215f2d7
+- v1-installed-smoke12.json SHA256 0e64764385df3e1f07d8c4bc066d1c613b8e52d2c57f047e542649d019c32cb5
+- v1-installed-sdk-fresh12.json SHA256 f2b2eb588f314d9417aca7766231c396a563c6734e4a09645338e06b20ae98b7
+- v1-installed-l24-ui.json SHA256 c5fd0d42686ab3c6e466450dd66883b83ce45318921d1f925149f37209e5b4df
+- v1-installed-rviz.json SHA256 c38641a851653fef81a04b8f6b8cd81767b9fbfff9b46034125f8aed7f760489

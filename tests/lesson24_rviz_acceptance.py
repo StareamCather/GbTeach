@@ -35,12 +35,16 @@ def main():
     parser.add_argument('--reopen-screenshot',type=Path,default=ROOT/'.deploy/lesson24-rviz-reopened.png')
     parser.add_argument('--report',type=Path,default=ROOT/'.deploy/lesson24-rviz.json')
     args=parser.parse_args()
+    artifact_dir=args.report.expanduser().resolve().parent
+    artifact_dir.mkdir(parents=True,exist_ok=True)
     started=time.monotonic()
     app=QtWidgets.QApplication([])
     lessons,errors=load_catalog(ROOT)
     assert not errors,errors
     lesson=next(x for x in lessons if x.id=='24')
-    storage=Storage(tempfile.mkdtemp(prefix='lesson24-rviz-',dir=str(ROOT/'.deploy')))
+    # A release installation has no operator .deploy directory and may be
+    # read-only. Keep the private exercise outside the immutable app payload.
+    storage=Storage(tempfile.mkdtemp(prefix='lesson24-rviz-'))
     session=LessonSession(ROOT,lesson,storage=storage)
     (session.workspace/'arm_settings.json').write_text(json.dumps({'joint_state_rate_hz':20,'tf_prefix':args.tf_prefix})+'\n',encoding='utf-8')
     source_sha256={p.relative_to(lesson.folder).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(lesson.folder.rglob('*')) if p.is_file() and '__pycache__' not in p.parts}
@@ -118,8 +122,8 @@ def main():
         if result['leftovers']:result['passed']=False
         for src,dst in [('lesson24-rviz.log','lesson24-rviz-final.log'),('lesson24-rendered.rviz','lesson24-rviz-final.rviz')]:
             source=session.session_dir/src
-            if source.is_file():shutil.copy2(source,ROOT/'.deploy'/dst)
-        shutil.copy2(session.log_path,ROOT/'.deploy/lesson24-rviz-final-runtime.log')
+            if source.is_file():shutil.copy2(source,artifact_dir/dst)
+        shutil.copy2(session.log_path,artifact_dir/'lesson24-rviz-final-runtime.log')
         result['elapsed_seconds']=time.monotonic()-started
         args.report.parent.mkdir(parents=True,exist_ok=True)
         args.report.write_text(json.dumps(result,indent=2,ensure_ascii=False),encoding='utf-8')
