@@ -355,3 +355,26 @@ Qt真实深度查看器限时3秒显示30帧、保存伪彩图；颜色由真实
 依据：[Noetic OpenniKinect](https://github.com/ros-simulation/gazebo_ros_pkgs/blob/noetic-devel/gazebo_plugins/src/gazebo_ros_openni_kinect.cpp)、[Classic depth vertex shader](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/media/materials/programs/depth_map.vert)、[depth fragment shader](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/media/materials/programs/depth_map.frag)、[PointCloud2定义](https://docs.ros.org/en/noetic/api/sensor_msgs/html/msg/PointCloud2.html)、[REP118](https://www.ros.org/reps/rep-0118.html)。
 
 发布前格式检查发现lab.py末尾多一个空行，已仅清理末尾换行；正式运行版62a1cb2efbbb6b74e7962856ed39a9fdef4c4ee9dfbb4c079deb74281d64687f与发布版aa157b90629cf750f8e577ba1917a415aa4f515fa795f1309f249f633909f165的Python AST逐节点完全相同，解码、裁剪、反投影、显示及恢复算法流程不变。保留正式运行原文件与格式变更记录，重新语法检查和Git空白检查通过，未把无关格式变化重复算作新的物理观测。
+
+
+## 2026-10-31 L19：六维力矩、重量与力臂
+
+真实动态load_link由world固定关节支撑，link原点与jointanchor同在世界(0,0,1.2)，均匀.2m立方体1kg、CoM位于link +X .3m。惯性关于CoM按m*.2²/6给出，碰撞与载荷外观同CoM；细连接杆仅可视、不额外伪装质量。显式重力开启/阻尼0、非static非kinematic，不用持续设置位姿或施加“预测力”。关节physics/provide_feedback=true，真实ODE约束承担重力与偏心力矩。
+
+同一关节四路观测：A原生ForceTorqueSensor framechild/child_to_parent；B同轴parent_to_child，仅反测量方向；C sensorframe绕X+90°/child_to_parent；D系统libgazebo_ros_ft_sensor.so，是ModelPlugin直接GetForceTorque(0).body2，不是A的ROS包装。A/B/C通过唯一名SensorPlugin仅复制原生WrenchStamped的6个分量与仿真时间，ROSframeName只标记轴、不发布TF；D自动用childlink帧，不读取其它插件的frameName/measure_direction参数。桥回调只capture共享state，mutex/inactive屏障、取消订阅和本Publisher关闭保证卸载，无全局ROSshutdown或计算/写入wrench。prepare以既有Gazebo11/roscpp/geometry_msgs SDK编译私有缓存，记录源码、库和构建指纹，不改系统库或框架。
+
+力矩参考点按源码与真实结果区分：ODEJoint先把CG反馈平移到jointanchor再旋入link轴、取输出侧符号；所以child_to_parent是负载对支座的力Fz≈−mg、τy≈+m*g*arm，不能误称支座对负载的向上力。原生sensorpose的旋转只换轴，位置不把力矩测点平移离开jointanchor；改变表达轴与改变力矩参考点是两种运算。力矩单位N·m，不是角度，六维wrench也不是接触压力图。
+
+运行流程：检查真实SDF和质量/CoM/均匀块惯性/碰撞/载荷外观/细杆长度的联动→核对prepare指纹、实际质量/重力/CoM/惯性→读取GetWorldProperties.sim_time作实际guard起点（不依赖刚启动且世界暂停时可能尚未收到的ROSclock）→必要时继续世界→.2仿真秒保护后，四路各取得≥30唯一header/≥.6秒/40..60Hz、共同覆盖≥.5秒→逐帧及均值检查6个分量、Native与stock稳态比较，并取得≥3个实际静止link状态→finally仅恢复原暂停。机构不被重新摆放、施加外力或强制轨迹；四路采样路径不同，不虚构严格同刻header。
+
+只允许质量.5..3kg、力臂0.15..0.6m，经局部参数编辑联动惯性与物理/可视几何，保持其它字节/注释，保存须重载。feedback故障只用课程预检拒绝：原生ForceTorqueSensor.Init会自动SetProvideFeedback(true)，同joint存在native时不能把删该字段宣传成必然无信号；stockROS路径本身不会代为开启。
+
+正式tests/lesson19_acceptance.py .deploy/lesson19-formal.json PASS54.654s，3个全新私有ROS/Gazebo场景/8组（默认m1/arm.3、只改m2、只改arm.5、保存未重载拒绝、缺feedback合同拒绝、错误方向拒绝、错误均匀惯性拒绝、精确恢复完整再验）。四轮正向16个通道窗口、661条原始消息，其中501条验收，实际唯一频率均50Hz；根验收从原始数据独立重算B=−A、C=Rx(−90°)A、D≈A、−Fz/g≈m与−Ty/Fz≈arm及跨配置比例，不只信expected字段或进程退出码。
+
+实际基线A/D F=[0,0,−9.81]N、τ=[0,2.943,0]N·m；B全反号；C F≈[0,−9.81,0]、τ≈[0,0,−2.943]，零轴仅约1e−15浮点残差。只改m2得到Fz−19.62、τy5.886，二者加倍；只改arm.5仍Fz−9.81、τy4.905，力不变而力矩为5/3。独立反算质量1/2/1kg、力臂.3/.3/.5m正确；实际CoM/惯性/重力与每次输入一致，link位置(0,0,1.2)、姿态和速度保持静止。原暂停恢复，个人输入字节不变；错误源在任何继续世界前拒绝，暂停iterations不动；9个课文件SHA正式运行前后一致，归属进程清理无残留。
+
+生产验收每帧F分量误差≤.05N、τ分量≤.03N·m、nativeA/stock均值差≤.03，另检查实际静止位姿/速度与归一四元数；没有把数学期望灌入传感器。真实桌面tests/ui_probe.py --lesson19 PASS18.371s/13项：环境/课程、SDK缓存启动、实际Gazebo/两PTY、暂停/单步/继续、完整四路验收、只读参考、学习记录与关闭清理。根代理查看原始应用/Gazebo图，支柱、偏心质量、细连接杆和轴标记清楚，中文教材及已验收状态正确。图形检查不代表学员掌握手工wrench坐标转换或测量校准。
+
+完整原始报告/各路时间戳/实际物性与link状态/日志保存在两端.deploy/lesson19-formal*及ui*。当前固定无噪声静载不等于硬件应变、六轴标定、温漂或动态载荷辨识；相关先修/挑战仅作背景，未计实测功能。无新网络依赖，原VALIDATION_LOG前89727字节保留不变，完成本课提交推送与远端核对后进入L20。
+
+依据：[Classic ForceTorqueSensor](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/sensors/ForceTorqueSensor.cc)、[ODEJoint反馈](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/physics/ode/ODEJoint.cc)、[Noetic GazeboRosFT](https://github.com/ros-simulation/gazebo_ros_pkgs/blob/noetic-devel/gazebo_plugins/src/gazebo_ros_ft_sensor.cpp)、[WrenchStamped](https://docs.ros.org/en/noetic/api/geometry_msgs/html/msg/WrenchStamped.html)。

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sdf version="1.6">
+  <world name="lesson19">
+    <gravity>0 0 -9.81</gravity>
+    <physics name="teaching_ode" type="ode">
+      <max_step_size>0.001</max_step_size>
+      <real_time_update_rate>1000</real_time_update_rate>
+      <ode>
+        <solver>
+          <type>quick</type>
+          <iters>60</iters>
+        </solver>
+      </ode>
+    </physics>
+    <scene>
+      <ambient>.4 .4 .4 1</ambient>
+      <background>.025 .03 .04 1</background>
+      <shadows>false</shadows>
+    </scene>
+    <light name="classroom_light" type="directional">
+      <pose>0 0 8 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <direction>-0.2 0.1 -1</direction>
+      <cast_shadows>false</cast_shadows>
+    </light>
+    <model name="floor">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>30 30</size>
+            </plane>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>30 30</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.28 0.31 0.34 1</ambient>
+            <diffuse>0.35 0.38 0.41 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <gui fullscreen="0">
+      <camera name="user_camera">
+        <pose>-5 -6 5 0 0.45 0.8</pose>
+        <view_controller>orbit</view_controller>
+      </camera>
+    </gui>
+    <model name="pedestal">
+      <static>true</static>
+      <link name="link">
+        <visual name="support">
+          <pose>0 0 .6 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>.1 .1 1.2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.3 .35 .4 1</ambient>
+            <diffuse>.3 .35 .4 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="weighing_rig">
+      <static>false</static>
+      <allow_auto_disable>false</allow_auto_disable>
+      <pose>0 0 1.2 0 0 0</pose>
+      <link name="load_link">
+        <gravity>true</gravity>
+        <kinematic>false</kinematic>
+        <velocity_decay>
+          <linear>0</linear>
+          <angular>0</angular>
+        </velocity_decay>
+        <inertial>
+          <pose>.3 0 0 0 0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>0.006666666666666668</ixx>
+            <iyy>0.006666666666666668</iyy>
+            <izz>0.006666666666666668</izz>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyz>0</iyz>
+          </inertia>
+        </inertial>
+        <collision name="payload_collision">
+          <pose>.3 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>.2 .2 .2</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="payload_visual">
+          <pose>.3 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>.2 .2 .2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.9 .5 .1 1</ambient>
+            <diffuse>.9 .5 .1 1</diffuse>
+          </material>
+        </visual>
+        <visual name="lever_visual">
+          <pose>.15 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>.3 .035 .035</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.2 .65 .9 1</ambient>
+            <diffuse>.2 .65 .9 1</diffuse>
+          </material>
+        </visual>
+      </link>
+      <joint name="mount_joint" type="fixed">
+        <parent>world</parent>
+        <child>load_link</child>
+        <pose>0 0 0 0 0 0</pose>
+        <physics>
+          <provide_feedback>true</provide_feedback>
+        </physics>
+        <sensor name="ft_child" type="force_torque">
+          <pose>0 0 0 0 0 0</pose>
+          <always_on>true</always_on>
+          <update_rate>50</update_rate>
+          <visualize>true</visualize>
+          <force_torque>
+            <frame>child</frame>
+            <measure_direction>child_to_parent</measure_direction>
+          </force_torque>
+          <plugin name="ft_child_ros" filename="libgazeboteach_l19_ft_bridge.so">
+            <robotNamespace>/lesson19</robotNamespace>
+            <topicName>/lesson19/native_child</topicName>
+            <frameName>load_link</frameName>
+          </plugin>
+        </sensor>
+        <sensor name="ft_parent_to_child" type="force_torque">
+          <pose>0 0 0 0 0 0</pose>
+          <always_on>true</always_on>
+          <update_rate>50</update_rate>
+          <visualize>true</visualize>
+          <force_torque>
+            <frame>child</frame>
+            <measure_direction>parent_to_child</measure_direction>
+          </force_torque>
+          <plugin name="ft_parent_to_child_ros" filename="libgazeboteach_l19_ft_bridge.so">
+            <robotNamespace>/lesson19</robotNamespace>
+            <topicName>/lesson19/native_parent_to_child</topicName>
+            <frameName>load_link</frameName>
+          </plugin>
+        </sensor>
+        <sensor name="ft_sensor_x90" type="force_torque">
+          <pose>0 0 0 1.5707963267948966 0 0</pose>
+          <always_on>true</always_on>
+          <update_rate>50</update_rate>
+          <visualize>true</visualize>
+          <force_torque>
+            <frame>sensor</frame>
+            <measure_direction>child_to_parent</measure_direction>
+          </force_torque>
+          <plugin name="ft_sensor_x90_ros" filename="libgazeboteach_l19_ft_bridge.so">
+            <robotNamespace>/lesson19</robotNamespace>
+            <topicName>/lesson19/native_sensor_x90</topicName>
+            <frameName>sensor_x90</frameName>
+          </plugin>
+        </sensor>
+      </joint>
+      <plugin name="stock_joint_wrench" filename="libgazebo_ros_ft_sensor.so">
+        <robotNamespace>/lesson19</robotNamespace>
+        <jointName>mount_joint</jointName>
+        <topicName>/lesson19/stock_wrench</topicName>
+        <updateRate>50</updateRate>
+        <gaussianNoise>0</gaussianNoise>
+      </plugin>
+    </model>
+  </world>
+</sdf>

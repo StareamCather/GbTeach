@@ -1,5 +1,9 @@
 # GazeboTeach 会话交接
 
+> 2026-10-31 当前进度为L19力／力矩：3个真实私有场景/8组验收54.654s、16路时间窗/501条验收wrench、桌面13项18.371s通过。质量与力臂单变量、方向反号、Rx(−90°)换轴、native/stock稳态对照及反算质量/力臂均正确；输入未变，原暂停恢复，固定机构未被程序移动，归属进程清理干净。完成L19提交、推送及远端哈希核对后进入L20其他传感器展台；主课01–19与091/092合计21项目。以下进度为历史，不覆盖继续授权。
+
+L19三路ForceTorqueSensor由唯一名桥仅转发原生WrenchStamped；系统GazeboRosFT则是ModelPlugin直接读body2，两种实现分开。固定关节原点与load_link原点一致、CoM偏置+.3m，child_to_parent下Fz−9.81N/Ty+2.943Nm；反向全反号，sensor绕X+90°后Fy−9.81/Tz−2.943。只改mass或arm联动惯性与可视/碰撞参数并重载。guard时刻读实际GetWorldProperties.sim_time，各路独立唯一窗口不强求跨实现同stamp，姿态与实际物性佐证静力平衡。Native会自动启用feedback，删字段只作为课程预检故障，不谎称必无运行数据；详见VALIDATION_LOG.md。
+
 > 2026-10-31 当前进度为L18深度／点云：3个真实图形场景/8组验收86.299s、12窗/144个验收三路组合、Qt深度查看器30帧、桌面13项23.250s均通过。按原始32FC1/PointCloud2字节独立解码，验证NaN、整幅Z与有效掩膜、字段/步长、真实墙移1m和主点差异；输入未变，墙体/暂停恢复误差0，归属进程清理干净。完成L18提交、推送与远端哈希核对后进入L19力矩传感器；主课01–18与091/092合计20项目。以下进度保留为历史，不覆盖继续授权。
 
 L18使用系统OpenNI Kinect观察插件与真实DepthCamera，10Hz控制组织点云开销，输出depths而非nativepoints。软件范围严格.4<Z<4或6，原生渲染clip.1..8分开；32FC1米、NaN不是自由空间。PointCloud2本机point_step32，x/y/z/rgb偏移0/4/8/16；helper用(W−1)/2，CameraInfo用(W+1)/2，均保留并分别验证。实际红目标cloud字段原字节[255,0,0,0]按常规packedRGB解为蓝，已记录当前插件颜色布局问题，不改原始数据或宣称缓存RGB同曝光。伪彩PNG是显示，原始浮点和点云另存，详见VALIDATION_LOG.md。
