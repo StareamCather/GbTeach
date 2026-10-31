@@ -1,0 +1,27 @@
+{
+  "id": "24", "title": "RViz、TF与仿真时钟：让模型与坐标树一致", "module": "ROS系统集成", "order": 24,
+  "summary": "把真实Gazebo关节状态接到robot_state_publisher，观察坐标树、时间与RViz模型。",
+  "profile": "classic11-noetic", "requires_ros": true,
+  "requires_plugins": ["libgazebo_ros_api_plugin.so", "libgazebo_ros_joint_state_publisher.so"],
+  "requires_ros_packages": ["rospy", "std_msgs", "std_srvs", "sensor_msgs", "rosgraph_msgs", "tf2_msgs", "tf2_ros", "gazebo_msgs", "gazebo_ros", "xacro", "robot_state_publisher", "rviz", "roslaunch"],
+  "requires_tools": ["xacro", "gz", "roslaunch", "rospack", "rosparam", "rviz"],
+  "ros_package_paths": ["ros_ws/src"],
+  "world": "world.sdf", "prepare": ["python3 prepare.py"], "prepare_timeout": 60,
+  "startup": [{"name": "真实关节状态与TF", "title": "Gazebo→JointState→robot_state_publisher", "command": "bash ros_lab.sh start"}],
+  "after_startup": ["python3 lab.py ready"], "after_startup_timeout": 45,
+  "after_gui": ["python3 rviz_manager.py start"],
+  "reference": "reference.md",
+  "verify": "verify.py", "verify_timeout": 150,
+  "objectives": ["从真实关节读数构建TF树", "区分ROS名称空间与TF前缀", "观察暂停、单步与仿真时间倒退"],
+  "commands": [
+    {"title": "检查真实模型和TF", "command": "python3 lab.py ready"},
+    {"title": "重新打开本课RViz", "command": "python3 rviz_manager.py reopen"},
+    {"title": "初始化另一姿态并刷新TF", "command": "python3 lab.py pose --name positive_mixed"},
+    {"title": "单步（先暂停）", "command": "python3 lab.py step --steps 1"},
+    {"title": "推进100个物理步（先暂停）", "command": "python3 lab.py step --steps 100"},
+    {"title": "重置仿真时间并观察TF恢复", "command": "python3 lab.py clock-reset"},
+    {"title": "观察原始关节状态", "command": "rostopic echo /lesson24/joint_states"},
+    {"title": "观察仿真时钟", "command": "rostopic echo /clock"},
+    {"title": "TF、时钟与缓存验收", "command": "python3 verify.py"}
+  ]
+}

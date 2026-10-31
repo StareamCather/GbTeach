@@ -1,5 +1,13 @@
 # GazeboTeach 会话交接
 
+> 2026-10-31 当前L24 RViz/TF/时钟已通过3个全新私有场景/6组正式验收59.643s，真实桌面13项24.076s、独立demo前缀RViz窗口/重开验收13.488071422s通过。真实关节→JointState→RSP→TF、暂停/物理单步、同listener倒时恢复与人工渲染检查分层留证。完成L24独立提交、推送与远端核对后进入L25 ros_control；主课01–24与091/092共26项目，尚余L25–L37共13门主课及G02最终回归。以下旧进度保留为历史。
+
+L24流程：私有Master先设/use_sim_time→Xacro/URDF/SDF及SHA→现有Gazebo中一次性spawn tf_arm→系统Gazebo JointState插件直接读取真实Position/GetVelocity→RSP按同一URDF计算动态TF并latch固定边→tf2/RViz。JointState header取ROS时钟缓存，TF复制原stamp；世界服务读钟、接收monotonic与查询时刻另存。namespace不自动改变frame，Noetic使用tf_prefix；频率20/40Hz与prefix空/demo分别做单变量重载。原生joint名单、Gazebo实体和模型尺寸不随TF前缀变化。
+
+验收先保存入口状态，再受控继续取流；暂停中做真实1/100步、late-static订阅，随后由同一listener/Buffer跨真实reset_simulation，记录回退与原clear调用，固定边继续可用。结束清本课任务，先在原q/pose零twist下真实推进150tick刷新TF，再暂停恢复原pose/twist及pause；速度setter按实际COM补偿v_COM=v_origin+ω×R·COM。世界时间、队列与TF历史不回填。新paused客户端ready只做authority/参数/模型检查并注明动态观察延后；手动clock-reset缺旧epoch时先实推150tick预热，再reset+150tick，以中间原始clock事件证明回退。
+
+正式、UI与demo前缀RViz证据独立保留；渲染由root查看原图，自动窗口测试不冒充图像理解。失败操作者探针/EOL修复与冷paused CLI补验单列。20课源/两tests冻结，下一课25；具体原始报告和SHA见VALIDATION_LOG。
+
 > 2026-10-31 当前L23 URDF/Xacro已通过3个真实全新场景/8组验收55.596s，实际桌面13项20.444s通过。Xacro→URDF→本机SDF→实际spawn、几何/合并物性、三静态FK与三动态响应均有原始证据；非零角速度/偏置COM的恢复已按真实API参考点差异修复，原阈值保持。完成L23独立提交、推送与远端核对后进入L24 RViz/TF/时钟；主课01–23与091/092共25项目，尚余L24–L37共14门主课与G02最终回归。以下旧进度保留为历史。
 
 L23流程为私有Master先设/use_sim_time→源包overlay与Xacro输入→真实xacro生成URDF→gz sdf -p转换并保留原值/SHA→roslaunch写/lesson23/robot_description并一次性spawn_model(-urdf)→只读说明节点/实际link物性就绪→保存暂停快照→三次边界姿态初始化与真实FK核对→±.03N·m/200ms及upper+.12N·m/350ms有限肘力矩→逐次读取真实双关节响应→清唯一basename任务、恢复q与全link pose/twist及原pause。静态SetModelConfiguration用于初态；动态期间由ODE推进，读取世界/主机时间包夹，不强制轨迹，也不以单杆τ/I替代多体耦合。

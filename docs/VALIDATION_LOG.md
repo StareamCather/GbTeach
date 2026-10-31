@@ -691,3 +691,51 @@ L1 .6→.8保持质量，联动几何、COM、惯性与肘origin；preserve_tool
 原VALIDATION_LOG前130445字节SHA aedbd83e2f8a2ff0fbec55f891484690fbc036522a552cbaefd367db474b1736完整保留；原Handoff23386字节正文与2026-10-29尾5054字节保留，全部LF。完成L23独立提交、Windows中转推送及远端核对后进入L24；当前预交付主23课+091/092为25项目，L24–L37共14门及G02尚未完成。
 
 依据：[URDF与Classic](https://classic.gazebosim.org/tutorials?tut=ros_urdf)、[Noetic Xacro](https://github.com/ros/xacro/tree/noetic-devel)、[SDFormat转换](https://github.com/gazebosim/sdformat/blob/sdf9/src/parser_urdf.cc)、[Noetic ROS API](https://github.com/ros-simulation/gazebo_ros_pkgs/blob/noetic-devel/gazebo_ros/src/gazebo_ros_api_plugin.cpp)、[Classic11.15.1 ODELink](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/physics/ode/ODELink.cc)。
+
+
+## 2026-10-31 L24：真实关节状态、TF、RViz与模拟时钟
+
+tests/lesson24_acceptance.py正式PASS 59.643s：3fresh、6scenarios，四正向baseline/rate_only/prefix_only/exact_inputs_and_parameter_repaired及两个真实负例全部通过。20课程源全程不变并与当前冻结SHA相同，3个token清理为空、cleanup_errors为空。正式运行未做图形渲染检查；下列数据只统计正式四正向，不混探索、UI或独立RViz。
+
+L24流程：私有Master先设/use_sim_time→Xacro/URDF/SDF及SHA→现有Gazebo中一次性spawn tf_arm→系统Gazebo JointState插件直接读取真实Position/GetVelocity→RSP按同一URDF计算动态TF并latch固定边→tf2/RViz。JointState header取ROS时钟缓存，TF复制原stamp；世界服务读钟、接收monotonic与查询时刻另存。namespace不自动改变frame，Noetic使用tf_prefix；频率20/40Hz与prefix空/demo分别做单变量重载。原生joint名单、Gazebo实体和模型尺寸不随TF前缀变化。
+
+| 正式正向 | tf_prefix | JS数 | header跨度s | header标签Hz | 原始事件 | 已匹配动态TF包 | 世界回退s | clear增量 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| baseline | (空) | 21 | 1 | 20 | 1973 | 37 | 4.742→0.15 | 1 |
+| rate_only | (空) | 41 | 1 | 40 | 2073 | 76 | 5.691→0.15 | 1 |
+| prefix_only | demo | 21 | 1 | 20 | 1962 | 37 | 4.73→0.15 | 1 |
+| exact_inputs_and_parameter_repaired | demo | 21 | 1 | 20 | 1932 | 37 | 1.856→0.15 | 1 |
+
+正式共保留7940条原始四路事件，独立oracle匹配187个动态TF消息包；静态消息8包，非测量边界未匹配TF为0。TF每条保留原stamp，包顶层stamp为null；JointState保留effort空、frame_id空与实际/gazebo authority。接收event_id/monotonic顺序未排序改写。频率来自原JointState header标签，不是额外获得的native采样戳；rostopic hz默认接收回调ROS读钟，--wall-time才墙钟，二者与header统计分开。
+
+三姿态×四正向共12个稳定姿态、48次world-link独立FK/真实Gazebo几何比较，另各姿态核base_link→tool_link。课程位置/角误差门限1e−5，独立oracle2e−5；不拿相同公式的两次计算替代物理回读。每轮pause至少.15墙钟秒而世界/ROS时间不前进；真正1tick=1ms、100tick=.1s，单步是否有JS取决发布门限。late-static实连latching=1；错误lesson24/base_link查询留下真实LookupException。
+
+验收先保存入口状态，再受控继续取流；暂停中做真实1/100步、late-static订阅，随后由同一listener/Buffer跨真实reset_simulation，记录回退与原clear调用，固定边继续可用。结束清本课任务，先在原q/pose零twist下真实推进150tick刷新TF，再暂停恢复原pose/twist及pause；速度setter按实际COM补偿v_COM=v_origin+ω×R·COM。世界时间、队列与TF历史不回填。新paused客户端ready只做authority/参数/模型检查并注明动态观察延后；手动clock-reset缺旧epoch时先实推150tick预热，再reset+150tick，以中间原始clock事件证明回退。
+
+正式四轮均记录原listener/buffer身份不变、真实clear增加及新时间段lookup，未重新构造缓存伪称自动恢复。恢复回读最大误差：position_m=0、rotation_rad=0、linear_m_s=0、angular_rad_s=0。prefix场景只给arm2小的非零线/角速度并设置两个合法关节角，其余links各自保存快照；独立前后快照再次核对状态与pause。新RViz暂停时先收固定TF，动态链等实际推进；reopen不偷推进世界。
+
+| 负例 | 真实拒绝原因 |
+| --- | --- |
+| saved_without_reload | RuntimeError: Saved model inputs differ from the loaded world: reload/restart required |
+| live_rsp_parameter_mismatch | RuntimeError: Bounded URDF spawn/property readiness failed: RuntimeError: Actual RSP tf_prefix parameter differs; reload required |
+
+保存40Hz未重载、live RSP tf_prefix改wrong_prefix均在实验控制前拒绝，报告trace为空且无stream/pose/step/reset；独立paused世界时钟保持。原输入/参数恢复后再次全链通过。
+
+真实Qt 5.12.8/xcb桌面13项PASS 24.076s，含实际启动、两PTY、pause/step/continue、验收按钮、练习保留/参考、记录、截图和关闭清理。UI内验收4.923876202s只作UI证据，不计入上述正式四轮。独立tests/lesson24_rviz_acceptance.py --tf-prefix demo PASS 13.488071422s：旧PID175047退出，新PID175133不同，Gazebo及两终端仍存活，session.stop后无归属进程。render_check_automated=false；根代理已逐张查看原始Qt/Gazebo/RViz主窗与重开截图：26项目和中文正常；demo/world的Global Status Ok，蓝橙2R、球工具和TF轴真实可见。Gazebo截图含实际RViz浮窗叠加，不声称无遮挡。
+
+最初RViz探针v1/v2/v3均失败并保留两端.deploy/lesson24-rviz-v1/v2/v3；它们是操作者PGID设置、窗口遮挡及选择splash而非主窗的问题，不计作课程通过。v1归属manager stop后清理为空的原始cleanup.json另存。库存RViz1.14.26另有真实Noetic EOL模态；课程manager仅在RViz子进程环境副本设官方DISABLE_ROS1_EOL_WARNINGS=1，避免阻塞课程窗口，未改宿主环境/驱动/渲染路径。最终正式/图形均使用同一20源SHA。冷paused新客户端clock-reset补验证9.722044306s另存lesson24-cold-cli.json，真实pre_reset_observation、clear_events及退出无残留；独立于六场景，不追加正式计数。
+
+| 正向 | settings SHA | URDF SHA | SDF SHA |
+| --- | --- | --- | --- |
+| baseline | 2c4298e800db893aa87cdd870e2c475f6cb6ffdbe90715120a362f41e094470b | 2402e39181c778c1a8ca614f7db423a1279cb2cb46ed4c9ad6b2ca8e5760e1f6 | 115c659f7b070442404e1bcae478cb99ef99185b1379948faffe9671fde1a76d |
+| rate_only | ad23d61b874d2b8ca748f08efbb5354ac744c16f64d8f36f79e26e9502ba072a | c8709477f2ff5d0e55998f3876af0a3859fe37279cffe0ea99cfe25891dd97b4 | dca8e33bc154797fb6d26d1844971b08979e8a6357d79e86c15f259cbeb04fd7 |
+| prefix_only | 966005bcec2c5f0ff9572dbbe6f4bf2ee1113453ba5fb3cfee81c67bada81d7a | 962f3ceb54f268e6d5db1e84342d7e9bd6a5391a1f95605e30acaef4aa496f60 | 115c659f7b070442404e1bcae478cb99ef99185b1379948faffe9671fde1a76d |
+| exact_inputs_and_parameter_repaired | 966005bcec2c5f0ff9572dbbe6f4bf2ee1113453ba5fb3cfee81c67bada81d7a | 962f3ceb54f268e6d5db1e84342d7e9bd6a5391a1f95605e30acaef4aa496f60 | 115c659f7b070442404e1bcae478cb99ef99185b1379948faffe9671fde1a76d |
+
+原始证据：.deploy/lesson24-formal.json及-formal-artifacts保留六场景raw、生成URDF/SDF、输入准备记录、独立前后服务快照和日志；.deploy/lesson24-ui.json、.deploy/lesson24-rviz.json及lesson24-rviz-final.rviz/.log/-runtime.log保留GUI配置/生命周期。正式与主UI的临时Storage已清理；独立RViz的.deploy/lesson24-rviz-*及冷CLI补验的/tmp/l24-cold-cli-*调试数据保留。复核使用现存归档，报告路径还记录原运行身份，不保证旧临时路径长期有效。三个发布图为docs/images/lesson24-ui.png、lesson24-gazebo.png、lesson24-rviz.png，重开原图另存.deploy/lesson24-rviz-reopened.png。
+
+报告SHA：formal 1ddcd31b71d5f2991ea3edc48cf40f27f3e115c747dbfaed73a29713c1dca3ff；UI 52d061ddedc34d00e11aff8c5b46fd44a9285d3a03c1c1e9e658cef58fdc997b；RViz d871c774fd8533123654b832180a9878d4d42fd3333d049368c1e69e2807daf5。测试SHA：lesson24_acceptance.py dc4036f46210ba783ac507863c623cf1894ea676dcb3733ef0dfecb695a09b85；lesson24_rviz_acceptance.py 6e6a12e71d8f8fd55a2959640071ded297fb74fb6e698e63d4e30ef859aa13d7。完整20源SHA在formal.source_sha256与.deploy/lesson24-frozen-source.json，updater同时核当前源码/两test/三reports/四原图与输入字节。
+
+旧Validation前144813字节SHA 60fd8953ddfaa570f472fe2d7d60ef6e48e5f35ec71403df3fcca0085146b2c1及Handoff原25944字节完整保留，历史尾5054字节SHA 452200908928e3a6eb8753ba1665862b07d2e489ba45835af6bbfe222451728b不变，全局文档LF。完成本课独立提交、Windows中转推送和远端核对后进入L25；当前预交付24主课+2选作为26项目，后续13主课及G02尚待完成。
+
+依据：[Noetic原生关节发布插件](https://github.com/ros-simulation/gazebo_ros_pkgs/blob/noetic-devel/gazebo_plugins/src/gazebo_ros_joint_state_publisher.cpp)、[RSP时间门控](https://github.com/ros/robot_state_publisher/blob/noetic-devel/src/joint_state_listener.cpp)、[tf2倒时处理](https://github.com/ros/geometry2/blob/noetic-devel/tf2_ros/src/tf2_ros/transform_listener.py)、[StaticCache](https://github.com/ros/geometry2/blob/noetic-devel/tf2/src/static_cache.cpp)、[RViz EOL官方开关](https://github.com/ros-visualization/rviz/blob/1.14.26/src/rviz/noetic_eol_dialog.cpp)。

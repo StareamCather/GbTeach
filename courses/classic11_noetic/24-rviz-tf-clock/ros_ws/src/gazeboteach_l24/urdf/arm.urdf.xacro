@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<robot name="gazeboteach_tf_2r" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:arg name="length1" default="0.6"/><xacro:arg name="preserve_tool" default="true"/>
+  <xacro:arg name="joint_state_rate" default="20"/>
+  <xacro:property name="l1" value="$(arg length1)"/><xacro:property name="l2" value="0.4"/>
+  <xacro:include filename="$(find gazeboteach_l24)/urdf/beam_macros.xacro"/>
+  <material name="Blue"><color rgba="0.1 0.4 0.9 1"/></material><material name="Orange"><color rgba="1 0.45 0.05 1"/></material>
+  <link name="world"/>
+  <link name="base_link">
+    <visual name="base_visual"><geometry><cylinder radius="0.09" length="0.1"/></geometry><material name="Blue"/></visual>
+    <collision name="base_collision"><geometry><cylinder radius="0.09" length="0.1"/></geometry></collision>
+    <inertial><mass value="1"/><inertia ixx="0.0028583333333333334" iyy="0.0028583333333333334" izz="0.00405" ixy="0" ixz="0" iyz="0"/></inertial>
+  </link>
+  <gazebo reference="base_link"><gravity>false</gravity><selfCollide>false</selfCollide><material>Gazebo/Blue</material></gazebo>
+  <joint name="lesson24_world_fixed" type="fixed"><parent link="world"/><child link="base_link"/><origin xyz="0 0 0.7" rpy="0 0 0.2"/></joint>
+  <xacro:beam name="arm1" length="${l1}" mass="1.0" color="Blue"/>
+  <xacro:beam name="arm2" length="${l2}" mass="0.5" color="Orange"/>
+  <joint name="lesson24_shoulder" type="revolute"><parent link="base_link"/><child link="arm1"/><origin xyz="0 0 0.08" rpy="0 0 0"/><axis xyz="0 0 1"/><limit lower="-1.4" upper="1.4" effort="0.5" velocity="2"/><dynamics damping="0.03" friction="0"/></joint>
+  <joint name="lesson24_elbow" type="revolute"><parent link="arm1"/><child link="arm2"/><origin xyz="${l1} 0 0" rpy="0 0 0.15"/><axis xyz="0 0 1"/><limit lower="-1.2" upper="1.2" effort="0.5" velocity="2"/><dynamics damping="0.03" friction="0"/></joint>
+  <link name="tool_link">
+    <visual name="tool_visual"><geometry><sphere radius="0.025"/></geometry><material name="Orange"/></visual>
+    <collision name="tool_collision"><geometry><sphere radius="0.025"/></geometry></collision>
+    <inertial><mass value="0.02"/><inertia ixx="0.000005" iyy="0.000005" izz="0.000005" ixy="0" ixz="0" iyz="0"/></inertial>
+  </link>
+  <gazebo reference="tool_link"><gravity>false</gravity><selfCollide>false</selfCollide><material>Gazebo/Orange</material></gazebo>
+  <joint name="lesson24_tool_fixed" type="fixed"><parent link="arm2"/><child link="tool_link"/><origin xyz="${l2} 0 0" rpy="0 0 0"/></joint>
+  <xacro:if value="$(arg preserve_tool)"><gazebo reference="lesson24_tool_fixed"><preserveFixedJoint>true</preserveFixedJoint></gazebo></xacro:if>
+  <gazebo><plugin name="lesson24_actual_joint_states" filename="libgazebo_ros_joint_state_publisher.so">
+    <robotNamespace>/lesson24</robotNamespace>
+    <jointName>lesson24_shoulder,lesson24_elbow</jointName>
+    <updateRate>$(arg joint_state_rate)</updateRate>
+  </plugin></gazebo>
+</robot>

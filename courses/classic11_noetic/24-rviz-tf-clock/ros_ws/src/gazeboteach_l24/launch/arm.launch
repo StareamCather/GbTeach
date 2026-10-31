@@ -1,0 +1,16 @@
+<launch>
+  <arg name="description_file"/>
+  <arg name="tf_prefix" default=""/>
+  <param name="/use_sim_time" value="true" type="bool"/>
+  <group ns="/lesson24">
+    <param name="robot_description" textfile="$(arg description_file)"/>
+    <node pkg="gazebo_ros" type="spawn_model" name="spawn_arm" args="-urdf -param /lesson24/robot_description -model tf_arm" output="screen"/>
+    <node pkg="gazeboteach_l24" type="description_info.py" name="description_info" required="true" output="screen"/>
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" required="true" output="screen">
+      <param name="publish_frequency" value="50.0"/>
+      <param name="use_tf_static" value="true"/>
+      <param name="ignore_timestamp" value="false"/>
+      <param name="tf_prefix" value="$(arg tf_prefix)"/>
+    </node>
+  </group>
+</launch>
