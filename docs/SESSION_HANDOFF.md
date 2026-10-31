@@ -1,5 +1,11 @@
 # GazeboTeach 会话交接
 
+> 2026-10-31 当前进度为L20其它传感器展台：3个真实私有场景/8组验收141.204s、180个通道窗口/2160条验收事件、真实桌面13项36.057s通过。GPS/Mag/Alt/Sonar/Logical五个原生工厂均实测，不以头文件存在计上线；磁场与初始高度单变量、9阶段真实运动/几何变化、错误输入拒绝与修复再验均正确。输入及9个课文件不变，4模型位姿/速度与暂停恢复，归属进程清理干净。完成提交推送与远端哈希核对后进入L21同步与lockstep；主课01–20与091/092合计22项目，尚余17门主课及G02。以下保留为历史，不覆盖继续授权。
+
+L20薄桥逐字段转发五类原生protobuf为JSON，不生成测量值或假设NavSatFix状态。GPS原点WGS84(0°,0°,100m椭球高)、显式heading180°以对齐当前Classic局部XY/ENU；磁场独立，Mag输出RᵀB。Altimeter保留加载时worldZ参考。九阶段每次仅设置一次初始pose/twist，再由ODE推进；真实vz=.25m/s同时用GPS、Alt与GetModelState轨迹验证。四原生消息用自带time，Logical原生无time，source_stamp_ns=null、独立bridge_sequence及receipt_world_time_ns只作接收时基，允许不同序号共享同一接收时刻。
+
+Sonar是局部−Z接触体积，1.5m地板实际1.505327m，抬高障碍约.901981m，传感器z4m时达到max3m；max时仍保留旧contact，不能以has_contact判断当前回波。contact为sensor局部未经penetration修正的原始碰撞位置，不是保证真实表面点。Logical由碰撞AABB与视锥判断，实际遮挡件在目标前方仍同时上榜；地板大AABB也可入名单，不强求model列表精确两项。正式原始数据/源指纹/实际状态与恢复记录见两端.deploy/lesson20-formal*和ui*及VALIDATION_LOG.md。
+
 > 2026-10-31 当前进度为L19力／力矩：3个真实私有场景/8组验收54.654s、16路时间窗/501条验收wrench、桌面13项18.371s通过。质量与力臂单变量、方向反号、Rx(−90°)换轴、native/stock稳态对照及反算质量/力臂均正确；输入未变，原暂停恢复，固定机构未被程序移动，归属进程清理干净。完成L19提交、推送及远端哈希核对后进入L20其他传感器展台；主课01–19与091/092合计21项目。以下进度为历史，不覆盖继续授权。
 
 L19三路ForceTorqueSensor由唯一名桥仅转发原生WrenchStamped；系统GazeboRosFT则是ModelPlugin直接读body2，两种实现分开。固定关节原点与load_link原点一致、CoM偏置+.3m，child_to_parent下Fz−9.81N/Ty+2.943Nm；反向全反号，sensor绕X+90°后Fy−9.81/Tz−2.943。只改mass或arm联动惯性与可视/碰撞参数并重载。guard时刻读实际GetWorldProperties.sim_time，各路独立唯一窗口不强求跨实现同stamp，姿态与实际物性佐证静力平衡。Native会自动启用feedback，删字段只作为课程预检故障，不谎称必无运行数据；详见VALIDATION_LOG.md。

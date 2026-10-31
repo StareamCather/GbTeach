@@ -378,3 +378,30 @@ Qt真实深度查看器限时3秒显示30帧、保存伪彩图；颜色由真实
 完整原始报告/各路时间戳/实际物性与link状态/日志保存在两端.deploy/lesson19-formal*及ui*。当前固定无噪声静载不等于硬件应变、六轴标定、温漂或动态载荷辨识；相关先修/挑战仅作背景，未计实测功能。无新网络依赖，原VALIDATION_LOG前89727字节保留不变，完成本课提交推送与远端核对后进入L20。
 
 依据：[Classic ForceTorqueSensor](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/sensors/ForceTorqueSensor.cc)、[ODEJoint反馈](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/physics/ode/ODEJoint.cc)、[Noetic GazeboRosFT](https://github.com/ros-simulation/gazebo_ros_pkgs/blob/noetic-devel/gazebo_plugins/src/gazebo_ros_ft_sensor.cpp)、[WrenchStamped](https://docs.ros.org/en/noetic/api/geometry_msgs/html/msg/WrenchStamped.html)。
+
+
+## 2026-10-31 L20：五站原生传感器与测量语义
+
+上线范围以真实运行确认：已安装Classic11.15.1的GpsSensor、MagnetometerSensor、AltimeterSensor、SonarSensor与LogicalCameraSensor全部在最小场景产生消息，再进入整课验收。最小探针14.856s通过，运行5秒每路50条，独立Master/partition与进程归属清理无残留；仅作接口就绪，不把它替代物理行为验收。使用现有SDK、ROS和Qt，无新网络依赖，不改框架或系统。
+
+唯一名SensorPlugin仅订阅原生protobuf并逐字段转为std_msgs/String JSON，保留native_type/native_topic/native完整字段与原封包wire_json。GPS生产者没有Topic override，按实际parent/name/data后缀路由；Mag使用GetTopic，Alt实际生产者用Topic而非其旧GetTopic，个人SDF明确完整topic；Sonar与Logical用各自Topic。每个传感器实际工厂与protobuf类型在接收端核对，不靠头文件存在、类名或订阅成功宣称有数据。桥不生成位置/磁场/距离/模型名单，也不伪造GNSS fix状态或协方差。
+
+世界配置WGS84原点纬经0°/0°、椭球高度100m、heading180°。当前Classic SphericalCoordinates在heading0的LOCAL→GLOBAL存在XY反向约定，显式180使世界+X/+Y对应east/north；磁场另由world磁矢量给出，并不随地理heading自动绑定。导航台初始worldZ1m，GPS初始altitude101m；Altimeter初始vertical_reference1m且vertical_position0。Mag世界场[20,0,−40]µT，消息单位T并按传感器姿态Rᵀ旋入本体轴。初始高度与磁场scale分别只允许1/2，局部参数编辑保留其余字节/注释并要求重载；前者改变GPS绝对高度和Alt加载参考，后者改变实际world磁场，不在桥中乘测量值。
+
+代码流程：校验个人真实SDF/固定工厂、topic、噪声、几何和prepare指纹→连接五路真实原生发布者→暂停并保存四个模型原pose/twist→逐阶段一次初始化并读回nav/sonar/obstacle/target实际状态→读实际世界sim_time作epoch→继续真实ODE→传播保护后采集新事件和导航状态→最后逐模型独立尝试恢复、读回确认，再恢复进入时暂停。导航台dynamic、gravityfalse、阻尼0、关闭自动休眠；vz=.25阶段只设置一次初速，之后真实自由演化，不持续写位姿或伪造理想读数。恢复不倒放仿真时间或传感器内部历史。
+
+九阶段是baseline、nav_up(+1m)、nav_east_north(10,5)、nav_yaw90、nav_velocity(vz+.25m/s)、sonar_obstacle、sonar_out_of_range、logical_outside与logical_restored，每阶段其余状态重建为基准。通常guard.3仿真秒，Sonar超量程guard.8秒以覆盖7次无接触更新后才回max的旧值保持；原始guard/acquiring事件保留，首次符合预期后窗口内每条必须继续符合。五路各≥12事件/≥1仿真秒/8..12Hz。GPS/Mag/Alt/Sonar原生time原样使用并按stamp去重；LogicalCameraImage原生无time，source_stamp_ns为null，只以严格递增bridge_sequence识别消息、以非递减receipt_world_time_ns统计接收跨度/到达率，允许不同事件同一接收tick，不宣称原生采样时刻或采样频率。各路不虚构硬同步。
+
+正式tests/lesson20_acceptance.py .deploy/lesson20-formal.json PASS141.204s：3个全新私有ROS/Gazebo场景/8组（默认、只改磁场scale2、只改初始高度2、保存未重载拒绝、错误heading拒绝、错误GPS topic拒绝、错误Sonar geometry拒绝、精确恢复完整再验）。四轮正向共180个通道窗口、2800条保留原始事件，其中2160条验收事件；四原生唯一时间频率9.990917..10Hz，Logical桥接收率9.990917..10.009099Hz，后者不称原生频率。独立根验收重新解析wire，逐项对照桥metadata及native字段/时间、有限数值、真实4台初始化和导航状态；GPS经WGS84 ECEF→ENU独立反算回世界坐标，不仅信课程expected字段；另核对磁矢量逆yaw、Alt参考/位移/速度、Sonar几何/范围、Logical实际目标进出与相对位姿。
+
+实际GPS/Alt同时测得vz=.25m/s，原始位置随仿真时间的斜率和实际GetModelState速度/轨迹均吻合；并非仅瞬间传送后声称速度。高度2变式GPS初始102m、Alt reference2m而相对高度仍0；上移1m时两种高度都增加1m，参考不被传送重置。Mag yaw+90°后约[0,−20,−40]µT，磁场scale2时各分量加倍。误差门限保留GPS角1e−8deg/高度.002m、Alt参考1e−9m/位置.002m、速度.005m/s、磁场1e−9T；根验收另用真实状态和独立反算，不修改原始测量。
+
+Sonar局部−Z cone/min0/max3/radius.2m，真实floor读数1.505327420222566m；.6m高障碍移动到其下方后.9019807406425385m；传感器移到worldZ4后读数3m。固定近似几何容差.06m，并非通过把原始值改为理想1.5/.9来过验收。源码range为碰撞点相对sensor向量范数减penetration depth；消息contact是转入sensor局部、未经该depth修正的原始碰撞几何位置，不保证真实表面或声学命中点，且消息没有depth可供单独重算range。实际out_of_range仍带之前contact[.0393957,.0449137,−.9]，证明has_contact不能代表当前回波；范围max也不是物体恰在3m的保证。
+
+LogicalCamera原生pose是相机世界位姿(0,−4,1)，model.pose是sensor相对位姿，+X前向。目标在前方相对(2,0,0)，独立collision遮挡件在相对(1,0,0)，两者实际同时入名单；目标移到世界(−2,−4,1)即不再被报告，恢复后重新出现。模型名单来自碰撞AABB与视锥，不做遮挡、RGB识别或语义学习；大地板AABB也实际入名单，因此不要求列表精确只有两项。Logical原生无time的边界完整保留。
+
+所有正式输入在运行中保持字节不变，错误源在任何控制/继续世界前被拒绝，暂停iterations不动；四个模型位姿/四元数/线角速度和原暂停逐项恢复，9个课文件在正式前后以及Windows读回SHA完全一致，无清理错误及归属进程残留。真实桌面tests/ui_probe.py --lesson20 PASS36.057s/13项：环境/课包、真实Gazebo/两个PTY和Bash jobcontrol、暂停/单步/继续、完整九阶段验收、只读参考、学习记录及关闭清理。根代理查看原始Qt与Gazebo截图，确认中文教材/通过状态、导航块、目标/遮挡件与逻辑视锥真实显示；截图仅是当前视角，五种传感器上线依据仍为逐项原生数据与受控变化。UI轮完整verify另用15.105s，不混入上述正式180窗/2160条计数。
+
+完整原始报告、wire消息/时间、状态查询/恢复、源与库指纹、运行日志保存在两端.deploy/lesson20-native-probe*、lesson20-formal*与lesson20-ui*，两张实际截图随源码发布。桥源SHA cb281087e08d9d17744daf4b69b71e56afa33a6df8e7dba9f39c37dd280e15d3，实际SDK库SHA a4a83aa7b6c7fa51550ed1fb3e348084ef5195fe8865781d50a709489b2d3c73。原VALIDATION_LOG前95135字节完整保留，既有2026-10-29交接快照保留；完成L20独立提交、中转推送与远端核对后进入L21。
+
+依据：[GpsSensor](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/sensors/GpsSensor.cc)、[SphericalCoordinates](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/common/SphericalCoordinates.cc)、[MagnetometerSensor](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/sensors/MagnetometerSensor.cc)、[AltimeterSensor](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/sensors/AltimeterSensor.cc)、[SonarSensor](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/sensors/SonarSensor.cc)、[LogicalCameraSensor](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/sensors/LogicalCameraSensor.cc)。

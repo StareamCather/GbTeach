@@ -1,0 +1,33 @@
+{
+  "id": "20",
+  "title": "传感器展台：定位、磁场、高度、声纳与逻辑相机",
+  "module": "感知与传感器",
+  "summary": "用五种真实Classic原生传感器，比较位置、方向、速度、接触体积与模型视锥。",
+  "order": 20,
+  "profile": "classic11-noetic",
+  "requires_ros": true,
+  "requires_plugins": ["libgazebo_ros_api_plugin.so"],
+  "requires_ros_packages": ["gazebo_msgs", "std_msgs", "rospy", "roscpp"],
+  "requires_tools": ["rostopic", "g++", "pkg-config"],
+  "world": "world.sdf",
+  "prepare": ["python3 prepare.py"],
+  "prepare_timeout": 150,
+  "after_start": ["python3 lab.py ready"],
+  "verify": "verify.py",
+  "verify_timeout": 180,
+  "reference": "reference.md",
+  "objectives": [
+    "读取真实GPS、Magnetometer、Altimeter、Sonar和LogicalCamera消息",
+    "区分地理椭球高度、加载时高度参考和机体磁矢量",
+    "用真实惯性竖直运动观察定位与高度计速度",
+    "理解声纳接触体积、回波缺失和逻辑相机AABB边界",
+    "区分原生采样时间和逻辑相机接收时间"
+  ],
+  "commands": [
+    {"title": "观察五路原生消息", "command": "python3 lab.py observe --seconds 3"},
+    {"title": "导航台定位到z=2米", "command": "python3 lab.py move --station nav --x 0 --y 0 --z 2"},
+    {"title": "导航台偏航90度", "command": "python3 lab.py move --station nav --x 0 --y 0 --z 1 --yaw 90"},
+    {"title": "真实惯性竖直运动", "command": "python3 lab.py move --station nav --x 0 --y 0 --z 1 --vz 0.25"},
+    {"title": "九阶段五传感器验收", "command": "python3 verify.py"}
+  ]
+}

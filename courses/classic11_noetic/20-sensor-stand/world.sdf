@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sdf version="1.6">
+  <world name="lesson20">
+    <gravity>0 0 -9.81</gravity>
+    <physics name="teaching_ode" type="ode">
+      <max_step_size>0.001</max_step_size>
+      <real_time_update_rate>1000</real_time_update_rate>
+      <ode>
+        <solver>
+          <type>quick</type>
+          <iters>60</iters>
+        </solver>
+      </ode>
+    </physics>
+    <scene>
+      <ambient>.4 .4 .4 1</ambient>
+      <background>.025 .03 .04 1</background>
+      <shadows>false</shadows>
+    </scene>
+    <light name="classroom_light" type="directional">
+      <pose>0 0 8 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <direction>-0.2 0.1 -1</direction>
+      <cast_shadows>false</cast_shadows>
+    </light>
+    <model name="floor">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>30 30</size>
+            </plane>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>30 30</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.28 0.31 0.34 1</ambient>
+            <diffuse>0.35 0.38 0.41 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <gui fullscreen="0">
+      <camera name="user_camera">
+        <pose>-5 -6 5 0 0.45 0.8</pose>
+        <view_controller>orbit</view_controller>
+      </camera>
+    </gui>
+    <magnetic_field>.00002 0 -.00004</magnetic_field>
+    <spherical_coordinates>
+      <surface_model>EARTH_WGS84</surface_model>
+      <latitude_deg>0</latitude_deg>
+      <longitude_deg>0</longitude_deg>
+      <elevation>100</elevation>
+      <heading_deg>180</heading_deg>
+    </spherical_coordinates>
+    <model name="nav_rig">
+      <static>false</static>
+      <pose>0 0 1 0 0 0</pose>
+      <link name="nav_link">
+        <gravity>false</gravity>
+        <kinematic>false</kinematic>
+        <inertial>
+          <mass>1</mass>
+          <inertia>
+            <ixx>.00375</ixx>
+            <iyy>.00375</iyy>
+            <izz>.00375</izz>
+          </inertia>
+        </inertial>
+        <velocity_decay>
+          <linear>0</linear>
+          <angular>0</angular>
+        </velocity_decay>
+        <collision name="housing">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>.15 .15 .15</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="housing">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>.15 .15 .15</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.2 .7 .9 1</ambient>
+            <diffuse>.2 .7 .9 1</diffuse>
+          </material>
+        </visual>
+        <sensor name="gps" type="gps">
+          <pose>0 0 0 0 0 0</pose>
+          <always_on>true</always_on>
+          <update_rate>10</update_rate>
+          <visualize>true</visualize>
+          <topic>data</topic>
+          <gps/>
+          <plugin name="gps_bridge" filename="libgazeboteach_l20_sensor_bridge.so">
+            <robotNamespace>/lesson20</robotNamespace>
+            <topicName>/lesson20/gps</topicName>
+            <sensorKind>gps</sensorKind>
+          </plugin>
+        </sensor>
+        <sensor name="mag" type="magnetometer">
+          <pose>0 0 0 0 0 0</pose>
+          <always_on>true</always_on>
+          <update_rate>10</update_rate>
+          <visualize>true</visualize>
+          <topic>data</topic>
+          <magnetometer/>
+          <plugin name="mag_bridge" filename="libgazeboteach_l20_sensor_bridge.so">
+            <robotNamespace>/lesson20</robotNamespace>
+            <topicName>/lesson20/mag</topicName>
+            <sensorKind>magnetometer</sensorKind>
+          </plugin>
+        </sensor>
+        <sensor name="alt" type="altimeter">
+          <pose>0 0 0 0 0 0</pose>
+          <always_on>true</always_on>
+          <update_rate>10</update_rate>
+          <visualize>true</visualize>
+          <topic>~/nav_rig/nav_link/alt/data</topic>
+          <altimeter/>
+          <plugin name="alt_bridge" filename="libgazeboteach_l20_sensor_bridge.so">
+            <robotNamespace>/lesson20</robotNamespace>
+            <topicName>/lesson20/alt</topicName>
+            <sensorKind>altimeter</sensorKind>
+          </plugin>
+        </sensor>
+      </link>
+      <allow_auto_disable>false</allow_auto_disable>
+    </model>
+    <model name="sonar_rig">
+      <static>false</static>
+      <pose>-4 0 1.5 0 0 0</pose>
+      <link name="link">
+        <gravity>false</gravity>
+        <kinematic>false</kinematic>
+        <inertial>
+          <mass>1</mass>
+          <inertia>
+            <ixx>.00375</ixx>
+            <iyy>.00375</iyy>
+            <izz>.00375</izz>
+          </inertia>
+        </inertial>
+        <velocity_decay>
+          <linear>0</linear>
+          <angular>0</angular>
+        </velocity_decay>
+        <collision name="housing">
+          <pose>0 0 .1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>.1 .1 .1</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="housing">
+          <pose>0 0 .1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>.1 .1 .1</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.8 .25 .5 1</ambient>
+            <diffuse>.8 .25 .5 1</diffuse>
+          </material>
+        </visual>
+        <sensor name="sonar" type="sonar">
+          <pose>0 0 0 0 0 0</pose>
+          <always_on>true</always_on>
+          <update_rate>10</update_rate>
+          <visualize>true</visualize>
+          <sonar>
+            <min>0</min>
+            <max>3</max>
+            <radius>.2</radius>
+            <geometry>cone</geometry>
+          </sonar>
+          <plugin name="sonar_bridge" filename="libgazeboteach_l20_sensor_bridge.so">
+            <robotNamespace>/lesson20</robotNamespace>
+            <topicName>/lesson20/sonar</topicName>
+            <sensorKind>sonar</sensorKind>
+          </plugin>
+        </sensor>
+      </link>
+      <allow_auto_disable>false</allow_auto_disable>
+    </model>
+    <model name="logical_rig">
+      <static>true</static>
+      <pose>0 -4 1 0 0 0</pose>
+      <link name="link">
+        <collision name="housing">
+          <pose>-.15 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>.12 .2 .15</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="housing">
+          <pose>-.15 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>.12 .2 .15</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.3 .3 .8 1</ambient>
+            <diffuse>.3 .3 .8 1</diffuse>
+          </material>
+        </visual>
+        <sensor name="logical" type="logical_camera">
+          <pose>0 0 0 0 0 0</pose>
+          <always_on>true</always_on>
+          <update_rate>10</update_rate>
+          <visualize>true</visualize>
+          <logical_camera>
+            <near>.1</near>
+            <far>5</far>
+            <horizontal_fov>1.0471975511965976</horizontal_fov>
+            <aspect_ratio>1.3333333333333333</aspect_ratio>
+          </logical_camera>
+          <plugin name="logical_bridge" filename="libgazeboteach_l20_sensor_bridge.so">
+            <robotNamespace>/lesson20</robotNamespace>
+            <topicName>/lesson20/logical</topicName>
+            <sensorKind>logical_camera</sensorKind>
+          </plugin>
+        </sensor>
+      </link>
+    </model>
+    <model name="sonar_obstacle">
+      <static>true</static>
+      <pose>-4 2 .3 0 0 0</pose>
+      <link name="link">
+        <collision name="housing">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>.8 .8 .6</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="housing">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>.8 .8 .6</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.9 .6 .1 1</ambient>
+            <diffuse>.9 .6 .1 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="tracked_target">
+      <static>true</static>
+      <pose>2 -4 1 0 0 0</pose>
+      <link name="link">
+        <collision name="housing">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>.2 .2 .2</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="housing">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>.2 .2 .2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.9 .2 .1 1</ambient>
+            <diffuse>.9 .2 .1 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="occluder">
+      <static>true</static>
+      <pose>1 -4 1 0 0 0</pose>
+      <link name="link">
+        <collision name="housing">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>.25 .6 .6</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="housing">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>.25 .6 .6</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.2 .8 .35 1</ambient>
+            <diffuse>.2 .8 .35 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+  </world>
+</sdf>
