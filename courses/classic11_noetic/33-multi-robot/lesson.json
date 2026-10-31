@@ -1,0 +1,27 @@
+{
+  "id": "33", "title": "多机器人：命名空间、独立控制与共同坐标系",
+  "module": "Classic高级实验", "order": 33, "profile": "classic11-noetic",
+  "summary": "用两辆真实差速车验证ROS话题隔离、唯一TF坐标名及共享世界中的运动。",
+  "requires_ros": true,
+  "requires_plugins": ["libgazebo_ros_api_plugin.so", "libgazebo_ros_diff_drive.so"],
+  "requires_ros_packages": ["rospy", "gazebo_ros", "gazebo_plugins", "gazebo_msgs", "geometry_msgs", "nav_msgs", "sensor_msgs", "std_msgs", "std_srvs", "rosgraph_msgs", "tf2_msgs", "tf2_ros"],
+  "requires_tools": ["gazebo", "gz", "rospack", "rosparam", "rostopic"],
+  "world": "world.sdf", "server_args": ["-u"],
+  "prepare": ["python3 prepare.py"], "prepare_timeout": 50,
+  "startup": [{"name": "共享世界TF桥", "command": "python3 bridge.py"}],
+  "after_startup": ["python3 lab.py ready"], "after_startup_timeout": 45,
+  "reference": "reference.md", "verify": "verify.py", "verify_timeout": 150,
+  "objectives": ["区分Gazebo模型名、ROS名称空间与TF坐标名", "分别驱动两辆实体差速车并检查没有串扰", "将两个唯一TF子树连接到共同world并核对真实位姿"],
+  "commands": [
+    {"title": "检查模型、命名空间和静态坐标桥", "command": "python3 lab.py ready"},
+    {"title": "零指令推进并读取真实里程计", "command": "python3 lab.py bootstrap"},
+    {"title": "alpha前进，beta保持零指令", "command": "python3 lab.py alpha --seconds 2"},
+    {"title": "beta正向转弯，alpha保持零指令", "command": "python3 lab.py beta --seconds 2"},
+    {"title": "同时驱动alpha前进和beta反向转弯", "command": "python3 lab.py both --seconds 2"},
+    {"title": "读取真实模型、里程计与TF", "command": "python3 lab.py status"},
+    {"title": "显式停止两车并暂停", "command": "python3 lab.py pause"},
+    {"title": "完整世界与时间复位（随后保持暂停）", "command": "python3 lab.py reset"},
+    {"title": "编辑单变量速度，保存后重载课程", "command": "gedit --new-window parameters.json"},
+    {"title": "有限完整验收", "command": "python3 verify.py"}
+  ]
+}

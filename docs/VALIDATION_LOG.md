@@ -1066,3 +1066,30 @@ demo正常结束恢复目标完整原生pose和入场暂停状态，不回填EMA
 报告SHA256：formal 76202e041729ea1de57ccdb1823e97dee133bfff3ab0facea521559d8ef45d39；UI c0470a4ff8b6133102e8cecb0bbe7121c962bf7ba8e5842818c74895e47fd482；独立测试 2536371f80d47dc6cb7b98ac4655d199259add667a803b84d7a4cefaa32b9fe8。
 
 独立提交、Windows中转推送并精确核对远端后进入L33；当前继续全部39项目V2。
+
+
+## 2026-11-01 L33：双机器人名称、TF与真实独立运动
+
+三套全新私有ROS/Gazebo Master独立行为验收50.746s通过，真实桌面13项30.906s通过；首轮原型GUI与两个PTY完整课程验收23.154s通过。root查看35项目中文桌面、蓝色alpha和橙色beta双车Gazebo画面。各场景用独立ROS控制进程直接发布Twist，未调用课程运动实现，也未写模型位姿或速度；轮驱接触物理与实际反馈形成独立证据。
+
+| 全新场景 | v(m/s) / Ω(rad/s) | alpha单车前向增量(m) | beta单车正转增量(rad) |
+| --- | --- | --- | --- |
+| 基准 | .20 / .60 | .39551134353231754 | 1.1984591448977737 |
+| 仅线速度 | .30 / .60 | .583602007901593 | 1.2100055055539096 |
+| 仅角速度 | .20 / .90 | .3926710812920393 | 1.8128579008429857 |
+
+基准并发阶段alpha前向.3860599618189646m、beta负转-1.2027614232084338rad；角速度变式并发beta负转-1.8153994920102834rad。实际驱动窗口约2.015–2.070模拟秒，保留原值，不假定精确2秒恒速。九阶段18个机器人停止端点的实际平面速度最大.006420750527491244m/s、偏航速度幅值最大.012744970084485368rad/s，低于独立.025/.06门限。未驱动车保留有限ODE/接触被动漂移，配合轮角近零、Yaw界限及命令隔离判断，未宣称物理位置逐位不变。
+
+算法：复核实际Classic11/Noetic gazebo_plugins2.9.3与原生diff_drive ELF→核固定SDF几何、左右轮/关节与两套插件字段→在本课私有ROS Master设置use_sim_time=true及两命名空间显式空tf_prefix→gzserver加载真实API与双插件→bridge只发布配置身份和world→alpha/odom、world→beta/odom两个单位静态边→冷启动暂停时仅验模型/服务/话题/静态桥→零目标bootstrap获取实际clock/odom/TF/关节→按实际模拟时间分别/并发驱动→两路零目标尾段→核模型位姿、实际轮转、odom、TF及末速→保存个人报告并保持暂停。
+
+Gazebo模型alpha/beta、ROS /alpha|beta/{cmd_vel,odom,joint_states}、TF alpha|beta/odom与base_footprint分属三种名称。两个ModelPlugin可同在/gazebo进程，不能以节点名相同推断话题串扰。TF可共享/tf而child唯一；WORLD里程计取Model::WorldPose，已含初始y=-.8/+.8，因此静态world→odom为单位变换，不再次加出生偏移。显式空局部tf_prefix阻止继承其他前缀及重复前缀。JointState实际只含name/position，轮速由原始角位置变化/实际时间及Gazebo关节服务核对，不要求不存在的velocity字段。
+
+暂停与时间0的等待均用墙钟期限。完整reset_simulation只调用一次，读实际暂停/时间0/出生位姿确认后使旧动态缓存失效，历史证据不删除；不把旧TF/odom当新时钟数据。非零发布、解暂停和初始查询均在try/finally内，异常亦发两路零目标并请求暂停。stop命令返回zero_requested/paused_confirmed，不用该字段声称已通过物理停车区间；实际phase零尾段后新增两车平面末速<.04、偏航幅值<.08断言，并在指标保存实际值。独立验收另用1s零尾段与更严格.025/.06门限，未放宽原位移/轮向/反馈判据。
+
+独立报告保存完整序列化ROS消息字节、MD5/type、模拟与墙钟时间、ROS图连接、Gazebo原生服务位姿/速度/关节、相同stamp的odom↔TF、静态桥和实际/gazebo PID/ELF映射；课程个人events只存教学选定字段，两种证据范围分开。插件实际源码语义与库摘要核对。三场景只改变一个速度字段，模型身份保持；原模板未改，三正式token及桌面结束均无自有残留。
+
+10个课程文件和独立测试冻结；原型源/报告/数据归档两端，正式原始数据与原生ROS日志在退出前保留并归档两端。画面只作为真实双车窗口证据；命名与运动结论由原始数据支持。参考：[Noetic插件2.9.3源](https://github.com/ros-simulation/gazebo_ros_pkgs/blob/2.9.3/gazebo_plugins/src/gazebo_ros_diff_drive.cpp)、[ROS名称解析](https://github.com/ros/ros_comm/blob/noetic-devel/clients/roscpp/src/libros/names.cpp)、[REP-105](https://github.com/ros-infrastructure/rep/blob/master/rep-0105.rst)。
+
+报告SHA256：formal 8a08f2a36a8c707cc07c4354d872ea762b2cdcd719cedc93c8d081365403f57b；UI 41e3a57b57ecac0162ccf79776443e578fae6d10b13eda9e112e09c8ab052513；独立测试 ee02fc3b27e333e1b41118730ab1ec328d82d0b2724b2c85103a156519d72f97。
+
+独立提交、Windows中转推送并精确核对远端后进入L34；当前继续全部39项目V2。
