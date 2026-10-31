@@ -1,0 +1,23 @@
+{
+  "id": "23", "title": "URDF与Xacro：从参数模型到真实两关节臂", "module": "ROS系统集成", "order": 23,
+  "summary": "用宏、关节树和真实Gazebo转换，理解坐标、惯性与fixed-joint lumping。",
+  "profile": "classic11-noetic", "requires_ros": true,
+  "requires_plugins": ["libgazebo_ros_api_plugin.so"],
+  "requires_ros_packages": ["rospy", "std_msgs", "std_srvs", "gazebo_msgs", "gazebo_ros", "xacro", "roslaunch"],
+  "requires_tools": ["xacro", "gz", "roslaunch", "rospack", "rosparam"], "ros_package_paths": ["ros_ws/src"],
+  "world": "world.sdf", "prepare": ["python3 prepare.py"], "prepare_timeout": 60,
+  "startup": [{"name": "URDF模型生成与说明", "title": "URDF真实spawn与只读说明节点", "command": "bash ros_lab.sh start"}],
+  "after_startup": ["python3 lab.py ready"], "after_startup_timeout": 45,
+  "reference": "reference.md",
+  "verify": "verify.py", "verify_timeout": 150,
+  "objectives": ["使用Xacro生成可参数化URDF", "核对joint origin、axis、惯性与真实正运动学", "观察Gazebo fixed-joint lumping及有限关节effort响应"],
+  "commands": [
+    {"title": "发现本课模型包", "command": "rospack find gazeboteach_l23"},
+    {"title": "检查真实模型", "command": "python3 lab.py ready"},
+    {"title": "初始化混合关节角", "command": "python3 lab.py pose --name positive_mixed"},
+    {"title": "观察实际关节", "command": "python3 lab.py observe --seconds 2"},
+    {"title": "有限肘关节effort", "command": "python3 lab.py pulse --sign 1"},
+    {"title": "清理任务并复位零位", "command": "python3 lab.py reset"},
+    {"title": "URDF链与真实动力学验收", "command": "python3 verify.py"}
+  ]
+}

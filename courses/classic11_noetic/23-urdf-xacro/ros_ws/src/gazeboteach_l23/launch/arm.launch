@@ -1,0 +1,9 @@
+<launch>
+  <arg name="description_file"/>
+  <param name="/use_sim_time" value="true" type="bool"/>
+  <group ns="/lesson23">
+    <param name="robot_description" textfile="$(arg description_file)"/>
+    <node pkg="gazebo_ros" type="spawn_model" name="spawn_arm" args="-urdf -param /lesson23/robot_description -model xacro_arm" output="screen"/>
+    <node pkg="gazeboteach_l23" type="description_info.py" name="description_info" required="true" output="screen"/>
+  </group>
+</launch>

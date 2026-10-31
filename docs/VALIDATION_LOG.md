@@ -584,3 +584,110 @@ queued取消发生在未来start前，active取消发生在实际加速后；随
 原VALIDATION_LOG前117801字节/SHA 7d4ba9db1b99ed0ac59ec16b583d97c8a264bf888384fe997dbb993637af2a3c原封保留，包含本课之前独立发布的框架验证；未使用旧114892字节l22-before快照覆盖它。SESSION_HANDOFF原20624字节正文及2026-10-29尾5054字节保持。完成本课独立提交、Windows中转推送与远端核对后进入L23；预交付01–22主22课与091/092共24项目，余L23–L37共15门主课及G02。
 
 依据：[Noetic Master API](https://github.com/ros/ros_comm/blob/noetic-devel/tools/rosmaster/src/rosmaster/master_api.py)、[roslaunch XML解析](https://github.com/ros/ros_comm/blob/noetic-devel/tools/roslaunch/src/roslaunch/xmlloader.py)、[ROS时间初始化](https://github.com/ros/ros_comm/blob/noetic-devel/clients/roscpp/src/libros/init.cpp)、[Gazebo ROS API](https://github.com/ros-simulation/gazebo_ros_pkgs/blob/noetic-devel/gazebo_ros/src/gazebo_ros_api_plugin.cpp)、[ApplyBodyWrench](https://github.com/ros-simulation/gazebo_ros_pkgs/blob/noetic-devel/gazebo_msgs/srv/ApplyBodyWrench.srv)、[ModelStates](https://github.com/ros-simulation/gazebo_ros_pkgs/blob/noetic-devel/gazebo_msgs/msg/ModelStates.msg)。
+
+
+## 2026-10-31 L23：URDF/Xacro、真实转换与两关节动力学
+
+tests/lesson23_acceptance.py正式v2 PASS 55.596s，3个全新私有场景/8组scenarios全部通过：baseline、length_only、lump_only、saved_without_reload、generated_artifact_drift、bad_mass、bad_gravity及exact_inputs_and_properties_repaired。17课文件正式前后SHA不变，3个session token均无残留、cleanup_errors为空。4轮正向含精确修复再验，下列统计只来自v2正式，不混启动探索、失败v1或UI。
+
+L23流程为私有Master先设/use_sim_time→源包overlay与Xacro输入→真实xacro生成URDF→gz sdf -p转换并保留原值/SHA→roslaunch写/lesson23/robot_description并一次性spawn_model(-urdf)→只读说明节点/实际link物性就绪→保存暂停快照→三次边界姿态初始化与真实FK核对→±.03N·m/200ms及upper+.12N·m/350ms有限肘力矩→逐次读取真实双关节响应→清唯一basename任务、恢复q与全link pose/twist及原pause。静态SetModelConfiguration用于初态；动态期间由ODE推进，读取世界/主机时间包夹，不强制轨迹，也不以单杆τ/I替代多体耦合。
+
+L1 .6→.8保持质量，联动几何、COM、惯性与肘origin；preserve_tool仅切Gazebo保留扩展，不删除URDF工具。URDF始终5link/4joint，实际物理link从4变3，合并后的arm2质量.52kg、COM x=.207692m、Izz=.0075909kg·m²；总模型质量仍2.52kg。理论URDF→SDK六有效数字转换按最终量子预算，运行API→转换SDF另严格比较，所有三层原值保持。API reported_type/damping不作为物理类型/阻尼证据，固定joint的NaN不当合法角度；只读两moving joints。
+
+本版ODE GetLinkState读取link原点世界速度，而SetLinkState调用SetLinearVel设置CoM速度。恢复读取实际GetLinkProperties.COM与快照四元数/ω，先算r_world=R_world_link·c_link，再发送v_COM=v_origin+ω_world×r_world；只转换setter请求，不改原始快照，仍按原点速度读回核对。恢复阈值、独立验收源码与其余算法保持；旧任务队列和已流逝时间不重建。
+
+早期启动探针曾把固定joint的position当普通角度序列化，触发Out of range float values are not JSON compliant；失败保存在.deploy/lesson23-start-v1。后来保留原异常语义、只对moving joints读取合法q/rate，默认与lump启动/物性探针均通过，但这些探索不证明完整课程。真实版本xacro1.14.20、urdf包1.13.4、urdfdom1.0.4、libsdformat9 9.10.1；check_urdf未安装，实际使用已有xacro与gz sdf解析库，没有新增下载或伪称运行了该工具。
+
+正式v1仅baseline/length完成，lump非零速度快照恢复失败，整轮passed=false；完整输入、源、日志、原始报告保存在两端.deploy/lesson23-formal-v1。它不是整体通过，也不是允许放宽恢复阈值的理由。原始arm2原点速度before=(0.00320553529242, -0.00280494143476, 0.001)m/s，after=(0.00341107058484, -0.00360988286952, 0.001)m/s；实际COM=(0.207692, 0, 0)m、world ω=(0, 0, 0.004)rad/s。实测after−before=(0.000205535292422, -0.00080494143476, 0)m/s，恰为−ω×R·COM，残差1.62630325873e-19m/s。诊断原文及SHA另存，不修改失败数据。v2只改lab.py与两份教材，verify.py、独立test及阈值均保持；补偿setter速度后重新完整运行同一八场景。
+
+| 正向轮次 | 物理link数 | 静态姿态 | 独立FK比较 | 最大位置误差/m | 最大姿态误差/rad |
+| --- | --- | --- | --- | --- | --- |
+| baseline | 4 | 3 | 12 | 8.40036148998e-16 | 0 |
+| length_only | 4 | 3 | 12 | 1.14304456355e-15 | 0 |
+| lump_only | 3 | 3 | 9 | 5.31176747282e-16 | 0 |
+| exact_inputs_and_properties_repaired | 3 | 3 | 9 | 5.55284957564e-16 | 0 |
+
+共12个静态快照、42次实际物理link坐标比较。独立oracle从生成URDF逐joint复合origin、RPY与axis，核对3个指定姿态，不直接调用课程闭式FK；实际world/主机包夹在暂停期间保持。3个fresh场景还经gz model -i核对原生Model碰撞名单、数量及box/sphere/cylinder尺寸，原生文本已存档；实际link位姿另由上述独立FK验证，不把它说成逐collision pose比较。
+
+| 轮次/link | 质量：理论/SDF/API kg | COM x：理论/SDF/API m | Izz：理论/SDF/API kg·m² |
+| --- | --- | --- | --- |
+| baseline/arm1 | 1/1/1 | 0.3/0.3/0.3 | 0.0303/0.0303/0.0303 |
+| baseline/arm2 | 0.5/0.5/0.5 | 0.2/0.2/0.2 | 0.00681666666667/0.00681667/0.00681667 |
+| length_only/arm1 | 1/1/1 | 0.4/0.4/0.4 | 0.0536333333333/0.0536333/0.0536333 |
+| length_only/arm2 | 0.5/0.5/0.5 | 0.2/0.2/0.2 | 0.00681666666667/0.00681667/0.00681667 |
+| lump_only/arm1 | 1/1/1 | 0.3/0.3/0.3 | 0.0303/0.0303/0.0303 |
+| lump_only/arm2 | 0.52/0.52/0.52 | 0.207692307692/0.207692/0.207692 | 0.0075908974359/0.0075909/0.0075909 |
+| exact_inputs_and_properties_repaired/arm1 | 1/1/1 | 0.3/0.3/0.3 | 0.0303/0.0303/0.0303 |
+| exact_inputs_and_properties_repaired/arm2 | 0.52/0.52/0.52 | 0.207692307692/0.207692/0.207692 | 0.0075908974359/0.0075909/0.0075909 |
+
+工具保留和lump均保留质量贡献与几何。独立惯性oracle将每个URDF刚体的COM与旋转惯性转入共同坐标，再按平行轴合成；SDK六有效数字误差按半个末位量子（带明确小数容差）对理论核对，actual与实际SDF另在1e−8对照。课程ready对COM1e−8m、惯性分量1e−9kg·m²等阈值保持，不能把理论高精度值回填原SDK字段。
+
+| 轮次/动态阶段 | 实际条数 | 沿力矩方向Δq或upper最大q/rad | 跨度s或尾条数/均值误差rad | 沿力矩方向峰值或尾最大|dq|/rad·s⁻¹ |
+| --- | --- | --- | --- | --- |
+| baseline/motion_positive | 35 | 0.0847715141741 | 0.355 | 0.410897870567 |
+| baseline/motion_negative | 35 | 0.086013467018 | 0.3565 | 0.415795502304 |
+| baseline/upper_limit | 49 | 1.20004824284 | 6/1.3327731622e-07 | 0.000171859146479 |
+| length_only/motion_positive | 35 | 0.0787565670809 | 0.354 | 0.382693028272 |
+| length_only/motion_negative | 35 | 0.0798738203186 | 0.3545 | 0.386928282687 |
+| length_only/upper_limit | 50 | 1.20000388079 | 6/1.17947338733e-06 | 0.000972523696189 |
+| lump_only/motion_positive | 35 | 0.0844678029332 | 0.354 | 0.412151968021 |
+| lump_only/motion_negative | 35 | 0.0857065079176 | 0.3545 | 0.4158477096 |
+| lump_only/upper_limit | 49 | 1.20001714777 | 6/2.96584996932e-07 | 0.000398105090576 |
+| exact_inputs_and_properties_repaired/motion_positive | 35 | 0.084771814165 | 0.355 | 0.409792133322 |
+| exact_inputs_and_properties_repaired/motion_negative | 34 | 0.0838440544049 | 0.3485 | 0.414271256146 |
+| exact_inputs_and_properties_repaired/upper_limit | 49 | 1.20008179269 | 6/1.51876775082e-07 | 0.000203828766963 |
+
+4轮正向共有12个真实动态阶段，476次双moving-joint状态观测；连同静态快照，trace共488条。正负阶段有符号Δq≥.01rad、峰有符号dq≥.05rad/s；每阶段至少10次真实查询并跨过任务到期后.1模拟秒。upper从q=(0,1.12)出发，最大q∈[1.17,1.22]，end之前最后60ms仍受力窗口≥3条、平均上限误差≤.02rad、最大|dq|≤.2rad/s，原阈值无降级。独立test在formal前已把upper选择明确为end前受力窗口；v1/v2采用同一SHA，不拿到期后coast窗口替代该目标。
+
+| 负例 | 实际拒绝诊断 |
+| --- | --- |
+| saved_without_reload | RuntimeError: Saved model inputs differ from the loaded world: reload/restart required |
+| generated_artifact_drift | RuntimeError: Generated URDF/SDF artifact drifted; reload/restart required |
+| bad_mass | RuntimeError: Bounded URDF spawn/property readiness failed: RuntimeError: Actual mass differs on arm1 |
+| bad_gravity | RuntimeError: Bounded URDF spawn/property readiness failed: RuntimeError: Actual gravity_mode differs on arm1 |
+
+保存配置未重载、已生成URDF追加注释导致SHA漂移，均在控制前拒绝；bad_mass与bad_gravity则通过独立ROS客户端实际修改已加载arm1质量为2kg/启用重力，并读回证明，再要求课程拒绝。四负例trace均空、不进入静态/动态操纵，原物性/状态恢复后再次完整验收。lump场景先设置两个合法关节角，只给arm2小的非零线/角速度，其余links保存各自实际快照。v2恢复线速度最大分量误差0m/s、角速度最大分量误差0rad/s，pause恢复；各link位姿/q/rate仍按原阈值核对。
+
+真实桌面UI另PASS 20.444s/13项，实际Qt/X11窗口、两PTY、pause/step/resume、验收、只读参考保留个人world、学习记录、归属截图与退出清理通过。UI内verify实际1.809361402s，仅属UI证据，不加入上述正式4轮计数。根代理已逐张查看报告指向的原始Qt/Gazebo截图：25项目、中文正文与通过状态正常，蓝橙两关节臂、球工具及工作台清晰可见。课堂GUI观察与自动物性/动力学结果分别记录。
+
+| 正向轮次 | world SHA | settings SHA | 实际URDF SHA | 实际SDF SHA |
+| --- | --- | --- | --- | --- |
+| baseline | 082bf84f7902a0bf695a0e01bdfe36d3a6db0ca4d0a9c9f126e619a1c949b91a | d1189e72511bd52faa0d43b7e4a446dc7b71309e7f34f08583d3405e6e19aee8 | da9fa3e232a0dd5de435b3c6c45c739de49b7f92921b49666830d35703ef71f8 | f93f7ec3fc50c8bd2c54decb51012fcba2bd9693af8ad8751b0c70391234bf89 |
+| length_only | 082bf84f7902a0bf695a0e01bdfe36d3a6db0ca4d0a9c9f126e619a1c949b91a | 59070d894e73d27fefe5ba8d88df750c5ec07e06c2a8c3efdb8fd3859efe993d | 7eab7353e1b0ad5ddb7b5ea7451ac1a1d1dab657ef81f379733be229dade3aa5 | 923097cbcc335afeda76ea694a30525e2487a0c65fb6f4e5c58fab337bd9f7b1 |
+| lump_only | 082bf84f7902a0bf695a0e01bdfe36d3a6db0ca4d0a9c9f126e619a1c949b91a | 842f8771e5a8b52ba9060e985b4615c3fe410db4e57b04fd7e625095b229c204 | 30fb652ddca68f05266f9ca6dbde1805d11f064801586f2d9e3335b32f25e14c | f44fe1ffbbd6a8f1a3154c3d9b62d78955ecc587bc67a702a4f51b8771f70a65 |
+| exact_inputs_and_properties_repaired | 082bf84f7902a0bf695a0e01bdfe36d3a6db0ca4d0a9c9f126e619a1c949b91a | 842f8771e5a8b52ba9060e985b4615c3fe410db4e57b04fd7e625095b229c204 | 30fb652ddca68f05266f9ca6dbde1805d11f064801586f2d9e3335b32f25e14c | f44fe1ffbbd6a8f1a3154c3d9b62d78955ecc587bc67a702a4f51b8771f70a65 |
+
+| 冻结课文件 | SHA256 |
+| --- | --- |
+| arm_settings.json | d1189e72511bd52faa0d43b7e4a446dc7b71309e7f34f08583d3405e6e19aee8 |
+| config.py | eb3738790f12846fc831653d29290f6e3af23d9cf5b3862aec9143b92127cd8f |
+| lab.py | 032b10987791cc3f5c8b7874d483c9ae44f2d097a76c96907ba93ae81032b33a |
+| lesson.json | bb35bd70248ab588f2a530bc51431000e5639f1e39ffc6d846e53a7ca16de707 |
+| lesson.md | 9c9d8b7280f440c253774495ac71e7cf61e8ec81da53c2c1a7b23aff08fd6b08 |
+| prepare.py | c915e927ad5129c3e32a486475bdd062296453fdda8664af1b0a0fd818c4a9a0 |
+| reference.md | 6090a9ddf11fabb7888a03b39bca1c19d6105b0f8dabc5137b661f3d89fd0fcb |
+| ros_entry.py | 4b94b0191dfcd42fd1199a1acfbe9c2271c84e3fc0296b102d2809d571bb4ecc |
+| ros_lab.sh | 2856b4ea8cdbb4362fc9c1ecab55dd80cd0a8c050a15d7189924d1fcec5ecd9b |
+| ros_ws/src/gazeboteach_l23/launch/arm.launch | 384c00ae62fe5927e42e7d3681858d59f2967661dda4a84ed8d43d8b61df633d |
+| ros_ws/src/gazeboteach_l23/package.xml | 0e3072b2b36c60de09c41e1a49daf5708dead4ef47e1f43293a47ae9afd045b6 |
+| ros_ws/src/gazeboteach_l23/scripts/common.py | abf09baa1dd573e6201939ce18c075fc35dfd5d66e4e2d247f31d1a0f768e9e4 |
+| ros_ws/src/gazeboteach_l23/scripts/description_info.py | 24f60ebe3c321f2686a07c4218d383dc26dda1817310aacc683c7cba21cf9415 |
+| ros_ws/src/gazeboteach_l23/urdf/arm.urdf.xacro | dfd6b3c7a2611296ddd67d83c52d1373ca26324af490499a34d2194509db1e86 |
+| ros_ws/src/gazeboteach_l23/urdf/beam_macros.xacro | 754f9d0556190da974f3d26ca0d7373637a1c1629a81d2805618052a44cb9bac |
+| verify.py | 2f4b1e6b051ef25080a7d94ddd1a28af5551c31bbade4e9c77adf0886ab3021d |
+| world.sdf | 082bf84f7902a0bf695a0e01bdfe36d3a6db0ca4d0a9c9f126e619a1c949b91a |
+
+| 正式原始报告 | 现存归档路径 | SHA256 |
+| --- | --- | --- |
+| baseline | .deploy/lesson23-formal-artifacts/baseline.json | e5e4a428a9b00b4820c05768bc21cd4a4f9140078766bfce51137424f5cb0cf2 |
+| length_only | .deploy/lesson23-formal-artifacts/length_only.json | 03f690d05d7f9ffb0ef84629a7f67a69037e9115408ecb3d51cbe44e7ab70a4f |
+| lump_only | .deploy/lesson23-formal-artifacts/lump_only.json | 21c9b028f3ade3ad56d11a50239849590ccd6ec84d84422cc52290e38e50879c |
+| exact_inputs_and_properties_repaired | .deploy/lesson23-formal-artifacts/exact_inputs_and_properties_repaired.json | d47827f64ff9f8d5038e69e1de29552e25c3229db12cd45f413d81d2e6330701 |
+| saved_without_reload | .deploy/lesson23-formal-artifacts/saved_without_reload.json | 065d5fed43a4445e3a78a282b3af2822eb54da7ff834671ba1d34bb4fefdf2f7 |
+| generated_artifact_drift | .deploy/lesson23-formal-artifacts/generated_artifact_drift.json | bd9ecbd22123f7ea450ee2ed7bdcdea0b90261c477a8c4568d27080867813f6d |
+
+报告SHA：v2formal a0fd4a79db4c52f6cd6af8765b656a8447d2a159f41b8adb7755bb103af296dd；UI dceda0e51e6cd4a9ca73a61faa76bdea3fa48bcee094066a26372868ebe453d0；失败v1 7be811dc6a08815522fb3c1e11d123050a479a98aec0382e97a311bcc9b0dcbe；原点/COM诊断 8401209b27976b3154d5bead7eac2851ac3662213abec17ffd8932d5ca448023。独立test SHA 66aa29aa407e72c7e9d8c4b459a76fc7ec9aa6311bfdb7fdd9e4be985ef7d0a6；UI源码SHA 12cf64d65a476946a9b9bd907aed419c1c2ab0a5136a48371e66ef50171c89a0；实际runtime.py SHA e25447b2b2b4f4aece99e25568ac553de20fc46255b687fec6f166cce33a143e。生成物原字节与SHA、准备记录、原生碰撞文本、服务查询和日志均有现存归档；报告里的旧/tmp源路径只作原运行身份，临时Storage已删除。
+
+原VALIDATION_LOG前130445字节SHA aedbd83e2f8a2ff0fbec55f891484690fbc036522a552cbaefd367db474b1736完整保留；原Handoff23386字节正文与2026-10-29尾5054字节保留，全部LF。完成L23独立提交、Windows中转推送及远端核对后进入L24；当前预交付主23课+091/092为25项目，L24–L37共14门及G02尚未完成。
+
+依据：[URDF与Classic](https://classic.gazebosim.org/tutorials?tut=ros_urdf)、[Noetic Xacro](https://github.com/ros/xacro/tree/noetic-devel)、[SDFormat转换](https://github.com/gazebosim/sdformat/blob/sdf9/src/parser_urdf.cc)、[Noetic ROS API](https://github.com/ros-simulation/gazebo_ros_pkgs/blob/noetic-devel/gazebo_ros/src/gazebo_ros_api_plugin.cpp)、[Classic11.15.1 ODELink](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/physics/ode/ODELink.cc)。

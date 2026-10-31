@@ -1,5 +1,15 @@
 # GazeboTeach 会话交接
 
+> 2026-10-31 当前L23 URDF/Xacro已通过3个真实全新场景/8组验收55.596s，实际桌面13项20.444s通过。Xacro→URDF→本机SDF→实际spawn、几何/合并物性、三静态FK与三动态响应均有原始证据；非零角速度/偏置COM的恢复已按真实API参考点差异修复，原阈值保持。完成L23独立提交、推送与远端核对后进入L24 RViz/TF/时钟；主课01–23与091/092共25项目，尚余L24–L37共14门主课与G02最终回归。以下旧进度保留为历史。
+
+L23流程为私有Master先设/use_sim_time→源包overlay与Xacro输入→真实xacro生成URDF→gz sdf -p转换并保留原值/SHA→roslaunch写/lesson23/robot_description并一次性spawn_model(-urdf)→只读说明节点/实际link物性就绪→保存暂停快照→三次边界姿态初始化与真实FK核对→±.03N·m/200ms及upper+.12N·m/350ms有限肘力矩→逐次读取真实双关节响应→清唯一basename任务、恢复q与全link pose/twist及原pause。静态SetModelConfiguration用于初态；动态期间由ODE推进，读取世界/主机时间包夹，不强制轨迹，也不以单杆τ/I替代多体耦合。
+
+L1 .6→.8保持质量，联动几何、COM、惯性与肘origin；preserve_tool仅切Gazebo保留扩展，不删除URDF工具。URDF始终5link/4joint，实际物理link从4变3，合并后的arm2质量.52kg、COM x=.207692m、Izz=.0075909kg·m²；总模型质量仍2.52kg。理论URDF→SDK六有效数字转换按最终量子预算，运行API→转换SDF另严格比较，所有三层原值保持。API reported_type/damping不作为物理类型/阻尼证据，固定joint的NaN不当合法角度；只读两moving joints。
+
+本版ODE GetLinkState读取link原点世界速度，而SetLinkState调用SetLinearVel设置CoM速度。恢复读取实际GetLinkProperties.COM与快照四元数/ω，先算r_world=R_world_link·c_link，再发送v_COM=v_origin+ω_world×r_world；只转换setter请求，不改原始快照，仍按原点速度读回核对。恢复阈值、独立验收源码与其余算法保持；旧任务队列和已流逝时间不重建。
+
+正式v1失败整包保留两端.deploy/lesson23-formal-v1，原点/COM诊断保留lesson23-origin-com-diagnosis.json；v2正式与UI证据为lesson23-formal.json/-artifacts及lesson23-ui*。临时Storage已删除，旧/tmp身份路径不宣称仍存在，实际URDF/SDF/准备记录、服务原值、原生碰撞查询与日志已归档。当前17课源与v2冻结SHA精确一致，下一课24，仍逐课验收与核对后前进。
+
 > 2026-10-31 当前L22 ROS启动已通过3个正常全新场景、9组核心场景、3组静态解析、2组launch故障及2组取消检查，正式102.024s；真实桌面13项20.654s通过。实际roslaunch图、参数/缓存、有限施力/到期匀速和状态恢复均有原始证据，4个会话token无残留。完成L22独立提交、推送与远端核对后进入L23 URDF/Xacro；主课01–22与091/092共24项目，尚余L23–L37共15门主课与G02最终回归。以下旧进度保留为历史。
 
 L22流程为私有Master→个人源包overlay/输入指纹与/use_sim_time=true→Gazebo/API初始化→world-ready→真实roslaunch解析arg/include/group/私有param/remap并启动两个节点→after_startup核实际图/PID/缓存/新反馈→Trigger提交未来0.1模拟秒开始、持续0.3模拟秒的2或4N world+X有限ApplyBodyWrench→ODE真实加速→到期匀速→清本课body队列并恢复进入pose/twist/pause。服务调度包含开始/结束端点，实际速度可多一tick冲量；试块1kg、零g、零速度衰减，取消是清施力任务而非刹车。原队列、driver历史与已经流逝的模拟时间不倒回。
