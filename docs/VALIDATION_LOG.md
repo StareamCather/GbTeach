@@ -1177,3 +1177,20 @@ Gazebo模型alpha/beta、ROS /alpha|beta/{cmd_vel,odom,joint_states}、TF alpha|
 报告SHA256：formal 1e0d2344b1b475df38126f8207d553fe3d235bd0fd24839ee74bc49fa00c3574；UI c9071e1c933d154bfd0b879a4fd0445ff0153950867f40102cd0f407766cc503；独立测试 7bb6407b309b2ced21336c8c0b3d1aad20449982d8f67956743b03824b64f8b0。
 
 独立提交、Windows中转推送并精确核对远端后进入L37；当前继续全部39项目V2。
+
+
+## 2026-11-01 框架独立修复：持久原生控制连接
+
+L37图形检查真实发现gzserver的boost Connection空指针断言，GDB在16.375s复现SIGABRT，实际栈为Master::RemovePublisher→RemoveConnection→RunOnce；并非最初推测的订阅latch回调。官方11.15.1源码RemovePublisher广播时无空指针检查，过期连接回调与map索引可留下空项是与栈一致的解释，未宣称观测了全部线程交错。L37改为单一原生客户端后，100个同PID请求全部ACK且EOF/IOguard退出正常、服务端保持存活；随后69.266s/6控制循环压力中，官方gz world -s进程自身以-6退出，stderr明确为boost线程自join/Resource deadlock avoided。两类真实故障、源码快照、GDB和日志均保存两端。
+
+本次框架修复独立于L37课程提交：增加可选SDK11.15.1持久控制helper及Python生命周期封装，现有runtime在世界就绪后启动单一WorldControl发布者/WorldStatistics订阅者，供暂停、状态、单步与模型复位复用。命令按UUID串行发送；修改命令只发布一次，超时/协议错误标记连接不可继续使用，不盲目重发。暂停以新stats确认实际flag，单步要求暂停基线I到实际I+N精确一致（原生端及Python端双检），模型复位显式all=false/model_only=true/time_only=false；新stats不被冒充原生模型位姿ACK。SDK支持缺失时保留明确legacy-cli诊断，未把全部基础课程改为必须安装SDK；存在受支持SDK但编译/握手失败则明确报错。
+
+源码、SDK关键头/库、编译器与链接依赖参与私有缓存身份，缓存不进入练习源文件。控制helper使用已验证11.15.1主线程IO所有权方案；主应用退出先关闭stdin，待helper主线程fini/IO线程join，再结束世界。它有独立进程组和继承的归属token；状态/身份/错误和清理结果进入会话元数据，不在gzserver宿主里关闭全局transport，也未替换宿主SDK、OS、显卡驱动或网络配置。完整算法与限制见[NATIVE_CONTROL.md](NATIVE_CONTROL.md)。
+
+实际回归：冷缓存L01真实编译、GUI、双PTY与落体验收19.335s通过；诊断桌面00的12项12.962s通过（诊断不含参考答案，因此与正式课13项不同）。root查看实际诊断窗口。GDB下10轮真实暂停/单步/继续+100条同一持久客户端请求32.104s通过，无SIGABRT、无残留。原生EOF退出、io_guard_joined=true、未强制终止均记录。Linux127项1.679s全部通过；Windows127项4.448s通过、3项平台跳过。新增21项协议/边界/生命周期及runtime分派测试，不以成功启动代替行为检查。
+
+独立原生物理验证9.053s通过：暂停初始方块z=3.0、时间0；精确200步到.200s/z=2.8028189999999995；再800步到1.000s/z=.2499999999951039；模型复位后实际z=3.0、时间1.001s/迭代1001。复位存在一个管理tick，不假称时间严格不变或倒退；全部阶段真实physics.pause=true。初版诊断因未暂停启动而在采样前已经落地，原诊断与报告已保留，随后只把诊断实例设为-u启动，课程与产品物理未改写。
+
+Linux初次全套的3个错误来自旧GUI测试全局Popen替身误进入SDK探测（FakeProcess无上下文管理接口）。已保留失败日志，仅在旧GUI夹具明确选择其原有legacy路径，保留原断言；新SDK路径另有21项测试，不在生产代码中捕获此错误掩盖SDK失败。最终两端源码摘要、测试及SDK/GDB/真实物理记录归档后提交。L37仍待新框架上的完整正式课程与GUI验收，当前已发布仍为38项目。
+
+依据：[Gazebo11.15.1 Master实现](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/Master.cc)、[Connection与IOManager](https://github.com/gazebosim/gazebo-classic/tree/gazebo11_11.15.1/gazebo/transport)。这是应用生命周期与控制通路修复，不声称消除了宿主SDK的所有连接竞态。

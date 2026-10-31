@@ -62,7 +62,12 @@ class AfterGuiTests(unittest.TestCase):
         self.hook_results = []
         self.hook_callback = self.gui_callback = None
         clock = itertools.count()
+        # These fixtures exercise the legacy GUI startup path and replace its
+        # process boundary. The persistent SDK protocol has its own stdio tests;
+        # do not let this generic Popen double enter a real SDK/toolchain probe.
         for target, options in (
+                ("gazeboteach.native_control.try_create", {"return_value": (
+                    None, {"backend": "legacy-cli", "reason": "test legacy GUI startup path"})}),
                 ("gazeboteach.runtime.subprocess.Popen", {"side_effect": self.spawn}),
                 ("gazeboteach.runtime.terminate_owned", {"side_effect": self.terminate}),
                 ("gazeboteach.runtime.shutil.which", {"return_value": "/fixture/gzclient"}),

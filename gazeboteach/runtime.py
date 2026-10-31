@@ -171,6 +171,8 @@ class LessonSession:
         self.env["GAZEBO_LOG_PATH"] = str(gazebo_log_path)
         self.server = None
         self.gui = None
+        self.native_control = None
+        self.native_control_diagnosis = {"backend": "legacy-cli", "reason": "尚未检查可选 SDK 控制后端"}
         self.world_name = "default"
         self._save_metadata()
         self.log("本课 Gazebo 日志与地形缓存目录：" + self.env["GAZEBO_LOG_PATH"])
@@ -197,6 +199,8 @@ class LessonSession:
                 "workspace": str(self.workspace), "gazebo_port": self.gazebo_port,
                 "ros_port": self.ros_port, "ign_partition": self.env.get("IGN_PARTITION"),
                 "gazebo_log_path": self.env.get("GAZEBO_LOG_PATH"),
+                "native_control": (self.native_control.metadata() if getattr(self, "native_control", None)
+                                   else getattr(self, "native_control_diagnosis", {"backend": "legacy-cli"})),
                 "processes": [{"name": name, "pid": process.pid, "returncode": process.poll(),
                                "start_time": getattr(process, "_gazeboteach_start_time", None)}
                               for name, process in self.processes],
@@ -303,6 +307,7 @@ class LessonSession:
             arguments.append(str(world))
             self.server = self._spawn("Gazebo 服务端", arguments)
             self._wait_world(timeout=int(self.lesson.data.get("ready_timeout", 35)))
+            self._start_native_control()
             for command in self.lesson.data.get("after_start", []):
                 self.command(command, timeout=90, label="启动后准备")
             for item in self.lesson.data.get("startup", []):
@@ -329,6 +334,21 @@ class LessonSession:
             self.error = str(exc)
             self.stop(reason="启动失败，清理本课进程")
             raise
+
+    def _start_native_control(self):
+        from .native_control import try_create
+        controller, diagnosis = try_create(self.root, self.env, self.world_name, self.session_dir)
+        with self.lock:
+            if self.cancelled.is_set() or not self.running:
+                if controller: controller.close()
+                raise RuntimeError("实验在原生控制后端初始化期间已结束。")
+            self.native_control = controller
+            self.native_control_diagnosis = diagnosis
+            self._save_metadata()
+        if controller:
+            self.log("控制后端：Classic 11.15.1 持久 SDK 客户端；实际 world_stats 已就绪，PID={}".format(controller.process.pid))
+        else:
+            self.log("控制后端：legacy-cli；可选持久 SDK 后端未启用：" + diagnosis.get("reason", "未知原因"))
 
     def open_gui(self):
         if not self.running:
@@ -480,6 +500,9 @@ class LessonSession:
         """Read an actual world_stats sample through the owned command path."""
         if not self.running:
             raise RuntimeError("当前没有正在运行的实验，无法读取暂停状态。")
+        controller = getattr(self, "native_control", None)
+        if controller:
+            return controller.status(timeout=timeout)["stats"]["paused"]
         capture = self.session_dir / (".pause-state-" + uuid.uuid4().hex + ".txt")
         topic = "/gazebo/{}/world_stats".format(self.world_name)
         try:
@@ -524,6 +547,18 @@ class LessonSession:
         if not self.running:
             raise RuntimeError("当前没有正在运行的实验。")
         paused = bool(paused)
+        controller = getattr(self, "native_control", None)
+        if controller:
+            result = controller.pause(paused)
+            with self.lock:
+                if not self.running:
+                    raise RuntimeError("实验已结束，未记录暂停状态。")
+                self.paused = paused
+                self.state = "已暂停" if paused else "运行中"
+                self._save_metadata()
+                self._record("paused" if paused else "resumed", observed_paused=paused,
+                             observation="persistent SDK actual WorldStatistics", native_result=result)
+            return
         observed = self._read_pause_state()
         command_error = None
         if observed != paused:
@@ -559,6 +594,12 @@ class LessonSession:
             raise RuntimeError("当前没有正在运行的实验。")
         # A GUI or lesson terminal may have changed the world since our last read.
         self.pause(True)
+        controller = getattr(self, "native_control", None)
+        if controller:
+            result = controller.step(count)
+            self._record("stepped", count=count, native_result=result)
+            self._save_metadata()
+            return
         flag = "-s" if count == 1 else "-m " + str(count)
         self.command("gz world -w {} {}".format(shlex.quote(self.world_name), flag),
                      timeout=8, label="单步/多步")
@@ -567,6 +608,12 @@ class LessonSession:
     def reset_models(self):
         if not self.running:
             raise RuntimeError("当前没有正在运行的实验。")
+        controller = getattr(self, "native_control", None)
+        if controller:
+            result = controller.reset_models()
+            self._record("reset_models", native_result=result)
+            self._save_metadata()
+            return
         self.command("gz world -w {} -o".format(shlex.quote(self.world_name)),
                      timeout=10, label="重置模型状态")
         self._record("reset_models")
@@ -625,6 +672,10 @@ class LessonSession:
             if self.state == "已结束":
                 return
             previous = self.state
+            controller = getattr(self, "native_control", None)
+            if controller:
+                cleanup = controller.close()
+                self.log("持久原生控制客户端清理（先于服务端）：" + json.dumps(cleanup, ensure_ascii=False))
             self._close_terminal_groups()
             for name, process in reversed(self.processes):
                 terminate_owned(process)
@@ -651,6 +702,9 @@ class LessonSession:
                        if name in ("Gazebo 服务端", "ROS Master")] + list(self.auxiliaries)
             dead = [{"name": name, "returncode": process.poll()} for name, process in watched
                     if process.poll() is not None]
+            controller = getattr(self, "native_control", None)
+            if controller and not controller.closed and controller.process.poll() is not None:
+                dead.append({"name": "持久原生控制客户端", "returncode": controller.process.returncode})
             terminal_count = sum(self._terminal_info(marker) is not None for marker in self.terminal_markers)
             return {
                 "running": self.running, "state": self.state, "error": self.error,
