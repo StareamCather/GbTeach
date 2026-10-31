@@ -81,6 +81,7 @@ def lesson_environment(root, workspace, lesson, gazebo_port, ros_port, session_t
     """Source only this lesson's ROS installation, then isolate every transport."""
     root, workspace = Path(root), Path(workspace)
     environment = os.environ.copy()
+    inherited_package_paths = environment.get("ROS_PACKAGE_PATH", "")
     # Setting a lesson resource path replaces Gazebo's internal defaults. Load the
     # installed shader/material/model/OGRE paths before adding our local assets.
     gazebo_setups = [Path("/usr/share/gazebo-11/setup.sh"), Path("/usr/share/gazebo/setup.sh"),
@@ -94,6 +95,24 @@ def lesson_environment(root, workspace, lesson, gazebo_port, ros_port, session_t
         if not setup.is_file():
             raise RuntimeError("ROS Noetic 环境不存在：" + str(setup))
         environment.update(_load_setup(setup, environment))
+    package_paths = []
+    workspace_root = workspace.resolve()
+    for relative in lesson.data.get("ros_package_paths", []):
+        if not lesson.requires_ros or Path(relative).is_absolute():
+            raise ValueError("ros_package_paths needs relative paths and requires_ros=true")
+        directory = (workspace_root / relative).resolve()
+        # Recheck the personal copy: a student may have replaced a source
+        # directory with a symlink since its manifest was validated.
+        if directory == workspace_root or workspace_root not in directory.parents:
+            raise ValueError("ROS package paths must stay inside the personal workspace: " + relative)
+        package_paths.append(str(directory))
+    if package_paths:
+        # A distribution setup can replace ROS_PACKAGE_PATH. Keep both its
+        # installed packages and the caller's other package roots in this session.
+        for value in (environment.get("ROS_PACKAGE_PATH", ""), inherited_package_paths):
+            package_paths.extend(path for path in value.split(os.pathsep)
+                                 if path and path not in package_paths)
+        environment["ROS_PACKAGE_PATH"] = os.pathsep.join(package_paths)
     token = session_token or uuid.uuid4().hex
     environment.update({
         "GAZEBO_MASTER_URI": "http://127.0.0.1:{}".format(gazebo_port),

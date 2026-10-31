@@ -309,6 +309,9 @@ class LessonSession:
                 process = self._spawn(item.get("name", "课程辅助节点"),
                                       ["bash", "--noprofile", "--norc", "-c", item["command"]])
                 self.auxiliaries.append((item.get("name", "课程辅助节点"), process))
+            for command in self.lesson.data.get("after_startup", []):
+                self.command(command, timeout=self.lesson.data.get("after_startup_timeout", 90),
+                             label="辅助节点就绪检查")
             if gui:
                 self.open_gui()
             if terminals:

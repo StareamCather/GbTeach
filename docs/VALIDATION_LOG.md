@@ -476,3 +476,18 @@ UI tests/ui_probe.py --lesson21 PASS 34.906s / 13项，Qt5.12.8、平台xcb：�
 证据位于两端.deploy/lesson21-formal.json、lesson21-formal-artifacts、formal日志及lesson21-ui*；自动临时练习、个人参数、源码、构建指纹和退出结果分别记录。原VALIDATION_LOG前102967字节原封保留，SHA fa72eeff734608d2861b81db01979696b3ef06011f74e2e324f3639d6f93b2b8；前交接快照18305字节及2026-10-29尾5054字节均保留。完成L21独立提交、Windows中转推送与远端核对后进入L22；当前预交付主课01–21与091/092为23项目，L22–L37共16门主课与G02仍未完成。
 
 依据：[Classic lockstep](https://classic.gazebosim.org/tutorials?tut=lockstep_physics_sensors)、[Performance metrics](https://classic.gazebosim.org/tutorials?tut=performance_metrics)、[Sensor.Update](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/sensors/Sensor.cc)、[CameraSensor](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/sensors/CameraSensor.cc)、[World](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/physics/World.cc)。
+
+
+## 2026-10-31 框架：ROS课包路径与辅助节点就绪
+
+为L22真实roslaunch补充两个可选公共接口，独立于课内容提交。ros_package_paths仅允许ROS课程的相对根目录：catalog验证源码边界，session环境再次resolve个人副本，拒绝逃逸或符号链接越界；加载Noetic后前置课内路径并保留setup和用户原包路径，不改os.environ或系统profile。验证命令、辅助节点与真实终端继承同一会话路径。未声明的新旧课程保持原环境行为。
+
+after_startup命令在所有startup辅助进程创建之后、GUI/终端打开之前顺序执行，每条after_startup_timeout默认90秒且必须正有限；耗时仍在后台，异常/超时/取消走既有start失败清理，只回收本课进程。整体顺序是prepare→服务端就绪→after_start→全部startup→after_startup→GUI/终端，解决在辅助节点尚未启动时等待其ready的问题。
+
+新增10个必要单元检查覆盖声明类型、路径/真实symlink边界、会话环境与全局隔离、钩子顺序及失败/超时/取消清理。本机74项中72通过、2项Linux专属跳过；ikaros全74项PASS0.203s。新框架下原L21公开CLI --smoke21 --gui --terminals在全新目录完整PASS24.272s，实际GUI/两终端与课程verify均通过，最后运行组件全部结束；L21源和本课原有默认流程未改，不把此回归混入其此前正式计数。
+
+真实L22最小启动仅作为框架验收，不计整课交付：PASS8.774871s，无脉冲请求。private源ROS包由rospack/roslaunch实际发现并启动driver/observer；after_startup核真实XMLRPC Master/节点PID、参数、remap与新反馈后，才出现Gazebo窗口和两个独立PTY。读取两个真实终端进程的环境并各自实际rospack find，均指向本次个人ros_ws/src/gazeboteach_l22；原父环境字典完全不变，退出token进程扫描为空。启动日志记录的顺序与新接口一致。
+
+此前最小负例25.316517s：课内XMLRPC辅助函数与module同名遮蔽，真实启动后ready失败。框架正确阻止GUI/终端并清理roslaunch两节点、私有Master和gzserver；报告/准确源码包保存在.deploy/lesson22-framework-probe-v1。修复课内import alias后再得上述正例，没有通过放宽节点就绪门限解决。课内prepare另在私有Master已启动、gzserver之前显式设/use_sim_time=true；这属于L22课码，不修改旧课的时钟默认值。
+
+证据为两端.deploy/lesson22-framework-unit.log、lesson22-framework-legacy21.json/.log与lesson22-framework-probe.json/-runtime.log；最小ROS课包尚未完成物理实验/整课验收与发布，当前交付仍主课01–21及091/092共23项目。当前L22目标继续执行，先独立提交推送本框架支持，再完成课程的独立物理、桌面验收与发布；不跳到L23。原VALIDATION_LOG前114892字节完整保留。

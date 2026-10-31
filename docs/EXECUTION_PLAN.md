@@ -41,7 +41,8 @@
 - Python 3.8 + PyQt5，兼容 Qt 5.12；由 ./launch.sh 在图形桌面启动。
 - CLI：python3 -m gazeboteach --diagnose / --list / --smoke ID [--gui] / --gui-check。
 - 环境识别区分安装与激活，首版只提供 Classic 11/Noetic 课程；无 ROS 时独立课程仍开放。
-- 课程描述提供编号、版本、依赖、教材、世界、命令、prepare、after_start、可选after_gui、startup 和 verify。
+- 课程描述提供编号、版本、依赖、教材、世界、命令、prepare、after_start、startup、可选after_startup／after_gui 和 verify。after_startup 为字符串命令列表，在全部startup辅助进程创建后、GUI与终端打开前依次执行；每条使用after_startup_timeout秒（默认90，须为正有限数），失败或取消沿用本课进程清理。
+- ROS课程可声明ros_package_paths相对目录列表；路径须严格位于个人练习目录内，加载Noetic后仅前置到本次会话的ROS_PACKAGE_PATH，源码与个人副本分别检查路径边界及符号链接，不修改全局环境。辅助节点、验证命令和真实终端继承同一课内包路径。
 - 每次实验独立 Master 端口与 IGN_PARTITION，仅管理自己创建的进程组。
 - 个人练习保存在用户数据目录；模板更新保留个人修改并提示差异。自动验收始终使用全新副本。
 - 浏览课程不默认弹窗；开始实验才初始化，可在应用中设置进入即启动。

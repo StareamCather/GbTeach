@@ -1,6 +1,7 @@
 """Versioned, validated lesson packages; independent of Qt and simulator imports."""
 
 import json
+import math
 import os
 import re
 import shutil
@@ -38,7 +39,8 @@ class Lesson:
         if type(attempts) is not int or not 1 <= attempts <= 3:
             raise ValueError("gui_start_attempts must be an integer within [1,3]")
         for name in ("requires_plugins", "requires_ros_packages", "requires_tools",
-                     "prepare", "after_start", "after_gui", "server_args", "gui_args", "objectives"):
+                     "prepare", "after_start", "after_startup", "after_gui", "server_args", "gui_args",
+                     "objectives", "ros_package_paths"):
             values = data.get(name, [])
             if not isinstance(values, list) or any(not isinstance(x, str) or not x.strip() for x in values):
                 raise ValueError(name + " must be a list of strings")
@@ -56,6 +58,15 @@ class Lesson:
                 raise ValueError(name + " must be a positive duration")
         if data.get("requires_ros_packages") and not self.requires_ros:
             raise ValueError("ROS package requirements need requires_ros=true")
+        if "ros_package_paths" in data:
+            if not self.requires_ros:
+                raise ValueError("ros_package_paths needs requires_ros=true")
+            for relative in data["ros_package_paths"]:
+                self.file(relative)
+        timeout = data.get("after_startup_timeout", 90)
+        if (isinstance(timeout, bool) or not isinstance(timeout, (int, float))
+                or not math.isfinite(timeout) or timeout <= 0):
+            raise ValueError("after_startup_timeout must be a positive finite duration")
         if not self.world.is_file():
             raise ValueError("World file does not exist: " + str(self.world))
         if not self.file(data.get("lesson", "lesson.md")).is_file():
