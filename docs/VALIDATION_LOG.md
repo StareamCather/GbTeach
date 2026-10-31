@@ -265,3 +265,24 @@ v1/v2/v3源ZIP与原私有、正式和GUI失败记录均保存在Windows .deploy
 实际ikaros全部64项框架单元检查.188s通过、无跳过；Windows64项1.255s通过（2项Linux专用跳过）。正式运行前后9个课文件SHA一致；3个物理会话与桌面会话令牌归属进程均清理，无cleanup错误。完整原始JSON/日志在两端.deploy/lesson14-formal-artifacts与对应根报告，发布只提交课程、验收程序、2张原始截图及文档，不提交运行缓存。原VALIDATION_LOG前60239字节保留不变。完成本课独立发布并核对GitHubmain后才进入L15；旧15–16草稿仍未部署。
 
 官方接口依据：[Classic接触教程](https://classic.gazebosim.org/tutorials?tut=contact_sensor)、[Noetic bumper源码](https://github.com/ros-simulation/gazebo_ros_pkgs/blob/noetic-devel/gazebo_plugins/src/gazebo_ros_bumper.cpp)、[Classic11.15.1 ContactSensor](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/sensors/ContactSensor.cc)、[ODE反馈](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/physics/ode/ODEPhysics.cc)。
+
+
+## 2026-10-31 L15：CPU/GPU激光扫描与真实几何对照
+
+场景提供同位CPU ray与GPU ray，默认181束/180°/20Hz、range .1..10m；低置扫描器外壳避开自身光线，固定墙中心x3m、厚.2m，另设collision-only方块(1.5,−1.5,.7)和visual-only方块(1.5,+1.5,.7)。个人SDF真实参与仿真；只开放墙中心2.5..4m及两路同步181/361束，局部数值编辑保留其它字节/注释/换行，验证后原子替换并要求重载。带CRLF和伪模型注释的编辑回归通过。
+
+首轮真实运行明确失败，不能算通过：两个系统Noetic激光插件一起加载时，GPU触发RayPlugin requires a Ray Sensor as its parent，ready超时退出；源文件不变、归属清理干净。完整报告.deploy/lesson15-formal.json与原始runtime保留；Windows另存v1-failed报告和9文件源码归档lesson15-v1-stock-conflict-source.zip（SHA256 b57217c170af063292562062ab005f468a6085f360202588e47a77d52b572dfa）。检查系统两库的nm输出均导出同名gazebo::GazeboRosLaser::Load和vtable；官方issue768描述相同CPU/GPU类名冲突与改名修复。没有把该异常当作显卡故障，不改系统库、驱动或路由。
+
+修复流程：保留系统CPU插件；GPU改为课程独有GazeboTeachL15GpuLaser SensorPlugin，验证parent真实GpuRaySensor，按本世界命名空间订阅原生LaserScanStamped，仅复制原生时间、角度、量程、ranges和intensities到ROS，time_increment/scan_time置0沿用该接口约定、frame只标注不发布TF。桥没有几何预测、生成数据或测距替换。回调只捕获sharedState、不捕获this；析构以互斥inactive屏障等待正在发布的回调，再取消订阅/关闭本Node和Publisher，迟到回调可安全退出，不调用全局ROSshutdown。prepare使用本机Gazebo11/roscpp/sensor_msgs SDK离线编译，仅用户缓存与练习build/lib软链接；缓存键含源码/SDK版本/flags，并记录源码及实际库SHA。首次真实编译5.089s通过：source fd2bcb9da72b3c6289c6e39a516e63ba2f808f82bda0f6cc2a6edf0f13126aa3，library 0cb8783f77fe0712db0b336e7803873f4562aaa86f55a071b1d462d8d4dccca6。未修改框架。
+
+完整验收先检查个人SDF与准备指纹、真实两路发布者和元数据；每阶段暂停并设置/读回真实墙体，清队列，恢复推进，先留.2仿真秒传播保护，再取得首个正确几何帧，随后窗口内数据均须正确。基线→移墙1m→恢复配置位置，每路每阶段至少12个唯一时间戳且跨越≥.5仿真秒、频率15..25Hz，检查−90/−60/−45/−30/0/+30/+45/+60/+90°的数组索引和真实距离；支持有限墙宽下的无命中+inf。finally再恢复进入时实际墙体位姿、速度与暂停状态，不能把配置位置误当用户进入时位置。ROS调用有墙钟上限且控制不重发。原始非有限数保留为明确字符串，JSON不混入非标准Infinity/NaN数字。
+
+修复后冻结全部9个课文件，tests/lesson15_acceptance.py正式.deploy/lesson15-v2.json PASS：67.893s，3个全新私有ROS/Gazebo图形场景，7组（默认181束、只改361束、只改墙距3.5m、保存未重载拒绝、错误frame拒绝、非合同noise拒绝、原字节恢复完整再验）。四轮正向观测有24个双路窗口、362条原始扫描、289条验收扫描；逐路唯一header递增、跨越时间、九束几何均由根验收独立重算，不只信退出码。频率20..20.0364Hz，窗口最后帧九束最大误差.0177445m，原合同.08m未修改。
+
+默认中心CPU2.9000001m、GPU2.9001961m，真实墙体平移1m后3.9000001/3.9002643m，恢复后回到原值。−45°CPU测到collision-only方块1.8384776m、GPU看到后墙4.1032848m；+45°CPU看到后墙4.1012192m、GPU测到visual-only方块1.8393991m，分别证明两类几何来源。361束只改变数组和角分辨率；墙中心3.5m时中心距3.4m→移动后4.4m，远侧±45°超过墙宽后按原生返回+inf。所有正向场景实际墙状态恢复误差0，暂停状态恢复；所有输入拒绝发生在操控前，暂停世界iterations未动；9个课文件SHA前后相同、归属进程无残留。
+
+真实桌面tests/ui_probe.py --lesson15：PASS21.589s、13项，包含环境选择、初始化/SDK缓存、真实Gazebo和两PTY、暂停/单步/继续、完整扫描验收、只读参考、学习记录与关闭清理。根代理查看原始lesson15-ui.png及lesson15-gazebo.png：中文课件、验收状态、扫描器、可见方块、墙和射线叠加显示正确；此截图仅证明静态可视结果，不替代消息验收，也不声称测量窗口内逐GUI帧都经过人工检查。实际GPU数据在真实DISPLAY且每物理场景启用gzclient条件下验证。完整JSON/原始扫描/日志在两端.deploy/lesson15-v2*，v1失败与修复后证据分开。原VALIDATION_LOG前65157字节保留不变。
+
+教材按当前实现明确：CPU看collision、GPU看render；frame标签不等于TF；scan_time/time_increment为0，频率从真实header差求；range/resolution=.01不保证厘米距离量化；GPU对NaN/量程端点和噪声clamp的处理不能简单套用所有后端。当前固定无噪声课程没有上线噪声统计/强度材质标定，相关先修和拓展不计本次已验证。发布及远端哈希核对完成后才进入L16，未提前部署旧IMU草稿。
+
+依据：[原插件冲突issue768](https://github.com/ros-simulation/gazebo_ros_pkgs/issues/768)、[Noetic CPU激光](https://github.com/ros-simulation/gazebo_ros_pkgs/blob/noetic-devel/gazebo_plugins/src/gazebo_ros_laser.cpp)、[Noetic GPU激光](https://github.com/ros-simulation/gazebo_ros_pkgs/blob/noetic-devel/gazebo_plugins/src/gazebo_ros_gpu_laser.cpp)、[Classic RaySensor](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/sensors/RaySensor.cc)、[Classic GpuRaySensor](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/sensors/GpuRaySensor.cc)。
