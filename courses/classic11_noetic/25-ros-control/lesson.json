@@ -1,0 +1,110 @@
+{
+  "id": "25",
+  "title": "ros_control：把位置目标变成真实关节力矩",
+  "module": "ROS系统集成",
+  "order": 25,
+  "summary": "用真实Effort接口、PID和controller_manager学习控制器生命周期、资源冲突与限位。",
+  "profile": "classic11-noetic",
+  "requires_ros": true,
+  "requires_plugins": [
+    "libgazebo_ros_api_plugin.so",
+    "libgazebo_ros_control.so"
+  ],
+  "requires_ros_packages": [
+    "rospy",
+    "gazebo_msgs",
+    "gazebo_ros",
+    "gazebo_ros_control",
+    "controller_manager",
+    "controller_manager_msgs",
+    "joint_state_controller",
+    "control_msgs",
+    "sensor_msgs",
+    "std_msgs",
+    "std_srvs",
+    "control_toolbox",
+    "controller_interface",
+    "forward_command_controller",
+    "realtime_tools",
+    "urdf",
+    "pluginlib",
+    "angles"
+  ],
+  "requires_tools": [
+    "cmake",
+    "make",
+    "g++",
+    "rospack",
+    "rosparam",
+    "roslaunch"
+  ],
+  "ros_package_paths": [
+    "ros_ws/src",
+    "vendor"
+  ],
+  "world": "world.sdf",
+  "prepare": [
+    "python3 prepare.py"
+  ],
+  "prepare_timeout": 150,
+  "startup": [
+    {
+      "name": "真实ros_control控制器",
+      "command": "bash ros_lab.sh start"
+    }
+  ],
+  "after_startup": [
+    "python3 lab.py ready"
+  ],
+  "after_startup_timeout": 45,
+  "reference": "reference.md",
+  "verify": "verify.py",
+  "verify_timeout": 150,
+  "objectives": [
+    "解释transmission、Effort接口与PID的信息流",
+    "实际加载和切换控制器并观察资源冲突",
+    "测量真实跟踪、指令限位与关节反馈"
+  ],
+  "commands": [
+    {
+      "title": "检查控制器及真实反馈",
+      "command": "python3 lab.py ready"
+    },
+    {
+      "title": "三秒位置阶跃",
+      "command": "python3 lab.py demo --seconds 3"
+    },
+    {
+      "title": "同一目标使用柔和控制器对照",
+      "command": "python3 lab.py demo --controller soft_servo --seconds 3"
+    },
+    {
+      "title": "切换到柔和控制器",
+      "command": "python3 lab.py switch --name soft_servo"
+    },
+    {
+      "title": "切回主控制器",
+      "command": "python3 lab.py switch --name position_servo"
+    },
+    {
+      "title": "实际触发资源冲突拒绝",
+      "command": "python3 lab.py conflict"
+    },
+    {
+      "title": "观察超限目标的处理",
+      "command": "python3 lab.py limits"
+    },
+    {
+      "title": "真实100步（先暂停）",
+      "command": "python3 lab.py step --steps 100"
+    },
+    {
+      "title": "编辑单变量参数，随后重载",
+      "command": "gedit --new-window parameters.json"
+    },
+    {
+      "title": "完整实验验收",
+      "command": "python3 verify.py"
+    }
+  ]
+}

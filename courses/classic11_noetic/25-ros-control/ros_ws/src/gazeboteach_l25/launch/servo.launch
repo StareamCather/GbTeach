@@ -1,0 +1,12 @@
+<launch>
+ <arg name="description_file"/><arg name="controllers_file"/>
+ <param name="/use_sim_time" value="true" type="bool"/>
+ <group ns="/lesson25">
+  <param name="robot_description" textfile="$(arg description_file)"/>
+  <rosparam command="load" file="$(arg controllers_file)"/>
+  <node pkg="gazebo_ros" type="spawn_model" name="spawn_servo" args="-urdf -param /lesson25/robot_description -model servo_arm" output="screen"/>
+  <node pkg="controller_manager" type="spawner" name="start_controllers" args="--timeout 25 joint_state position_servo" output="screen"/>
+  <node pkg="controller_manager" type="spawner" name="load_soft" args="--timeout 25 --stopped soft_servo" output="screen"/>
+  <node pkg="gazeboteach_l25" type="configuration_node.py" name="configuration" required="true" output="screen"/>
+ </group>
+</launch>

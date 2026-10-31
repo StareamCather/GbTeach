@@ -1,0 +1,28 @@
+{
+  "repository": "https://github.com/ros-controls/ros_controllers",
+  "tag": "0.22.0",
+  "commit": "c2348e85abf35cf33cf654a84d61db206abe9a73",
+  "archive_url": "https://codeload.github.com/ros-controls/ros_controllers/tar.gz/c2348e85abf35cf33cf654a84d61db206abe9a73",
+  "archive_sha256": "71d2a7c15520960c4540573d762d719e39b5436af5fd1a52c48a19b1d3c83fd9",
+  "package": "effort_controllers",
+  "unmodified_files": {
+    ".gitignore": "a8f28fcc445e4e63378e7b9523e93e1bd7648671887644eb002e89f73cb6ee3f",
+    "CHANGELOG.rst": "a273b7c40ae0527e904bc42d8bdbff69c8b85bff9d9d60d7ba36a470372f409c",
+    "CMakeLists.txt": "a077ab3d9de5907a4b193b02c933edc747f43fda889284b127ab7f729668c51f",
+    "effort_controllers_plugins.xml": "8ca9e133f02b7b8bf7c6bb6b3f74e3e4849d0ab408d5bb4bdcdb47de294c7e35",
+    "include/effort_controllers/joint_effort_controller.h": "e15da80aa21085379287ec8f257a4de0ed1dc159abdb96bf612f12b347149bf6",
+    "include/effort_controllers/joint_group_effort_controller.h": "17b0782c39afff38e331b486df2355552cc76abefd1a82696b16b90c82b88be3",
+    "include/effort_controllers/joint_group_position_controller.h": "8fee3a432bb5f3b59426adb206fb15d603e65b304b64dfb48f6197cb7905a9a4",
+    "include/effort_controllers/joint_position_controller.h": "cc52258a04c3fbbc37a608ef5c85994c521a97b15bdf3137cf98227862b47cf3",
+    "include/effort_controllers/joint_velocity_controller.h": "eb4397d6e18c51904a797b9ee0a4ba51bf5346f38913a23705b26731ce57aef7",
+    "mainpage.dox": "253ad1cd718a13790ecfa1b29408076621eecdae4796eb75a09288e6682c1f67",
+    "package.xml": "00c19acd1c3ec834fcecbaada5d7e7c72d9b8dc9b05ab228c8c893b2a1851bcc",
+    "src/joint_effort_controller.cpp": "b9325ff7d5545fd9145a914da1f290bf7cf9bf2b0f8aeaf1797146593373846a",
+    "src/joint_group_effort_controller.cpp": "24a45c5f9401161e48cd340ab2f1795f02c46a22bf8fddd4ceddc4025762e0b9",
+    "src/joint_group_position_controller.cpp": "245a257ba527724a8b9cef2b06f07b020d7fae41c40dcb283a4f18f1956bdc58",
+    "src/joint_position_controller.cpp": "203b88f2866bed4625c76f035e33095c10abbe900e78bcd387c364066eafe302",
+    "src/joint_velocity_controller.cpp": "421c3a779e6baa683b420bd4d50213790a649829ec66a297bc143717e05e96db",
+    "UPSTREAM_LICENSE": "a50fa813d0163405068e12815c8f9e6d1fc27423456ca068f7902545985d6f94"
+  },
+  "purpose": "Offline per-lesson build of official ROS1 EffortJointInterface controllers; preserves upstream license notices. No host package installation."
+}

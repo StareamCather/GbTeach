@@ -790,3 +790,38 @@ L24流程：私有Master先设/use_sim_time→Xacro/URDF/SDF及SHA→现有Gazeb
 - v1-installed-sdk-fresh12.json SHA256 f2b2eb588f314d9417aca7766231c396a563c6734e4a09645338e06b20ae98b7
 - v1-installed-l24-ui.json SHA256 c5fd0d42686ab3c6e466450dd66883b83ce45318921d1f925149f37209e5b4df
 - v1-installed-rviz.json SHA256 c38641a851653fef81a04b8f6b8cd81767b9fbfff9b46034125f8aed7f760489
+
+
+## 2026-10-31 L25：ros_control真实力矩、生命周期与限位
+
+正式3个全新私有场景/6组检查通过96.916s，真实桌面13项36.707s通过；root查看两幅原图，27项目中文教材及蓝座橙杆均可见。GUI、两个独立PTY终端、暂停/单步、验收、编辑/持久化/重开与退出清理均实际检查。
+
+本机无effort_controllers且sudo不可免交互，未改系统包。Windows从官方ros-controls/ros_controllers标签0.22.0获取提交c2348e85abf35cf33cf654a84d61db206abe9a73，归档SHA256 71d2a7c15520960c4540573d762d719e39b5436af5fd1a52c48a19b1d3c83fd9；保留17个上游原文件摘要及BSD许可，省略上游测试、关闭CATKIN_ENABLE_TESTING。个人副本离线CMake构建，派生个人XML使用唯一libgazeboteach_l25_effort.so，避免主机同名库优先加载。三个新场景逐一核对自有gzserver的/proc/PID/maps、实际文件inode/device及ELF SHA，不以声明代替加载证据。
+
+算法：校验输入/源SHA→个人overlay→官方C++编译及派生XML→私有ROS/Gazebo与/use_sim_time→加载URDF/transmission/gazebo_ros_control→manager启动joint_state与主servo、只加载备用servo→配置/实际反馈就绪→位置目标→官方PID原始力矩→DefaultRobotHWSim限幅/SetForce→ODE积分→JointState/ControllerState与独立Gazebo查询。转杆轴惯量.0303+1*.3²=.1203kg·m²，p4/d.35/i0，力矩2N·m、名义速度4rad/s、角度±.8、控制周期.002s。
+
+先通过真实命令形成q=.24317734932503843rad、qd=1.8006897688207277rad/s并暂停。保存未重载p故障在控制前拒绝，世界时间/q/qd/控制器不变，精确恢复原字节后重新验收。冷暂停ready只作静态确认；实验快照为观测保持目标而进行的短时真实推进另存原始证据。最终物理q/qd恢复误差均0，原暂停及三个控制器状态相同。原initialized备用实例被使用后变stopped，工具实际卸载/重载并确认消失→initialized；恢复运行组合/目标后再暂停，以实际COM补偿恢复link pose/twist。实例/PID/订阅身份、时钟和消息历史不倒回。
+
+真实100步仅发送一次gz脉冲，有界回读12.308→12.408s；100*.001=.1s，独立世界查询同为.1s且仍暂停。ROS服务路径参数与请求name字段分开；SwitchController.timeout按Noetic实际float64=2.0发送。不重放非幂等步进来凑结果。
+
+| 真实场景 | 结果 |
+| --- | --- |
+| p4/d.35/目标.45基准 | 峰值速度1.996250386rad/s，终段均值.453522171rad |
+| 仅p改2 | 峰值1.135341459rad/s，终段均值.450185747rad，其余输入不变 |
+| 仅目标改-.3 | 正确负向响应，终段均值-.302035544rad |
+| 超限目标±1.2 | 实际set_point为±.8，关节趋近真实硬限位 |
+| 生命周期 | STRICT同资源冲突/未知控制器均拒绝；合法soft切换独占真实Effort资源并产生运动 |
+
+9段独立运动保留所有原始消息/查询。JointState/GetForce执行回读峰值≤2N·m；限幅前ControllerState.command原记录可达约176N·m，不当作实际执行力矩。超限段速度峰值4.010868rad/s保持原值：名义速度约束经努力接口离散调整施力，并非每个物理瞬时值直接裁为4；没有修改消息或隐藏超调。
+
+正式v1发现inactive initialized→stopped恢复遗漏，q/rate/pause本已恢复；补实际卸载/加载后v2发现维护包装器name重名，修复后v3通过。两端.deploy/lesson25-formal-v1与-v2保留完整报告/raw/log，独立测试及阈值未改。三个早期GUI原型依次定位roslaunch默认CWD=ROS_HOME、SwitchController.timeout类型，修复后v3全闭环28.559s。UIv1通过35.703s、v2在包装器故障时失败7项；最终v3才是13项36.707s证据。
+
+36个课程/依赖源文件与独立测试冻结，模板/上游原文件保持，逐文件摘要见formal.source_sha256与official_controller_source_sha256。三个formal token和UI关闭均无残留。临时Storage已清理，原运行身份路径留在报告中，应使用现存raw归档复核，不宣称旧/tmp路径仍存在。
+
+报告SHA256：formal b8e278d9596933d568fba09afaf98a3450f7eda0f2ec87911a06e6536d46d0c6；UI 772ad90e43c5f8802a56d4fa14c5668fb0d81a0b1f6dd9c0bd0902fdcbadac25；独立测试 0cb08c9bf75cfd729f8f30ad370a42ad591e132963a2dea268c3105798340dc4。
+
+另以独立提交ddd1b917e8050b41a55be9249df2468463a0c521修正Qt测试固定26项目假设，按实际catalog数量与逐行ID核对；27项目下106项Linux检查全部通过、无跳过，日志两端.deploy/lesson25-dynamic-catalog-tests.log。
+
+V1已发布：v1.0.0源384c74bf5d96e34f31d90cd823d42f2ffea1829e、437载荷文件，8附件按摘要下载核对，仓库保持私有。API令牌仅Windows内存、仅官方API，CDN不转发；最终新安装入口/真实GUI已复核。V1_VERIFICATION.md区分候选代表性回归、最终包检查及未验证Docker。操作报告SHA256 b6d59cb1888151127d985f5b3d92e54f39d03ba29c6c23a243b2d97ca60a2b06；当前继续全课程/V2，不在V1后停止。
+
+依据：[官方0.22控制器](https://github.com/ros-controls/ros_controllers/tree/0.22.0/effort_controllers)、[Noetic硬件实现](https://github.com/ros-simulation/gazebo_ros_pkgs/blob/noetic-devel/gazebo_ros_control/src/default_robot_hw_sim.cpp)。完成本课独立提交/推送/远端核对后进入L26。
