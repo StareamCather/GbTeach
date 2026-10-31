@@ -1,0 +1,22 @@
+{
+  "id": "29", "title": "VisualPlugin：外观大小为何不等于碰撞大小",
+  "module": "Classic插件开发", "order": 29, "profile": "classic11-noetic",
+  "summary": "在真实Gazebo客户端渲染线程改变颜色与视觉缩放，用实际像素和服务端碰撞状态分别验收。",
+  "requires_ros": false, "needs_display": true, "requires_tools": ["g++", "pkg-config"],
+  "world": "world.sdf", "prepare": ["python3 prepare.py"], "prepare_timeout": 150,
+  "after_start": ["python3 lab.py ready-server"], "after_gui": ["python3 lab.py ready-client"],
+  "verify": "verify.py", "verify_timeout": 130, "reference": "reference.md",
+  "objectives": ["解释VisualPlugin仅在客户端加载的作用域", "将渲染操作排到PreRender线程并实际读回", "通过真实像素与碰撞查询区分外观和物理"],
+  "commands": [
+    {"title": "检查真实服务端与客户端", "command": "python3 lab.py ready"},
+    {"title": "实际像素与物理对照实验", "command": "python3 lab.py demo"},
+    {"title": "实际改为蓝色", "command": "python3 lab.py color --color blue"},
+    {"title": "实际放大外观", "command": "python3 lab.py scale --scale 1.4"},
+    {"title": "恢复个人模板视觉参数", "command": "python3 lab.py reset"},
+    {"title": "回到课程固定视角", "command": "python3 lab.py camera"},
+    {"title": "保存真实相机PNG", "command": "python3 lab.py capture"},
+    {"title": "观察真实视觉回读与世界统计", "command": "python3 lab.py watch --seconds 2"},
+    {"title": "编辑个人视觉参数与插件，重载生效", "command": "gedit --new-window parameters.json visual_plugin.cc"},
+    {"title": "完整有限验收", "command": "python3 verify.py"}
+  ]
+}

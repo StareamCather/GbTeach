@@ -928,3 +928,34 @@ demo正常结束恢复目标完整原生pose和入场暂停状态，不回填EMA
 报告SHA256：formal 8f85de7fa3bf5c7c3d4ec042d4c7b5117b83c3bc151d86cc631c6997a753d925；UI 648eb3368720eaa8076563c71ed46d839713e75c6ffe5e73dc0a1db59d108332；独立测试 03ded27e318a4a0ef05d0175d5d11808be1118e8910f4041260d328674db86dd。
 
 独立提交、Windows中转推送并精确核对远端后进入L29；当前继续全部39项目V2。
+
+
+## 2026-11-01 L29：VisualPlugin真实像素与碰撞隔离
+
+三组全新私有Gazebo GUI场景正式验收49.098s通过，真实桌面13项31.409s通过；root查看31项目中文工作台及独立QScreen原始蓝色/放大红色画面，黄色参考物分离可见。正式视觉真值来自按本次gzclient PID/token选择的X11窗口截图，不使用插件生成的图片、属性回读或预期图作为独立视觉证据。三个图形场景顺序运行，随后单独运行桌面检查，避免两套自有窗口互相遮挡。
+
+| 全新场景 | 目标/黄色参考像素面积比 | 相对基准 | 服务端碰撞(m) |
+| --- | --- | --- | --- |
+| 红色、scale1 | 4.610200364 | 1 | 1×1×1 |
+| 仅改蓝色 | 4.661384335 | 1.011102331 | 1×1×1 |
+| 仅改visual scale1.4 | 9.055191257 | 1.964164362 | 1×1×1 |
+
+面积从原RGB的饱和色最大连通区测量，以不变的黄色参考归一；三组参考占原图比例均.006414510581。保留原像素，未替换、生成或重绘图像。颜色变式几何比.85..1.15、缩放面积比1.5..3.3阈值未改；透视/栅格实际测量不被强行写成理想1.96。三个自有gzclient分别核对实际ELF的inode/device/SHA，确认gzserver未加载该VisualPlugin；服务端原生实体、位姿及碰撞全内容保持。
+
+算法：校验个人color/visual_scale与源码摘要→合并Gazebo/OGRE各组件/Qt SDK并按键加锁离线构建→server创建原始1米碰撞模型→client加载visual下插件→Load/Init与保留渲染连接→transport回调只排队并回queued序号→PreRender在渲染线程建立本visual唯一材质，设置ambient/diffuse/emissive、启用lighting、按绝对值设置局部scale→读实际属性并更新applied序号→真正渲染产生可观测像素。after_start只检查服务端，after_gui才等真实客户端并初始化一次课程相机；已有窗口保留后续用户orbit。目标beacon与侧方黄色reference分离，未修改服务端几何来制造视觉变式。
+
+暂停世界下依次改蓝/绿/恢复个人模板，分别截图核对；render_count继续增加，而世界clock始终6322000000ns、iterations6322且paused。只关闭本次GUI后服务端继续，重新打开建立新的client_id，初始外观恢复；三次fresh及重开均实际Load1/Init2。Init2对应本SDK Visual.LoadPlugin在initialized后立即Init及LoadPlugins末再次遍历Init，教材要求初始化可重复，不把其他插件的Init次数套用。课程reset是排队恢复个人模板外观，不等同于原生模型或全世界复位。
+
+教材中的相机PNG也来自真实像素：PreRender保存原CaptureData并连接NewImageFrame、启用读回→Camera.PostRender完成GPU像素读回后发出带buffer/宽高/深度/格式的事件→事件中static Camera.SaveFrame保存实际数据→恢复原捕获flag。只有真实非空图像事件才确认captured序号，不按渲染计数或固定睡眠猜图像就绪。该辅助路径由prototype3及最终桌面实际运行，独立正式验收另外使用QScreen。
+
+早期问题与证据：首次编译依次定位OGRE基础/跨组件include缺失和VisualPtr的std/boost类型不匹配；prepare增加OGRE-Paging/Terrain/RTShaderSystem及Qt5Widgets，链接gazebo_gui。prototype1已打开GUI但SaveFrame报空图像，按上述真实事件修复；prototype2捕获新增UserCamera弱引用编译失败，按实机typedef修正：VisualPtr为std、UserCameraPtr仍boost。prototype3全部通过33.889s。首次独立正式20.201s发现实际两个方块全白，即使API回读红色[1,0,0,1]、相机及Init都正确；目标和参考原lighting=false，在本机渲染路径不呈现预期颜色，改lighting=true并保留专有RGB/自发光后正式像素通过。像素阈值未放宽，未把属性正确冒充画面正确。失败源/raw/log/截图保留两端.deploy/lesson29-prototype-v1/-v2与formal-v1。
+
+11个课程文件及独立测试冻结，模板未改；三次formal token、GUI重开和桌面关闭均无自有进程残留。GUI、两PTY、暂停/单步、实际验收、编辑/持久化/重开和清理都检查通过。demo尝试恢复入场颜色/scale/pause，明确保留课程相机视角，不承诺恢复学生相机或回填渲染历史。原始独立PNG、原生实体和映射证据保留两端.deploy/lesson29-formal-artifacts，运行临时路径仅作当时身份。SDK客户端继续使用L27已验证的全版本/符号保护和主线程IO join，不更改主机库。
+
+依据：[Classic Visual实现](https://github.com/gazebosim/gazebo-classic/blob/gazebo11/gazebo/rendering/Visual.cc)、[实际相机读回及保存](https://github.com/gazebosim/gazebo-classic/blob/gazebo11/gazebo/rendering/Camera.cc)、[VisualPlugin接口](https://github.com/gazebosim/gazebo-classic/blob/gazebo11/gazebo/common/Plugin.hh)。
+
+原型3报告SHA256：525ed70745c40e5e074634f80f39f83e68eb9e163c7272a5ade224c0648cd59f。
+
+报告SHA256：formal 23a6b54a2606098c46d49467a9bd288f95e0c27b88ff8895a13d49d49008167a；UI 37b8fca8c7d701abd643a91eaa25742a973924c26cbc0355ce9a995c9d441d76；独立测试 68d1400a533aa8b6ef00a8f4e8ad993b48e8a661bb415e620f50cee453d12af9。
+
+独立提交、Windows中转推送并精确核对远端后进入L30；当前继续全部39项目V2。

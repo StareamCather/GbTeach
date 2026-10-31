@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<sdf version="1.6"><world name="lesson29">
+  <physics name="ode" type="ode"><max_step_size>.001</max_step_size><real_time_update_rate>1000</real_time_update_rate></physics><gravity>0 0 -9.8</gravity>
+  <scene><ambient>.5 .5 .5 1</ambient><background>.08 .10 .14 1</background></scene>
+  <light name="sun" type="directional"><direction>-.4 .2 -1</direction><diffuse>.8 .8 .8 1</diffuse></light>
+  <model name="floor"><static>true</static><pose>0 0 -.1 0 0 0</pose><link name="body"><collision name="shape"><geometry><box><size>7 7 .2</size></box></geometry></collision><visual name="shape"><geometry><box><size>7 7 .2</size></box></geometry><material><ambient>.4 .4 .4 1</ambient><diffuse>.4 .4 .4 1</diffuse></material></visual></link></model>
+  <model name="beacon"><static>true</static><pose>0 0 .8 0 0 0</pose><link name="body">
+    <collision name="physical_box"><geometry><box><size>1 1 1</size></box></geometry></collision>
+    <visual name="indicator"><geometry><box><size>1 1 1</size></box></geometry><material><ambient>.7 .7 .7 1</ambient><diffuse>.7 .7 .7 1</diffuse></material>
+      <plugin name="appearance" filename="libgazeboteach_l29_visual.so"><color>red</color><visual_scale>1</visual_scale><config_sha256>unprepared</config_sha256></plugin>
+    </visual>
+  </link></model>
+  <model name="reference"><static>true</static><pose>2.2 1.8 .5 0 0 0</pose><link name="body"><collision name="shape"><geometry><box><size>.5 .5 .5</size></box></geometry></collision><visual name="reference_yellow"><geometry><box><size>.5 .5 .5</size></box></geometry><material><lighting>true</lighting><ambient>1 1 0 1</ambient><diffuse>1 1 0 1</diffuse><emissive>1 1 0 1</emissive></material></visual></link></model>
+</world></sdf>
