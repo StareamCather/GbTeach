@@ -1,5 +1,13 @@
 # GazeboTeach 会话交接
 
+> 2026-10-31 当前L21同步/频率/lockstep已通过3个全新私有场景、8组核心验收与2组真实取消检查，共124.404s；真实桌面13项34.906s通过。相机成功原生Update、接收标签覆盖密度及ROS交付分层验收，暂停/真正单步多步与隔离服务器重启均有原始证据。完成L21独立提交、推送与远端核对后进入L22 ROS启动；交付主课01–21及091/092共23项目，尚余L22–L37共16门主课与G02最终回归。下列旧进度保留为历史。
+
+L21运行流程为实际SDF/prepare指纹检查→完整--lockstep主world→SDK读取原生ImageStamped.time、IMU.stamp、WorldStats与无原生stamp的Perf/metadata→像素原字节外存→Python实际ROS事件发布/订阅→连续2模拟秒窗口→暂停墙钟保持→真实1步/0.1模拟秒多步→主world保持暂停并串行启动两个私有Master/IGN partition的纯原生child→恢复原pause并回收本课PID。child使用同一临时benchmark.sdf，仅共同把RTU改为0，argv模式差仅--lockstep；不将主限速场景与无上限child之差全归因于lockstep。
+
+相机ConnectUpdated只在UpdateImpl成功后计数，与LastMeasurementTime成对快照；窗口用Δcounter/ΔmeasurementTime，不是N−1，也不是硬件曝光或Image已送达。钩子可能晚接，只证明窗口增量。consumer原trace顺序、原标签/receipt不变；升序unique标签只建立密度/gap/离线nearest索引，原始接收数、unique/重复标签和回退count/max并列，不能据此定位网络层。主观测20/100Hz门限保持；ON子实验20或10Hz目标由真实成功Update计数率±2%/≥1模拟秒且same/regressed增量0验证。WorldStats.real_time扣暂停，与主机CLOCK_MONOTONIC不同；ROS服务读取world时间不是另订阅/clock。
+
+正式原始报告与flat asset-reference-map保存在两端.deploy/lesson21-formal*及ui*；自动临时Storage已删除，报告的旧/tmp路径仅为原观察身份，现存原图经映射读取扁平assets/SHA.rgb，不宣称旧路径仍存活。探索v1/v2为失败证据，v3探索PASS另列，不混正式计数；有意保留的lesson21-probe-storage-*可在ikaros复查。下一课为22，本次仍保持每课独立验收、提交、推送、远端核对后才前进，不自动把未验收草稿计交付。
+
 > 2026-10-31 当前进度为L20其它传感器展台：3个真实私有场景/8组验收141.204s、180个通道窗口/2160条验收事件、真实桌面13项36.057s通过。GPS/Mag/Alt/Sonar/Logical五个原生工厂均实测，不以头文件存在计上线；磁场与初始高度单变量、9阶段真实运动/几何变化、错误输入拒绝与修复再验均正确。输入及9个课文件不变，4模型位姿/速度与暂停恢复，归属进程清理干净。完成提交推送与远端哈希核对后进入L21同步与lockstep；主课01–20与091/092合计22项目，尚余17门主课及G02。以下保留为历史，不覆盖继续授权。
 
 L20薄桥逐字段转发五类原生protobuf为JSON，不生成测量值或假设NavSatFix状态。GPS原点WGS84(0°,0°,100m椭球高)、显式heading180°以对齐当前Classic局部XY/ENU；磁场独立，Mag输出RᵀB。Altimeter保留加载时worldZ参考。九阶段每次仅设置一次初始pose/twist，再由ODE推进；真实vz=.25m/s同时用GPS、Alt与GetModelState轨迹验证。四原生消息用自带time，Logical原生无time，source_stamp_ns=null、独立bridge_sequence及receipt_world_time_ns只作接收时基，允许不同序号共享同一接收时刻。

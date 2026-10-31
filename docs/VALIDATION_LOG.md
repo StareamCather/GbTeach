@@ -405,3 +405,74 @@ LogicalCamera原生pose是相机世界位姿(0,−4,1)，model.pose是sensor相�
 完整原始报告、wire消息/时间、状态查询/恢复、源与库指纹、运行日志保存在两端.deploy/lesson20-native-probe*、lesson20-formal*与lesson20-ui*，两张实际截图随源码发布。桥源SHA cb281087e08d9d17744daf4b69b71e56afa33a6df8e7dba9f39c37dd280e15d3，实际SDK库SHA a4a83aa7b6c7fa51550ed1fb3e348084ef5195fe8865781d50a709489b2d3c73。原VALIDATION_LOG前95135字节完整保留，既有2026-10-29交接快照保留；完成L20独立提交、中转推送与远端核对后进入L21。
 
 依据：[GpsSensor](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/sensors/GpsSensor.cc)、[SphericalCoordinates](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/common/SphericalCoordinates.cc)、[MagnetometerSensor](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/sensors/MagnetometerSensor.cc)、[AltimeterSensor](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/sensors/AltimeterSensor.cc)、[SonarSensor](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/sensors/SonarSensor.cc)、[LogicalCameraSensor](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/sensors/LogicalCameraSensor.cc)。
+
+
+## 2026-10-31 L21：时间来源、成功Update与独立lockstep
+
+tests/lesson21_acceptance.py正式PASS 124.404s：3个全新私有场景、8组核心检查（默认、仅相机10Hz、仅步长2ms、保存未重载、错误IMU频率、错误图像格式、错误主限速、精确恢复再验）及2组真实取消检查全部通过。4轮正向verify分别包含连续、暂停、单步、多步与off/on完整重启，共12个双通道观察窗口/24个通道窗口；下面数值只来自该正式报告，不含探索或UI轮。正式共保留183852条raw观察事件，其中183355条被接受的camera/IMU标签事件，raw/unique/回退分层计数，不把事件数称作物理采样完整数。10个课源正式前后不变，3个会话token均无残留，cleanup_errors为空。课程本地离线构建，无新增下载或宿主系统/驱动修改。
+
+L21运行流程为实际SDF/prepare指纹检查→完整--lockstep主world→SDK读取原生ImageStamped.time、IMU.stamp、WorldStats与无原生stamp的Perf/metadata→像素原字节外存→Python实际ROS事件发布/订阅→连续2模拟秒窗口→暂停墙钟保持→真实1步/0.1模拟秒多步→主world保持暂停并串行启动两个私有Master/IGN partition的纯原生child→恢复原pause并回收本课PID。child使用同一临时benchmark.sdf，仅共同把RTU改为0，argv模式差仅--lockstep；不将主限速场景与无上限child之差全归因于lockstep。
+
+相机ConnectUpdated只在UpdateImpl成功后计数，与LastMeasurementTime成对快照；窗口用Δcounter/ΔmeasurementTime，不是N−1，也不是硬件曝光或Image已送达。钩子可能晚接，只证明窗口增量。consumer原trace顺序、原标签/receipt不变；升序unique标签只建立密度/gap/离线nearest索引，原始接收数、unique/重复标签和回退count/max并列，不能据此定位网络层。主观测20/100Hz门限保持；ON子实验20或10Hz目标由真实成功Update计数率±2%/≥1模拟秒且same/regressed增量0验证。WorldStats.real_time扣暂停，与主机CLOCK_MONOTONIC不同；ROS服务读取world时间不是另订阅/clock。
+
+首版v1探索的主连续/pause/single/multi已过，但无实时限速off实际出现标签相对观测序回退；曾有camera1660raw/1655unique/5重复标签/2回退，IMU26776事件/995回退。不能把回退直接归因于网络重排，也不能排序后将标签重配原receipt。v2只建立独立sorted-unique标签统计视图，保留raw顺序、重复/回退与首观察事件序号；随后ON探索仍出现consumer密度17.469Hz而非目标20Hz、回退569，camera/IMU覆盖跨度305/54.5模拟秒，说明接收标签密度不能证明全部生产端更新。两次失败与各自源/原始数据保存在.deploy/lesson21-native-v1/v2与lesson21-course-v1/v2，不记作整课通过。
+
+v3新增只读成功Update钩子：Camera.UpdateImpl经rendered/PostRender成功返回true后，由Sensor.updated信号累计事件，并在短锁下保存count与Camera.LastMeasurementTime一致快照；卸载停用状态并断开信号，回调只持共享计数/弱sensor，不改调度或强制更新。native ImageStamped.time另在发布路径取scene时间，不能与该getter无条件混同。metadata中的hook_requested时刻只说明局部挂接上下文，counter不能冒充从world启动全量。Python按counter建独立快照索引，用首末Δcount/ΔLastMeasurementTime，不减1；同counter重复快照必须一致，same/regressed增量另列。成功Update不等于硬件曝光或消息交付。v3探索另为PASS32.388s，其中verify14.058s，曾观察off更新6.3168Hz、on更新20Hz而ON consumer约17.071Hz；这些仅为探索例子，不替代下面正式值、不混计正式耗时或窗口。
+
+| 正式正向轮次 | 主相机标签密度/Hz | 主IMU标签密度/Hz | 单步Δsim/ns | 多步次数 | 多步Δsim/ns |
+| --- | --- | --- | --- | --- | --- |
+| baseline | 20 | 100 | 1000000 | 100 | 100000000 |
+| camera_rate_only | 10 | 99.952176 | 1000000 | 100 | 100000000 |
+| physics_step_only | 20 | 100 | 2000000 | 50 | 100000000 |
+| exact_source_repaired | 20 | 100 | 2000000 | 50 | 100000000 |
+
+正式主窗口首次观测的不同标签按原序严格增加，目标相机20或10Hz±2%、IMU100Hz±5%保持；native时间原字段与各层单调时间交叉核对，间隔落在实际1/2ms网格。各正向pause_hold实际等待约0.400097至0.401173墙钟秒，原生sim/iterations与ROS服务world时间不推进；真单步1迭代，多步目标0.1模拟秒，1ms/2ms分别100/50步，返回仍暂停，WorldStats与服务读回一致。nearest只查询已观察标签，保存原stamp和首观测序号，不重采样、不重写stamp、不声称在线硬同步或融合。
+
+| 轮次/模式 | 成功Update/Hz | Δcount/测量跨度s | 相机consumer标签密度/Hz | 相机raw接收/墙钟Hz | 相机raw/unique/重复标签 | camera/IMU回退数 | WorldStats RTF |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| baseline/lockstep_off | 6.119126 | 1552/253.631 | 6.103909 | 817.905914 | 1640/1631/9 | 2/1068 | 133.295012 |
+| baseline/lockstep_on | 20 | 6080/304 | 17.242503 | 2639.19795 | 5291/5291/0 | 487/406 | 160.270525 |
+| camera_rate_only/lockstep_off | 5.575566 | 1517/272.08 | 5.53487 | 801.726381 | 1610/1602/8 | 2/702 | 145.675548 |
+| camera_rate_only/lockstep_on | 10 | 2702/270.2 | 10 | 1383.337039 | 2776/2776/0 | 46/513 | 139.152295 |
+| physics_step_only/lockstep_off | 2.888286 | 1654/572.658 | 2.884574 | 869.303487 | 1743/1743/0 | 5/881 | 302.121262 |
+| physics_step_only/lockstep_on | 20 | 13039/651.95 | 8.045675 | 2605.506533 | 5215/5215/0 | 471/481 | 344.328693 |
+| exact_source_repaired/lockstep_off | 2.829779 | 1628/575.31 | 2.826241 | 856.895973 | 1722/1722/0 | 11/805 | 303.861673 |
+| exact_source_repaired/lockstep_on | 20 | 12786/639.3 | 8.377668 | 2706.822985 | 5418/5418/0 | 406/617 | 335.121786 |
+
+上表生产端是成功Update事件率，consumer是标签覆盖密度，raw墙钟接收率是另一分母；不把三者互换。ON producer均按实际counter证据验收，consumer回退/重复原样记录，不拿它失败替代全部更新丢失的结论。WorldStats RTF单独取其sim_time/real_time窗，不能用sorted标签覆盖/receipt比伪装世界RTF；Perf无原生stamp，初期异常值保留诊断，不作成功数值gate。两child同benchmark SHA、私有Master与partition不同、argv剔除--lockstep后相同，实际metadata另核strict flag、sensor rate、dt和RTU0；主世界RTU随dt联动保持名义cap1。当前数据不建立off必漏、on必更快或某硬件固定RTF承诺。
+
+真正清理深度取消PASS 7.245973s：对当前令牌、PID起始时间/argv/Master身份都匹配的活跃observer发SIGSTOP，确认实际stop_owned SIGINT已pending后再取消caller并恢复observer；失败取消报告只含off child，没有继续启动on，两owned PID均回收且主pause恢复。应用关闭取消PASS 1.694461s：在独立child实际存活时调用LessonSession.stop，caller实际返回-9，完整归属token进程扫描后无残留。stop不能因最先管理组已退出而跳过剩余组；两种真实取消与8个核心输入/物理检查分列。
+
+UI tests/ui_probe.py --lesson21 PASS 34.906s / 13项，Qt5.12.8、平台xcb：课程/环境、真实Gazebo/两个PTY与Bash jobcontrol、暂停/单步/继续、完整验证按钮、只读参考、学习记录、实际截图与退出清理均完成。UI按钮内verify另耗15.007382s/保留37442事件，不混上表正式计数。根代理已逐张查看UI报告指向的真实Qt和Gazebo原图，核对课程、验证状态与场景；图形截图不替代原生数据与成功Update证据。
+
+图像是真正原生RGB_INT8数值3、128×96、step384、36864字节；SDK先保留protobuf/base64，Python将原data外置到.rgb并记录binary_storage、SHA256/长度，ROS事件传字段与blob引用，不是标准ROS Image像素流。独立正式检查在临时Storage删除前读取并保留原字节，现存asset-reference-map共12个原路径映射、1个内容去重原图；中心[255,0,0]且实际像素不均匀。旧/tmp路径仍作为观察身份留在报告，但临时树已删除；通过formal-artifacts/asset-reference-map.json映射到扁平assets/SHA.rgb查找现存字节，child/observer日志也平拷，避免Windows长路径。探索的lesson21-probe-storage-*另有意保留。
+
+| 正向轮次 | 实际输入world SHA256 |
+| --- | --- |
+| baseline | c1a48e2ec4620b871a1c3ba93b41ea22865f8064a7c2e4b65d337552d52f4f12 |
+| camera_rate_only | 4b541749402fffb2567454397946ff1b296631a770a4f17e74067bc886a2ec4d |
+| physics_step_only | 0d5913062c7c4ef01c57120abc90150d3729bdd1739a077396d3c32437612b7b |
+| exact_source_repaired | 0d5913062c7c4ef01c57120abc90150d3729bdd1739a077396d3c32437612b7b |
+
+| native_observer.cc源SHA | metadata_plugin.cc源SHA | 实际observer二进制SHA | 实际metadata库SHA |
+| --- | --- | --- | --- |
+| a014bfd5aaabe0d2be8b3b1ba0c1ae06d4d7b5d42e6b97fc2f715d28a634517b | 84cd26e3b9f70d846898b9b192edb67fccee804a54972a9ba1dfd1454c5a7b1c | a90e5ad4f6d9803333419597d5df308a85c860e44c322ffba7c2a050064866c8 | d03054174a438e48ab67115a379704d5725dfaa2463354f7d894b08e1ae176b5 |
+
+| 冻结课文件 | SHA256 |
+| --- | --- |
+| config.py | 51b746605885683ad71923978e7463a811f119991f10ede7be7b2b9ab85bddd9 |
+| lab.py | 89735c7204985acf73d2ecccda1260d8df5e9d13dbef450899fb2dbcc9ee4eef |
+| lesson.json | 6d91b57188021b78edb3e99466c29246700ad5f968db76cc208499184ac81438 |
+| lesson.md | 05c87da929aa35097cd81bcd1577377bca172df774814f6840e2e30c5f9410fe |
+| metadata_plugin.cc | 84cd26e3b9f70d846898b9b192edb67fccee804a54972a9ba1dfd1454c5a7b1c |
+| native_observer.cc | a014bfd5aaabe0d2be8b3b1ba0c1ae06d4d7b5d42e6b97fc2f715d28a634517b |
+| prepare.py | 38e32f0b3a5cb1292b01ff2c689ee42d817096aed697381b6fe7068d7caa7221 |
+| reference.md | 6163f57d73c8feaab327b93302a3680b7a002cae6eb54734a9714146a7fc52a8 |
+| verify.py | d31d457357617d1d7ad5ab440e293deff200a1e2a0793450c6ff874320440a49 |
+| world.sdf | c1a48e2ec4620b871a1c3ba93b41ea22865f8064a7c2e4b65d337552d52f4f12 |
+
+报告SHA256：formal 39a6c4d7814d20ed151031e72b49bd0035a8b20599cca251bfe5a03ebf2b3ed3；UI 9ce3da26c528064f05e539e3f7188fe8fdf69802b159939857a2198fd1d20b95；flat asset-reference-map 00d03472e83a48b21ee3213ede3b72eac6bfe22e86f6faa222fa708e94ca8055。统一冻结的独立验收源码SHA 9c46b411ad009b3e4bacc806bdc38a84a6944368ffb0e088722e1839de243577；UI探针SHA 12cf64d65a476946a9b9bd907aed419c1c2ab0a5136a48371e66ef50171c89a0；实际运行框架runtime.py SHA d7fd217a10c9a7c352894755db91a10ed961cabedaadf743cedc998d7208ffa2。主课server_args显式传递完整--lockstep启动模式，实际producer/metadata确认而不以命令字符串代替；新字段与原课程默认兼容，App.stop真实取消覆盖全部归属组。
+
+证据位于两端.deploy/lesson21-formal.json、lesson21-formal-artifacts、formal日志及lesson21-ui*；自动临时练习、个人参数、源码、构建指纹和退出结果分别记录。原VALIDATION_LOG前102967字节原封保留，SHA fa72eeff734608d2861b81db01979696b3ef06011f74e2e324f3639d6f93b2b8；前交接快照18305字节及2026-10-29尾5054字节均保留。完成L21独立提交、Windows中转推送与远端核对后进入L22；当前预交付主课01–21与091/092为23项目，L22–L37共16门主课与G02仍未完成。
+
+依据：[Classic lockstep](https://classic.gazebosim.org/tutorials?tut=lockstep_physics_sensors)、[Performance metrics](https://classic.gazebosim.org/tutorials?tut=performance_metrics)、[Sensor.Update](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/sensors/Sensor.cc)、[CameraSensor](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/sensors/CameraSensor.cc)、[World](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/physics/World.cc)。

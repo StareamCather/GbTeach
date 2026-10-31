@@ -1,0 +1,29 @@
+{
+  "id": "21",
+  "title": "时间账本：频率、单步与 lockstep",
+  "module": "感知与传感器",
+  "summary": "区分真实采样、ROS接收与仿真推进，独立重启比较lockstep。",
+  "order": 21,
+  "profile": "classic11-noetic",
+  "version": 1,
+  "world": "world.sdf",
+  "requires_ros": true,
+  "needs_display": true,
+  "requires_plugins": ["libgazebo_ros_api_plugin.so"],
+  "requires_tools": ["g++", "pkg-config", "gz", "rostopic"],
+  "requires_ros_packages": ["rospy", "std_msgs", "gazebo_msgs"],
+  "objectives": ["区分物理步、采样时间、消息接收时间和墙钟", "测量两路不同频率传感器的真实采样与时间偏差", "通过独立重启比较 lockstep 与自由运行"],
+  "prepare": ["python3 prepare.py"],
+  "prepare_timeout": 260,
+  "after_start": ["python3 lab.py ready"],
+  "server_args": ["--lockstep"],
+  "ready_timeout": 40,
+  "reference": "reference.md",
+  "verify": "verify.py",
+  "verify_timeout": 180,
+  "commands": [
+    {"title": "观察原生采样与ROS接收", "command": "python3 lab.py observe --seconds 2"},
+    {"title": "独立重启比较lockstep", "command": "python3 lab.py compare"},
+    {"title": "完整时间账本验收", "command": "python3 verify.py"}
+  ]
+}
