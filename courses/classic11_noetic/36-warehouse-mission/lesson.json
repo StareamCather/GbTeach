@@ -1,0 +1,26 @@
+{
+  "id": "36", "title": "仓库综合任务：激光、物理滑门与有限状态机",
+  "module": "Classic高级实验", "order": 36, "profile": "classic11-noetic",
+  "summary": "用真实差速车、CPU激光与力控制滑门完成仓库通行，保留测量点图与故障恢复证据。",
+  "requires_ros": true,
+  "requires_plugins": ["libgazebo_ros_api_plugin.so", "libgazebo_ros_diff_drive.so", "libgazebo_ros_laser.so", "libgazebo_ros_bumper.so"],
+  "requires_ros_packages": ["rospy", "gazebo_ros", "gazebo_plugins", "gazebo_msgs", "geometry_msgs", "nav_msgs", "sensor_msgs", "std_msgs", "std_srvs", "rosgraph_msgs", "tf2_msgs", "tf2_ros"],
+  "requires_tools": ["gazebo", "gz", "g++", "pkg-config", "rospack", "rosparam"],
+  "world": "world.sdf", "server_args": ["-u"],
+  "prepare": ["python3 prepare.py"], "prepare_timeout": 240,
+  "startup": [{"name": "仓库任务控制器", "command": "python3 mission.py"}],
+  "after_startup": ["python3 lab.py ready"], "after_startup_timeout": 45,
+  "reference": "reference.md", "verify": "verify.py", "verify_timeout": 150,
+  "objectives": ["根据实际激光和关节反馈守护状态迁移", "用物理力驱动滑门并完成真实差速车通行", "复现堵门超时、显式恢复与测量点投影；区分有限状态机和SLAM"],
+  "commands": [
+    {"title": "检查真实模型、门关节和配置", "command": "python3 lab.py ready"},
+    {"title": "零指令推进，采集真实激光与里程计", "command": "python3 lab.py bootstrap"},
+    {"title": "运行有限仓库通行任务", "command": "python3 lab.py run"},
+    {"title": "读取任务状态与测量目录", "command": "python3 lab.py snapshot"},
+    {"title": "显式全世界复位并保留历史日志", "command": "python3 lab.py reset --world"},
+    {"title": "注入门保持关闭故障（在reset后）", "command": "python3 lab.py enable-door --enabled false"},
+    {"title": "保留位置并显式恢复门和任务", "command": "python3 lab.py reset"},
+    {"title": "更改单个速度或门力上限，保存后重载", "command": "gedit --new-window parameters.json"},
+    {"title": "有限真实任务验收", "command": "python3 verify.py"}
+  ]
+}
