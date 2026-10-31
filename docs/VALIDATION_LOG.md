@@ -286,3 +286,26 @@ v1/v2/v3源ZIP与原私有、正式和GUI失败记录均保存在Windows .deploy
 教材按当前实现明确：CPU看collision、GPU看render；frame标签不等于TF；scan_time/time_increment为0，频率从真实header差求；range/resolution=.01不保证厘米距离量化；GPU对NaN/量程端点和噪声clamp的处理不能简单套用所有后端。当前固定无噪声课程没有上线噪声统计/强度材质标定，相关先修和拓展不计本次已验证。发布及远端哈希核对完成后才进入L16，未提前部署旧IMU草稿。
 
 依据：[原插件冲突issue768](https://github.com/ros-simulation/gazebo_ros_pkgs/issues/768)、[Noetic CPU激光](https://github.com/ros-simulation/gazebo_ros_pkgs/blob/noetic-devel/gazebo_plugins/src/gazebo_ros_laser.cpp)、[Noetic GPU激光](https://github.com/ros-simulation/gazebo_ros_pkgs/blob/noetic-devel/gazebo_plugins/src/gazebo_ros_gpu_laser.cpp)、[Classic RaySensor](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/sensors/RaySensor.cc)、[Classic GpuRaySensor](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/sensors/GpuRaySensor.cc)。
+
+
+## 2026-10-31 L16：IMU转台、坐标与真实自由落体
+
+固定场景使用两套原生ImuSensor与系统Noetic gazebo_ros_imu_sensor：均匀盒体转台.6×.25×.12m/1kg，碰撞与外观一致、三主惯性按均匀盒体计算；另有.2m立方体freefall_probe/1kg。两IMU均在CoM且零偏置、原生100Hz、零噪声、initialOrientationAsReference=false，显式线/角阻尼0，动态非kinematic。转台关闭模型重力维持悬浮，探针保留重力真实下落；没有持续设置轨迹、添加假加速度或替换消息。
+
+实际接口依据：原生gyro为R^-1ωworld，比力为R^-1(Δv/Δt−g)，即使link.gravity=false仍减世界重力；因此悬浮a≈0时正立f≈+g，自由落体a≈g时f≈0。Noetic的false参考标志显式设世界到参考旋转为identity，姿态来自仿真状态，不是陀螺积分/融合；frameName仅写header，xyzOffset在该插件未用，rpyOffset只调整姿态而不一起旋转gyro/acc。固定offset0避免混合轴。noise0导致三协方差数组全0，按Imu消息语义为unknown，不作确定性零误差承诺。
+
+两级频率配置：原生100Hz，ROS wrapper updateRateHZ200仅为上限，不插值或生成额外样本。wrapper按Sensor.LastUpdateTime的整数common::Time差限速，200上限让约10ms原生间隔通过、dt0重复不通过；不宣称已发现通用浮点门限缺陷。header为原生Sensor.LastUpdateTime，底层LinkData测量可落后少量tick，独立查询姿态必须保留前后时钟界，不冒充严格同刻真值。
+
+修改后的完整流程：校验固定SDF和仅speed_rad_s/tilt_deg参数→核对prepare指纹、实际质量/重力标志、发布者和仿真时钟→一次摆放转台/设置零初速或给定±ω→ODE演化→.2仿真秒保护后取得≥50唯一header且跨越≥.6秒→检查正立静止、roll倾斜静止、正转、反转；每阶段同时取得独立GetLinkState位置/朝向/速度和ROS时钟前后界。第五阶段把重力探针一次零速释放到z3m，.15秒保护后取得≥30唯一header/≥.3秒且在释放后.65秒前结束，验证f≈0、实际下降/负vz，并保留同期悬浮f≈+g消息。最后逐模型独立尝试恢复进入时实际pose/twist，汇总失败后统一报告，finally另恢复原暂停；q/−q按等价旋转比较。恢复瞬间状态不恢复仿真时间或传感器差分历史。等待和单次ROS调用均有限墙钟时间，控制不重发。
+
+参数仅允许速度.2..1.5rad/s与倾角10..60°，分别由lab config局部替换数值，保留其它JSON字节/格式；保存后须重载。手工turntable命令可正立±转速或倾斜静止，不把倾斜+非主轴旋转当作当前常速场景。prepare只校验/记录，不重写个人输入或偷偷补参数。静态审查先发现并修复了首个模型恢复失败会跳过第二模型的错误路径，修复后冻结再开始实测，没有用运行时阈值放宽掩盖失败。
+
+正式tests/lesson16_acceptance.py报告.deploy/lesson16-formal.json PASS：61.467s，3个全新私有ROS/Gazebo场景、8组（默认.6rad/s/30°、只改.9rad/s、只改45°、保存未重载拒绝、错误frame拒绝、错误noise拒绝、错误reference拒绝、精确恢复后完整再验）。四轮正向运行含20个五阶段物理窗口，2882条实际原始双路消息、其中1122条验收消息；保护段/并行对照与验收样本分开，不声称所有原始消息都应符合稳态判据。根验收独立从保存数据重算gyro、比力、四元数归一化/静态倾角/连续展开yaw、唯一递增时钟、100Hz频率和自由落体位置速度变化，不只检查进程退出。
+
+20个窗口唯一频率均100Hz。默认倾斜30°比力[0,4.905,8.4957092]m/s²；只改45°得到[0,6.9367175,6.9367175]。正/反gyro实际±.6rad/s，.61秒yaw变化±.365999989rad对预测±.366；速度单变量.9rad/s时正向.61秒变化.548999963rad对预测.549。四次自由落体平均fZ约8.15..8.19e−14m/s²，独立查询速度变化重估世界加速度约−9.81..−9.832m/s²；同时悬浮体fZ9.81。实际返回的近时服务区间/姿态比较保留，未把服务往返时间视为精确采样时刻。
+
+每浮台窗口生产判据gyro分量误差<.02rad/s、比力<.05m/s²、静止姿态角误差<.005rad、四元数范数误差≤1e−6、展开yaw误差<.02rad、名义频率80..120Hz；独立根检查另要求90..110Hz。自由落体真实位置/速度还需符合3−g*t²/2和−g*t的有界查询误差，必须在撞地前测量。所有输入拒绝均在控制前发生，暂停世界iterations不变；恢复后的精确字节重新完成五阶段。两模型恢复位置/速度最大分量误差及旋转角误差均0，原暂停恢复；10个课文件SHA前后相同，三个会话归属进程无残留。
+
+真实桌面tests/ui_probe.py --lesson16 PASS21.443s、13项：环境/课程、真实Gazebo/两PTY、暂停/单步/继续、五阶段完整验收、只读参考、学习记录和关闭清理。根代理检查lesson16-ui.png与lesson16-gazebo.png，中文正文和已验收状态正确、绿色悬浮模型与落地红色探针清晰，真实图形会话显示正常。截图不替代学员手工读IMU、理解四元数或编写姿态估计；噪声统计/融合/实体标定为背景与后续拓展，不算本课已验证。完整报告、原始消息、查询记录和日志保存在两端.deploy/lesson16-formal*及lesson16-ui*。本课复用现有依赖，不修改框架/系统，原VALIDATION_LOG前71112字节保留不变。发布核对后才进入L17。
+
+依据：[Classic11.15.1 ImuSensor](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/sensors/ImuSensor.cc)、[Noetic IMU插件](https://github.com/ros-simulation/gazebo_ros_pkgs/blob/noetic-devel/gazebo_plugins/src/gazebo_ros_imu_sensor.cpp)、[Imu消息定义](https://docs.ros.org/en/noetic/api/sensor_msgs/html/msg/Imu.html)、[REP103](https://www.ros.org/reps/rep-0103.html)、[REP145](https://www.ros.org/reps/rep-0145.html)。

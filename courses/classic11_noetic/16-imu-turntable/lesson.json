@@ -1,0 +1,49 @@
+{
+  "id": "16",
+  "title": "IMU转台：姿态、角速度与比力",
+  "module": "感知与传感器",
+  "summary": "比较悬浮、倾斜、正反旋转与真实自由落体，核对IMU姿态、角速度和比力。",
+  "order": 16,
+  "profile": "classic11-noetic",
+  "requires_ros": true,
+  "requires_plugins": ["libgazebo_ros_api_plugin.so", "libgazebo_ros_imu_sensor.so"],
+  "requires_ros_packages": ["gazebo_plugins", "gazebo_msgs", "sensor_msgs", "rospy"],
+  "requires_tools": ["rostopic", "rospack"],
+  "prepare": ["python3 prepare.py"],
+  "after_start": ["python3 lab.py ready"],
+  "verify_timeout": 100,
+  "reference": "reference.md",
+  "world": "world.sdf",
+  "objectives": [
+    "区分姿态、角速度、线加速度与比力",
+    "检查四元数归一化与参考系",
+    "施加已知转速并验证真实陀螺仪输出"
+  ],
+  "commands": [
+    {
+      "title": "查看IMU数据",
+      "command": "rostopic echo -n 1 /lesson16/imu"
+    },
+    {
+      "title": "让转台匀速转动",
+      "command": "python3 turntable.py --speed 0.6"
+    },
+    {
+      "title": "停止转台",
+      "command": "python3 turntable.py --speed 0"
+    },
+    {
+      "title": "倾斜静止对照",
+      "command": "python3 turntable.py --speed 0 --tilt 30"
+    },
+    {
+      "title": "观察自由落体IMU通道",
+      "command": "rostopic echo -n 1 /lesson16/freefall_imu"
+    },
+    {
+      "title": "五阶段真实验收",
+      "command": "python3 verify.py"
+    }
+  ],
+  "verify": "verify.py"
+}
