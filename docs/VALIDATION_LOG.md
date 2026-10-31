@@ -244,3 +244,24 @@ v1/v2/v3源ZIP与原私有、正式和GUI失败记录均保存在Windows .deploy
 公共框架修复已独立提交并推送：[e2471571261fc3f3798b0ebf50be333df6dcdc17](https://github.com/StareamCather/GazeboTeach/commit/e2471571261fc3f3798b0ebf50be333df6dcdc17)，远端哈希已核对。本课原生observer SHA66023a2ad0c0bcfc7cee46ea7f407c4a8f70cb24686747ecdbcfeb9485bda1d0、PNG53981aa62807a641f879c43b5da79549c3a0897d17297464f5e24ed16239497d、world37821455f1cf9f0779e06674a4a5cef2081abc0d2aa677114eadd96142f42f56；GUI helper6fb78481574102e5f8ca6597d472c4afba4a076491fba0670a2adc5fd9cd8f3d，最终instrumentc48c4d7b58d7c01029ceefc468dbb9d1c68833815ba6771cf53868106aa44fc5。完整最终指纹与原始日志保存在两端.deploy，不包含任何私钥。
 
 本次在L13独立提交推送、远端核对和清理后停止，交付范围为13门主课与091/092选做，共15项目。L14不开始；Windows的14–16旧草稿仍未部署、不计交付，无自动续跑或定时任务。用户下次明确发起后从L14审查开始。
+
+
+## 2026-10-31 L14：碰撞保险杠与真实接触消息
+
+用户明确继续后恢复逐课实施；此前L13停止点为历史。本课沿用系统Noetic gazebo_ros_bumper及gazebo_ros_api_plugin，无额外下载、驱动或框架修改。world.sdf为个人真实输入；prepare只校验固定机构、质量/均匀盒体惯性、释放高度和依赖，再保存输入指纹。参数编辑仅替换质量/惯性或pose的指定数值，保留其余字节、注释和格式，验证临时文件后原子替换，须重载才生效。
+
+运行流程：检查保存输入与准备指纹→连接实际ROS服务并核对物理质量、重力和仿真时钟→只在阶段边界摆放本课puck并清零速度→在台外真实落地后取得持续空接触负对照→中心重新释放→取得新的空中空消息和精确碰撞对→用真实位置/速度/姿态判断落稳，丢弃初期过渡→累计至少20条唯一消息且跨越至少.4仿真秒的支撑窗→finally恢复原暂停状态。方块保留本轮结束状态，不恢复旧运动或时间。ROS等待和单次调用均有墙钟上限，控制请求不重发。
+
+接触语义按Classic11.15.1/Noetic源码审查：每条ContactState的total_wrench已逐分量加总同一接触记录的点反馈；50Hz传感器会在一包states中追加多个原生物理时刻，故先对每条记录的力取模，再按每条ROS消息求平均，不能跨states相加为同一时刻的合力。ODE先把body1反馈转到collision1连杆轴，bumper未执行TF转换，frameName只写消息头；本课固定轴对齐并检查实际姿态，才与mg比较。位置/法线与wrench不能笼统称为同一world坐标。未声称连续无遗漏1kHz轨迹，也未把已采样冲击最大值当实体材料峰值。
+
+探索测试lesson14-trial的8组行为均达到预期，但运行期间操作端更新了参数编辑器/教材，source_templates_unchanged=false，因此总体明确记录失败，不计正式通过。随后冻结全部9个课文件重新部署并完整重跑，没有靠降低判据获取通过。
+
+正式tests/lesson14_acceptance.py报告.deploy/lesson14-formal.json：PASS，47.730s，3个全新私有ROS/Gazebo会话、8组场景（默认、只改质量、只改高度、保存未重载拒绝、错误传感器绑定拒绝、错误frame标签拒绝、错误惯性拒绝、精确恢复后完整再验）。四次正向完整观测共425条真实唯一header消息；稳定窗共87条ROS消息、1739条原生接触记录，三者分开计数。独立验收从保存原始数据重算逐消息支持力，核对完整碰撞名、真实几何点、唯一递增时钟、空中负例、台外实际落地负例与稳定窗；不是只信退出码。
+
+质量1kg、落高1.4m：平均支持力9.7119N，中心z=.299999999996m，下落.483s；质量2kg且其余不变：19.4238N、下落.484s，支持力比2.0。只把落高改为2.2m：下落.642s，静止支持力比约1.0。稳态消息频率50Hz。固定窗mean/median须在mg的15%内，每包均值在35%内；本机观测约为mg的99%，不承诺所有引擎/接触参数都精确相等。错误输入在任何操控之前拒绝，暂停世界的iterations不变；原文件精确恢复后重新完成整轮真实观测。所有正向/拒绝场景保留原暂停状态，个人输入字节未变。
+
+真实桌面tests/ui_probe.py --lesson 14：PASS，19.622s、13项检查，应用选择/初始化、独立ROS/Gazebo、两真实PTY与Bash任务控制、暂停/单步/继续、完整课程验收、只读参考不改world、学习记录、应用/Gazebo截图及关闭清理通过。主代理检查docs/images/lesson14-ui.png和lesson14-gazebo.png：中文教材与已验收状态可见，蓝色台面和红色方块正确落稳，真实渲染有实时统计。此图形检查不替代学员手工echo/释放/事件计数能力验收。
+
+实际ikaros全部64项框架单元检查.188s通过、无跳过；Windows64项1.255s通过（2项Linux专用跳过）。正式运行前后9个课文件SHA一致；3个物理会话与桌面会话令牌归属进程均清理，无cleanup错误。完整原始JSON/日志在两端.deploy/lesson14-formal-artifacts与对应根报告，发布只提交课程、验收程序、2张原始截图及文档，不提交运行缓存。原VALIDATION_LOG前60239字节保留不变。完成本课独立发布并核对GitHubmain后才进入L15；旧15–16草稿仍未部署。
+
+官方接口依据：[Classic接触教程](https://classic.gazebosim.org/tutorials?tut=contact_sensor)、[Noetic bumper源码](https://github.com/ros-simulation/gazebo_ros_pkgs/blob/noetic-devel/gazebo_plugins/src/gazebo_ros_bumper.cpp)、[Classic11.15.1 ContactSensor](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/sensors/ContactSensor.cc)、[ODE反馈](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/physics/ode/ODEPhysics.cc)。
