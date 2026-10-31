@@ -309,3 +309,26 @@ v1/v2/v3源ZIP与原私有、正式和GUI失败记录均保存在Windows .deploy
 真实桌面tests/ui_probe.py --lesson16 PASS21.443s、13项：环境/课程、真实Gazebo/两PTY、暂停/单步/继续、五阶段完整验收、只读参考、学习记录和关闭清理。根代理检查lesson16-ui.png与lesson16-gazebo.png，中文正文和已验收状态正确、绿色悬浮模型与落地红色探针清晰，真实图形会话显示正常。截图不替代学员手工读IMU、理解四元数或编写姿态估计；噪声统计/融合/实体标定为背景与后续拓展，不算本课已验证。完整报告、原始消息、查询记录和日志保存在两端.deploy/lesson16-formal*及lesson16-ui*。本课复用现有依赖，不修改框架/系统，原VALIDATION_LOG前71112字节保留不变。发布核对后才进入L17。
 
 依据：[Classic11.15.1 ImuSensor](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/sensors/ImuSensor.cc)、[Noetic IMU插件](https://github.com/ros-simulation/gazebo_ros_pkgs/blob/noetic-devel/gazebo_plugins/src/gazebo_ros_imu_sensor.cpp)、[Imu消息定义](https://docs.ros.org/en/noetic/api/sensor_msgs/html/msg/Imu.html)、[REP103](https://www.ros.org/reps/rep-0103.html)、[REP145](https://www.ros.org/reps/rep-0145.html)。
+
+
+## 2026-10-31 L17：RGB相机、真实像素与针孔投影
+
+系统Noetic gazebo_ros_camera与Classic原生相机在实际DISPLAY渲染：相机(0,0,1)朝世界+X，默认320×240/R8G8B8、名义HFOV60°/20Hz，wrapper updateRate0沿用原生帧。红色目标.04×.6×.6m在(3,0,1)，固定绿/蓝参照板使用纯色emissive，避免把照明变化误作成像几何；无外部模型/纹理下载。仅开放320×240/640×480与HFOV60/75的单变量，个人SDF为真实输入；局部数值编辑保留其它字节/注释，prepare只验证依赖、固定结构与指纹，保存后须重载。
+
+初次运行明确失败，不计通过：ready严格K检查拒绝，4.721s后清理，无残留。原始报告.deploy/lesson17-formal.json保留；9文件v1源码归档SHA42a08f7ec6d5aab7d71e4b0bec97f4be22963d0414bcf8b70aedf3265e930726。只读诊断临时跳过课程ready以读取真实未验证消息（不是验收）：实际K fx=fy277.1273455955935、cx160.5、cy120.5，P同焦距，Image rgb8/step960/230400字节，Image与Info实际stamp相同。未先改相机或降低阈值。
+
+根因已由源码链和实测精确确认：CameraSensor把cameraSdf交给rendering::Camera::Load，后者读取角度并调用SetHFOV；Camera.cc819–822写回sdf参数，sdformat9 Param::Set使用默认std::stringstream六位有效数字，HFOV()再从该参数读回。名义π/3变1.0472rad，所以实际f=320/(2tan(1.0472/2))=277.1273455955935；名义75°变1.309rad，对应208.51539887168917。v2只修正验证预期的已确认SDK读回流程，保留原rel1e−7/abs1e−6判据，主点/D/R/P结构不放宽；不改实际K/P、SDF名义值或图像，像素投影继续使用实际发布K。intrinsics_check保存理想/有效HFOV、理想/预期/实际焦距及误差，失败诊断输出actual/expected/maxerror。独立根验收按相同公开setter事实重建焦距，并额外要求矩阵各项有限。
+
+实现流程：订阅实际Image与CameraInfo（仅订阅Info可能受图像连接门控无输出）→用完全相同header时间戳配对，独立于到达顺序→校验尺寸/RGB8/endian0/step3W/数据长度及K/P/R/D/帧名→一次移动并读回真实红色目标→.2仿真秒传播保护/首个正确成像→窗口后续每帧严格验证→基线(3,0)、远移(4,0)、横移(3,+.5)、恢复(3,0)各取得≥12对/≥.5仿真秒/15..25Hz。真实RGB按色彩掩膜统计bbox/centroid/count，与厚板全部八角点投影比较，不能把离轴侧面简化为无限薄正面。结束恢复进入时目标pose/twist和暂停，q/−q视为等价旋转；控制不重发、等待有墙钟上限。
+
+原始帧按内容SHA去重落盘.rgb（字节不改），每pair仍有独立真实时间戳/元数据/测量；PNG直接用实际RGB字节解码，不按公式画目标或改色。自有原生Qt实时查看器只显示实际配对图像，可限时运行/保存原图，QImage在GUI线程复制原始数据、只操作本进程窗口；无需先安装视觉算法或打开网站。
+
+修复后冻结全部8个课文件，tests/lesson17_acceptance.py正式.deploy/lesson17-v2.json PASS81.328s：3个全新私有ROS/Gazebo图形场景、8组（默认、只改640×480、只改75°、保存未重载拒绝、错误frame拒绝、错误format拒绝、错误distortion拒绝、精确恢复后完整再验）。四轮正向共16个成像窗口、244对原始配对消息，其中192对验收；频率19.9637..21.9561Hz，名义20Hz不等于每个有限窗口都恰20。根验收逐原始文件核对3WH与SHA，独立保守红色掩膜、八角点投影、内参和光学轴方向重新验证，不只信辅助程序输出。台上真实Qt查看器限时3秒显示53帧，并保存首个原生图像。
+
+默认红目标实际bbox[132,92,187,147]、3136个强红像素；移远1m得到[139,99,180,140]、1764像素，面积比.5625。向世界+Y移动.5m，bbox左边132→86，对应光学+X向右的负方向；恢复后原像素数/位置恢复。640×480基线bbox宽112px（默认56px）、强红像素12246，接近原面积四倍但栅格/边缘不能强求精确4；75°基线1764像素，视场变宽时目标变小。生产像素bbox中心容差2.5px、宽高3px、色块质心3px，保留legacyCameraInfo主点与像素索引中心约1px约定差；没有改实际metadata迎合像素。目标恢复位置/速度误差及旋转角误差均0，原暂停恢复；所有错误输入操控前拒绝、暂停iterations未动；8课文件SHA前后一致、3场景归属进程清理干净。
+
+实际桌面tests/ui_probe.py --lesson17 PASS22.337s/13项：课程/环境、真实Gazebo与两PTY、暂停/单步/继续、完整成像验收、只读参考、学习记录及关闭清理。根代理检查应用/Gazebo原始截图，以及相机基线、远移、横移原图，确认三色参照、远移缩小/向左平移与独立场景视图一致。docs/images/lesson17-camera.png是984字节真实PNG，非空图判断以实际像素/尺寸为准，不以压缩文件大小推断信息真实性。原始报告、所有RGB/PNG、真实元数据诊断及v1/v2证据在两端.deploy/lesson17-*，源码仅发布课程、测试、三张原始截图和文档。原VALIDATION_LOG前77147字节保留不变。
+
+教材还明确：Gazebo机体+X前/+Y左/+Z上与光学+Z前/+X右/+Y下的变换；frame标签不自动发布TF；单目像素不提供无尺度深度；K/P/R/D、RGB/BGR、step与8位数据endian分别解释。当前固定零畸变/无噪声场景未验证畸变标定、曝光/真实光学噪声或目标检测算法，它们为带先修链接的拓展。现有NumPy1.24.4/Qt直接复用，无框架或系统修改，完成本课发布核对后进入L18。
+
+依据：[Noetic CameraUtils](https://github.com/ros-simulation/gazebo_ros_pkgs/blob/noetic-devel/gazebo_plugins/src/gazebo_ros_camera_utils.cpp)、[Classic Camera SetHFOV](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/rendering/Camera.cc#L819)、[sdformat9 Param Set](https://github.com/gazebosim/sdformat/blob/sdf9/include/sdf/Param.hh#L305)、[Image](https://docs.ros.org/en/noetic/api/sensor_msgs/html/msg/Image.html)、[CameraInfo](https://docs.ros.org/en/noetic/api/sensor_msgs/html/msg/CameraInfo.html)、[REP103](https://www.ros.org/reps/rep-0103.html)。

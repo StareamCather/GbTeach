@@ -1,0 +1,32 @@
+{
+  "id": "17",
+  "title": "RGB相机：从像素到针孔投影",
+  "module": "感知与传感器",
+  "summary": "观察真实RGB图像与标定参数，用目标远近和横移验证像素变化。",
+  "order": 17,
+  "profile": "classic11-noetic",
+  "requires_ros": true,
+  "needs_display": true,
+  "requires_plugins": ["libgazebo_ros_api_plugin.so", "libgazebo_ros_camera.so"],
+  "requires_ros_packages": ["gazebo_plugins", "gazebo_msgs", "sensor_msgs", "rospy"],
+  "requires_tools": ["rostopic", "rospack"],
+  "world": "world.sdf",
+  "prepare": ["python3 prepare.py"],
+  "after_start": ["python3 lab.py ready"],
+  "verify": "verify.py",
+  "verify_timeout": 100,
+  "reference": "reference.md",
+  "objectives": [
+    "按encoding与step解释Image字节布局",
+    "读取CameraInfo的K、P、R、D及真实时间戳",
+    "区分Classic相机坐标和ROS光学坐标",
+    "用真实渲染像素验证远近缩放与横移投影"
+  ],
+  "commands": [
+    {"title": "打开本课实时相机", "command": "python3 lab.py view"},
+    {"title": "读取图像和标定摘要", "command": "python3 lab.py observe --seconds 3"},
+    {"title": "将目标向左移动", "command": "python3 lab.py target --x 3 --y 0.5"},
+    {"title": "恢复目标位置", "command": "python3 lab.py target --x 3 --y 0"},
+    {"title": "真实像素与投影验收", "command": "python3 verify.py"}
+  ]
+}
