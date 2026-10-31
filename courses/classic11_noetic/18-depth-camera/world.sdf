@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sdf version="1.6">
+  <world name="lesson18">
+    <gravity>0 0 -9.81</gravity>
+    <physics name="teaching_ode" type="ode">
+      <max_step_size>0.001</max_step_size>
+      <real_time_update_rate>1000</real_time_update_rate>
+      <ode>
+        <solver>
+          <type>quick</type>
+          <iters>60</iters>
+        </solver>
+      </ode>
+    </physics>
+    <scene>
+      <ambient>.4 .4 .4 1</ambient>
+      <background>.025 .03 .04 1</background>
+      <shadows>false</shadows>
+    </scene>
+    <light name="classroom_light" type="directional">
+      <pose>0 0 8 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <direction>-0.2 0.1 -1</direction>
+      <cast_shadows>false</cast_shadows>
+    </light>
+    <model name="floor">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>30 30</size>
+            </plane>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>30 30</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.28 0.31 0.34 1</ambient>
+            <diffuse>0.35 0.38 0.41 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <gui fullscreen="0">
+      <camera name="user_camera">
+        <pose>-5 -6 5 0 0.45 0.8</pose>
+        <view_controller>orbit</view_controller>
+      </camera>
+    </gui>
+    <model name="camera_rig">
+      <static>true</static>
+      <pose>0 0 1 0 0 0</pose>
+      <link name="camera_link">
+        <sensor name="depth_camera" type="depth">
+          <pose>0 0 0 0 0 0</pose>
+          <always_on>true</always_on>
+          <update_rate>10</update_rate>
+          <visualize>true</visualize>
+          <camera name="depth">
+            <horizontal_fov>1.0471975511965976</horizontal_fov>
+            <image>
+              <width>320</width>
+              <height>240</height>
+              <format>R8G8B8</format>
+            </image>
+            <clip>
+              <near>.1</near>
+              <far>8</far>
+            </clip>
+            <depth_camera>
+              <output>depths</output>
+            </depth_camera>
+          </camera>
+          <plugin name="depth_ros" filename="libgazebo_ros_openni_kinect.so">
+            <robotNamespace>/lesson18</robotNamespace>
+            <cameraName>depth_camera</cameraName>
+            <imageTopicName>/lesson18/rgb/image_raw</imageTopicName>
+            <cameraInfoTopicName>/lesson18/rgb/camera_info</cameraInfoTopicName>
+            <depthImageTopicName>/lesson18/depth/image_raw</depthImageTopicName>
+            <depthImageCameraInfoTopicName>/lesson18/depth/camera_info</depthImageCameraInfoTopicName>
+            <pointCloudTopicName>/lesson18/depth/points</pointCloudTopicName>
+            <frameName>depth_optical_frame</frameName>
+            <updateRate>0</updateRate>
+            <pointCloudCutoff>.4</pointCloudCutoff>
+            <pointCloudCutoffMax>6</pointCloudCutoffMax>
+            <useDepth16UC1Format>false</useDepth16UC1Format>
+            <hackBaseline>0</hackBaseline>
+            <distortionK1>0</distortionK1>
+            <distortionK2>0</distortionK2>
+            <distortionK3>0</distortionK3>
+            <distortionT1>0</distortionT1>
+            <distortionT2>0</distortionT2>
+          </plugin>
+        </sensor>
+      </link>
+    </model>
+    <model name="wall">
+      <static>true</static>
+      <pose>3 0 1 0 0 0</pose>
+      <link name="link">
+        <visual name="surface">
+          <geometry>
+            <box>
+              <size>.1 3 2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient>
+            <diffuse>0 0 0 1</diffuse>
+            <specular>0 0 0 1</specular>
+            <emissive>.3 .35 .4 1</emissive>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="foreground">
+      <static>true</static>
+      <pose>2 0 1 0 0 0</pose>
+      <link name="link">
+        <visual name="surface">
+          <geometry>
+            <box>
+              <size>.2 .5 .5</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient>
+            <diffuse>0 0 0 1</diffuse>
+            <specular>0 0 0 1</specular>
+            <emissive>1 0 0 1</emissive>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="near_probe">
+      <static>true</static>
+      <pose>.25 .07 1 0 0 0</pose>
+      <link name="link">
+        <visual name="surface">
+          <geometry>
+            <box>
+              <size>.02 .04 .04</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient>
+            <diffuse>0 0 0 1</diffuse>
+            <specular>0 0 0 1</specular>
+            <emissive>0 1 0 1</emissive>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="far_probe">
+      <static>true</static>
+      <pose>5 0 2.75 0 0 0</pose>
+      <link name="link">
+        <visual name="surface">
+          <geometry>
+            <box>
+              <size>.1 .6 .5</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient>
+            <diffuse>0 0 0 1</diffuse>
+            <specular>0 0 0 1</specular>
+            <emissive>0 0 1 1</emissive>
+          </material>
+        </visual>
+      </link>
+    </model>
+  </world>
+</sdf>

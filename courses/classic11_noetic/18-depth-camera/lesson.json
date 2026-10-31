@@ -1,0 +1,33 @@
+{
+  "id": "18",
+  "title": "深度相机：轴向距离与有序点云",
+  "module": "感知与传感器",
+  "summary": "解码真实32FC1深度和PointCloud2字节，区分轴向Z、径向距离与软件测距范围。",
+  "order": 18,
+  "profile": "classic11-noetic",
+  "requires_ros": true,
+  "needs_display": true,
+  "requires_plugins": ["libgazebo_ros_api_plugin.so", "libgazebo_ros_openni_kinect.so"],
+  "requires_ros_packages": ["gazebo_plugins", "gazebo_msgs", "sensor_msgs", "rospy"],
+  "requires_tools": ["rostopic", "rospack"],
+  "world": "world.sdf",
+  "prepare": ["python3 prepare.py"],
+  "after_start": ["python3 lab.py ready"],
+  "verify": "verify.py",
+  "verify_timeout": 120,
+  "reference": "reference.md",
+  "objectives": [
+    "按编码、字节序和步长解码米制32FC1",
+    "读取有序PointCloud2的字段偏移、填充与无效点",
+    "区分轴向深度Z与三维点的径向距离",
+    "比较实际点云反投影约定与CameraInfo主点",
+    "通过近远探针验证软件cutoff与非命中"
+  ],
+  "commands": [
+    {"title": "查看深度伪彩与无效区域", "command": "python3 lab.py view"},
+    {"title": "解码深度与点云摘要", "command": "python3 lab.py observe --seconds 3"},
+    {"title": "将墙移远一米", "command": "python3 lab.py wall --distance 4"},
+    {"title": "恢复墙的位置", "command": "python3 lab.py wall --distance 3"},
+    {"title": "真实深度与点云验收", "command": "python3 verify.py"}
+  ]
+}

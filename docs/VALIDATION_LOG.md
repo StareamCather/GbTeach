@@ -332,3 +332,26 @@ v1/v2/v3源ZIP与原私有、正式和GUI失败记录均保存在Windows .deploy
 教材还明确：Gazebo机体+X前/+Y左/+Z上与光学+Z前/+X右/+Y下的变换；frame标签不自动发布TF；单目像素不提供无尺度深度；K/P/R/D、RGB/BGR、step与8位数据endian分别解释。当前固定零畸变/无噪声场景未验证畸变标定、曝光/真实光学噪声或目标检测算法，它们为带先修链接的拓展。现有NumPy1.24.4/Qt直接复用，无框架或系统修改，完成本课发布核对后进入L18。
 
 依据：[Noetic CameraUtils](https://github.com/ros-simulation/gazebo_ros_pkgs/blob/noetic-devel/gazebo_plugins/src/gazebo_ros_camera_utils.cpp)、[Classic Camera SetHFOV](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/rendering/Camera.cc#L819)、[sdformat9 Param Set](https://github.com/gazebosim/sdformat/blob/sdf9/include/sdf/Param.hh#L305)、[Image](https://docs.ros.org/en/noetic/api/sensor_msgs/html/msg/Image.html)、[CameraInfo](https://docs.ros.org/en/noetic/api/sensor_msgs/html/msg/CameraInfo.html)、[REP103](https://www.ros.org/reps/rep-0103.html)。
+
+
+## 2026-10-31 L18：真实深度、无效值与有序点云
+
+实际DepthCamera与系统libgazebo_ros_openni_kinect.so输出32FC1米制深度、CameraInfo、PointCloud2及独立RGB。原生output固定depths（误改points会切到不同原生回调），HFOV60°沿L17已确认的六位有效数字写回与实际内参校验。设计阶段即选10Hz以控制640×480、32字节/点的约9.8MB/帧传输成本，不是测试失败后降频；wrapper不插值。世界原生clip.1..8m，软件严格.4<Z<max（4或6）两层分开。真实前景Z1.9m、墙面2.95m、绿色近探针.24m、蓝色远探针4.95m与上角无回波；所有资源离线。
+
+算法流程：校验真实个人SDF和prepare指纹→同时订阅depth/DepthInfo/cloud及RGB并设置有限大消息缓冲→按完全相同header配对前三路，不依赖到达顺序→按encoding/endian/step/fields/point_step/row_step解码实际原始字节→一次移动并读回真实墙体→.2仿真秒传播保护/首个正确几何帧→基线、远移1m、恢复各取得≥12唯一三路组合、≥1仿真秒、8..12Hz。整图深度有效掩膜与cloudXYZ一致，Z逐值对应，helper按其实际主点反投影；六个固定采样点再检查几何、NaN和轴向/径向区别。每阶段另外保留保护期之后实际RGB帧，证明近绿/远蓝可见；该帧不要求与三路同header，也不承诺cloud颜色缓存属于同曝光。finally恢复进入时墙体pose/twist和暂停，q/−q等价，控制不重发、调用有墙钟上限。
+
+有序点云的实际布局读取而非假定紧密排列：本机FLOAT32/count1字段x/y/z/rgb偏移0/4/8/16，point_step32，默认row_step10240、640宽时20480。32FC1有效值单位m，超软件范围或无回波置NaN，cloudXYZ同样NaN、is_dense=false；不能把NaN当0m或自由空间。cameraInfo主点(W+1)/2,(H+1)/2，而原生wrapper helper用(W−1)/2,(H−1)/2；分别重建后对照其XY差Z/f，保留实际K和原始cloud，不通过改字段制造一致。depth_map shader输出clip.w，实际正面墙两离轴点Z相等、cloud欧氏范数增长，直接检验轴向深度而非径向range。
+
+正式tests/lesson18_acceptance.py .deploy/lesson18-formal.json PASS86.299s，3个全新私有ROS/Gazebo图形场景/8组（默认320max6、只改640×480、只改max4、保存未重载拒绝、错误frame拒绝、错误16bit输出标志拒绝、错误distortion拒绝、精确恢复完整再验）。四轮正向12个物理窗口、162个原始三路组合，其中144个验收组合；频率10..10.0091Hz。根验收独立读全幅原始.f32/.pc2，按实际字段步长解码、验证SHA与长度、全部有限值严格.4<Z<max、整图NaN掩膜/深度Z一致及独立XYZ公式，不把摘要当原始证据。原始RGB/cloud/depth按内容SHA去重，重复内容仍保留不同真实header；.rgb、.pc2与.f32文件均已Windows读回并校验文件名SHA。
+
+实际测量前景Z1.90000081m，墙面两个离轴点均2.95000076m；墙体移1m后均3.95000100m，前景保持。右侧点cloud范数3.12373908m大于其Z2.95000076，不能把两种距离混称。绿色近探针RGB真实可见但软件depth/XYZ为NaN；蓝色远探针在max6时Z4.95000076m，在仅改max4后NaN；原生clip和真实几何均未改。上角无回波为NaN。独立helperXY全图最大误差1.1921e−7m，墙面Z2.95时CameraInfo与helper反投影XY差约.0106449m（一个像素对应的Z/f）；640宽约减半。墙体恢复位置/速度和旋转误差均0，原暂停恢复。全部错误输入在控制前拒绝，暂停iterations不动；8个课文件SHA前后一致，归属进程清理无残留。
+
+本机构建还真实暴露stockOpenni颜色布局差异：红色前景RGB字段原字节[255,0,0,0]，按常规little-endian packedRGB解为[0,0,255]；蓝色探针[0,0,255,0]相反。源码helper直接从缓存RGB写iter_rgb[0..2]，与常规packed位解释并不一致。程序完整记录原字段字节与常规解码，未改系统插件或暗中交换数据；不把这个rgb FLOAT32位载体当数值强度，不承诺真彩/曝光同步。几何验收基于XYZ/depth与独立RGB可见性，教材已预先说明该实现边界，具体本机观测在此留证。
+
+Qt真实深度查看器限时3秒显示30帧、保存伪彩图；颜色由真实标量归一化映射，NaN显示紫色，颜色不是原始测量、修改显示范围也会改颜色。真实桌面tests/ui_probe.py --lesson18 PASS23.250s/13项：环境/课程、实际Gazebo/两PTY、暂停/单步/继续、完整深度验收、只读参考、学习记录及关闭清理。根代理查看默认深度伪彩、同场景实际RGB、max4伪彩、应用和Gazebo原图，确认场景与无效区域变化。源码发布四张原始截图（深度图明确命名pseudocolor），完整原始浮点/点云/实际RGB/日志在两端.deploy/lesson18-formal*及ui*，不以PNG代替浮点数据。
+
+当前未声称完成实体RGBD标定、硬件无效值/噪声建模、真实RGB与cloud硬同步、标准真彩修复或三维重建；这些作为专业背景/后续拓展。复用现有SDK/NumPy/Qt，不改框架或系统；原VALIDATION_LOG前83430字节保留不变，完成提交推送与远端核对后再进入L19。
+
+依据：[Noetic OpenniKinect](https://github.com/ros-simulation/gazebo_ros_pkgs/blob/noetic-devel/gazebo_plugins/src/gazebo_ros_openni_kinect.cpp)、[Classic depth vertex shader](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/media/materials/programs/depth_map.vert)、[depth fragment shader](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/media/materials/programs/depth_map.frag)、[PointCloud2定义](https://docs.ros.org/en/noetic/api/sensor_msgs/html/msg/PointCloud2.html)、[REP118](https://www.ros.org/reps/rep-0118.html)。
+
+发布前格式检查发现lab.py末尾多一个空行，已仅清理末尾换行；正式运行版62a1cb2efbbb6b74e7962856ed39a9fdef4c4ee9dfbb4c079deb74281d64687f与发布版aa157b90629cf750f8e577ba1917a415aa4f515fa795f1309f249f633909f165的Python AST逐节点完全相同，解码、裁剪、反投影、显示及恢复算法流程不变。保留正式运行原文件与格式变更记录，重新语法检查和Git空白检查通过，未把无关格式变化重复算作新的物理观测。
