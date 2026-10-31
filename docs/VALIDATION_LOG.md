@@ -959,3 +959,32 @@ demo正常结束恢复目标完整原生pose和入场暂停状态，不回填EMA
 报告SHA256：formal 23a6b54a2606098c46d49467a9bd288f95e0c27b88ff8895a13d49d49008167a；UI 37b8fca8c7d701abd643a91eaa25742a973924c26cbc0355ce9a995c9d441d76；独立测试 68d1400a533aa8b6ef00a8f4e8ad993b48e8a661bb415e620f50cee453d12af9。
 
 独立提交、Windows中转推送并精确核对远端后进入L30；当前继续全部39项目V2。
+
+
+## 2026-11-01 L30：GUIPlugin真实Qt按钮与世界控制
+
+三组全新私有GUI场景独立验收42.976s通过，真实桌面13项27.356s通过。独立测试使用现有libX11/libXtst注入真实Button1单次press/release，不调用插件模拟click RPC；先激活本次gzclient、检查窗口PID/token、按钮全局矩形位于该窗口、鼠标最上层窗口归属祖先链，拒绝已按住的修饰键/鼠标。每次步进只点击一次，再查独立原生WorldStatistics和falling_cube实体，未用面板字段代替物理真值。
+
+| 全新场景 | 实际tick/模拟时间 | 方块实际z(m) | 连续自由落体预测z(m) | 实际QLabel文本 |
+| --- | --- | --- | --- | --- |
+| N100、显示3位 | 100/.100s | 1.9505100000000002 | 1.951 | t = 0.100 s |
+| 仅N改200 | 200/.200s | 1.8030200000000005 | 1.804 | t = 0.200 s |
+| 仅显示改1位 | 100/.100s | 1.9505100000000002 | 1.951 | t = 0.1 s |
+
+世界以-u暂停启动，方块初始质心2m、边长.4m、重力9.8m/s²；离散ODE积分与连续解析差分别-.00049/-.00098m，保留原值，在既定.012m容差内。显示精度没有改变实际物理结果。每组保留真实原始窗口PNG与按钮区域像素，root查看32项目中文工作台、Gazebo内蓝色面板和橙色方块；文本按Qt线程缓存回读并与独立原生时间格式核对，未声称独立OCR识别了文字。
+
+算法：参数/源摘要检查→Qt5Core pkg-config host_bins定位真实moc及版本→生成元对象CPP→离线编译GUIPlugin及安全SDK观察器，按SDK/编译器/flags/moc/源码键加锁原子缓存→server原生世界就绪→client将GUIPlugin作为QWidget加入GL界面并Load/show→Transport回调只锁定缓存真实统计和待演示点击→Qt主线程QTimer处理请求、更新QLabel和读取按钮geometry→实际QPushButton.clicked槽仅发布一次WorldControl→面板禁用重复控制并等新的原生time/iterations/pause反馈→匹配后完成，超时只报错不重放。所有QWidget读取与修改位于GUI线程，时间不在点击后自行加到预期值。
+
+课程自动演示通过RPC请求在GUI线程调用同一个QPushButton.click并走同槽；独立验收另以真实XTest鼠标证明按钮接线。基准还实点Resume/Pause，检查真实时间推进、物体继续下落和暂停反馈；只关闭本次GUI，确认服务器与暂停时钟保持，再开新client_id/面板，实际ELF仍仅映射到gzclient。保存参数但未重载时拒绝执行，原JSON字节修复后恢复。三组SDK映射按inode/device/SHA留证，server不加载GUIPlugin。
+
+实机预编译纠正了两项依赖/API误判：/usr/bin/moc存在但qtchooser没有默认Qt，真正Qt5Core host_bins/moc为5.12.8，可直接运行，未修改宿主QT_SELECT；GUIPlugin及PluginT没有Init/Reset虚接口，删除了错误override及函数，未假造SDK生命周期。JSON init_count/reset_count仅兼容常量0，init_hook_supported/reset_hook_supported均false。真正生命周期为构造、Load、QWidget显示/定时器、析构。编译记录在两端.deploy/l30-sdk-preflight，原型GUI+两PTY完整闭环31.477s通过。
+
+桌面另外验证GUI、两独立PTY、平台暂停/单步、课程验收、练习编辑/持久化/重开与退出清理。课程demo仅恢复入场暂停状态，不回填已发生的物理运动、时钟、迭代与消息；复位原始落高需平台重载或明确模型复位，不把按钮演示说成物理快照恢复。12课程文件(含Qt头文件)和独立测试冻结，模板未改；三formal token、GUI重开及桌面关闭后均无自有进程残留，原始鼠标归属、实体、统计、截图与日志保留两端.deploy/lesson30-formal-artifacts。SDK客户端沿用全版本/符号保护及主线程IO stop/join，不改主机库。
+
+依据：[GUIPlugin接口](https://github.com/gazebosim/gazebo-classic/blob/gazebo11/gazebo/gui/GuiPlugin.hh)、[实际Load/show路径](https://github.com/gazebosim/gazebo-classic/blob/gazebo11/gazebo/gui/RenderWidget.cc)、[Qt信号与槽](https://doc.qt.io/qt-5/signalsandslots.html)。
+
+原型报告SHA256：0d70417c2bcdd63edd3cddc3914f8c38f965a00d9d6ebfe2253fd8d1c90db1d4。
+
+报告SHA256：formal 9f3be67827677ece7012274441e59c7a1570c72b3cdaf9c2cf78b40812a26f36；UI 91d71a21e04fcd88b23718022e10bbe211816509f130edda23723fed5ed9d53c；独立测试 9985ee3b58f26c6682a55685cbfa6212b2a440b92c9defd3d4f82a3ef4e212ea。
+
+独立提交、Windows中转推送并精确核对远端后进入L31；当前继续全部39项目V2。

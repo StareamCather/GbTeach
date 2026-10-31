@@ -1,0 +1,21 @@
+{
+  "id": "30", "title": "GUIPlugin：在Gazebo中编写真实Qt控制面板",
+  "module": "Classic插件开发", "order": 30, "profile": "classic11-noetic",
+  "summary": "通过真实Qt按钮、信号槽和原生世界反馈理解GUI插件、线程与控制完成确认。",
+  "requires_ros": false, "needs_display": true, "requires_tools": ["g++", "pkg-config"],
+  "world": "world.sdf", "server_args": ["-u"], "prepare": ["python3 prepare.py"], "prepare_timeout": 170,
+  "after_start": ["python3 lab.py ready-server"], "after_gui": ["python3 lab.py ready-panel"],
+  "verify": "verify.py", "verify_timeout": 100, "reference": "reference.md",
+  "objectives": ["用MOC和信号槽编译真正的Qt GUIPlugin", "将Transport数据安全送到GUI线程并显示实际状态", "只发一次控制并以真实时钟和迭代数确认完成"],
+  "commands": [
+    {"title": "检查真实面板与世界", "command": "python3 lab.py ready"},
+    {"title": "预测N步时间和自由落体", "command": "python3 lab.py predict"},
+    {"title": "Qt按钮与真实物理闭环", "command": "python3 lab.py demo"},
+    {"title": "通过Qt按钮暂停", "command": "python3 lab.py pause"},
+    {"title": "通过Qt按钮继续", "command": "python3 lab.py resume"},
+    {"title": "通过Qt按钮推进本课N步", "command": "python3 lab.py step"},
+    {"title": "读取面板与原生统计", "command": "python3 lab.py watch --seconds 2"},
+    {"title": "编辑Qt代码和个人参数，重载生效", "command": "gedit --new-window gui_plugin.hh gui_plugin.cc parameters.json"},
+    {"title": "完整有限验收", "command": "python3 verify.py"}
+  ]
+}

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<sdf version="1.6"><world name="lesson30">
+  <physics name="ode" type="ode"><max_step_size>.001</max_step_size><real_time_update_rate>1000</real_time_update_rate></physics>
+  <gravity>0 0 -9.8</gravity><scene><ambient>.5 .5 .5 1</ambient><background>.1 .13 .18 1</background></scene>
+  <light name="sun" type="directional"><direction>-.4 .3 -1</direction><diffuse>.8 .8 .8 1</diffuse></light>
+  <model name="ground"><static>true</static><pose>0 0 -.1 0 0 0</pose><link name="floor"><collision name="body"><geometry><box><size>5 5 .2</size></box></geometry></collision><visual name="body"><geometry><box><size>5 5 .2</size></box></geometry><material><ambient>.7 .72 .74 1</ambient><diffuse>.7 .72 .74 1</diffuse></material></visual></link></model>
+  <model name="falling_cube"><pose>0 0 2 0 0 0</pose><link name="body"><inertial><mass>1</mass><inertia><ixx>.0266667</ixx><iyy>.0266667</iyy><izz>.0266667</izz></inertia></inertial><collision name="body"><geometry><box><size>.4 .4 .4</size></box></geometry></collision><visual name="body"><geometry><box><size>.4 .4 .4</size></box></geometry><material><ambient>.95 .35 .08 1</ambient><diffuse>.95 .35 .08 1</diffuse></material></visual></link></model>
+  <gui><plugin name="teaching_panel" filename="libgazeboteach_l30_gui.so"><step_count>100</step_count><display_decimals>3</display_decimals><config_sha256>unprepared</config_sha256></plugin></gui>
+</world></sdf>
