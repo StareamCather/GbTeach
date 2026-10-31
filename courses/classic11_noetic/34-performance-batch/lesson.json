@@ -1,0 +1,21 @@
+{
+  "id": "34", "title": "性能与批量实验：真实落体、计时边界与可复现输入",
+  "module": "Classic高级实验", "order": 34, "profile": "classic11-noetic",
+  "summary": "在独立无GUI的Gazebo实例中重复落体实验，保存原生物理状态、输入指纹与真实端到端计时。",
+  "requires_ros": false, "requires_tools": ["g++", "pkg-config"],
+  "world": "world.sdf", "server_args": ["-u"],
+  "prepare": ["python3 prepare.py"], "prepare_timeout": 180,
+  "after_start": ["python3 lab.py ready"], "verify": "verify.py", "verify_timeout": 300,
+  "reference": "reference.md",
+  "objectives": ["区分仿真时间、物理步数、限速与端到端墙钟时间", "用真实原生状态验收不同负载和步长的落体及落地", "重复相同输入并保存CSV、JSON、种子与SHA256指纹"],
+  "commands": [
+    {"title": "检查8方块预览及原生物理参数", "command": "python3 lab.py ready"},
+    {"title": "推进预览100个真实物理步", "command": "python3 lab.py step --steps 100"},
+    {"title": "继续预览世界", "command": "python3 lab.py resume"},
+    {"title": "暂停预览世界", "command": "python3 lab.py pause"},
+    {"title": "完整复位预览世界", "command": "python3 lab.py reset"},
+    {"title": "运行独立无GUI批量实验并导出JSON/CSV", "command": "python3 batch.py run"},
+    {"title": "编辑批量组合、重复数和原生种子，重载生效", "command": "gedit --new-window parameters.json"},
+    {"title": "完整有限验收", "command": "python3 verify.py"}
+  ]
+}
