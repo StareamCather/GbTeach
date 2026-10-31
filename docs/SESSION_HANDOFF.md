@@ -1,5 +1,8 @@
 # GazeboTeach 会话交接
 
+2026-10-31 最新范围：L24 已完成独立提交、推送与远端核对（048e4cedbb5edc78720a4c88e73252ab90675f1e）。当前只准备 V1 环境检测弹窗、Docker 预留接口、安装包与指南；V1 发布核对后暂停，不开始 L25。此前“L24 后进入 L25”的文字保留为历史，已被本次停止点覆盖。当前本机以太网 Disconnected / 0 bps，ikaros SSH 握手连续超时，真实安装验收尚无法执行；V1 改动保存到独立候选分支 wip/v1-environment-release，不能视为正式部署或 Release 已发布。
+
+
 > 2026-10-31 当前L24 RViz/TF/时钟已通过3个全新私有场景/6组正式验收59.643s，真实桌面13项24.076s、独立demo前缀RViz窗口/重开验收13.488071422s通过。真实关节→JointState→RSP→TF、暂停/物理单步、同listener倒时恢复与人工渲染检查分层留证。完成L24独立提交、推送与远端核对后进入L25 ros_control；主课01–24与091/092共26项目，尚余L25–L37共13门主课及G02最终回归。以下旧进度保留为历史。
 
 L24流程：私有Master先设/use_sim_time→Xacro/URDF/SDF及SHA→现有Gazebo中一次性spawn tf_arm→系统Gazebo JointState插件直接读取真实Position/GetVelocity→RSP按同一URDF计算动态TF并latch固定边→tf2/RViz。JointState header取ROS时钟缓存，TF复制原stamp；世界服务读钟、接收monotonic与查询时刻另存。namespace不自动改变frame，Noetic使用tf_prefix；频率20/40Hz与prefix空/demo分别做单变量重载。原生joint名单、Gazebo实体和模型尺寸不随TF前缀变化。

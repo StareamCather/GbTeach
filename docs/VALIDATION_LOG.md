@@ -739,3 +739,15 @@ L24流程：私有Master先设/use_sim_time→Xacro/URDF/SDF及SHA→现有Gazeb
 旧Validation前144813字节SHA 60fd8953ddfaa570f472fe2d7d60ef6e48e5f35ec71403df3fcca0085146b2c1及Handoff原25944字节完整保留，历史尾5054字节SHA 452200908928e3a6eb8753ba1665862b07d2e489ba45835af6bbfe222451728b不变，全局文档LF。完成本课独立提交、Windows中转推送和远端核对后进入L25；当前预交付24主课+2选作为26项目，后续13主课及G02尚待完成。
 
 依据：[Noetic原生关节发布插件](https://github.com/ros-simulation/gazebo_ros_pkgs/blob/noetic-devel/gazebo_plugins/src/gazebo_ros_joint_state_publisher.cpp)、[RSP时间门控](https://github.com/ros/robot_state_publisher/blob/noetic-devel/src/joint_state_listener.cpp)、[tf2倒时处理](https://github.com/ros/geometry2/blob/noetic-devel/tf2_ros/src/tf2_ros/transform_listener.py)、[StaticCache](https://github.com/ros/geometry2/blob/noetic-devel/tf2/src/static_cache.cpp)、[RViz EOL官方开关](https://github.com/ros-visualization/rviz/blob/1.14.26/src/rviz/noetic_eol_dialog.cpp)。
+
+
+## 2026-10-31 V1 发布候选：本地检查完成，设备连线阻塞
+
+- 正式已发布基线：L24，提交 048e4cedbb5edc78720a4c88e73252ab90675f1e；本次不修改课程源，也不推进 L25。
+- 新增环境报告、启动逐课弹窗、首轮确认/自动启动门禁、Docker 配置校验与预留后端、固定提交自解包安装器及 V1 原生/Docker 指南。运行算法见 framework-flow.md 的 V1 章节。
+- Windows 本地运行 python -m unittest discover -s tests -q：104 项，101 项通过，3 项平台条件跳过，退出码0。包括21项兼容/后端测试、6项 Qt 状态测试和2项实际执行的打包检查；Linux安装/包装器/卸载检查尚未运行。原始日志与 JSON：.deploy/v1-windows-tests.log / .json。
+- Qt 合成场景分别模拟完整 Classic/Noetic 和仅 ROS2/现代Gazebo；检查26行、首次确认、实验禁用/正文可读、自动启动门禁、Docker非法配置不保存、合法配置保存但不执行、重复查看报告不重启实验。Qt为Windows离屏，截图 .deploy/v1-environment-synthetic.png 经查看可读；不能作为 ikaros 真实桌面验收。截图采集显式注册本机中文字体，不修改产品字体逻辑。
+- 打包隔离 Git fixture 验证固定提交、26课程清单、逐字节可重复构建、权限、私密/生成文件排除、摘要和篡改拒绝。真实应用候选载荷的校验结果在后续候选归档中记录；尚未声称真实Linux安装成功。
+- 本机实际以太网状态 Disconnected、LinkSpeed0bps；192.168.50.2 SSH两次握手/初始远程检查均超时，ping2次丢包。未更改路由、SSH策略、驱动或系统。设备恢复前，独立安装目录中的 --list、--diagnose、--gui-check、环境弹窗验收、L01/L24真实图形回归及首次SDK构建仍待完成。
+- Windows Docker CLI存在但DockerDesktopLinuxEngine管道不存在，未启动daemon或下载镜像；文档Docker方案尚未端到端验证。
+- 候选保存到 wip/v1-environment-release；不发布 v1.0.0 标签或安装资产、不把未验收候选合入正式 main。后续必须先恢复 ikaros连接并完成上述检查，再核对正式提交/标签和上传资产的 SHA256。V1发布后按用户指令暂停，L25–L37和G02留待后续。

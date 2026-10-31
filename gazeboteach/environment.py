@@ -33,12 +33,17 @@ def _load_setup(setup, environment):
 def detect_environment():
     names = ["gazebo", "gzserver", "gzclient", "gz", "ign", "roscore", "roslaunch",
              "rospack", "rosrun", "gnome-terminal", "xterm", "bash", "cmake", "make",
-             "g++", "setsid", "gedit", "xdg-open", "python3"]
+             "g++", "setsid", "gedit", "xdg-open", "python3", "ros2", "pkg-config", "python3-config",
+             "rosparam", "rosservice", "rostopic", "rviz", "xacro"]
     tools = {name: shutil.which(name) for name in names}
+    incomplete, errors = [], []
     # Classic 11.15's version-only path returns 255 on the verified Ubuntu build.
     classic_text = _output([tools["gazebo"], "--version"], accepted_codes=(0, 255)) if tools["gazebo"] else ""
     match = re.search(r"Gazebo(?:\s+multi-robot\s+simulator,)?\s+version\s+(\d+\.\d+(?:\.\d+)?)", classic_text, re.I)
     classic = match.group(1) if match else ""
+    if tools["gazebo"] and not classic:
+        incomplete.append("classic_version")
+        errors.append("gazebo --version 未返回可识别的 Classic 版本（可能超时或执行失败）。")
     modern = []
     for binary, arguments in (("gz", ["sim", "--versions"]), ("ign", ["gazebo", "--versions"])):
         if tools[binary]:
@@ -56,10 +61,19 @@ def detect_environment():
         package_text = _output([tools["bash"], "--noprofile", "--norc", "-c",
                                 '. /opt/ros/noetic/setup.bash && rospack list-names'], timeout=12)
         packages = sorted(set(package_text.splitlines()))
+        if not packages:
+            incomplete.append("ros_packages")
+            errors.append("Noetic 已安装，但 rospack list-names 未返回包列表。")
     plugin_paths = [p for p in os.environ.get("GAZEBO_PLUGIN_PATH", "").split(os.pathsep) if p]
     plugin_paths += ["/usr/lib/x86_64-linux-gnu/gazebo-11/plugins", "/opt/ros/noetic/lib",
                      "/usr/local/lib", "/usr/lib/aarch64-linux-gnu/gazebo-11/plugins"]
-    plugins = sorted({p.name for folder in plugin_paths for p in Path(folder).glob("*.so") if p.is_file()})
+    plugins = set()
+    for folder in plugin_paths:
+        try:
+            plugins.update(p.name for p in Path(folder).glob("*.so") if p.is_file())
+        except OSError as error:
+            incomplete.append("plugins")
+            errors.append("插件目录无法读取：{} ({})".format(folder, error))
     profiles = ["classic11-noetic"] if classic.startswith("11.") else []
     os_name = platform.platform()
     release = Path("/etc/os-release")
@@ -72,8 +86,14 @@ def detect_environment():
         "classic_version": classic, "modern_simulators": modern, "profiles": profiles,
         "ros_installed": ros, "ros_active": os.environ.get("ROS_DISTRO", ""),
         "display": os.environ.get("DISPLAY", ""), "tools": tools,
-        "plugin_paths": plugin_paths, "plugins": plugins, "ros_packages": packages,
+        "plugin_paths": plugin_paths, "plugins": sorted(plugins), "ros_packages": packages,
         "course_profile": profiles[0] if profiles else None,
+        "ros_active_version": os.environ.get("ROS_VERSION", ""),
+        "ros_families": {name: ("ROS 2" if (Path("/opt/ros") / name / "bin/ros2").exists()
+                                 else "ROS 1" if (Path("/opt/ros") / name / "bin/roscore").exists()
+                                 else "未确认") for name in ros},
+        "container_hint": Path("/.dockerenv").exists(),
+        "incomplete_checks": sorted(set(incomplete)), "detection_errors": errors,
     }
 
 

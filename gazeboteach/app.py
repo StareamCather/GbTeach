@@ -11,10 +11,12 @@ from pathlib import Path
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 from . import __version__
-from .catalog import compatibility, load_catalog
+from .catalog import load_catalog
+from .compatibility import build_compatibility_report, lesson_compatibility
+from .backends import get_backend
 from .environment import detect_environment
+from .environment_dialog import EnvironmentDialog
 from .markdown import render
-from .runtime import LessonSession
 from .storage import Storage
 
 
@@ -37,6 +39,9 @@ class MainWindow(QtWidgets.QMainWindow):
             self.lessons = [fixture]
             self.catalog_errors = []
         self.environment = None
+        self.environment_report = None
+        self.environment_dialog = None
+        self._environment_dialog_pending = True
         self.session = None
         self.current_lesson = None
         self._jobs = {}
@@ -62,7 +67,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.timer = QtCore.QTimer(self)
         self.timer.timeout.connect(self._poll_session)
         self.timer.start(900)
-        self.run_task("检测环境", detect_environment, self._environment_ready)
+        self.detect_runtime_environment()
 
     @property
     def busy(self):
@@ -125,6 +130,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.environment_badge.setWordWrap(True)
         self.environment_badge.setMaximumWidth(620)
         header_layout.addWidget(self.environment_badge)
+        self.environment_button = QtWidgets.QPushButton("环境检测结果")
+        self.environment_button.setObjectName("environment_report_button")
+        self.environment_button.clicked.connect(self.show_environment_report)
+        self.environment_button.setEnabled(False)
+        header_layout.addWidget(self.environment_button)
         outer.addWidget(header)
 
         splitter = QtWidgets.QSplitter(QtCore.Qt.Horizontal)
@@ -342,11 +352,15 @@ class MainWindow(QtWidgets.QMainWindow):
         self._build_commands(None)
 
     def _environment_ready(self, environment):
+        environment, self.docker_probe = environment
         self.environment = environment
+        self.environment_report = build_compatibility_report(self.lessons, environment, self.catalog_errors)
         classic = environment.get("classic_version") or "未检测到 Classic"
         ros = ", ".join(environment.get("ros_installed", [])) or "未检测到 ROS"
         self.environment_badge.setText("{}\nGazebo {} · ROS {}".format(environment.get("os", ""), classic, ros))
-        self.environment_view.setPlainText(json.dumps(environment, ensure_ascii=False, indent=2))
+        self.environment_view.setPlainText(json.dumps({"detected": environment, "compatibility": self.environment_report,
+                                                     "docker": self.docker_probe}, ensure_ascii=False, indent=2))
+        self.environment_button.setEnabled(True)
         if not self._profile_initialized:
             self._profile_initialized = True
             preferred = self.settings.value("last_profile", environment.get("course_profile", "classic11-noetic"))
@@ -354,6 +368,49 @@ class MainWindow(QtWidgets.QMainWindow):
         self._refresh_buttons()
         if self.current_lesson:
             self._show_lesson_status()
+        self.show_environment_report()
+
+    def detect_runtime_environment(self):
+        self._environment_dialog_pending = True
+        def inspect():
+            try:
+                detected = detect_environment()
+            except Exception as error:
+                # A failed probe is not evidence of absence or compatibility.
+                detected = {"incomplete_checks": ["classic_version", "profiles", "ros_installed", "tools",
+                                                   "plugins", "ros_packages", "display"],
+                            "detection_errors": ["环境检测失败：{}: {}".format(type(error).__name__, error)]}
+            return detected, get_backend("docker").probe()
+        self.run_task("检测环境", inspect, self._environment_ready)
+
+    def show_environment_report(self):
+        if self.environment_report is None:
+            return
+        if self.environment_dialog is not None and self.environment_dialog.isVisible():
+            self.environment_dialog.raise_()
+            return
+        dialog = EnvironmentDialog(self.environment_report, self.docker_probe, self.root, self.settings, self)
+        self.environment_dialog = dialog
+        dialog.finished.connect(self._environment_report_closed)
+        dialog.retry_button.clicked.connect(lambda: self._retry_environment(dialog))
+        dialog.open()
+
+    def _retry_environment(self, dialog):
+        dialog.reject()
+        self.detect_runtime_environment()
+
+    def _environment_report_closed(self, result):
+        was_pending = self._environment_dialog_pending
+        self._environment_dialog_pending = False
+        self._refresh_buttons()
+        if (was_pending and result == QtWidgets.QDialog.Accepted and self.autostart.isChecked()
+                and self.current_lesson and not self._lesson_problem(self.current_lesson)
+                and not self.busy and not (self.session and self.session.running)):
+            QtCore.QTimer.singleShot(0, self.start_lesson)
+
+    def _lesson_problem(self, lesson):
+        row = lesson_compatibility(lesson, self.environment, gui=True, terminals=True)
+        return "；".join(reason["message"] for reason in row["reasons"])
 
     def select_lesson(self, lesson_id, profile=None):
         active_profile = profile or self.profile_selector.currentData()
@@ -389,14 +446,15 @@ class MainWindow(QtWidgets.QMainWindow):
         self._show_lesson_status()
         self._refresh_buttons()
         self.settings.setValue("last_lesson", lesson.id)
-        if self.autostart.isChecked() and self.environment and not self.busy:
+        if (self.autostart.isChecked() and self.environment and not self.busy
+                and not self._environment_dialog_pending and not self._lesson_problem(lesson)):
             QtCore.QTimer.singleShot(0, self.start_lesson)
 
     def _show_lesson_status(self):
         if not self.current_lesson:
             return
         if self.environment:
-            problem = compatibility(self.current_lesson, self.environment, gui=True, terminals=True)
+            problem = self._lesson_problem(self.current_lesson)
             if problem:
                 self.session_status.setText("运行条件：" + problem + " 教材仍可阅读。")
                 return
@@ -502,8 +560,8 @@ class MainWindow(QtWidgets.QMainWindow):
         busy = self.busy or self._closing
         selected = self.current_lesson is not None
         running = self.session is not None and self.session.running
-        compatible = selected and self.environment is not None and not compatibility(
-            self.current_lesson, self.environment, gui=True, terminals=True)
+        compatible = selected and self.environment is not None and not self._lesson_problem(self.current_lesson)
+        compatible = compatible and not self._environment_dialog_pending
         for name, button in self.buttons.items():
             button.setEnabled(not busy and selected)
         self.buttons["start"].setEnabled(not busy and bool(compatible) and not running)
@@ -522,7 +580,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.session.stop(reason="切换或重载实验")
         if self._closing:
             return None
-        session = LessonSession(self.root, lesson, self.storage, notify=self.signals.log.emit)
+        session = get_backend("native").create_session(self.root, lesson, storage=self.storage, notify=self.signals.log.emit)
         self.session = session
         if self._closing:
             session.stop(reason="应用正在退出")
@@ -535,7 +593,8 @@ class MainWindow(QtWidgets.QMainWindow):
         return session.health()
 
     def start_lesson(self):
-        if not self.current_lesson or self.busy:
+        if (not self.current_lesson or self.busy or self._environment_dialog_pending
+                or self.environment is None or self._lesson_problem(self.current_lesson)):
             return
         self.logs.clear()
         self.run_task("准备实验", self._start)
@@ -545,7 +604,8 @@ class MainWindow(QtWidgets.QMainWindow):
             self.run_task("结束实验", self.session.stop)
 
     def restart_lesson(self):
-        if self.current_lesson and not self.busy:
+        if (self.current_lesson and not self.busy and not self._environment_dialog_pending
+                and self.environment is not None and not self._lesson_problem(self.current_lesson)):
             self.run_task("重载项目", self._start)
 
     def toggle_pause(self):

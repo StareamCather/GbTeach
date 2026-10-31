@@ -171,9 +171,17 @@ def desktop(arguments, fixture=None):
         try:
             application.processEvents()
             visible = window.isVisible()
+            dialog = window.environment_dialog
+            popup_visible = bool(dialog and dialog.isVisible())
+            popup_screenshot = screenshot.with_name(screenshot.stem + "-environment.png")
+            popup_saved = bool(popup_visible and dialog.grab().save(str(popup_screenshot), "PNG"))
+            if popup_visible:
+                dialog.accept()
             saved = window.grab().save(str(screenshot), "PNG")
-            report.update(ok=bool(visible and saved and window.environment is not None),
+            report.update(ok=bool(visible and saved and popup_saved and window.environment is not None),
                           visible=visible, screenshot_saved=saved, courses=len(window.lessons),
+                          environment_popup_visible=popup_visible, environment_popup_screenshot=str(popup_screenshot),
+                          compatibility_counts=(window.environment_report or {}).get("counts"),
                           environment=window.environment, window_title=window.windowTitle(),
                           document_characters=len(window.document.toPlainText()))
             if window.environment is None:

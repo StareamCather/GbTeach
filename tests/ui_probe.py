@@ -260,6 +260,12 @@ def main():
                 if stage == "environment":
                     if window.environment is None or window.busy:
                         return
+                    require(window.environment_dialog is not None and window.environment_dialog.isVisible(),
+                            "Startup environment report was not displayed")
+                    require(window.environment_dialog.table.rowCount() == len(window.lessons),
+                            "Startup report omitted installed courses")
+                    report["startup_environment_report"] = window.environment_report["counts"]
+                    window.environment_dialog.accept()
                     require(window.isVisible(), "Workbench is not visible")
                     if lesson.profile == "classic11-noetic":
                         require(window.environment.get("classic_version", "").startswith("11."), "Expected detected Classic 11")
