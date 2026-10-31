@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<sdf version="1.6"><world name="lesson26">
+ <gravity>0 0 -9.81</gravity>
+ <physics name="ode" type="ode"><max_step_size>0.001</max_step_size><real_time_update_rate>1000</real_time_update_rate></physics>
+ <scene><ambient>0.55 0.55 0.55 1</ambient><background>0.12 0.16 0.22 1</background></scene>
+ <light name="sun" type="directional"><pose>0 0 5 0 0 0</pose><diffuse>0.9 0.9 0.9 1</diffuse><direction>-0.4 0.2 -1</direction></light>
+ <model name="table"><static>true</static><link name="surface"><collision name="c"><geometry><box><size>3 3 0.1</size></box></geometry></collision><visual name="v"><geometry><box><size>3 3 0.1</size></box></geometry><material><ambient>0.25 0.32 0.40 1</ambient></material></visual></link></model>
+ <model name="rotor_lab">
+  <allow_auto_disable>false</allow_auto_disable>
+  <link name="base"><pose>0 0 0.55 0 0 0</pose><inertial><mass>2</mass><inertia><ixx>.02</ixx><iyy>.02</iyy><izz>.02</izz></inertia></inertial><visual name="v"><geometry><cylinder><radius>.13</radius><length>.2</length></cylinder></geometry><material><ambient>0.1 0.3 0.8 1</ambient><diffuse>0.1 0.3 0.8 1</diffuse></material></visual><collision name="c"><geometry><cylinder><radius>.13</radius><length>.2</length></cylinder></geometry></collision></link>
+  <joint name="anchor" type="fixed"><parent>world</parent><child>base</child></joint>
+  <link name="rotor"><pose>0 0 0.71 0 0 0</pose><velocity_decay><linear>0</linear><angular>0</angular></velocity_decay><inertial><mass>.48</mass><inertia><ixx>.007564</ixx><iyy>.007564</iyy><izz>.015</izz></inertia></inertial><collision name="disk"><geometry><cylinder><radius>.25</radius><length>.04</length></cylinder></geometry></collision><visual name="disk"><geometry><cylinder><radius>.25</radius><length>.04</length></cylinder></geometry><material><ambient>0.25 0.65 0.75 1</ambient><diffuse>0.25 0.65 0.75 1</diffuse></material></visual><visual name="pointer"><pose>.13 0 .035 0 0 0</pose><geometry><box><size>.42 .05 .025</size></box></geometry><material><ambient>1 .45 .05 1</ambient><diffuse>1 .45 .05 1</diffuse></material></visual></link>
+  <joint name="fan_joint" type="revolute"><parent>base</parent><child>rotor</child><axis><xyz>0 0 1</xyz><limit><lower>-1e16</lower><upper>1e16</upper><effort>10</effort><velocity>100</velocity></limit><dynamics><damping>0</damping><friction>0</friction></dynamics></axis></joint>
+  <plugin name="rotor_model" filename="libgazeboteach_l26_model.so"><joint>fan_joint</joint><drive_torque>.03</drive_torque><linear_drag>.015</linear_drag><config_sha256>template</config_sha256></plugin>
+ </model>
+</world></sdf>

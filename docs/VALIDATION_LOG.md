@@ -825,3 +825,32 @@ L24流程：私有Master先设/use_sim_time→Xacro/URDF/SDF及SHA→现有Gazeb
 V1已发布：v1.0.0源384c74bf5d96e34f31d90cd823d42f2ffea1829e、437载荷文件，8附件按摘要下载核对，仓库保持私有。API令牌仅Windows内存、仅官方API，CDN不转发；最终新安装入口/真实GUI已复核。V1_VERIFICATION.md区分候选代表性回归、最终包检查及未验证Docker。操作报告SHA256 b6d59cb1888151127d985f5b3d92e54f39d03ba29c6c23a243b2d97ca60a2b06；当前继续全课程/V2，不在V1后停止。
 
 依据：[官方0.22控制器](https://github.com/ros-controls/ros_controllers/tree/0.22.0/effort_controllers)、[Noetic硬件实现](https://github.com/ros-simulation/gazebo_ros_pkgs/blob/noetic-devel/gazebo_ros_control/src/default_robot_hw_sim.cpp)。完成本课独立提交/推送/远端核对后进入L26。
+
+
+## 2026-10-31 L26：真实ModelPlugin、原生姿态和生命周期
+
+三组全新私有Gazebo场景正式验收68.277s通过，真实桌面13项35.770s通过。root查看两幅原图：28项目中文课程、蓝色固定台座、青色转子和橙色非对称方向标记可见。自动物理验收不宣称代替图形检查；独立原生姿态证明运动，单张截图不单独证明动画。
+
+算法：校验个人参数与源摘要→根据Gazebo11 SDK/编译器建立本地C++缓存→生成个人SDF参数及配置摘要→私有gzserver加载ModelPlugin并依次Load/Init→WorldUpdateBegin读取真实关节速度→SetForce(drive−drag*omega)→ODE积分→原生pose/info及entity_info独立测量。插件不调用SetPosition/SetVelocity制造运动。Izz=.015kg·m²，基准drive=.03N·m、drag=.015N·m·s/rad，终速2rad/s、时间常数1s。
+
+| 全新场景 | 角增量最大残差(rad) | 原生终段均速(rad/s) | 解析终速(rad/s) |
+| --- | --- | --- | --- |
+| 基准 | .001760225496 | 1.911671918 | 2 |
+| 仅驱动力矩改为-.03 | .001760225496 | -1.911671918 | -2 |
+| 仅阻尼改为.03 | .000958394617 | .998038562 | 1 |
+
+独立测试逐条解析未经修改的原生protobuf文本，以实际entity id识别转子、读回质量与惯量、解包四元数并按源时间比较解析角增量及有限差分速度；角度阈值.025rad、差分速度阈值.06rad/s保持。插件速度只作回调仪表交叉检查，其最大偏差.014448rad/s，不作为独立物理真值。三组分别保留297/293/301条有效原生位姿及全部原始JSONL，实际私有ELF映射按inode/device/SHA验证。
+
+基准另验证保存参数但未重载时拒绝执行且世界不推进、精确原字节修复后就绪；暂停不产生普通更新；只发送一次100步控制，实际推进.1s和100次更新，原生转角增量.198767872880rad、解析.198764180888rad。未反复发送非幂等步进凑结果。
+
+实机发现模型复位保留内部关节角度，清零速度、增加Reset计数并清零epoch更新数，Load/Init计数保持。正式v1错误期待零转角而失败，原始数据保留两端.deploy/lesson26-formal-v1；根据原生实体与Classic源实现修正为严格的复位前后转角保持，正式v2偏差0、速度0。没有通过写位姿强制归零，也未放宽解析运动阈值。复位管理可推进一个1ms世界时钟刻度而不调用普通更新，本次两次复位均实测+1000000ns；使用实际复位epoch并保留原钟，不回填时间。
+
+两个原型缺陷已修正：WorldReset protobuf的all默认true，显式设置all=false/time_only=false/model_only=true；SDK异步发布器局部对象过早析构导致自身线程join，改为主线程持有receiver、publisher、subscriber及node，先transport::fini停止并join，再释放对象，不以睡眠或强制退出遮盖。修正后原型39.438s通过，最终正式与GUI均无此错误。
+
+生命周期缓存applied_torque_nm=0是占位而非力矩测量；新增torque_command_issued仅在实际update施力后为true。模型复位不恢复进入时的转角/动量快照，演示结束再次执行真实model-only复位并恢复原暂停状态，若原本运行则继续受力；完整重载建立新世界和初始角度。教材和只读答案均明确说明上述流程与边界。
+
+11个课程文件与独立测试冻结；模板未改，三次formal token及桌面结束均无本应用残留。raw与运行证据保留在两端.deploy，旧/tmp身份路径只作当时身份，不宣称仍可访问。后续G02需完善SDK依赖识别并澄清通用“重置模型状态”按钮语义，不以全世界时钟倒回替换模型复位。
+
+报告SHA256：formal 656e6947da86fa7cc156b649bd2800db05dd0928abc2aa03cf5780c9f037f838；UI 80a1f90fae6812b875e6fcd0bbfaa9bfa1f4ab037ed041a7f5cd16479762ba4b；独立测试 2d9c32a57a14cad2aaa5e083956b856683760466e6b49ff3507c6943482a23e0。
+
+完成本课独立提交、Windows中转推送和精确远端核对后进入L27。V1发行快照不变；当前继续完成全部课程及V2。

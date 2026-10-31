@@ -1,0 +1,22 @@
+{
+  "id": "26", "title": "ModelPlugin：自己编写真实力矩驱动转子",
+  "module": "Classic插件开发", "order": 26, "profile": "classic11-noetic",
+  "summary": "从Load、Init、Reset到真实物理更新，编写模型插件并用原生位姿独立核对运动。",
+  "requires_ros": false, "requires_tools": ["g++", "pkg-config"],
+  "world": "world.sdf", "prepare": ["python3 prepare.py"], "prepare_timeout": 150,
+  "after_start": ["python3 lab.py ready"], "verify": "verify.py", "verify_timeout": 100,
+  "reference": "reference.md",
+  "objectives": ["解释ModelPlugin各生命周期回调和更新连接的所有权", "用SDF配置实际施力并离线编译加载", "用原生位姿与计数验收物理运动、暂停步进和复位"],
+  "commands": [
+    {"title": "检查实际加载插件", "command": "python3 lab.py ready"},
+    {"title": "预测终速与时间常数", "command": "python3 lab.py predict"},
+    {"title": "实际三秒转子实验", "command": "python3 lab.py demo --seconds 3"},
+    {"title": "观察原生消息", "command": "python3 lab.py watch --seconds 2"},
+    {"title": "暂停真实世界", "command": "python3 lab.py pause"},
+    {"title": "推进真实100步", "command": "python3 lab.py step --steps 100"},
+    {"title": "继续真实世界", "command": "python3 lab.py resume"},
+    {"title": "模型复位与Reset回调", "command": "python3 lab.py reset"},
+    {"title": "编辑插件，重载后实际重新构建", "command": "gedit --new-window model_plugin.cc parameters.json"},
+    {"title": "完整有限验收", "command": "python3 verify.py"}
+  ]
+}
