@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<sdf version="1.6"><world name="lesson28">
+  <physics name="ode" type="ode"><max_step_size>.001</max_step_size><real_time_update_rate>1000</real_time_update_rate></physics>
+  <gravity>0 0 -9.8</gravity><scene><ambient>.45 .45 .45 1</ambient><background>.10 .13 .18 1</background></scene>
+  <light name="sun" type="directional"><direction>-.4 .2 -1</direction><diffuse>.85 .85 .85 1</diffuse><cast_shadows>true</cast_shadows></light>
+  <model name="ground"><static>true</static><pose>1 0 -.1 0 0 0</pose><link name="floor"><collision name="body"><geometry><box><size>6 3 .2</size></box></geometry></collision><visual name="body"><geometry><box><size>6 3 .2</size></box></geometry><material><ambient>.65 .68 .72 1</ambient><diffuse>.65 .68 .72 1</diffuse></material></visual></link></model>
+  <model name="scanner"><static>true</static><pose>0 0 .4 0 0 0</pose><link name="link">
+    <!-- Visual only: a housing collision around the ray origin would obscure the target. -->
+    <visual name="housing"><pose>-.08 0 0 0 0 0</pose><geometry><box><size>.16 .2 .2</size></box></geometry><material><ambient>.08 .4 .9 1</ambient><diffuse>.08 .4 .9 1</diffuse></material></visual>
+    <sensor name="proximity" type="ray"><always_on>true</always_on><update_rate>20</update_rate><visualize>true</visualize>
+      <ray><scan><horizontal><samples>3</samples><resolution>1</resolution><min_angle>-.1</min_angle><max_angle>.1</max_angle></horizontal></scan><range><min>.1</min><max>6</max><resolution>.001</resolution></range></ray>
+      <plugin name="proximity_filter" filename="libgazeboteach_l28_sensor.so"><threshold_m>.9</threshold_m><alpha>.35</alpha><config_sha256>unprepared</config_sha256></plugin>
+    </sensor>
+  </link></model>
+  <model name="target_box"><static>true</static><pose>1.4 0 .4 0 0 0</pose><link name="body"><collision name="body"><geometry><box><size>.4 .4 .4</size></box></geometry></collision><visual name="body"><geometry><box><size>.4 .4 .4</size></box></geometry><material><ambient>.95 .35 .08 1</ambient><diffuse>.95 .35 .08 1</diffuse></material></visual></link></model>
+</world></sdf>

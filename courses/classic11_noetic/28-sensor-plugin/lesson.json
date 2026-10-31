@@ -1,0 +1,26 @@
+{
+  "id": "28", "title": "SensorPlugin：从原生测距到滤波与距离判断",
+  "module": "Classic插件开发", "order": 28, "profile": "classic11-noetic",
+  "summary": "编写真实CPU RaySensor插件，按原始测量时间核对EMA、阈值和无回波状态。",
+  "requires_ros": false, "requires_tools": ["g++", "pkg-config"],
+  "world": "world.sdf", "prepare": ["python3 prepare.py"], "prepare_timeout": 150,
+  "after_start": ["python3 lab.py ready"], "verify": "verify.py", "verify_timeout": 130,
+  "reference": "reference.md",
+  "objectives": ["解释SensorPlugin实际传感器接口与更新回调", "从原生测量计算EMA并保留无效状态", "使用原始消息和真实移动验收采样时钟与算法"],
+  "commands": [
+    {"title": "检查实际插件与传感器", "command": "python3 lab.py ready"},
+    {"title": "预测几何与EMA", "command": "python3 lab.py predict"},
+    {"title": "真实五阶段距离实验", "command": "python3 lab.py demo"},
+    {"title": "观察原始scan和自定义消息", "command": "python3 lab.py watch --seconds 3"},
+    {"title": "暂停并把目标移近", "command": "python3 lab.py near"},
+    {"title": "暂停并把目标移远", "command": "python3 lab.py far"},
+    {"title": "暂停并制造无回波", "command": "python3 lab.py noecho"},
+    {"title": "暂停并移回初始位置", "command": "python3 lab.py home"},
+    {"title": "继续真实世界", "command": "python3 lab.py resume"},
+    {"title": "暂停真实世界", "command": "python3 lab.py pause"},
+    {"title": "真实100物理步", "command": "python3 lab.py step --steps 100"},
+    {"title": "全世界复位并观察采样时间回退", "command": "python3 lab.py reset"},
+    {"title": "编辑滤波参数和插件，重载后生效", "command": "gedit --new-window parameters.json sensor_plugin.cc"},
+    {"title": "完整有限验收", "command": "python3 verify.py"}
+  ]
+}

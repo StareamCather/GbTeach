@@ -893,3 +893,38 @@ formal v3基准全部通过，但count-only启动及同版UI的stats客户端在
 报告SHA256：formal 59c168474da293bfb79b9c125ce953e3c862563ff77be8aa78da24045d7273b0；UI 1a078e7695448badaea03a4d9f45c9fab4095aa983eaa8d218e0359c959bdecb；独立测试 cf2048a97f3f93a1cc07859b731314239fba2fc772accf1803fbc2f756f0d507。
 
 独立提交、Windows中转推送并精确核对远端后进入L28；当前继续全部39项目V2。
+
+
+## 2026-11-01 L28：SensorPlugin原生测距、EMA和无回波
+
+最终三组全新私有场景正式验收215.076s通过：基准threshold_m=.9/alpha=.35，仅阈值1.3，仅alpha=.7。分别318/329/320对原生LaserScanStamped与Any.STRING输出按源ns精确配对，共967对；每组五阶段原生源频率均20Hz。独立测试从未经修改的protobuf文本和Any原始JSON解码测量，几何和EMA历史独立重算，不把插件的previous_filtered字段作为递推真值。
+
+真实桌面13项52.434s通过。root查看两张原图，30项目中文教材、蓝色扫描器、橙色静态目标和三束可视化射线可见；GUI、两PTY、暂停/单步、实际验收、编辑/重开/持久化和退出清理均通过。图形仅证明实际场景可显示，原生消息另行证明测距与算法。
+
+算法：个人JSON/SDF及源摘要检查→按两CPP/SDK/编译器锁定并原子构建→sensor下加载SensorPlugin→检查真实RaySensor、Load/Init、设置active→保留ConnectUpdated连接→每次成功测量后读取真实Ranges/LastMeasurementTime→按[min,max)筛有限值并求最小值→首次有效值直接种子、后续EMA=alpha*x+(1-alpha)*previous→按filtered<=threshold输出near/clear→无有效值输出unknown及null并清空滤波→实际采样时钟严格回退时开启新epoch。弱sensor和共享State避免传感器/插件循环所有权及回调析构悬空；transport RPC只复制已锁缓存，不在请求线程持本地锁再取传感器数据。C++不生成测距或修改原始扫描。
+
+| 真实目标中心x(m) | 有效束 | 原生最近距离(m) | 基准输出 |
+| --- | --- | --- | --- |
+| 1.4 | 3 | 1.2 | clear |
+| .8 | 3 | .6 | 首帧EMA .99仍clear，随后near |
+| 3.2 | 1 | 3 | clear，斜束越过方块半宽而无回波 |
+| 8 | 0 | 无有效回波 | nearest/previous/filtered全null，unknown |
+| 恢复1.4 | 3 | 1.2 | 首帧直接种子1.2，clear |
+
+三束±.1rad、范围.1..6m、目标边长.4m，逐束按真实前表面和横向半宽验收。仅阈值改1.3时原生数据及EMA不变，初始1.2由clear变near；仅alpha改.7时移近首帧EMA=.78已near，对照基准.99，说明响应延迟和阈值的不同作用。原始无限值保留在原生protobuf，JSON显示null的同时记录raw_kinds，不把无回波当成零米或已确认的安全距离。
+
+暂停先等待已到期工作排空，然后世界时间/迭代/回调保持；一次100物理tick真实推进.1s，实际另观测到2次传感器回调，不把20Hz异步回调数强定为物理步数。保存参数但未重载时拒绝且不推进，原字节修复后恢复。全世界复位实测clock0，重新取得62对新epoch消息，第一帧原生1.2与新种子1.2一致；epoch/rewind_count各增加1，SensorPlugin.Reset仍0、Load/Init保持1。本SDK的SensorManager重置采样时钟而非自动调用SensorPlugin.Reset，插件按实际测量时刻回退识别新epoch。
+
+demo正常结束恢复目标完整原生pose和入场暂停状态，不回填EMA、计数、时钟或消息历史。手动near/far/noecho/home移动保持暂停，需resume才观察新测量；全世界reset将目标恢复初始SDF位置，区别于恢复入场目标。RaySensor.IsActive还会受原生扫描订阅影响，教材说明SetActive(false)不保证有订阅者时停采样，未把源码推理冒充实际主动停采样验收。
+
+首轮独立测试210.290s三场景均通过，但GUI原型48.944s的课内验收器把invalid首帧previous=null硬接上一valid.filtered，误报EMA不连续。只修lab.py验收流程：当前有效且连续/同epoch才按前帧是否有效继承或重种子；当前无效则三项距离均null、unknown，不跨失效段接旧历史。C++算法与数值阈值未改，流程同步两MD；原型source/raw/log保留两端.deploy/lesson28-prototype-v1，首轮独立报告及源保留formal-v1。
+
+最终独立测试增加自有stop-file请求，让三次连续watch均正常返回0并经过SDK IO stop/join，超时才作失败清理；不再用正常路径SIGTERM结束观察。沿用L27验证的严格DSO全版本/私有数据符号保护及主线程IO屏障，插件教学本体不使用私有ABI，未修改主机库。11课程文件与独立测试冻结，三个自有gzserver的实际私有ELF分别按inode/device/SHA检查，模板未改；formal三token及GUI结束均无残留。原始JSONL、生成配置及运行记录保留两端.deploy/lesson28-formal-artifacts，旧/tmp路径仅作当时运行身份。
+
+正常路径的恢复已实际验证；verify在demo后的暂停/步进检查若失败可能保留暂停供排查，G02记录进一步评估该异常路径，不声称失败后仍恢复全部状态。
+
+依据：[SensorPlugin接口](https://github.com/gazebosim/gazebo-classic/blob/gazebo11/gazebo/common/Plugin.hh)、[传感器更新](https://github.com/gazebosim/gazebo-classic/blob/gazebo11/gazebo/sensors/Sensor.cc)、[实际RaySensor](https://github.com/gazebosim/gazebo-classic/blob/gazebo11/gazebo/sensors/RaySensor.cc)。
+
+报告SHA256：formal 8f85de7fa3bf5c7c3d4ec042d4c7b5117b83c3bc151d86cc631c6997a753d925；UI 648eb3368720eaa8076563c71ed46d839713e75c6ffe5e73dc0a1db59d108332；独立测试 03ded27e318a4a0ef05d0175d5d11808be1118e8910f4041260d328674db86dd。
+
+独立提交、Windows中转推送并精确核对远端后进入L29；当前继续全部39项目V2。
