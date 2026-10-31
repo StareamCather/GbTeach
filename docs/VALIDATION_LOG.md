@@ -1023,3 +1023,46 @@ demo正常结束恢复目标完整原生pose和入场暂停状态，不回填EMA
 报告SHA256：formal de7081ea0e76e0ec747ec14053398d2ad733a4d73005072bccf1f5bf82edbaf0；UI 39f6c4599d1511b58101b617e35e6ffc213348cff464fef4d2fcbd6c648e0f3c；独立测试 4b5a388bf2d429303c0b3ce3a871f6dc4cb7b7c4c83f20f43e0e57ba84d08199。
 
 独立提交、Windows中转推送并精确核对远端后进入L32；当前继续全部39项目V2。
+
+
+## 2026-11-01 L32：原生状态记录、隔离回放与三方对照
+
+最终独立验收111.541s，三组全新原世界与三台独立原生播放器全部通过；桌面13项48.009s通过；最终V9真实用户GUI回放与原世界窗口检查55.308s通过，原生时间轴光标出现后才保存图像；另以300step/bz2全新工作区实际运行完整课程验收31.970s通过。root已查看34项目中文工作台、暂停在300ms的原世界及原生播放器00:00.300时间轴截图。GUI图像来自UID/PID/token核实的实际窗口，不通过生成图替代实验。
+
+| 独立场景 | 实际原世界终点 | 最后日志时刻 | 保存状态/总帧 | 原始文件字节 | 原世界最终z(m) |
+| --- | --- | --- | --- | --- | --- |
+| 300step/zlib | 300ms/300iter | 300ms | 234/235 | 7741 | 1.557530000000001 |
+| 仅长度800step | 800ms/800iter | 607ms | 541/542 | 16117 | 0.19999999999612778 |
+| 仅编码txt | 300ms/300iter | 300ms | 234/235 | 120154 | 1.557530000000001 |
+
+三文件均实际2个压缩/写入容器chunk，首直接状态14ms；总帧另含首个完整world。压缩方式改变后，重叠日志状态的模型与主连杆姿态均相同；不把该量化后相同扩大为所有原始浮点轨迹逐位相同。独立播放器各5个实际帧检查点，15处原生模型xyz与有效日志姿态最大误差均0。源及播放器原生时间、迭代、暂停状态、实际ELF与-p实参、私有Master/partition和原始protobuf分别核对。
+
+算法：校验独立Classic11 SDK及单body/单位初始相对位姿→离线编译观察器并按源/SDK/编译器键加锁缓存→核原生世界→暂停/完整复位→单次原生LogControl.start指定个人目录与编码→有界物理步及原生检查点→单次stop→实际空full_path、完整闭合XML和稳定SHA→离线LogPlay逐帧读取→独立端口/partition/HOME/token的实际gzserver -u -p→单次原生seek实际日志时刻→原生实体/时钟对照→核原世界未变→仅清理自身进程。
+
+日志状态查询用proto2显式start:false，字节非空且OnLogControl不执行start；无字段消息为零字节，会被实际Classic transport丢弃。仅该只读查询允许有界重试；start/stop/reset/step/seek不会因等候完成而重复发送。曾用普通gzserver文件名做进程断言，实际设备为/usr/bin/gzserver-11.15.1，已改为与所解析安装入口samefile核对并校验ELF，而非宽松名称前缀。
+
+原始模型位置先按SDK小数4位处理，再defaultfloat有效数字3位；body世界位置为有效数字4位，分别独立预测序列化并以1e-9核对两套字段，保留原始量化残差。Gazebo先Model.SetState再Link.SetState，canonical body会更新父模型；本课单位相对变换下，播放器模型xyz应等于所存body世界xyz，而非低精度model/pose。实测300ms：原生原世界z1.55753，model日志1.56、body日志1.558，原生播放器1.558；没有将两类误差混合放宽门限。回放lab门限1e-8、独立验收门限2e-6保持。
+
+800step场景607ms已落稳，原生变化状态过滤随后不再写入状态。原世界实际时间T800ms与最后状态S607ms保留区分；只允许选最新S≤T且模型3位、body4位均与实际T处位置序列化结果相同。报告保留T/S、原始/记录迭代及193ms间隔；回放停在真实S，不补帧、改时间戳或宣称连续受力/速度已获证明。独立旁路WorldStatistics实际见证暂停800ms/800iter。
+
+桌面先继续运行再验收，暴露原单次stats→entity→stats读取可横跨复位/seek过渡；V8改为6s有界只读重采样，要求前后均暂停且时间和迭代相同，动作仍只发一次。每次build/checkpoint-UUID.json在异常前保留阶段、Master、最后三份原生读取、stable/pending_transition摘要；成功亦返回诊断路径。最终正式验收保留42份课程检查点日志。V9对可选GUI在启动、seek、展示及清理前每≤100ms检查真实server/client存活，发现退出保存阶段和输出并失败；这项存活检查与独立窗口/图像检查分开记录。
+
+真实调试历史保留：原型v1缺gazebo_util显式链接；v2/v3初始日志查询超时；v4文件名断言；v5 canonical-link判定；v6默认300完整GUI/双PTY通过39.119s，800缺末帧；v7保留状态修正后800通过35.668s。第一版正式三场景114.561s通过、GUI47.524s通过，但桌面首次38.635s失败，已保留实际失败后修复一致读取。第二次正式因复用04:01停止标记让04:12观察器提前结束，属于验收脚本隔离缺陷；已为每轮wire与stop使用新UUID并确认活跃握手，3采样/50ms及全部数值标准均未改变。GUI测试也改为有界只读等候原生统计及实际可见时间轴后抓图，仅抬升自身核实窗口。旧GUI中一次强制中止时client记录-11，尚无故障栈证明发生阶段，G02另留有序关闭审计，最终GUI运行及主动结束client/server均-15、无残留。
+
+10个课程文件和最终独立测试冻结。formal-v1/v2-evidence.zip包含各版源、报告、原始日志、SDK头文件与数据，保留两端；原型source/data/native诊断亦保留。最终正式及GUI、bz2证据归档两端。原生日志原始SHA在读取、原生播放器及复制后保持；不接受LogPlay自动补尾修复来掩盖未关闭日志。所有正式token、桌面及单独GUI完成后均无自有实验进程，原模板未改。
+
+范围：真实状态/时钟/xyz及图形窗口、个人练习闭环；不宣称录制了ROS指令、相机像素、完整六维姿态误差或连续静止轨迹。官方依据：[LogRecord](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/util/LogRecord.cc)、[ModelState](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/physics/ModelState.hh)、[LinkState](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/physics/LinkState.hh)、[Model恢复顺序](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/physics/Model.cc)。
+
+证据SHA256 .deploy/lesson32-replay-gui-v4.json：21f0ee71cb7f0a1b428f4f9311086bc0808e7ac21ca375847e71ac57d9246031。
+
+证据SHA256 .deploy/lesson32-bz2.json：76b810483c54763b6a9d42dbd36fd56a0c0aaed9a2ec704066e2162e89fadcaa。
+
+证据SHA256 .deploy/lesson32_gui_probe.py：3a1253d068ad2e4d818392bdbb585d7cab5657fed84af4040a6d44c583e66b57。
+
+证据SHA256 .deploy/lesson32-formal-v1-evidence.zip：bb9a438cd449a952cbab1e8fd51402f1e83e8e0990fa5b50e3bae24365d8740b。
+
+证据SHA256 .deploy/lesson32-formal-v2-evidence.zip：a82573391ebac702fbcd949fb28f70a167c140df211018e6e7714e82a9575f38。
+
+报告SHA256：formal 76202e041729ea1de57ccdb1823e97dee133bfff3ab0facea521559d8ef45d39；UI c0470a4ff8b6133102e8cecb0bbe7121c962bf7ba8e5842818c74895e47fd482；独立测试 2536371f80d47dc6cb7b98ac4655d199259add667a803b84d7a4cefaa32b9fe8。
+
+独立提交、Windows中转推送并精确核对远端后进入L33；当前继续全部39项目V2。

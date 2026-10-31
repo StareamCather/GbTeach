@@ -1,0 +1,23 @@
+{
+  "id": "32", "title": "原生状态日志：录制、读取与隔离回放",
+  "module": "Classic高级实验", "order": 32, "profile": "classic11-noetic",
+  "summary": "录制Gazebo原生state.log，在独立gzserver回放，并用真实时钟和姿态核对原世界。",
+  "requires_ros": false, "requires_tools": ["g++", "pkg-config"],
+  "world": "world.sdf", "server_args": ["-u"],
+  "prepare": ["python3 prepare.py"], "prepare_timeout": 150,
+  "after_start": ["python3 lab.py ready"], "verify": "verify.py", "verify_timeout": 180,
+  "reference": "reference.md",
+  "objectives": ["使用原生LogControl和LogStatus录制并确认日志关闭", "用LogPlay读取实际SDF状态并区分容器块与状态帧", "在隔离的原生gzserver回放并对照原世界的姿态与仿真时间"],
+  "commands": [
+    {"title": "检查真实世界与原生记录器", "command": "python3 lab.py ready"},
+    {"title": "暂停原世界", "command": "python3 lab.py pause"},
+    {"title": "推进100个物理步", "command": "python3 lab.py step --steps 100"},
+    {"title": "完整复位并录制有限原生日志", "command": "python3 lab.py record"},
+    {"title": "离线读取完整原生日志", "command": "python3 lab.py inspect"},
+    {"title": "独立原生回放并核对轨迹", "command": "python3 lab.py playback"},
+    {"title": "显式打开真实回放GUI（自动关闭）", "command": "python3 lab.py playback --gui --seconds 6"},
+    {"title": "完整世界复位", "command": "python3 lab.py reset"},
+    {"title": "编辑录制长度或压缩方式，重载生效", "command": "gedit --new-window parameters.json"},
+    {"title": "完整有限验收", "command": "python3 verify.py"}
+  ]
+}
