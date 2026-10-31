@@ -1,0 +1,25 @@
+{
+  "id": "27", "title": "WorldPlugin：按节拍投料并管理世界实体",
+  "module": "Classic插件开发", "order": 27, "profile": "classic11-noetic",
+  "summary": "编写世界插件，观察异步SDF投料、真实落体和按实体ID回收，区分模型与全世界复位。",
+  "requires_ros": false, "requires_tools": ["g++", "pkg-config"],
+  "world": "world.sdf", "prepare": ["python3 prepare.py"], "prepare_timeout": 150,
+  "after_start": ["python3 lab.py ready"], "verify": "verify.py", "verify_timeout": 110,
+  "reference": "reference.md",
+  "objectives": ["解释WorldPlugin生命周期和模型插件的作用域差异", "用离线SDF异步插入并观察实际实体", "只回收自有ID并对照模型复位与全世界复位"],
+  "commands": [
+    {"title": "检查实际世界插件", "command": "python3 lab.py ready"},
+    {"title": "预测自由落体与投料节拍", "command": "python3 lab.py predict"},
+    {"title": "创建一批并观察真实落体", "command": "python3 lab.py batch"},
+    {"title": "查看实际实体与状态", "command": "python3 lab.py status"},
+    {"title": "只回收本插件登记实体", "command": "python3 lab.py clear"},
+    {"title": "观察原生消息", "command": "python3 lab.py watch --seconds 2"},
+    {"title": "暂停实际世界", "command": "python3 lab.py pause"},
+    {"title": "推进实际100步", "command": "python3 lab.py step --steps 100"},
+    {"title": "继续实际世界", "command": "python3 lab.py resume"},
+    {"title": "模型复位：不调用WorldPlugin::Reset", "command": "python3 lab.py model-reset"},
+    {"title": "全世界复位并清理自有实体", "command": "python3 lab.py reset"},
+    {"title": "编辑世界插件，重载后实际编译", "command": "gedit --new-window world_plugin.cc parameters.json"},
+    {"title": "完整有限验收", "command": "python3 verify.py"}
+  ]
+}

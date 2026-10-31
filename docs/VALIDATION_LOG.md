@@ -854,3 +854,42 @@ V1已发布：v1.0.0源384c74bf5d96e34f31d90cd823d42f2ffea1829e、437载荷文�
 报告SHA256：formal 656e6947da86fa7cc156b649bd2800db05dd0928abc2aa03cf5780c9f037f838；UI 80a1f90fae6812b875e6fcd0bbfaa9bfa1f4ab037ed041a7f5cd16479762ba4b；独立测试 2d9c32a57a14cad2aaa5e083956b856683760466e6b49ff3507c6943482a23e0。
 
 完成本课独立提交、Windows中转推送和精确远端核对后进入L27。V1发行快照不变；当前继续完成全部课程及V2。
+
+
+## 2026-11-01 L27：WorldPlugin异步投料、实际实体和安全回收
+
+四个全新私有场景正式验收126.227s通过，包含基准count3/height1.2、仅count5、仅height1.8，以及count1/height1.23456789的额外精度边界回归。后一场不是教学单变量对照。共12个真实方块，各自原生位姿的三点差分重力中位数均9.799999999999962m/s²；每个差分值9.8±1、中位数9.8±.35及持续支撑速度<.01m/s阈值保持。独立原生实体核对实际质量、惯量、ID、出生高度和支撑中心z≈.18。
+
+真实桌面13项66.586s通过，包含GUI、两个独立PTY、暂停/单步、实际验收、练习持久化/重开/编辑和退出清理。额外图形探针20.311s通过，原生Scene确认实际3块ID16/22/28，root查看未合成的原图：橙蓝橙方块、绿色外部哨兵和台面可见；同时查看29项目中文工作台。默认verify会清空自有模型，所以另外保留投料后图，不把回收后的空场景当作渲染创建的证明。
+
+算法：参数/源摘要检查→个人SDF及高熵实例前缀→按SDK/编译器/两CPP源构建键并fcntl锁定缓存→离线C++编译及原子安装→world下加载WorldPlugin→Load/Init与原生RPC就绪→transport回调只登记batch/clear→物理线程WorldUpdateBegin按模拟时间.35s提交离线SDF factory→实际ModelByName确认并登记ID→ODE真实重力积分→独立原生位姿验证下落及持续落稳→clear等待所有在途请求出现后仅删除匹配ID→实际消失后idle。complete只代表目标实体均出现；batch工具另以末.25s原生窗至少8样本/跨度≥.2s、z范围≤.003m、每段|vz|≤.03m/s及距支撑中心≤.008m确认落稳，最终暂停再读实体。全过程不写测量值或用插件计数代替真实物理。
+
+Clear只管理本实例登记的实体，保留外部哨兵完整原生内容；已出现的同名替换若ID不同则拒绝删除并报错。首次名字登记依赖高熵前缀及插入前冲突检查，不承诺抵御恶意并发抢占同名。基准实测在暂停世界只发一次batch、推进首tick后requested1/observed0，clear随后等待真实实体并回收，再推进1模拟秒确认没有迟到模型。只发送一次非幂等控制，不重放来凑结果。
+
+暂停前后时间7675000000ns、iterations7675均保持；真实100步后为7775000000ns、7775，恰好+.1s/+100次普通插件更新。model-only复位后7776000000ns，实际+1ms管理tick、实体ID保持、WorldPlugin.Reset不调用；全世界复位后实际clock0/iterations0、WorldPlugin.Reset增加1而Load/Init保持。全世界复位本身不会删除动态模型，本课Reset只标记延迟清理，恢复更新后才实际回收；模拟时间和外部动力学不作为快照回填。保存参数但未重载的拒绝及原字节修复另行验证。
+
+SDK9.10精度：formal v1(16.496s)和v2(25.841s)都在原生I=.00213333与数学I=.0021333333333333334的1e-10比较失败。实机微探针证实直接readString保留double，GetAsString仅六位有效数字，Root/Model.Clone经Param.Clone将I变为.0021333300000000001，高精度质量.5123456789012346变为.512346。World.ProcessFactoryMsgs的共同Root()->Clone使String入口也无法绕开；保留17位原始文本仅避免入口额外序列化。最终测试分别记录数学/SDK可传递预期/原生实际值，按float(format(theory,'.6g'))保持原1e-10实际核对，另记绝对差3.333333333e-9和相对差1.5625ppm。没有修改SDK、实际消息或自由落体阈值。
+
+高精度边界实机通过：JSON原始1.23456789及其原字节保持，prepare另记factory_expected_drop_height=1.23457；predict分列请求/SDK高度与两种理论落体时间。课内model-reset只执行一次后，独立原生实体核对实际高度1.23457、所有ID保持、暂停、单1ms管理tick、Reset/updates不变，原高度误差1e-7阈值保持。
+
+formal v3基准全部通过，但count-only启动及同版UI的stats客户端在已输出有效世界统计后偶发abort，boost thread报自身join。源码与上游维护者相同故障栈表明最后Connection引用可能在IO回调释放，从而IOManager析构join自身。针对本机运行GDB100次70.309s及仅加terminate调用栈诊断的原版200次55.887s均未复现，不能宣称已取得本机故障栈。原始两个abort、三个失败formal及对应源/raw/log保留两端.deploy/lesson27-formal-v1/-v2/-v3。
+
+客户端兼容流程：初始化前主线程持有未连接Connection以保护共享IOManager→检查导出数据符号及其真实DSO全版本等于编译SDK的GAZEBO_VERSION_FULL→正常原生通信→transport::fini停止并join其run线程/清注册表→主线程调用public IOManager.Stop明确停止并join异步IO线程→释放node/pub/sub/guard。WorldPlugin教学本体不使用私有ABI，不改主机库，不吞非零，不用强制退出或睡眠替代join。首次保护检查因短版宏11.15与全版11.15.1不同而正确拒绝，归档safe-transport-v1后改用FULL。修正变体140次正常查询/控制和3次无Master初始化失败均正确join，55.761s通过；无Master仍返回1。私有数据符号兼容层只在本次Classic11.15.1验证，符号/版本不符明确拒绝；后续G02评估旧课同类客户端，不宣称所有SDK均已认证。
+
+最终11个课程文件与独立测试冻结，四个自有gzserver实际私有ELF按inode/device/SHA核对，模板未改；formal四token、桌面、额外图形及所有诊断探针均无残留。临时练习目录已清理，历史/tmp路径仅作运行身份；持续原始数据保留两端.deploy/lesson27-formal-artifacts和figure-artifacts。算法流程、精度与复位边界已同步教材及只读答案。
+
+依据：[Classic世界实现](https://github.com/gazebosim/gazebo-classic/blob/gazebo11/gazebo/physics/World.cc)、[SDK9参数复制](https://github.com/gazebosim/sdformat/blob/sdformat9_9.10.0/src/Param.cc)、[原生IO管理](https://github.com/gazebosim/gazebo-classic/blob/gazebo11/gazebo/transport/IOManager.cc)、[上游维护者故障栈](https://gist.github.com/scpeters/ef9741628dfe58f681f6e46e413dcc5d)。
+
+证据SHA256 lesson27-figure.json：b9d993ef7a7ee1c779e01959014d93b6618d7a20c975ea4426cf9a2ef9ec7b06。
+
+证据SHA256 lesson27-sdk-precision.log：c47052fa74609e67d87faa72f96be10917bd5dd88861f543a998cc0eabc56fa3。
+
+证据SHA256 lesson27-safe-transport-report.json：6b8207c06ceba9d6a37114c7bf2a0eaea50c07a454a196c3f584b131213b1356。
+
+证据SHA256 lesson27-transport-gdb-report.json：6a0975e848fbf4becf40863035511e26fffbf3ea7b63984fb44bf6ca66e98132。
+
+证据SHA256 lesson27-transport-trace-report.json：d9e2cbe64dc4435d9bf5242c23b74d897dc6aec68a9d1cc49ad23b50496c87eb。
+
+报告SHA256：formal 59c168474da293bfb79b9c125ce953e3c862563ff77be8aa78da24045d7273b0；UI 1a078e7695448badaea03a4d9f45c9fab4095aa983eaa8d218e0359c959bdecb；独立测试 cf2048a97f3f93a1cc07859b731314239fba2fc772accf1803fbc2f756f0d507。
+
+独立提交、Windows中转推送并精确核对远端后进入L28；当前继续全部39项目V2。
