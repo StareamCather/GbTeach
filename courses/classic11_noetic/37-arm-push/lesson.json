@@ -1,0 +1,26 @@
+{
+  "id":"37", "title":"机械臂推块综合任务：真实双关节、力反馈与故障恢复",
+  "module":"Classic高级实验", "order":37, "profile":"classic11-noetic",
+  "summary":"用真实2R力矩控制机械臂推动物块，记录实际末端误差、腕部力与物块运动，复现失能超时及显式恢复。",
+  "requires_ros":true,
+  "requires_plugins":["libgazebo_ros_api_plugin.so","libgazebo_ros_ft_sensor.so","libgazebo_ros_bumper.so"],
+  "requires_ros_packages":["rospy","gazebo_ros","gazebo_plugins","gazebo_msgs","geometry_msgs","std_msgs","std_srvs","rosgraph_msgs","tf2_msgs","tf2_ros"],
+  "requires_tools":["gazebo","gz","g++","pkg-config","rospack","rosparam"],
+  "world":"world.sdf", "server_args":["-u"],
+  "prepare":["python3 prepare.py"], "prepare_timeout":240,
+  "startup":[{"name":"双关节推块任务控制器","command":"python3 mission.py"}],
+  "after_startup":["python3 lab.py ready"], "after_startup_timeout":45,
+  "reference":"reference.md", "verify":"verify.py", "verify_timeout":90,
+  "objectives":["用逆运动学生成关节目标并通过实际SetForce力矩推进物理关节","区分末端目标与物块位移，记录真实FT/接触/误差曲线","运行有界状态机并复现执行器失能、超时失败与全世界显式复位恢复"],
+  "commands":[
+    {"title":"检查实际双关节与加载参数","command":"python3 lab.py ready"},
+    {"title":"推进真实物理以获取腕部力与接触反馈","command":"python3 lab.py bootstrap"},
+    {"title":"运行有限机械臂推块任务","command":"python3 lab.py run"},
+    {"title":"查看实际状态与测量目录","command":"python3 lab.py snapshot"},
+    {"title":"显式全模型复位（保留仿真时间与历史日志）","command":"python3 lab.py reset --world"},
+    {"title":"注入执行器失能故障（在reset后）","command":"python3 lab.py enable-arm --enabled false"},
+    {"title":"恢复真实关节驱动","command":"python3 lab.py enable-arm --enabled true"},
+    {"title":"修改单个轨迹时间或力矩上限，保存后重载","command":"gedit --new-window parameters.json"},
+    {"title":"真实物理、误差及接触力验收","command":"python3 verify.py"}
+  ]
+}

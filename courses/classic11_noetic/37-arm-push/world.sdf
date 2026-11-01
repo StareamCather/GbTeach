@@ -1,0 +1,434 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <world name="default">
+    
+
+    <gravity>0 0 -9.81</gravity>
+    <physics name="teaching_ode" type="ode">
+      <max_step_size>.001</max_step_size>
+      <real_time_update_rate>1000</real_time_update_rate>
+      <ode>
+        <solver>
+          <type>quick</type>
+          <iters>100</iters>
+        </solver>
+        <constraints>
+          <cfm>0</cfm>
+          <erp>.2</erp>
+          <contact_max_correcting_vel>.1</contact_max_correcting_vel>
+          <contact_surface_layer>.0001</contact_surface_layer>
+        </constraints>
+      </ode>
+    </physics>
+    
+
+    <scene>
+      <ambient>.5 .5 .5 1</ambient>
+      <background>.045 .055 .075 1</background>
+      <shadows>false</shadows>
+    </scene>
+    
+
+    <light name="classroom_light" type="directional">
+      <pose>0 0 4 0 0 0</pose>
+      <diffuse>.9 .9 .9 1</diffuse>
+      <direction>-.2 .1 -1</direction>
+      <cast_shadows>false</cast_shadows>
+    </light>
+    
+
+    <gui fullscreen="0">
+      <camera name="user_camera">
+        <pose>1.25 -1.5 1.65 0 .7 2.2</pose>
+        <view_controller>orbit</view_controller>
+      </camera>
+    </gui>
+    
+
+    <model name="floor">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>10 10</size>
+            </plane>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>.25</mu>
+                <mu2>.25</mu2>
+              </ode>
+            </friction>
+          </surface>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>10 10</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>.28 .31 .35 1</ambient>
+            <diffuse>.28 .31 .35 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    
+
+    <model name="push_arm">
+      <static>false</static>
+      <allow_auto_disable>false</allow_auto_disable>
+      
+
+      <link name="base">
+        <pose>0 0 .10 0 0 0</pose>
+        <inertial>
+          <mass>2</mass>
+          <inertia>
+            <ixx>.01</ixx>
+            <iyy>.01</iyy>
+            <izz>.01</izz>
+          </inertia>
+        </inertial>
+        <visual name="base_visual">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>.08 .08 .2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.3 .34 .4 1</ambient>
+            <diffuse>.3 .34 .4 1</diffuse>
+          </material>
+        </visual>
+        <collision name="base_collision">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>.08 .08 .2</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>.25</mu>
+                <mu2>.25</mu2>
+              </ode>
+            </friction>
+            <contact>
+              <ode>
+                <kp>100000</kp>
+                <kd>100</kd>
+                <max_vel>.02</max_vel>
+                <min_depth>.0001</min_depth>
+              </ode>
+            </contact>
+          </surface>
+        </collision>
+      </link>
+      <link name="upper_arm">
+        <pose>0 0 .10 0 0 -0.96255074788468709</pose>
+        <inertial>
+          <pose>.175 0 0 0 0 0</pose>
+          <mass>.5</mass>
+          <inertia>
+            <ixx>.000075</ixx>
+            <iyy>.005142</iyy>
+            <izz>.005142</izz>
+          </inertia>
+        </inertial>
+        <visual name="upper_arm_visual">
+          <pose>.175 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>.35 .03 .03</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.1 .55 .86 1</ambient>
+            <diffuse>.1 .55 .86 1</diffuse>
+          </material>
+        </visual>
+        <collision name="upper_arm_collision">
+          <pose>.175 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>.35 .03 .03</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>.25</mu>
+                <mu2>.25</mu2>
+              </ode>
+            </friction>
+            <contact>
+              <ode>
+                <kp>100000</kp>
+                <kd>100</kd>
+                <max_vel>.02</max_vel>
+                <min_depth>.0001</min_depth>
+              </ode>
+            </contact>
+          </surface>
+        </collision>
+      </link>
+      <link name="forearm">
+        <pose>0.20000000000000001 -0.28722813232690136 .10 0 0 0.96255074788468709</pose>
+        <inertial>
+          <pose>.175 0 0 0 0 0</pose>
+          <mass>.5</mass>
+          <inertia>
+            <ixx>.000075</ixx>
+            <iyy>.005142</iyy>
+            <izz>.005142</izz>
+          </inertia>
+        </inertial>
+        <visual name="forearm_visual">
+          <pose>.175 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>.35 .03 .03</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.1 .55 .86 1</ambient>
+            <diffuse>.1 .55 .86 1</diffuse>
+          </material>
+        </visual>
+        <collision name="forearm_collision">
+          <pose>.175 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>.35 .03 .03</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>.25</mu>
+                <mu2>.25</mu2>
+              </ode>
+            </friction>
+            <contact>
+              <ode>
+                <kp>100000</kp>
+                <kd>100</kd>
+                <max_vel>.02</max_vel>
+                <min_depth>.0001</min_depth>
+              </ode>
+            </contact>
+          </surface>
+        </collision>
+      </link>
+      <link name="pusher">
+        <pose>.4 0 .10 0 0 0.96255074788468709</pose>
+        <inertial>
+          <mass>.05</mass>
+          <inertia>
+            <ixx>.000032</ixx>
+            <iyy>.000032</iyy>
+            <izz>.000032</izz>
+          </inertia>
+        </inertial>
+        <visual name="pusher_visual">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>.04</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>.98 .65 .1 1</ambient>
+            <diffuse>.98 .65 .1 1</diffuse>
+          </material>
+        </visual>
+        <collision name="pusher_collision">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>.04</radius>
+            </sphere>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>.25</mu>
+                <mu2>.25</mu2>
+              </ode>
+            </friction>
+            <contact>
+              <ode>
+                <kp>100000</kp>
+                <kd>100</kd>
+                <max_vel>.02</max_vel>
+                <min_depth>.0001</min_depth>
+              </ode>
+            </contact>
+          </surface>
+        </collision>
+        <sensor name="contact" type="contact">
+          <always_on>true</always_on>
+          <update_rate>100</update_rate>
+          <contact>
+            <collision>pusher_collision</collision>
+          </contact>
+          <plugin name="contact_ros" filename="libgazebo_ros_bumper.so">
+            <robotNamespace>/arm_push</robotNamespace>
+            <bumperTopicName>/arm_push/contacts</bumperTopicName>
+            <frameName>pusher</frameName>
+          </plugin>
+        </sensor>
+      </link>
+      
+
+      <joint name="anchor_joint" type="fixed">
+        <parent>world</parent>
+        <child>base</child>
+      </joint>
+      <joint name="shoulder_joint" type="revolute">
+        <parent>base</parent>
+        <child>upper_arm</child>
+        <pose>0 0 0 0 0 0</pose>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-2.8</lower>
+            <upper>2.8</upper>
+            <effort>9</effort>
+            <velocity>3</velocity>
+          </limit>
+          <dynamics>
+            <damping>.1</damping>
+          </dynamics>
+        </axis>
+      </joint>
+      <joint name="elbow_joint" type="revolute">
+        <parent>upper_arm</parent>
+        <child>forearm</child>
+        <pose>0 0 0 0 0 0</pose>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-2.8</lower>
+            <upper>2.8</upper>
+            <effort>9</effort>
+            <velocity>3</velocity>
+          </limit>
+          <dynamics>
+            <damping>.1</damping>
+          </dynamics>
+        </axis>
+      </joint>
+      <joint name="wrist_joint" type="fixed">
+        <parent>forearm</parent>
+        <child>pusher</child>
+        <pose>0 0 0 0 0 0</pose>
+        <physics>
+          <provide_feedback>true</provide_feedback>
+        </physics>
+      </joint>
+      
+
+      <plugin name="wrist_wrench" filename="libgazebo_ros_ft_sensor.so">
+        <robotNamespace>/arm_push</robotNamespace>
+        <jointName>wrist_joint</jointName>
+        <topicName>/arm_push/wrench</topicName>
+        <updateRate>50</updateRate>
+        <gaussianNoise>0</gaussianNoise>
+      </plugin>
+      
+
+      <plugin name="physical_arm_control" filename="libarm_push.so"/>
+    </model>
+    
+
+    <model name="push_block">
+      <static>false</static>
+      <allow_auto_disable>false</allow_auto_disable>
+      <pose>.51 0 .0601 0 0 0</pose>
+      <link name="link">
+        <inertial>
+          <mass>.2</mass>
+          <inertia>
+            <ixx>.00048</ixx>
+            <iyy>.00048</iyy>
+            <izz>.00048</izz>
+          </inertia>
+        </inertial>
+        <visual name="block_visual">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>.12 .12 .12</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.85 .28 .2 1</ambient>
+            <diffuse>.85 .28 .2 1</diffuse>
+          </material>
+        </visual>
+        <collision name="block_collision">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>.12 .12 .12</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>.25</mu>
+                <mu2>.25</mu2>
+              </ode>
+            </friction>
+            <contact>
+              <ode>
+                <kp>100000</kp>
+                <kd>100</kd>
+                <max_vel>.02</max_vel>
+                <min_depth>.0001</min_depth>
+              </ode>
+            </contact>
+          </surface>
+        </collision>
+      </link>
+    </model>
+    <model name="goal_marker">
+      <static>true</static>
+      <link name="link">
+        <visual name="tool_goal_visual">
+          <pose>.64 0 .002 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>.004 .18 .002</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.2 .9 .6 1</ambient>
+            <diffuse>.2 .9 .6 1</diffuse>
+          </material>
+        </visual>
+        <visual name="block_goal_visual">
+          <pose>.74 0 .003 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>.004 .18 .002</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.95 .55 .15 1</ambient>
+            <diffuse>.95 .55 .15 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+  </world>
+</sdf>
