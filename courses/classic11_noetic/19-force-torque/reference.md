@@ -4,7 +4,7 @@
 
 ## 关于关节O的静态载荷
 
-关节锚点O=(0,0,1.2) m，load_link原点与O重合。边长0.2 m的均匀立方体质心相对O为r=(L,0,0)，世界重力加速度向量为g_W=(0,0,−9.81) m/s²；下式g=9.81表示其大小。该负载传给支座的等效作用为：
+原生台锚点O=(0,0,1.2) m，load_link原点与O重合；系统台锚点O_stock=(0,1,1.2) m，stock_load_link原点与O_stock重合。两台相隔1 m，使用独立固定关节及相同物性，局部轴均与世界轴平行。以下公式分别关于各自锚点。边长0.2 m的均匀立方体质心相对O为r=(L,0,0)，世界重力加速度向量为g_W=(0,0,−9.81) m/s²；下式g=9.81表示其大小。该负载传给支座的等效作用为：
 
 ```text
 F_child_to_parent = (0,0,−mg)
@@ -25,7 +25,7 @@ tau_O = r × F = (0,Lmg,0)
 
 均匀立方体边长a=0.2 m，关于质心、平行于边的惯性为`Ixx=Iyy=Izz=m a²/6`，非对角项为0。m=1 kg时每项约0.0066666667 kg·m²，m=2时加倍；重心偏置由inertial pose表示，不将mL²再次加进这组质心惯性。
 
-只改变arm时，工具联动质心、碰撞体、负载visual及显示用支臂；负载的米制尺寸和关于质心的惯性不因平移而改变。支臂为可视化，不再添加独立承重质量。保存输入须重载，程序核对实际质量、CoM和关节结构，不用颜色或显示位置代替物性。
+只改变arm时，工具对两台成对联动质心、碰撞体、负载visual及显示用支臂；负载的米制尺寸和关于质心的惯性不因平移而改变。支臂为可视化，不再添加独立承重质量。保存输入须重载，程序核对实际质量、CoM和关节结构，不用颜色或显示位置代替物性。
 
 ## 同一点换轴
 
@@ -61,7 +61,7 @@ tau_B = tau_A + r_BA × F_A
 
 ## 三条实现边界
 
-第一，系统[GazeboRosFT](https://github.com/ros-simulation/gazebo_ros_pkgs/blob/noetic-devel/gazebo_plugins/src/gazebo_ros_ft_sensor.cpp)注册为ModelPlugin，在模型下按jointName读取GetForceTorque(0)的body2Force/body2Torque，固定child轴、child_to_parent方向，header使用child link名和可选TF前缀。它不读取一个任意frameName来旋转数据，也不是原生ForceTorqueSensor消息包装器。
+第一，系统[GazeboRosFT](https://github.com/ros-simulation/gazebo_ros_pkgs/blob/2.9.3/gazebo_plugins/src/gazebo_ros_ft_sensor.cpp)注册为ModelPlugin，在模型下按jointName读取GetForceTorque(0)的body2Force/body2Torque，固定child轴、child_to_parent方向，header使用child link名和可选TF前缀。它不读取一个任意frameName来旋转数据，也不是原生ForceTorqueSensor消息包装器。
 
 第二，[原生ForceTorqueSensor](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/sensors/ForceTorqueSensor.cc)挂在关节上，选择parent、child或sensor表达轴，以及parent_to_child或child_to_parent方向。frame=sensor使用sensor pose的旋转部分，平移不换力矩参考点；[官方教程](https://classic.gazebosim.org/tutorials?tut=force_torque_sensor&cat=sensors)明确力矩仍关于关节原点。本课的桥只把实际原生消息复制到ROS，不重新用mg或r×F生成值。
 
@@ -69,7 +69,7 @@ tau_B = tau_A + r_BA × F_A
 
 wrench_bridge.cc检查父对象确为原生ForceTorqueSensor，订阅它真实的Gazebo WrenchStamped，将原始仿真时间、force与torque复制为ROS WrenchStamped；C的轴旋转已经在原生传感器内部完成。桥的frameName只是相应表达轴的标签，不实施TF变换或力矩换点。prepare用已装SDK离线编译，缓存键包含源码、Gazebo版本和编译链接参数，build/wrench_lab.json保留源码、库及world指纹；字节身份记录不替代真实力学验收。
 
-header提供时间和轴标签，不单独编码“关于哪个点”的全部语义，也不发布TF。本课三种原生配置和系统输出共享一个关节反馈，比较是在检查接口、方向和坐标约定，不能当作四套独立物理测量相互验证。
+header提供时间和轴标签，不单独编码“关于哪个点”的全部语义，也不发布TF。本课三种原生配置共享原生台mount_joint；系统插件只读系统台stock_mount_joint，使用stock_load_link标签。两台反馈属于不同真实负载，必须先分别验证质量、CoM、惯性、锚点、轴与静止状态；比较是在相同静力条件下检查接口、方向和坐标约定，不是假设四路是同一条瞬时反馈。
 
 ## 反馈、采样与验收流程
 
@@ -77,13 +77,13 @@ header提供时间和轴标签，不单独编码“关于哪个点”的全部�
 
 原生always_on保证本课采样持续开启；若关掉且没有订阅，直接读取Force()/Torque()可能得到旧值。系统ROS插件由WorldUpdateBegin读取已完成物理步骤留下的反馈，header标当前仿真时间；原生传感器调度另行采样。稳定静态窗口适合比较均值与符号，不承诺任意动态工况下严格同步。
 
-prepare校验真实SDF、参数和依赖并准备消息适配组件；config工具只明确修改质量或力臂，保存后重载。observe限时读取四路实际数据，不改变物理状态。完整验收检查实际质量、质心、重力和负载静止状态，采集各路不同时间戳的真实反馈，再按当前输入计算独立的静力预测和坐标对照；不将预测写进消息。
+prepare校验真实SDF、参数和依赖并准备消息适配组件；config工具只明确修改质量或力臂，保存后重载。observe限时读取四路实际数据，不改变物理状态。完整验收逐台检查实际质量、质心、惯性、重力、原生碰撞几何、锚点、轴与负载静止状态，采集各路不同时间戳的真实反馈，再按当前输入计算独立的静力预测和坐标对照；不将预测写进消息。
 
 从明确的观察边界避开前0.2仿真秒，每路至少30条唯一时间戳、首末跨度至少0.6 s，频率40到60 Hz。逐条有符号力分量误差≤0.05 N、力矩分量≤0.03 N·m，原生A与系统输出的窗口均值各对应分量之差须小于0.03（力用N、力矩用N·m）。每路分别统计最小、最大、中位与均值，不要求各条消息跨通道具有完全相同的时间戳。
 
-四路观察必须有至少0.5 s公共区间，其中至少3次独立连杆状态查询证明仍静止。连杆原点距固定锚点不超过0.005 m，线速率与角速率分别不超过0.01 m/s和0.01 rad/s，四元数向量部分模不超过0.005、总模距1不超过1e−6；实际质量、CoM、重力模式与质心惯性另行核对。查询带前后仿真时间边界，不把一张截图或六个预置常量当作静力证据。
+四路观察必须有至少0.5 s公共区间，其中每台都要至少3次独立连杆状态查询证明仍静止。连杆原点距固定锚点不超过0.005 m，线速率与角速率分别不超过0.01 m/s和0.01 rad/s，四元数向量部分模不超过0.005、总模距1不超过1e−6；实际质量、CoM、重力模式与质心惯性另行核对。查询带前后仿真时间边界，不把一张截图或六个预置常量当作静力证据。
 
-默认报告路径为本会话wrench-verify-唯一编号.json，也可用--report指定。trace保留各路实际消息，truth保留独立查询及其时间边界，actual_properties保留真实质量/质心/惯性，restore记录原暂停状态与恢复结果；源码及桥生成库指纹随报告保留，便于区分实际测量版本。
+默认报告路径为本会话wrench-verify-唯一编号.json，也可用--report指定。trace保留各路实际消息，truth与stock_truth分别保留两台的独立查询及时间边界，rig_properties保留两台真实质量/质心/惯性，rig_geometry保留实际entity_info的原文、child局部锚点与碰撞几何；actual_properties兼容字段指原生台，stock_actual_properties指系统台，restore记录原暂停状态与恢复结果；源码及桥生成库指纹随报告保留，便于区分实际测量版本。
 
 验收只恢复进入前的暂停状态，不靠重设负载来建立“静态”。测量时不要同时施加外力、拖动模型或复位，世界时间不会倒回。有限稳定窗口证明已实际观察到的样本，不代表每个未发布的物理步都被记录。
 
@@ -92,3 +92,14 @@ prepare校验真实SDF、参数和依赖并准备消息适配组件；config工�
 力单位N，压力单位N/m²；关节wrench记录合力与关于指定点的合力矩，不包含每个接触位置上的面积和压力。不同接触分布可产生同样的F与tau，因此一般不能由六个数唯一反推出接触面压力图。第14课的接触点列表提供另一层信息，也仍需说明接触面积与求解模型。
 
 独立挑战先用实测F与tau_O计算tau_P，保留符号和参考点说明；再比较两个不同分布但相同合wrench的例子。不要把“关于质心力矩接近零”写成“传感器没有承受载荷”，也不要把静态mg关系当作动态惯性载荷下的通用答案。
+
+
+## 同关节读反馈的并发边界
+
+[11.15.1 ODEJoint.GetForceTorque](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/physics/ode/ODEJoint.cc#L615)把原始ODE反馈写入共享this->wrench，累加质心到锚点的力臂项，再原地转换力/力矩的符号及坐标。该函数没有共同互斥，CacheForceTorque在此版本为空；[系统2.9.3插件](https://github.com/ros-simulation/gazebo_ros_pkgs/blob/2.9.3/gazebo_plugins/src/gazebo_ros_ft_sensor.cpp#L127)从WorldUpdateBegin调用它。[原生FT](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/sensors/ForceTorqueSensor.cc#L194)先按值取得JointWrench，随后才对自己的消息应用方向和表达轴，所以不是反向传感器直接改了另一个传感器的消息。
+
+[SensorManager](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/sensors/SensorManager.cc#L787)对同一OTHER容器中的三原生FT顺序更新，容器运行在线程中；它的容器锁和每个FT的私有消息锁不覆盖系统插件的读取。lockstep会改变采样节流与等待条件，不能据此假定OTHER线程和物理更新回调取得共同的关节锁。
+
+保留的首个失败记录中，m=1、L=.3且link真值仍静止，native_child和stock_child在6.74 s同时出现(+9.81,−5.886)，native_child在7.02 s再现。两个读者先各自重写共享原始值、再各自累加−2.943、随后各翻一次力和力矩的符号，可以得到这一对数值。该指令交错是说明观测与源码相容的推断；没有记录实际完整调度，也不声称纯算术演示就是Gazebo竞争的动态复现。
+
+当前结构通过两个独立关节隔离这两条读取路径，系统台无原生FT，原生台无系统FT ModelPlugin。固定参数校验拒绝只改一台的质量/几何、改变系统台锚点、移除反馈或把读取者重新挂回同一关节。准备和参数修改流程不生成测量值；原生消息桥C++保持按原字节分量复制。8 s总预算内至多两次只读实体查询保存实际Joint.pose和child/collision信息，ROS另外读两台世界位姿与物性；Joint.pose是child局部锚点，实际零偏移与实际child世界pose共同确定锚点及表达轴。读取不是原子快照，稳定公共窗口仍必须同时覆盖两台真实静止查询，原先所有有符号逐样本判据继续有效。

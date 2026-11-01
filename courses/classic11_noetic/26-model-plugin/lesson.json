@@ -18,5 +18,9 @@
     {"title": "模型复位与Reset回调", "command": "python3 lab.py reset"},
     {"title": "编辑插件，重载后实际重新构建", "command": "gedit --new-window model_plugin.cc parameters.json"},
     {"title": "完整有限验收", "command": "python3 verify.py"}
-  ]
+  ],
+  "requires_pkg_config": {
+    "gazebo": "11.15.1"
+  },
+  "requires_native_server": true
 }

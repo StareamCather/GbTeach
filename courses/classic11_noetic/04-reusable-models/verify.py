@@ -14,6 +14,9 @@ import time
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from _control_support.models import pose as native_model_pose
+
 DEADLINE = None
 POSITION_TOLERANCE = .015
 ANGLE_TOLERANCE = .015
@@ -301,6 +304,8 @@ def read_model(world,name,flag):
 
 
 def live_pose(world,name):
+    raw=native_model_pose(world,name,DEADLINE)
+    if raw is not None:return raw
     output=read_model(world,name,"-p")
     for line in reversed(output.splitlines()):
         if len(line.split())==6:

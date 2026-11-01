@@ -19,5 +19,9 @@
     {"title": "完整世界复位并检查Reset调度", "command": "python3 lab.py reset"},
     {"title": "编辑参数或插件，重载后生效", "command": "gedit --new-window parameters.json system_plugin.cc"},
     {"title": "完整有限验收", "command": "python3 verify.py"}
-  ]
+  ],
+  "requires_pkg_config": {
+    "gazebo": "11.15.1"
+  },
+  "requires_native_server": true
 }

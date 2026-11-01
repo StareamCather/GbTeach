@@ -233,3 +233,5 @@ Classic 的完整世界复位路径会重置时间和实体，再调用世界插
 独立挑战：保持默认实验可重现，设计“落稳后才投下一只”的生产线。先定义落稳判据与持续时间，再修改状态机，区分请求、出现、支撑和完成。可用连续原生高度/速度容差配合真实接触证据；若引入接触传感器，回看第14课。写出新判据后再调整测试，不伪造计数或把默认固定节拍的验收结果移植成新算法的证明。
 
 进一步阅读：[官方创建模型教程](https://classic.gazebosim.org/tutorials?tut=plugins_world&cat=write_plugin)、[SDFormat世界结构](https://sdformat.org/spec?ver=1.6&elem=world)、[World API](https://osrf-distributions.s3.amazonaws.com/gazebo/api/11.0.0/classgazebo_1_1physics_1_1World.html)。教程中在线model URI与旧构建示例帮助理解接口；本课素材全部在本地，实际构建以当前运行日志为准。
+
+辅助SDK进程在初始化Transport之前还会核对编译SDK完整版本必须为11.15.1；运行库DSO必须与该完整版本相同。其他Classic 11小版本不能沿用这段私有ABI兼容逻辑。退出时仍先fini，再由持有Connection的主线程Stop并join IO，最后释放通信对象；这项版本拒绝不改变插件或实验的物理更新流程。

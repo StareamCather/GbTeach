@@ -181,13 +181,96 @@
           </plugin>
         </sensor>
       </joint>
+    </model>
+    <model name="stock_weighing_rig">
+      <static>false</static>
+      <allow_auto_disable>false</allow_auto_disable>
+      <pose>0 1 1.2 0 0 0</pose>
+      <link name="stock_load_link">
+        <gravity>true</gravity>
+        <kinematic>false</kinematic>
+        <velocity_decay>
+          <linear>0</linear>
+          <angular>0</angular>
+        </velocity_decay>
+        <inertial>
+          <pose>.3 0 0 0 0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>0.006666666666666668</ixx>
+            <iyy>0.006666666666666668</iyy>
+            <izz>0.006666666666666668</izz>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyz>0</iyz>
+          </inertia>
+        </inertial>
+        <collision name="payload_collision">
+          <pose>.3 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>.2 .2 .2</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="payload_visual">
+          <pose>.3 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>.2 .2 .2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.9 .5 .1 1</ambient>
+            <diffuse>.9 .5 .1 1</diffuse>
+          </material>
+        </visual>
+        <visual name="lever_visual">
+          <pose>.15 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>.3 .035 .035</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.2 .65 .9 1</ambient>
+            <diffuse>.2 .65 .9 1</diffuse>
+          </material>
+        </visual>
+      </link>
+      <joint name="stock_mount_joint" type="fixed">
+        <parent>world</parent>
+        <child>stock_load_link</child>
+        <pose>0 0 0 0 0 0</pose>
+        <physics>
+          <provide_feedback>true</provide_feedback>
+        </physics>
+      </joint>
       <plugin name="stock_joint_wrench" filename="libgazebo_ros_ft_sensor.so">
         <robotNamespace>/lesson19</robotNamespace>
-        <jointName>mount_joint</jointName>
+        <jointName>stock_mount_joint</jointName>
         <topicName>/lesson19/stock_wrench</topicName>
         <updateRate>50</updateRate>
         <gaussianNoise>0</gaussianNoise>
       </plugin>
+    </model>
+    <model name="stock_pedestal">
+      <static>true</static>
+      <pose>0 1 0 0 0 0</pose>
+      <link name="link">
+        <visual name="support">
+          <pose>0 0 .6 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>.1 .1 1.2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.3 .35 .4 1</ambient>
+            <diffuse>.3 .35 .4 1</diffuse>
+          </material>
+        </visual>
+      </link>
     </model>
   </world>
 </sdf>

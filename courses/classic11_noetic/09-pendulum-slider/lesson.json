@@ -23,5 +23,9 @@
   ],
   "verify": "verify.py",
   "reference": "reference.md",
-  "verify_timeout": 80
+  "verify_timeout": 80,
+  "requires_pkg_config": {
+    "gazebo": "11.15.1"
+  },
+  "requires_native_server": true
 }

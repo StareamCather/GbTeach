@@ -76,5 +76,9 @@
       "title": "编辑个人场景",
       "command": "gedit --new-window world.sdf"
     }
-  ]
+  ],
+  "requires_pkg_config": {
+    "gazebo": "11.15.1"
+  },
+  "requires_native_server": true
 }

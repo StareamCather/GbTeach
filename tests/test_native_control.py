@@ -3,9 +3,12 @@
 These tests exercise the real reader, request UUIDs, bounded waits, poisoning,
 EOF cleanup and runtime dispatch. Responses deliberately include delayed and
 foreign observations; no test starts Gazebo or predicts its physical dynamics.
+Model tests verify wire correlation, validation and preservation; actual native
+pose acquisition and the installed SDK's Euler conversion require live tests.
 """
 from collections import deque
 import json
+import math
 import os
 from pathlib import Path
 import queue
@@ -23,6 +26,19 @@ from gazeboteach.storage import Storage
 
 def stats(seq=1, iterations=40, paused=True, sim_time=2.):
     return {'seq': seq, 'iterations': iterations, 'paused': paused, 'sim_time': sim_time}
+
+
+def model_reply(request, before=None, after=None):
+    """A native entity_info response, including its distinct acquisition fences."""
+    before = stats(seq=2) if before is None else before
+    after = stats(seq=3) if after is None else after
+    return {'id': request['id'], 'ok': True, 'stats': dict(after),
+        'model_name': request['name'], 'request_id': 876543210, 'response_id': 876543210,
+        'response_type': 'gazebo.msgs.Model',
+        'pose': {'position': {'x': 1.25, 'y': -.5, 'z': 3.},
+                 'orientation': {'x': 0., 'y': 0., 'z': math.sqrt(.5), 'w': math.sqrt(.5)}},
+        'rpy': [0., 0., math.pi/2],
+        'pose_stats_before': dict(before), 'pose_stats_after': dict(after)}
 
 
 class LinePipe:
@@ -326,6 +342,198 @@ class NativeControlTests(unittest.TestCase):
         self.assertEqual(process.terminate_calls, 1)
         self.assertEqual(process.kill_calls, 1)
         self.assertEqual(cleanup['returncode'], -9)
+
+    def test_model_pose_preserves_native_pose_euler_and_non_atomic_stats_brackets(self):
+        before = stats(seq=2, iterations=40, paused=False, sim_time=2.)
+        after = stats(seq=3, iterations=47, paused=False, sim_time=2.007)
+        control, process, spawn = self.controller(WireProcess(respond=lambda request: model_reply(request, before, after)))
+        value = control.model_pose('crate', timeout=.5)
+        self.assertEqual(process.requests[0]['action'], 'model_pose')
+        self.assertEqual(process.requests[0]['name'], 'crate')
+        self.assertEqual(process.requests[0]['timeout_ms'], 300)
+        self.assertEqual(value['pose']['position'], {'x': 1.25, 'y': -.5, 'z': 3.})
+        self.assertEqual(value['rpy'], [0., 0., math.pi/2])
+        self.assertNotEqual(value['rpy'][2], value['pose']['orientation']['z'])
+        self.assertEqual(value['pose_stats_before'], before)
+        self.assertEqual(value['pose_stats_after'], after)
+        self.assertEqual(value['stats'], after)
+        self.assertEqual(control.metadata()['stats'], after)
+        self.assertEqual(spawn.call_count, 1)
+
+    def test_model_pose_reuses_one_process_for_literal_scoped_and_utf8_names(self):
+        names = ('crate', 'fixture_world::crate', 'a box', '\u6a21'*170, 'x'*512)
+        replies = []
+        def reply(request):
+            index = len(replies)
+            value = model_reply(request, stats(seq=2+2*index), stats(seq=3+2*index))
+            if index == 0:
+                value['model_name'] = 'fixture_world::crate'
+            value['request_id'] += index
+            value['response_id'] += index
+            replies.append(value)
+            return value
+        control, process, spawn = self.controller(WireProcess(respond=reply))
+        for name in names:
+            self.assertEqual(control.model_pose(name, timeout=.3)['model_name'], replies[-1]['model_name'])
+        self.assertEqual([request['name'] for request in process.requests], list(names))
+        self.assertTrue(all(request['action'] == 'model_pose' for request in process.requests))
+        self.assertEqual(len({request['id'] for request in process.requests}), len(names))
+        self.assertEqual(spawn.call_count, 1)
+
+    def test_invalid_model_names_and_timeouts_never_cross_the_process_boundary(self):
+        control, process, _ = self.controller(WireProcess(respond=model_reply))
+        names = (None, True, 3, b'crate', '', 'x'*513, '\u6a21'*171, 'crate\0', 'crate\n', '\x1fcrate', 'crate\x7f', '\ud800')
+        for name in names:
+            with self.subTest(name=repr(name)), self.assertRaises(ValueError):
+                control.model_pose(name, timeout=.3)
+        for timeout in (True, .29, 21, float('nan'), '3'):
+            with self.subTest(timeout=timeout), self.assertRaises(ValueError):
+                control.model_pose('crate', timeout=timeout)
+        self.assertEqual(process.requests, [])
+        self.assertIsNone(control.metadata()['poisoned'])
+        self.assertEqual(control.model_pose('crate', timeout=.3)['model_name'], 'crate')
+
+    def test_model_pose_cannot_accept_a_late_previous_outer_uuid(self):
+        old_uuid = []
+        def reply(request):
+            value = model_reply(request, stats(seq=2+len(old_uuid)*2), stats(seq=3+len(old_uuid)*2))
+            if old_uuid:
+                value['id'] = old_uuid[0]
+            else:
+                old_uuid.append(request['id'])
+            return value
+        control, process, spawn = self.controller(WireProcess(respond=reply))
+        control.model_pose('crate', timeout=.3)
+        self.assert_poisoned_without_replay(control, process, spawn, lambda: control.model_pose('crate', timeout=.3))
+        self.assertEqual([request['action'] for request in process.requests], ['model_pose', 'model_pose'])
+
+    def test_model_pose_rejects_foreign_model_type_or_native_response_identity(self):
+        variants = ({'model_name': 'other_crate'}, {'model_name': 'world::crate_extra'},
+            {'model_name': None}, {'response_type': 'gazebo.msgs.Pose'}, {'response_type': None},
+            {'request_id': 0, 'response_id': 0}, {'request_id': -1, 'response_id': -1},
+            {'request_id': True, 'response_id': True}, {'request_id': 12.0, 'response_id': 12.0},
+            {'request_id': 0x80000000, 'response_id': 0x80000000},
+            {'request_id': 12, 'response_id': True}, {'request_id': 12, 'response_id': '12'},
+            {'request_id': 12, 'response_id': 0x80000000},
+            {'request_id': 12, 'response_id': 13})
+        for changes in variants:
+            with self.subTest(changes=changes):
+                def reply(request, changes=changes):
+                    return dict(model_reply(request), **changes)
+                control, process, spawn = self.controller(WireProcess(respond=reply))
+                self.assert_poisoned_without_replay(control, process, spawn, lambda: control.model_pose('crate', timeout=.3))
+                self.assertEqual(len(process.requests), 1)
+
+    def test_model_pose_accepts_both_positive_signed_int32_identity_boundaries(self):
+        for native_id in (1, 0x7fffffff):
+            with self.subTest(native_id=native_id):
+                def reply(request):
+                    value = model_reply(request)
+                    value['request_id'] = value['response_id'] = native_id
+                    return value
+                control, process, _ = self.controller(WireProcess(respond=reply))
+                self.assertEqual(control.model_pose('crate', timeout=.3)['response_id'], native_id)
+                self.assertEqual(len(process.requests), 1)
+
+    def test_model_pose_schema_components_and_euler_angles_must_be_finite(self):
+        variants = (('pose', None), ('pose', {'position': {}, 'orientation': {}}),
+            ('position', {'x': 1., 'y': 2.}), ('position', {'x': 1., 'y': 2., 'z': 3., 'extra': 4.}),
+            ('position', {'x': True, 'y': 2., 'z': 3.}), ('position', {'x': '1', 'y': 2., 'z': 3.}),
+            ('position', {'x': float('nan'), 'y': 2., 'z': 3.}),
+            ('orientation', {'x': 0., 'y': 0., 'z': float('inf'), 'w': 1.}),
+            ('orientation', {'x': 0., 'y': 0., 'z': 0., 'w': True}),
+            ('orientation', {'x': 0., 'y': 0., 'z': 0.}),
+            ('rpy', None), ('rpy', [0., 0.]), ('rpy', [0., 0., 0., 0.]),
+            ('rpy', [0., False, 0.]), ('rpy', [0., 0., float('-inf')]))
+        for field, changed in variants:
+            with self.subTest(field=field, changed=changed):
+                def reply(request, field=field, changed=changed):
+                    value = model_reply(request)
+                    if field in ('position', 'orientation'):
+                        value['pose'][field] = changed
+                    else:
+                        value[field] = changed
+                    return value
+                control, process, spawn = self.controller(WireProcess(respond=reply))
+                self.assert_poisoned_without_replay(control, process, spawn, lambda: control.model_pose('crate', timeout=.3))
+
+    def test_model_pose_requires_a_unit_quaternion_without_silently_normalizing(self):
+        for orientation in ({'x': 0., 'y': 0., 'z': 0., 'w': 0.},
+                {'x': 0., 'y': 0., 'z': 0., 'w': 2.}, {'x': .01, 'y': 0., 'z': 0., 'w': 1.}):
+            with self.subTest(orientation=orientation):
+                def reply(request, orientation=orientation):
+                    value = model_reply(request)
+                    value['pose']['orientation'] = orientation
+                    return value
+                control, process, spawn = self.controller(WireProcess(respond=reply))
+                self.assert_poisoned_without_replay(control, process, spawn, lambda: control.model_pose('crate', timeout=.3))
+
+    def test_model_pose_keeps_quaternion_sign_and_native_pitch_singularity_convention(self):
+        for sign in (1, -1):
+            with self.subTest(sign=sign):
+                orientation = {'x': 0., 'y': sign*math.sqrt(.5), 'z': 0., 'w': sign*math.sqrt(.5)}
+                def reply(request):
+                    value = model_reply(request)
+                    value['pose']['orientation'] = orientation
+                    value['rpy'] = [0., math.pi/2, 0.]
+                    return value
+                control, _, _ = self.controller(WireProcess(respond=reply))
+                value = control.model_pose('crate', timeout=.3)
+                self.assertEqual(value['pose']['orientation'], orientation)
+                self.assertEqual(value['rpy'], [0., math.pi/2, 0.])
+
+    def test_model_pose_requires_distinct_ordered_native_stats_and_matching_final_fence(self):
+        variants = ({'pose_stats_before': None}, {'pose_stats_after': None},
+            {'pose_stats_before': stats(seq=True)}, {'pose_stats_before': stats(seq=3)},
+            {'pose_stats_before': stats(seq=4)}, {'pose_stats_before': stats(seq=2, sim_time=float('nan'))},
+            {'pose_stats_after': stats(seq=3, iterations=41)}, {'pose_stats_after': stats(seq=4)})
+        for changes in variants:
+            with self.subTest(changes=changes):
+                def reply(request, changes=changes):
+                    return dict(model_reply(request), **changes)
+                control, process, spawn = self.controller(WireProcess(respond=reply))
+                self.assert_poisoned_without_replay(control, process, spawn, lambda: control.model_pose('crate', timeout=.3))
+
+    def test_model_pose_may_reuse_the_previous_stats_sample_as_its_left_fence(self):
+        before, after = stats(seq=1), stats(seq=2)
+        control, process, _ = self.controller(WireProcess(respond=lambda request: model_reply(request, before, after)))
+        value = control.model_pose('crate', timeout=.3)
+        self.assertEqual(value['pose_stats_before']['seq'], 1)
+        self.assertEqual(value['pose_stats_after']['seq'], 2)
+        self.assertEqual(len(process.requests), 1)
+
+    def test_model_pose_rejects_a_left_fence_older_than_prior_confirmed_statistics(self):
+        def reply(request):
+            if request['action'] == 'status':
+                return {'id': request['id'], 'ok': True, 'stats': stats(seq=2)}
+            return model_reply(request, stats(seq=1), stats(seq=3))
+        control, process, spawn = self.controller(WireProcess(respond=reply))
+        control.status(timeout=.3)
+        self.assert_poisoned_without_replay(control, process, spawn, lambda: control.model_pose('crate', timeout=.3))
+        self.assertEqual([request['action'] for request in process.requests], ['status', 'model_pose'])
+
+    def test_model_pose_keeps_seq_ordered_brackets_when_an_external_clock_reset_occurs(self):
+        before = stats(seq=2, iterations=2400, sim_time=2.4)
+        after = stats(seq=3, iterations=0, sim_time=0.)
+        control, process, _ = self.controller(WireProcess(respond=lambda request: model_reply(request, before, after)))
+        value = control.model_pose('crate', timeout=.3)
+        self.assertGreater(value['pose_stats_after']['seq'], value['pose_stats_before']['seq'])
+        self.assertLess(value['pose_stats_after']['sim_time'], value['pose_stats_before']['sim_time'])
+        self.assertEqual(len(process.requests), 1)
+
+    def test_model_pose_timeout_is_one_wire_query_and_forbids_later_mutation(self):
+        control, process, spawn = self.controller(WireProcess(respond=lambda request: None))
+        self.assert_poisoned_without_replay(control, process, spawn, lambda: control.model_pose('crate', timeout=.3))
+        self.assertEqual([request['action'] for request in process.requests], ['model_pose'])
+
+    def test_model_pose_native_refusal_keeps_read_correlation_diagnosis(self):
+        process = WireProcess(respond=lambda request: {'id': request['id'], 'ok': False,
+            'error': 'entity_info request correlation/type failed'})
+        control, process, spawn = self.controller(process)
+        with self.assertRaisesRegex(RuntimeError, 'entity_info request correlation/type failed'):
+            control.model_pose('crate', timeout=.3)
+        self.assert_poisoned_without_replay(control, process, spawn, lambda: control.pause(False, timeout=.3))
+        self.assertEqual([request['action'] for request in process.requests], ['model_pose'])
 
     def runtime_session(self, control):
         source = self.root/'lesson-source'

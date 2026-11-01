@@ -167,3 +167,5 @@ python3 verify.py
 辅助原生工具沿用课程提供的 SDK 退出兼容层，保护范围与实际版本检查见源码和运行日志。它不要求初学者修改系统库，也不应被写进自己的 QWidget 控制算法。GUI 线程和 Transport 线程的分工、可观察世界状态与单次步进语义才是本课的主要工作。
 
 进一步资料：[Classic GUI覆盖层教程](https://github.com/osrf/gazebo_tutorials/blob/master/gui_overlay/tutorial.md)、[GUIPlugin接口](https://github.com/gazebosim/gazebo-classic/blob/gazebo11/gazebo/gui/GuiPlugin.hh)、[实际RenderWidget加载路径](https://github.com/gazebosim/gazebo-classic/blob/gazebo11/gazebo/gui/RenderWidget.cc)。官方旧教程使用的Gazebo版本不同，示例思路可参考，编译与接口以本课目标SDK为准。
+
+辅助SDK进程在初始化Transport之前还会核对编译SDK完整版本必须为11.15.1；运行库DSO必须与该完整版本相同。其他Classic 11小版本不能沿用这段私有ABI兼容逻辑。退出时仍先fini，再由持有Connection的主线程Stop并join IO，最后释放通信对象；这项版本拒绝不改变插件或实验的物理更新流程。

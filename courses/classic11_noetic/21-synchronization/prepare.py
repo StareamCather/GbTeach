@@ -13,7 +13,7 @@ from config import digest, official_folder, read_world
 def main():
     config = read_world()
     version = subprocess.check_output(["pkg-config", "--modversion", "gazebo"], text=True, timeout=5).strip()
-    if not version.startswith("11."):
+    if version != "11.15.1":
         raise RuntimeError("L21 requires the installed Gazebo Classic11 SDK")
     flags = subprocess.check_output(["pkg-config", "--cflags", "--libs", "gazebo"], text=True, timeout=5).strip()
     folder = official_folder()
@@ -30,7 +30,7 @@ def main():
             temporary = cache/("build-"+uuid.uuid4().hex)
             try:
                 subprocess.run(["g++", "-std=c++17", "-O2", "-Wno-deprecated-declarations"]+extra+
-                               [str(folder/source), "-o", str(temporary)]+shlex.split(flags), check=True, timeout=120)
+                               [str(folder/source), "-o", str(temporary)]+shlex.split(flags)+["-ldl"], check=True, timeout=120)
                 os.replace(str(temporary), str(destination))
             finally:
                 if temporary.exists():

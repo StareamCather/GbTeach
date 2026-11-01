@@ -28,5 +28,8 @@
     {"title": "将目标向左移动", "command": "python3 lab.py target --x 3 --y 0.5"},
     {"title": "恢复目标位置", "command": "python3 lab.py target --x 3 --y 0"},
     {"title": "真实像素与投影验收", "command": "python3 verify.py"}
+  ],
+  "requires_python_modules": [
+    "numpy"
   ]
 }

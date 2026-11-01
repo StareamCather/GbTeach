@@ -28,5 +28,11 @@
     {"title": "比较四路真实力矩", "command": "python3 lab.py observe --seconds 3"},
     {"title": "修改负载质量并准备重载", "command": "python3 lab.py config --mass 2"},
     {"title": "真实称重与力臂验收", "command": "python3 verify.py"}
-  ]
+  ],
+  "requires_pkg_config": {
+    "gazebo": "11.15.1",
+    "roscpp": "",
+    "geometry_msgs": ""
+  },
+  "requires_native_server": true
 }

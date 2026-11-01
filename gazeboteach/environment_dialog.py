@@ -36,7 +36,7 @@ class EnvironmentDialog(QtWidgets.QDialog):
         environment = report["environment"]
         summary = QtWidgets.QLabel("{} · {} · Python {}\nClassic：{}；新版 Gazebo：{}\n"
                                   "ROS 已安装：{}；当前 shell 激活：{}；DISPLAY：{}\n"
-                                  "V1 已验证基线：Ubuntu 20.04 / Classic 11 / ROS Noetic。".format(
+                                  "V2 已验证基线：Ubuntu 20.04 / Classic 11.15.1 / ROS Noetic。".format(
                                       environment.get("os"), environment.get("architecture"), environment.get("python"),
                                       environment.get("classic_version") or "未检测到",
                                       json.dumps(environment.get("modern_simulators") or [], ensure_ascii=False),
@@ -44,6 +44,25 @@ class EnvironmentDialog(QtWidgets.QDialog):
                                       environment.get("ros_active") or "未激活", environment.get("display") or "无"))
         summary.setWordWrap(True)
         content.addWidget(summary)
+        installed = QtWidgets.QLabel("当前 Classic 可执行文件：{}\n已确认的 Classic 安装：{}".format(
+            environment.get("classic_active_executable") or "无",
+            "；".join("{} ({})".format(item["version"], item["path"])
+                     for item in environment.get("classic_installations") or []) or "未检测到"))
+        installed.setWordWrap(True)
+        content.addWidget(installed)
+        sdk = environment.get("pkg_config") or {}
+        moc = environment.get("qt_moc") or {}
+        capability = environment.get("control_capability") or {}
+        development = QtWidgets.QLabel("Gazebo SDK：{}；头文件编译检查：{}；Qt5 moc：{} {}\n"
+                                      "控制能力：{}。{}".format(
+                                          sdk.get("gazebo", {}).get("version") or "未检测到 gazebo.pc",
+                                          "通过" if (environment.get("sdk") or {}).get("headers_available") else "未通过",
+                                          moc.get("path") or "未检测到", moc.get("version") or "",
+                                          capability.get("preferred_backend") or "未检测", capability.get("reason") or
+                                          "按实际会话构建结果记录后端；环境探测不启动实验。"))
+        development.setObjectName("environment_sdk_summary")
+        development.setWordWrap(True)
+        content.addWidget(development)
         self.table = QtWidgets.QTableWidget(len(report["courses"]), 4)
         self.table.setObjectName("environment_course_table")
         self.table.setHorizontalHeaderLabels(["编号", "课程", "实验状态", "原因 / 下一步"])
@@ -72,8 +91,8 @@ class EnvironmentDialog(QtWidgets.QDialog):
         tabs.addTab(courses, "课程兼容情况")
         docker = QtWidgets.QWidget()
         docker_layout = QtWidgets.QVBoxLayout(docker)
-        explanation = QtWidgets.QLabel("Docker 连接接口已预留。V1 可校验并保存下面的配置，尚未实现容器连接或课程执行。\n"
-                                      "需要容器时，请按“V1 安装指南”手动在兼容容器内启动应用，再由容器内检测环境。")
+        explanation = QtWidgets.QLabel("Docker 连接接口已预留。当前版本可校验并保存下面的配置，尚未实现容器连接或课程执行。\n"
+                                      "需要容器时，请按安装指南手动在兼容容器内启动应用，再由容器内检测环境。")
         explanation.setWordWrap(True)
         docker_layout.addWidget(explanation)
         probe = QtWidgets.QLabel("Docker CLI：{}\n仅检测客户端版本，未连接 daemon、拉取镜像或创建容器。".format(
@@ -96,10 +115,10 @@ class EnvironmentDialog(QtWidgets.QDialog):
         tabs.addTab(docker, "Docker 接口（预留）")
         guide = QtWidgets.QTextBrowser()
         guide.setOpenExternalLinks(True)
-        path = root / "docs/V1_INSTALL.md"
+        path = root / "docs/V2_INSTALL.md"
         guide.setHtml(render(path.read_text(encoding="utf-8") if path.is_file() else
-                             "# V1 安装指南\n\n请阅读发行包内 docs/V1_INSTALL.md。"))
-        tabs.addTab(guide, "V1 安装指南")
+                             "# V2 安装指南\n\n请阅读发行包内 docs/V2_INSTALL.md。"))
+        tabs.addTab(guide, "V2 安装指南")
         self.backends = backend_descriptors()
         buttons = QtWidgets.QDialogButtonBox()
         self.retry_button = buttons.addButton("重新检测", QtWidgets.QDialogButtonBox.ActionRole)

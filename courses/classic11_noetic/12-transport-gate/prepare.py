@@ -16,7 +16,7 @@ def build():
     p = read_parameters(workspace/"parameters.json")
     read_world(workspace/"world.sdf", official/"world.sdf")
     version = subprocess.check_output(["pkg-config", "--modversion", "gazebo"], text=True, timeout=5).strip()
-    if not version.startswith("11."):
+    if version != "11.15.1":
         raise RuntimeError("Transport gate requires the Gazebo Classic 11 SDK")
     flags = subprocess.check_output(["pkg-config", "--cflags", "--libs", "gazebo"], text=True, timeout=5).strip()
     key = hashlib.sha256(b"".join((official/name).read_bytes() for name in ("transport_gate.cc", "transport_client.cc"))+(version+flags).encode()).hexdigest()
@@ -30,7 +30,7 @@ def build():
             temporary = cache/("build-"+uuid.uuid4().hex)
             try:
                 subprocess.run(["g++", "-std=c++17", "-O2", "-Wno-deprecated-declarations"]+extra+
-                               [str(official/source), "-o", str(temporary)]+shlex.split(flags), check=True, timeout=60)
+                               [str(official/source), "-o", str(temporary)]+shlex.split(flags)+["-ldl"], check=True, timeout=60)
                 os.replace(str(temporary), str(output))
             finally:
                 if temporary.exists():

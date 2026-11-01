@@ -60,3 +60,9 @@ name 指定运行实例名，pose 给出 world 中的初始模型位姿。模型
 自动验收从当前副本读取 include、入口和模型参数，对照真实几何、质量、惯性与布局，再临时暂停并抬升实例，继续仿真检查实际落点，最后恢复验收前的位姿和暂停状态。验收期间不要手动操作。颜色、目录讲解和“文件共享、实例独立”的解释仍由你人工完成。
 
 不了解模型包？[查看官方模型结构](https://classic.gazebosim.org/tutorials?tut=model_structure&cat=build_robot)。不了解资源路径？[查看组件与环境变量](https://classic.gazebosim.org/tutorials?tut=components&cat=get_started)。需要核对 include？[查看 SDF 1.6 规范](https://sdformat.org/spec/1.6/world/)。
+
+## 实时模型位姿的读取流程
+
+验收中的模型位姿优先从持久Classic SDK辅助进程读取：同一Python进程、master与世界复用一个连接；一组请求发布器和响应订阅器保留到辅助进程退出。工具发送只读`entity_info`，检查响应ID、类型、模型名及实际`Model.pose`，返回真实位置和单位四元数。RPY由当前SDK的四元数Euler转换产生，沿用Classic的奇点约定；位置没有用保存SDF或理论预测补齐。
+
+请求前后还分别等待新的WorldStatistics，保留接收顺序与源时间，二者不构成原子物理快照。反向响应通道初次发现较慢时，在同一总截止时间内最多再发一次只读查询，并使用新ID拒绝迟到旧响应。SDK缺失或不在精确支持范围内时，会在标准错误流说明原因并保留原有CLI读取，基础课仍可只安装运行时；已支持SDK上的编译、协议或查询失败会直接报告，不静默换路重试。原有模型移动和世界控制的单次发布规则、接触实验及物理求解保持原流程。

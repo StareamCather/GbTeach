@@ -25,5 +25,9 @@
     {"title": "观察原生采样与ROS接收", "command": "python3 lab.py observe --seconds 2"},
     {"title": "独立重启比较lockstep", "command": "python3 lab.py compare"},
     {"title": "完整时间账本验收", "command": "python3 verify.py"}
-  ]
+  ],
+  "requires_pkg_config": {
+    "gazebo": "11.15.1"
+  },
+  "requires_native_server": true
 }

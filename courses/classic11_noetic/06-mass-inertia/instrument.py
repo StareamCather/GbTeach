@@ -8,8 +8,13 @@ import math
 import re
 import subprocess
 import time
+import sys
+from pathlib import Path
 
 from mechanics import NAMES, configuration, predictions
+
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from _control_support.models import pose as native_model_pose
 
 DEADLINE = None
 
@@ -93,6 +98,8 @@ def pause(world, value):
 
 
 def live_pose(world, name):
+    raw=native_model_pose(world,name,DEADLINE)
+    if raw is not None:return raw
     output = read("gz", "model", "-w", world, "-m", name, "-p")
     for line in reversed(output.splitlines()):
         try:

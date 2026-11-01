@@ -18,5 +18,18 @@
     {"title": "观察真实视觉回读与世界统计", "command": "python3 lab.py watch --seconds 2"},
     {"title": "编辑个人视觉参数与插件，重载生效", "command": "gedit --new-window parameters.json visual_plugin.cc"},
     {"title": "完整有限验收", "command": "python3 verify.py"}
+  ],
+  "requires_pkg_config": {
+    "gazebo": "11.15.1",
+    "OGRE": "",
+    "OGRE-Paging": "",
+    "OGRE-Terrain": "",
+    "OGRE-RTShaderSystem": "",
+    "Qt5Widgets": "5.12.8"
+  },
+  "requires_native_server": true,
+  "requires_gui": true,
+  "requires_libraries": [
+    "gazebo_gui"
   ]
 }

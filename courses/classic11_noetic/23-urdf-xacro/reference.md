@@ -136,6 +136,16 @@ c_link取实际GetLinkProperties读回的COM位置，R_world_link取待恢复快
 
 报告默认session/urdf-xacro-verify-UUID.json，--report覆盖位置；trace保存静态快照和带世界/主机包夹的动态joint_state_truth，static_phases/dynamic_phases保存阶段选择与统计，restore保存原/后快照和pause。GetJointProperties没有native header，包夹描述查询时段。恢复不重建旧力矩队列或回退时钟；恢复后继续运动属于真实物理演化。
 
+### 真实观测的连接与时序
+
+`Client.sample()`的顺序保持为GetWorldProperties、肩GetJointProperties、肘GetJointProperties、GetWorldProperties；两个关节读数位于首尾世界时间查询之间。报告保留整个查询时段，原有中点仅用于窗口选择，不是补造的关节捕获时间。四次服务调用、原有采集间隔、有限effort和全部验收阈值均保持不变。
+
+高频只读路径按Client实例缓存这两个服务的`ServiceProxy(persistent=True)`。首次连接才调用wait_for_service；同一实例的只读调用由互斥锁串行执行，各次请求仍实际访问服务端。其余服务继续通过原common.call调用，包括ApplyJointEffort、清力、暂停和姿态/速度恢复；本次优化不给这些写入复用连接或增加自动重发。
+
+单次只读调用的4墙钟秒预算包括等待互斥锁、首次服务发现和等待返回。读取报错、响应拒绝或超时会记录失败、移除并关闭全部读连接，此Client之后的读取直接报错；超时的后台调用即使稍后结束，也不会交出有效样本或重新放入缓存。Client.close会断开读连接并注销订阅。写入仍可逐项尝试恢复，但连接失败后的真实恢复读回可能无法完成，必须保留该诊断，不能宣称恢复已验证。
+
+这一改动降低TCPROS建连开销，不提供固定采样频率承诺。最后60ms仍受力窗口中的三次样本必须真实取得；GUI负载、服务端处理或传输延迟仍可能使观测不足。发生失败应检查报告中的世界时间包夹和墙钟查询耗时，而不是用插值补齐、扩大窗口或改动动力学。
+
 ## CAD导出先修入口
 
 [ROS社区SolidWorks URDF Exporter](https://github.com/ros/solidworks_urdf_exporter)提供项目与教程入口。CAD装配关系不会自动保证导出的关节轴、树、COM、单位和惯性正确；复核这些字段后再进入仿真。本课直接使用基本几何，CAD导出与大网格处理不属于运行前提。

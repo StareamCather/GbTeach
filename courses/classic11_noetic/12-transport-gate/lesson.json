@@ -25,5 +25,9 @@
     {"title": "生成含新标识的原生gz发布命令", "command": "python3 lab.py cli-example"},
     {"title": "编辑目标位置，保存后重新加载", "command": "gedit --new-window parameters.json"},
     {"title": "查看command话题的真实类型与连接", "command": "gz topic -w default -i /gazebo/default/transport_lab/command"}
-  ]
+  ],
+  "requires_pkg_config": {
+    "gazebo": "11.15.1"
+  },
+  "requires_native_server": true
 }

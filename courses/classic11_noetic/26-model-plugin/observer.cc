@@ -1,5 +1,14 @@
 // Wire-only Classic client: retain raw native messages; no motion predictions.
 #include <gazebo/transport/transport.hh>
+#include <gazebo/transport/IOManager.hh>
+#include <gazebo/transport/Connection.hh>
+#include <gazebo/gazebo_config.h>
+#include <dlfcn.h>
+#include <climits>
+#include <cstdlib>
+#include <memory>
+#include <sstream>
+#include <thread>
 #include <gazebo/msgs/msgs.hh>
 #include <google/protobuf/struct.pb.h>
 #include <google/protobuf/util/json_util.h>
@@ -10,9 +19,7 @@
 #include <iostream>
 #include <map>
 #include <mutex>
-#include <sstream>
 #include <stdexcept>
-#include <thread>
 #include <vector>
 
 using namespace gazebo;
@@ -74,8 +81,52 @@ struct Receiver {
 };
 }
 
+using namespace gazebo;
+// Compatibility for this exact Classic11 SDK, isolated from teaching plugins.
+// The exported data symbol is a PRIVATE ABI: fail before transport init if its
+// DSO/version cannot be identified. No process exit or timed sleep replaces join.
+class MainThreadIOOwner {
+ public:
+  MainThreadIOOwner() : thread(std::this_thread::get_id()) {
+    if (std::string(GAZEBO_VERSION_FULL)!="11.15.1") throw std::runtime_error("IO guard private ABI is validated only on Classic11.15.1 SDK");
+    dlerror();
+    void *address=dlsym(RTLD_DEFAULT,"_ZN6gazebo9transport10Connection9iomanagerE");
+    const char *error=dlerror();
+    if(error || !address) throw std::runtime_error("Unsupported Classic11 IOManager ABI symbol");
+    Dl_info information{};char canonical[PATH_MAX];
+    if(!dladdr(address,&information) || !information.dli_fname ||
+       !realpath(information.dli_fname,canonical))
+      throw std::runtime_error("Cannot verify Classic11 IOManager DSO");
+    runtime=canonical;
+    const auto separator=runtime.rfind('/');
+    const std::string filename=runtime.substr(separator==std::string::npos?0:separator+1);
+    if(filename!=std::string("libgazebo_transport.so.")+GAZEBO_VERSION_FULL)
+      throw std::runtime_error(std::string("IOManager runtime DSO differs from compiled SDK: version=")+GAZEBO_VERSION+", full="+GAZEBO_VERSION_FULL+", runtime="+runtime);
+    slot=reinterpret_cast<transport::IOManager **>(address);
+    // This unconnected main-owned Connection contributes a real shared-manager
+    // reference before any asynchronous callbacks exist.
+    owner.reset(new transport::Connection());
+    io=*slot;
+    if(!io || io->GetCount()<1) throw std::runtime_error("IOManager ownership was not established");
+  }
+  void Stop() {
+    if(stopped)return;
+    if(std::this_thread::get_id()!=thread || !owner || !io || *slot!=io)
+      throw std::runtime_error("IOManager changed or cleanup moved off its owning main thread");
+    // Public Stop stops io_service and JOINS its worker. The sentinel prevents
+    // a last weakBind temporary on that worker from deleting/joining itself.
+    io->Stop();stopped=true;
+    if(std::getenv("GAZEBOTEACH_IO_DIAGNOSTICS"))
+      std::cerr<<"{\"io_guard_joined\":true,\"runtime_dso\":"<<Q(runtime)<<",\"compiled_version\":"<<Q(GAZEBO_VERSION)<<",\"compiled_version_full\":"<<Q(GAZEBO_VERSION_FULL)<<"}"<<std::endl;
+  }
+ private:
+  std::thread::id thread;transport::ConnectionPtr owner;
+  transport::IOManager **slot=nullptr,*io=nullptr;
+  bool stopped=false;std::string runtime;
+};
+
 int main(int argc, char **argv) {
-  bool initialized = false;
+  bool initialized = false;std::unique_ptr<MainThreadIOOwner> ioOwner;
   int code = 0;
   // Keep owners alive on MAIN through transport stop/join. Releasing the last
   // publisher on an asynchronous publication worker can make its destructor
@@ -95,8 +146,9 @@ int main(int argc, char **argv) {
     }
     double timeout = options.count("--timeout") ? std::stod(options["--timeout"]) : 3;
     if (!std::isfinite(timeout) || timeout <= 0 || timeout > 8) throw std::runtime_error("Timeout must be within (0,8]");
+    ioOwner.reset(new MainThreadIOOwner());initialized=true;
     if (!transport::init("", 0, 3)) throw std::runtime_error("Private Classic master connection failed");
-    initialized = true; transport::run();
+    transport::run();
     node.reset(new transport::Node());
     node->Init(options.count("--world") ? options["--world"] : "lesson26");
     if (mode == "watch") {
@@ -180,10 +232,10 @@ int main(int argc, char **argv) {
   }
   // fini stops and joins the ConnectionManager run thread before clearing its
   // native registries. All callback targets and publisher owners remain alive.
-  if (initialized) transport::fini();
-  if (node) node->Fini();
-  subscriptions.clear();
-  publishers.clear();
-  node.reset();
+  try { if(initialized)transport::fini(); }
+  catch(const std::exception &error){Print("{\"source\":\"client_error\",\"stage\":\"transport_fini\",\"error\":"+Q(error.what())+"}");code=1;}
+  try { if(ioOwner)ioOwner->Stop(); }
+  catch(const std::exception &error){Print("{\"source\":\"client_error\",\"stage\":\"io_stop\",\"error\":"+Q(error.what())+"}");code=1;}
+  if(node)node->Fini();subscriptions.clear();publishers.clear();node.reset();ioOwner.reset();
   return code;
 }

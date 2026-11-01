@@ -169,7 +169,7 @@ HOLD把期望末端固定在(0.64,0)，原生PD仍继续工作。结束判据应
 
 选择这一方式也照顾了固定依赖的采样边界：2.9.3系统FT以`cur_time−last_time_ < 1/update_rate`提前返回，插件没有自行在Reset中清除last_time_。时钟回退后，旧采样时间会暂时抑制新FT发布；不能把这种断流当成真实零载荷，也不能补发按mg计算的传感器数据。本课保留模型复位前后的实际时间、轮次与新消息，接口行为依据[该版本UpdateChild实现](https://github.com/ros-simulation/gazebo_ros_pkgs/blob/2.9.3/gazebo_plugins/src/gazebo_ros_ft_sensor.cpp)，实际运行是否恢复仍需查看新一轮记录。
 
-开发端另用已安装的系统FT做过独立倒时边界试验：复位前世界约2.306 s，最后FT为2.300 s；调用reset_simulation归零后，推进到0.617 s仍没有新FT，时钟追至约2.32 s后恢复发布。这是特定版本的实际观测，完整来源与运行边界另列[开发验证记录](../../../docs/VALIDATION_LOG.md)；本课常规复位采用reset_world，不把倒时断流混入推送成败。
+开发端另用已安装的系统FT做过独立倒时边界试验：复位前世界约2.306 s，最后FT为2.300 s；调用reset_simulation归零后，推进到0.617 s仍没有新FT，时钟追至约2.32 s后恢复发布。这是特定版本的实际观测，完整来源与运行边界另列[开发验证记录](https://github.com/StareamCather/GazeboTeach/blob/main/docs/VALIDATION_LOG.md)；本课常规复位采用reset_world，不把倒时断流混入推送成败。
 
 ## 10. 读证据时保留结论层级
 
@@ -196,7 +196,7 @@ mission.py在控制器生命周期内持有一份`build/arm_client stream 0`，�
 
 持久连接的选择来自实际故障定位：开发端在旧版反复创建短命客户端的真实GUI运行中，GDB捕获SIGABRT，调用路径包含`Master::RunOnce→RemoveConnection→RemovePublisher`，Boost Connection指针为空。11.15.1的RemovePublisher对连接表项直接调用EnqueueMsg，没有先排除空指针；OnRead和ProcessMessage使用map的operator[]，与空表项或陈旧回调有关的交错是一种源码推断。调用栈与空指针异常已观察到，完整竞态交错并未由这份栈单独证明；不能把最初的订阅latch猜测写成根因。[Classic 11.15.1 Master.cc](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/Master.cc)
 
-当前状态订阅不请求旧消息回送，属于减少旧状态干扰的独立加固；每次确认仍靠本次新id。修改的是客户端连接生命周期和确认流程，机械臂world、原生关节插件、PD增益、力矩限制与物理参数没有因此改变。原始GDB证据归档名为lesson37-gdb-old-evidence.zip，SHA256为`36265f635127a6c153fc8534d0109c246468a8bef1ea2ad7b34e96a4d32f5175`；新实现的GUI、持续请求压力与正式物理验收结果分别以[开发验证记录](../../../docs/VALIDATION_LOG.md)为准，不能仅凭这项设计修改宣布已经通过。
+当前状态订阅不请求旧消息回送，属于减少旧状态干扰的独立加固；每次确认仍靠本次新id。修改的是客户端连接生命周期和确认流程，机械臂world、原生关节插件、PD增益、力矩限制与物理参数没有因此改变。原始GDB证据归档名为lesson37-gdb-old-evidence.zip，SHA256为`36265f635127a6c153fc8534d0109c246468a8bef1ea2ad7b34e96a4d32f5175`；新实现的GUI、持续请求压力与正式物理验收结果分别以[开发验证记录](https://github.com/StareamCather/GazeboTeach/blob/main/docs/VALIDATION_LOG.md)为准，不能仅凭这项设计修改宣布已经通过。
 
 原生插件状态发布、FT名义采样、Python查询与CSV写入各有时序。持久通信减少了连接反复建立的工作，没有使它们成为同一频率；解释日志时仍应使用真实时间戳、查询边界与已保存的样本数量。
 

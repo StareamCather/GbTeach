@@ -16,7 +16,7 @@ def build():
     parameters = read_world(workspace/"world.sdf", official/"world.sdf")
     assets = resources(workspace)
     version = subprocess.check_output(["pkg-config", "--modversion", "gazebo"], text=True, timeout=5).strip()
-    if not version.startswith("11."):
+    if version != "11.15.1":
         raise RuntimeError("Scene gallery requires the Gazebo Classic 11 SDK")
     flags = subprocess.check_output(["pkg-config", "--cflags", "--libs", "gazebo"], text=True, timeout=5).strip()
     key = hashlib.sha256(b"".join((official/n).read_bytes() for n in ("gallery.cc", "gallery_camera.cc"))+(version+flags).encode()).hexdigest()
@@ -27,7 +27,7 @@ def build():
         if not output.is_file():
             temporary = cache/("build-"+uuid.uuid4().hex)
             try:
-                subprocess.run(["g++", "-std=c++17", "-O2", "-Wno-deprecated-declarations"]+extra+[str(official/source), "-o", str(temporary)]+shlex.split(flags), check=True, timeout=70)
+                subprocess.run(["g++", "-std=c++17", "-O2", "-Wno-deprecated-declarations"]+extra+[str(official/source), "-o", str(temporary)]+shlex.split(flags)+["-ldl"], check=True, timeout=70)
                 os.replace(str(temporary), str(output))
             finally:
                 if temporary.exists():

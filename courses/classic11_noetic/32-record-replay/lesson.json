@@ -19,5 +19,12 @@
     {"title": "完整世界复位", "command": "python3 lab.py reset"},
     {"title": "编辑录制长度或压缩方式，重载生效", "command": "gedit --new-window parameters.json"},
     {"title": "完整有限验收", "command": "python3 verify.py"}
+  ],
+  "requires_pkg_config": {
+    "gazebo": "11.15.1"
+  },
+  "requires_native_server": true,
+  "requires_libraries": [
+    "gazebo_util"
   ]
 }

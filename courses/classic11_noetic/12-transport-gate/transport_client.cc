@@ -1,17 +1,25 @@
 // Bounded Classic SDK wire client. JSON is parsed with the already installed
 // protobuf Struct utility; mutations are published once, never blindly retried.
 #include <gazebo/transport/transport.hh>
+#include <gazebo/transport/IOManager.hh>
+#include <gazebo/transport/Connection.hh>
+#include <gazebo/gazebo_config.h>
+#include <dlfcn.h>
+#include <climits>
+#include <cstdlib>
+#include <memory>
+#include <sstream>
+#include <thread>
 #include <gazebo/msgs/msgs.hh>
 #include <google/protobuf/struct.pb.h>
 #include <google/protobuf/util/json_util.h>
 #include <chrono>
 #include <cmath>
 #include <condition_variable>
-#include <cstdlib>
 #include <iostream>
+#include <vector>
 #include <map>
 #include <mutex>
-#include <sstream>
 #include <stdexcept>
 #include <string>
 
@@ -72,8 +80,54 @@ struct Channels {
 };
 }
 
+using namespace gazebo;
+// Compatibility for this exact Classic11 SDK, isolated from teaching plugins.
+// The exported data symbol is a PRIVATE ABI: fail before transport init if its
+// DSO/version cannot be identified. No process exit or timed sleep replaces join.
+class MainThreadIOOwner {
+ public:
+  MainThreadIOOwner() : thread(std::this_thread::get_id()) {
+    if (std::string(GAZEBO_VERSION_FULL)!="11.15.1") throw std::runtime_error("IO guard private ABI is validated only on Classic11.15.1 SDK");
+    dlerror();
+    void *address=dlsym(RTLD_DEFAULT,"_ZN6gazebo9transport10Connection9iomanagerE");
+    const char *error=dlerror();
+    if(error || !address) throw std::runtime_error("Unsupported Classic11 IOManager ABI symbol");
+    Dl_info information{};char canonical[PATH_MAX];
+    if(!dladdr(address,&information) || !information.dli_fname ||
+       !realpath(information.dli_fname,canonical))
+      throw std::runtime_error("Cannot verify Classic11 IOManager DSO");
+    runtime=canonical;
+    const auto separator=runtime.rfind('/');
+    const std::string filename=runtime.substr(separator==std::string::npos?0:separator+1);
+    if(filename!=std::string("libgazebo_transport.so.")+GAZEBO_VERSION_FULL)
+      throw std::runtime_error(std::string("IOManager runtime DSO differs from compiled SDK: version=")+GAZEBO_VERSION+", full="+GAZEBO_VERSION_FULL+", runtime="+runtime);
+    slot=reinterpret_cast<transport::IOManager **>(address);
+    // This unconnected main-owned Connection contributes a real shared-manager
+    // reference before any asynchronous callbacks exist.
+    owner.reset(new transport::Connection());
+    io=*slot;
+    if(!io || io->GetCount()<1) throw std::runtime_error("IOManager ownership was not established");
+  }
+  void Stop() {
+    if(stopped)return;
+    if(std::this_thread::get_id()!=thread || !owner || !io || *slot!=io)
+      throw std::runtime_error("IOManager changed or cleanup moved off its owning main thread");
+    // Public Stop stops io_service and JOINS its worker. The sentinel prevents
+    // a last weakBind temporary on that worker from deleting/joining itself.
+    io->Stop();stopped=true;
+    if(std::getenv("GAZEBOTEACH_IO_DIAGNOSTICS"))
+      std::cerr<<"{\"io_guard_joined\":true,\"runtime_dso\":"<<Q(runtime)<<",\"compiled_version\":"<<Q(GAZEBO_VERSION)<<",\"compiled_version_full\":"<<Q(GAZEBO_VERSION_FULL)<<"}"<<std::endl;
+  }
+ private:
+  std::thread::id thread;transport::ConnectionPtr owner;
+  transport::IOManager **slot=nullptr,*io=nullptr;
+  bool stopped=false;std::string runtime;
+};
+
 int main(int argc,char **argv){
   bool initialized=false;int code=0;
+  std::unique_ptr<MainThreadIOOwner> ioOwner;Channels channels;transport::NodePtr node;
+  std::vector<transport::SubscriberPtr> subscriptions;std::vector<transport::PublisherPtr> publishers;
   try{
     if(argc<2)throw std::runtime_error("Expected send/wait/watch/query/entity mode");
     std::string mode=argv[1];Options options;
@@ -82,14 +136,15 @@ int main(int argc,char **argv){
     double timeout=options.Number("timeout",6);if(!std::isfinite(timeout)||timeout<=0||timeout>12)throw std::runtime_error("Client timeout must be finite within (0,12] seconds");
     if(mode=="send"&&options.Get("observed-type")!=options.Get("expect-type","gazebo.msgs.Request"))throw std::runtime_error("wire type mismatch before publish");
     if(mode=="send"&&options.Get("observed-type")!="gazebo.msgs.Request")throw std::runtime_error("SDK sender only permits gazebo.msgs.Request");
-    if(!gazebo::transport::init("",0,3))throw std::runtime_error("Bounded Classic master setup failed");initialized=true;gazebo::transport::run();
-    Channels channels;channels.options=options;channels.options.v["mode"]=mode;
-    gazebo::transport::NodePtr node(new gazebo::transport::Node());node->Init(options.Get("world","default"));
+    ioOwner.reset(new MainThreadIOOwner());initialized=true;
+    if(!gazebo::transport::init("",0,3))throw std::runtime_error("Bounded Classic master setup failed");gazebo::transport::run();
+    channels.options=options;channels.options.v["mode"]=mode;
+    node.reset(new gazebo::transport::Node());node->Init(options.Get("world","default"));
     if(mode=="query"||mode=="entity"){
       channels.rpcName=mode=="entity"?"entity_info":options.Get("request","gazeboteach_transport_snapshot");
       channels.rpcID=static_cast<int>((std::chrono::steady_clock::now().time_since_epoch().count()&0x3fffffff)+1);
-      auto sub=node->Subscribe("~/response",&Channels::Response,&channels,true);
-      auto pub=node->Advertise<gazebo::msgs::Request>("~/request");
+      auto sub=node->Subscribe("~/response",&Channels::Response,&channels,true);subscriptions.push_back(sub);
+      auto pub=node->Advertise<gazebo::msgs::Request>("~/request");publishers.push_back(pub);
       if(!pub->WaitForConnection(gazebo::common::Time(1,0)))throw std::runtime_error("No native RPC request subscriber");
       gazebo::msgs::Request request;request.set_id(channels.rpcID);request.set_request(channels.rpcName);request.set_data(mode=="entity"?"transport_gate":options.Get("nonce"));pub->Publish(request);
       {std::unique_lock<std::mutex> lock(channels.mutex);if(!channels.cv.wait_for(lock,std::chrono::duration<double>(timeout),[&](){return channels.rpcDone;}))throw std::runtime_error("Bounded native RPC timeout: no matching Response.id/request");}
@@ -109,12 +164,12 @@ int main(int argc,char **argv){
       Print("{\"event\":\"rpc_response\",\"request_id\":"+std::to_string(channels.rpcID)+",\"response_id\":"+std::to_string(response.id())+",\"request\":"+Q(response.request())+",\"response\":"+Q(response.response())+",\"response_type\":"+Q(response.type())+",\"serialized_data_size\":"+std::to_string(response.serialized_data().size())+",\"response_debug\":"+Q(response.DebugString())+",\"payload\":"+payload+"}");
     }else{
       auto ackSub=node->Subscribe("~/transport_lab/ack",&Channels::Ack,&channels,true);
-      auto stateSub=node->Subscribe("~/transport_lab/state",&Channels::State,&channels,true);
+      auto stateSub=node->Subscribe("~/transport_lab/state",&Channels::State,&channels,true);subscriptions.insert(subscriptions.end(),{ackSub,stateSub});
       if(mode=="send"){
         // Seeing an actual current-boot cached ACK confirms the reverse path.
         // It is recorded as unmatched, never accepted for this fresh nonce.
         {std::unique_lock<std::mutex> lock(channels.mutex);if(!channels.cv.wait_for(lock,std::chrono::seconds(2),[&](){return channels.ackReady;}))throw std::runtime_error("No actual current-boot ACK subscription handshake");}
-        auto pub=node->Advertise<gazebo::msgs::Request>(options.Get("topic","~/transport_lab/command"));
+        auto pub=node->Advertise<gazebo::msgs::Request>(options.Get("topic","~/transport_lab/command"));publishers.push_back(pub);
         if(!pub->WaitForConnection(gazebo::common::Time(1,0)))throw std::runtime_error("No command subscriber within bounded connection wait");
         gazebo::msgs::Request m;m.set_id(std::stoi(options.Get("seq")));m.set_request(options.Get("verb","set_target"));
         m.set_data(options.Get("run")+" "+options.Get("client")+" "+options.Get("nonce")+" "+options.Get("epoch")+" "+options.Get("attempt"));
@@ -129,7 +184,12 @@ int main(int argc,char **argv){
         std::unique_lock<std::mutex> lock(channels.mutex);channels.cv.wait_for(lock,std::chrono::duration<double>(timeout),[](){return false;});if(!channels.stateReady)throw std::runtime_error("No valid current-boot network state during bounded watch");
       }else throw std::runtime_error("Unknown SDK client mode");
     }
-    node->Fini();node.reset();
   }catch(const std::exception &e){Print("{\"event\":\"client_error\",\"transport_initialized\":"+std::string(initialized?"true":"false")+",\"reason\":"+Q(e.what())+"}");code=2;}
-  if(initialized)gazebo::transport::fini();return code;
+  // Channels, native pub/sub and sentinel all survive the joined transport.
+  try { if(initialized)transport::fini(); }
+  catch(const std::exception &e){Print("{\"event\":\"client_error\",\"stage\":\"transport_fini\",\"reason\":"+Q(e.what())+"}");code=2;}
+  try { if(ioOwner)ioOwner->Stop(); }
+  catch(const std::exception &e){Print("{\"event\":\"client_error\",\"stage\":\"io_stop\",\"reason\":"+Q(e.what())+"}");code=2;}
+  if(node)node->Fini();subscriptions.clear();publishers.clear();node.reset();ioOwner.reset();
+  return code;
 }

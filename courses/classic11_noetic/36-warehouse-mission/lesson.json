@@ -22,5 +22,12 @@
     {"title": "保留位置并显式恢复门和任务", "command": "python3 lab.py reset"},
     {"title": "更改单个速度或门力上限，保存后重载", "command": "gedit --new-window parameters.json"},
     {"title": "有限真实任务验收", "command": "python3 verify.py"}
-  ]
+  ],
+  "requires_pkg_config": {
+    "gazebo": "11.15.1"
+  },
+  "requires_native_server": true,
+  "requires_ros_package_versions": {
+    "gazebo_plugins": "2.9.3"
+  }
 }

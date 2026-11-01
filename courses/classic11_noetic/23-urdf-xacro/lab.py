@@ -16,6 +16,7 @@ import xmlrpc.client as rpc
 from config import JOINTS, PACKAGE, edit, prepared
 
 POSES = {"zero": [0, 0], "positive_mixed": [math.pi/6, -math.pi/4], "negative_mixed": [-.4, .6]}
+READ_SERVICES = frozenset(("/gazebo/get_world_properties", "/gazebo/get_joint_properties"))
 _cancelled = threading.Event()
 _cleanup_depth = 0
 
@@ -91,6 +92,9 @@ class Client:
         import common
         self.common = common
         self.lock, self.status, self.errors = threading.Lock(), None, []
+        self._read_lock, self._read_state_lock = threading.Lock(), threading.Lock()
+        self._read_proxies, self._read_error, self._read_closed = {}, None, False
+        self._read_close_errors, self._read_timeout = [], 4.
         self.subscription = rospy.Subscriber("/lesson23/description_status", String, self.receive, queue_size=1)
 
     def receive(self, message):
@@ -103,7 +107,89 @@ class Client:
                 self.errors.append(str(error))
 
     def call(self, name, service, *args, **kwargs):
-        return self.common.call(name, service, *args, **kwargs)
+        if name not in READ_SERVICES:
+            return self.common.call(name, service, *args, **kwargs)
+        deadline = time.monotonic()+self._read_timeout
+        self._check_reads()
+        if not self._read_lock.acquire(timeout=self._read_timeout):
+            error = "Finite persistent ROS read serialization timeout: "+name
+            self._close_reads(problem=error)
+            raise RuntimeError(error)
+        try:
+            self._check_reads()
+        except Exception:
+            self._read_lock.release()
+            raise
+        completed, result = threading.Event(), {}
+        def invoke():
+            proxy = None
+            try:
+                self._check_reads()
+                key = (name, service)
+                with self._read_state_lock:
+                    proxy = self._read_proxies.get(key)
+                if proxy is None:
+                    remaining = deadline-time.monotonic()
+                    require(remaining > 0, "Persistent read deadline expired before connection: "+name)
+                    self.rospy.wait_for_service(name, timeout=remaining)
+                    self._check_reads()
+                    proxy = self.rospy.ServiceProxy(name, service, persistent=True)
+                    with self._read_state_lock:
+                        require(not self._read_closed and self._read_error is None, "Persistent read connection was cancelled")
+                        self._read_proxies[key] = proxy
+                self._check_reads()
+                value = proxy(*args, **kwargs)  # One actual read; no resend/reconnect loop.
+                if hasattr(value, "success") and not value.success:
+                    detail = getattr(value, "status_message", "") or getattr(value, "message", "") or "refused"
+                    raise RuntimeError(name+": "+detail)
+                result["value"] = value
+            except Exception as error:
+                result["error"] = error
+                self._close_reads(problem=str(error))
+            finally:
+                with self._read_state_lock:
+                    discard = self._read_closed or self._read_error is not None
+                # A timed-out daemon may return later. Its result is never
+                # accepted and its connection cannot reenter the cache.
+                if discard and proxy is not None:
+                    self._close_read_proxy(proxy)
+                self._read_lock.release()
+                completed.set()
+        try:
+            threading.Thread(target=invoke, daemon=True).start()
+        except Exception:
+            self._read_lock.release()
+            raise
+        if not completed.wait(max(0, deadline-time.monotonic())):
+            error = "Finite persistent ROS read timeout; connection disabled: "+name
+            self._close_reads(problem=error)
+            raise RuntimeError(error)
+        if "error" in result:
+            raise result["error"]
+        self._check_reads()
+        return result["value"]
+
+    def _check_reads(self):
+        with self._read_state_lock:
+            require(not self._read_closed and self._read_error is None,
+                    "Persistent ROS reads unavailable: "+str(self._read_error or "client closed"))
+
+    def _close_read_proxy(self, proxy):
+        try:
+            proxy.close()
+        except Exception as error:
+            with self._read_state_lock:
+                self._read_close_errors.append(str(error))
+
+    def _close_reads(self, problem=None, closed=False):
+        with self._read_state_lock:
+            if problem is not None and self._read_error is None:
+                self._read_error = problem
+            self._read_closed = self._read_closed or closed
+            proxies = list(self._read_proxies.values())
+            self._read_proxies.clear()
+        for proxy in proxies:
+            self._close_read_proxy(proxy)
 
     def physics(self):
         from gazebo_msgs.srv import GetPhysicsProperties
@@ -269,6 +355,7 @@ class Client:
             "requested_start_time_ns": start, "requested_end_time_ns": start+round(duration*1e9)}
 
     def close(self):
+        self._close_reads(closed=True)
         self.subscription.unregister()
 
 

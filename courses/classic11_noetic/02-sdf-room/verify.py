@@ -9,6 +9,9 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from _control_support.models import pose as native_model_pose
+
 DEADLINE = None
 PAIRS = (("solid_probe", "solid_platform"), ("ghost_probe", "ghost_platform"))
 
@@ -162,6 +165,8 @@ def configuration():
 
 
 def pose(world,name):
+    raw=native_model_pose(world,name,DEADLINE)
+    if raw is not None:return raw
     output = run("gz","model","-w",world,"-m",name,"-p")
     for line in reversed(output.splitlines()):
         if len(line.split())==6:

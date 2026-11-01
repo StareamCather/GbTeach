@@ -29,5 +29,11 @@
     {"title": "导航台偏航90度", "command": "python3 lab.py move --station nav --x 0 --y 0 --z 1 --yaw 90"},
     {"title": "真实惯性竖直运动", "command": "python3 lab.py move --station nav --x 0 --y 0 --z 1 --vz 0.25"},
     {"title": "九阶段五传感器验收", "command": "python3 verify.py"}
-  ]
+  ],
+  "requires_pkg_config": {
+    "gazebo": "11.15.1",
+    "roscpp": "",
+    "std_msgs": ""
+  },
+  "requires_native_server": true
 }

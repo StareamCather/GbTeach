@@ -21,5 +21,9 @@
     {"title": "只检查碰撞缺失故障", "command": "python3 clinic.py run --case missing-collision"},
     {"title": "编辑健康参考，重载后生效", "command": "gedit --new-window world.sdf"},
     {"title": "真实故障与修复完整验收", "command": "python3 verify.py"}
-  ]
+  ],
+  "requires_pkg_config": {
+    "gazebo": "11.15.1"
+  },
+  "requires_native_server": true
 }

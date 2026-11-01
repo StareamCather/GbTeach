@@ -13,6 +13,8 @@ def build():
     workspace = Path.cwd().resolve()
     source = Path(os.environ.get("GAZEBOTEACH_LESSON_SOURCE", Path(__file__).resolve().parent)) / "physics_probe.cc"
     version = subprocess.check_output(["pkg-config", "--modversion", "gazebo"], text=True, timeout=4).strip()
+    if version != "11.15.1":
+        raise RuntimeError("Native IO lifetime guard requires Gazebo Classic SDK 11.15.1")
     flags = subprocess.check_output(["pkg-config", "--cflags", "--libs", "gazebo"], text=True, timeout=4).strip()
     source_hash = hashlib.sha256(source.read_bytes()).hexdigest()
     digest = hashlib.sha256((source_hash+version+flags).encode()).hexdigest()[:20]
@@ -23,7 +25,7 @@ def build():
         temporary = cache / ("physics_probe-" + uuid.uuid4().hex)
         try:
             subprocess.run(["g++", "-std=c++17", "-Wno-deprecated-declarations", str(source), "-o", str(temporary)]+
-                           shlex.split(flags), check=True, timeout=32)
+                           shlex.split(flags)+["-ldl"], check=True, timeout=32)
             temporary.chmod(0o755)
             os.replace(str(temporary), str(binary))
         finally:

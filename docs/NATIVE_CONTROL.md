@@ -36,20 +36,27 @@ LessonSession创建私有环境与会话身份
 
 会话元数据把启用分支标为`classic11-sdk-persistent`；回落分支为`legacy-cli`，并保存supported=false和具体reason，版本不匹配时还保存sdk_version。CLI分支继续使用原有状态回读和命令处理，不继承原生助手新增的统计序号、精确迭代计数或SDK线程退出保护。后面的协议和精确单步说明针对持久助手分支。
 
+课程子进程的工作目录属于个人练习区，PYTHONPATH也可能只含课程源目录。共享辅助模块使用平台原有的GAZEBOTEACH_SOURCE_ROOT定位应用，缺省时才按已安装_support文件的相对布局查找；先检查native_control.py及原生.cc资源确实存在，再仅向本子进程的sys.path加入应用根目录。这样导入不依赖个人练习区的当前目录，也不需要修改操作系统Python路径或增加运行器环境变量。
+
 缓存位于`$XDG_CACHE_HOME/gazeboteach/native-control/<fingerprint>`，使用应用默认缓存位置时遵循相同目录结构，位于学生练习文件之外。指纹覆盖助手源码、编译器、实际传递头文件依赖、编译链接选项、链接库与运行依赖。加锁与原子产物替换避免并发构建使用半成品；复用前仍核对产物身份。重新编译不覆盖world.sdf、个人参数或其它课程源文件，也不替换系统Gazebo二进制。
 
 ## 每种操作究竟确认什么
 
-Python接口为`NativeControl`，提供status、pause、step、reset_models、metadata与close。控制请求共用顺序锁和有限墙钟等待，一次只处理一个请求。每个管道请求和回应使用新的UUID；WorldControl消息本身不含这个UUID，因此要区分“助手把结果匹配给哪次请求”与“世界实际出现了什么状态”。
+Python接口为`NativeControl`，提供status、model_pose、pause、step、reset_models、metadata与close。控制请求共用顺序锁和有限墙钟等待，一次只处理一个请求。每个管道请求和回应使用新的UUID；WorldControl消息本身不含这个UUID，因此要区分“助手把结果匹配给哪次请求”与“世界实际出现了什么状态”。
 
-原生进程启动后先返回ready=true及stats。后续每行请求都有id、action、timeout_ms；pause另有严格布尔类型paused，step另有整数count，status与reset_models没有附加业务字段。回应含相同id与ok；成功时返回stats，单步还返回baseline_iterations和requested_steps，失败时保留error。stats包含seq、iterations、paused、sim_time、sim_sec和sim_nsec。Python默认等待为status 3 s、pause 4 s、step 5 s、reset_models 4 s，等待使用单调墙钟；这些是超时边界，不是模拟运行时长。
+原生进程启动后先返回ready=true及stats。后续每行请求都有id、action、timeout_ms；pause另有严格布尔类型paused，step另有整数count，model_pose另有字符串name，status与reset_models没有附加业务字段。回应含相同id与ok；成功时返回stats，单步还返回baseline_iterations和requested_steps，失败时保留error。stats包含seq、iterations、paused、sim_time、sim_sec和sim_nsec。Python默认等待为status 3 s、pause 4 s、step 5 s、reset_models 4 s，等待使用单调墙钟；这些是超时边界，不是模拟运行时长。
 
 | 操作 | 原生动作 | 成功所需的实际证据 |
 | --- | --- | --- |
 | status | 不修改世界，等待新的统计序号 | 新到达的WorldStatistics中的paused、iterations、sim_time等字段 |
+| model_pose(name) | 持久Request/Response通道上的只读entity_info查询 | 匹配正31bit请求ID、entity_info、成功状态、Model类型与名称，返回实际Model.pose及SDK转换的RPY；保留两侧新统计的独立接收记录 |
 | pause(true/false) | WorldControl明确设置pause，只发布一次 | 发布后得到新统计，实际paused等于目标值 |
 | step(N) | 先建立真实暂停状态与迭代基线I，再发布一次multi_step=N | 后续新统计仍暂停且iterations恰好为I+N；超出目标报告干扰或异常 |
 | reset_models | 一次WorldReset：all=false、model_only=true、time_only=false | 保存发布与后续新统计；模型位姿是否复原仍需实际实体读回验证 |
+
+model_pose不会发布WorldControl或Model修改。它首次使用时在同一个Node懒创建请求发布器和响应订阅器，此后持有到fini与主线程IO Stop/join之后才释放。[Classic 11.15.1 TransportIface实现](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/transport/TransportIface.cc)中的通用request函数每次创建并释放自己的节点和发布器，因此此处使用可复用通道。每次查询ID以PID、随机数与单调时钟播种，在正31bit范围内选取并在本辅助进程生命期内去重；返回时再核对ID、请求名、消息类型及实际模型名。请求连接建立只证明正向路径，若反向订阅尚未收到响应，最多重发一次只读entity_info并使用新ID，两次共享同一墙钟截止时间。这个有限重读仅适用于模型查询，原有修改操作没有新增重试。
+
+model_pose成功回应增加model_name、request_id、response_id、response_type、pose、rpy、pose_stats_before及pose_stats_after。pose只包含position的x/y/z和orientation的x/y/z/w，Python拒绝非有限值或非单位四元数；rpy直接由已验证SDK的Quaternion.Euler生成。两侧统计分别来自查询前后新接收的真实WorldStatistics，最后一条也作为普通stats返回；它们不把异步模型响应包装成原子快照。课程01–07共同通过`_control_support/models.py`读取xyz与RPY，准确SDK缺失时明确诊断并保留运行时CLI路径；SDK已经可用后的失败直接报告。共享依赖参与控制桥缓存摘要，辅助源码则由原生控制构建的完整依赖指纹覆盖。 Python还检查原生ID落在1..0x7fffffff，左侧统计序号不早于该连接前次已确认序号，右侧严格更新且等于本次普通stats；外部完整复位可能使源模拟时钟倒回，因此不把模拟时间单调递增当作通用协议条件。
 
 统计的“新”以接收序号推进判断，不用一条旧缓存立即满足所有请求。接收时刻、原生sim_time、迭代计数和GUI刷新时间分别保存或解释；它们不是同一个时钟。统计是实际世界输出，但并非一个携带请求UUID的原生操作确认服务。尤其复位后的新统计只能说明世界仍在提供反馈，单独不能证明每个模型已经恢复。
 

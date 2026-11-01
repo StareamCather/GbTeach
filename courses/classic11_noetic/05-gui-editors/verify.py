@@ -16,6 +16,9 @@ from pathlib import Path
 from geometry import (combine, contains_xy, numbers, pose, resource,
                       room_geometry, table_geometry)
 
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from _control_support.models import pose as native_model_pose
+
 DEADLINE = None
 
 
@@ -108,6 +111,8 @@ def check_pose(label, measured, expected, tolerance=.015):
 
 
 def live_pose(world, name):
+    raw=native_model_pose(world,name,DEADLINE)
+    if raw is not None:return raw
     output = read_model(world, name, "-p")
     for line in reversed(output.splitlines()):
         if len(line.split()) == 6:
@@ -141,6 +146,28 @@ def move(world, name, raw):
     for key, value in zip(("-x", "-y", "-z", "-R", "-P", "-Y"), raw):
         arguments.extend((key, str(value)))
     run(*arguments)
+
+
+def confirm_probe_pose(world, expected, label):
+    """Read back a single move within the existing phase deadline."""
+    last = None
+    while DEADLINE-time.monotonic() > .3:
+        try:
+            last = live_pose(world, "table_probe")
+        except Exception as error:
+            raise RuntimeError("%s只读确认失败：目标位置/四元数=%s/%s，最后实测=%s；%s" %
+                               (label, expected[:3], quaternion(expected), last, error)) from error
+        try:
+            check_raw_pose(label, last, expected)
+            return
+        except AssertionError:
+            # A model publish can return before Gazebo applies the queued move.
+            # Only the read is repeated; all xyz and quaternion checks remain.
+            remaining = DEADLINE-time.monotonic()-.3
+            if remaining > 0:
+                time.sleep(min(.05, remaining))
+    raise RuntimeError("%s未在原截止时间内确认：目标位置/四元数=%s/%s，最后实测=%s；移动只发布一次" %
+                       (label, expected[:3], quaternion(expected), last))
 
 
 def configuration():
@@ -288,7 +315,7 @@ def verify():
         raised[2] += 1.1
         moved = True
         move(world, "table_probe", raised)
-        check_raw_pose("探针暂停抬升", live_pose(world, "table_probe"), raised)
+        confirm_probe_pose(world, raised, "探针暂停抬升")
         pause(world, False)
         samples = []
         while DEADLINE-time.monotonic() > .5:
@@ -323,7 +350,7 @@ def verify():
                 if not paused_state(world):
                     raise RuntimeError("恢复探针前未确认暂停")
                 move(world, "table_probe", original_probe)
-                check_raw_pose("恢复探针原位姿", live_pose(world, "table_probe"), original_probe)
+                confirm_probe_pose(world, original_probe, "恢复探针原位姿")
         except Exception as error:
             cleanup_error = error
         finally:

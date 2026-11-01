@@ -13,14 +13,16 @@ def build():
     def output(*args):
         return subprocess.check_output(args, text=True, timeout=5).strip()
     version = output("pkg-config", "--modversion", "gazebo")
-    if not version.startswith("11."):
-        raise RuntimeError("This bridge requires the installed Gazebo Classic 11 SDK")
+    if version != "11.15.1":
+        raise RuntimeError("This bridge requires the installed Gazebo Classic 11.15.1 SDK")
     flags = output("pkg-config", "--cflags", "--libs", "gazebo")
     includes = output("python3-config", "--includes")
     links = output("python3-config", "--embed", "--ldflags")
     subprocess.run(["python3", "-c", "import numpy; print('NumPy import OK:', numpy.__version__)"],
                    check=True, timeout=5)
-    digest = hashlib.sha256(source.read_bytes() + (version+flags+includes+links).encode()).hexdigest()
+    support = {path.name: hashlib.sha256(path.read_bytes()).hexdigest()
+               for path in sorted(source.parent.iterdir()) if path.suffix in ('.cc', '.py')}
+    digest = hashlib.sha256((json.dumps(support, sort_keys=True)+version+flags+includes+links).encode()).hexdigest()
     cache = Path(os.environ.get("XDG_CACHE_HOME", Path.home()/".cache"))/"gazeboteach/python-control"/digest[:24]
     cache.mkdir(parents=True, exist_ok=True)
     library = cache/"libgazeboteach_python_control.so"
@@ -41,7 +43,7 @@ def build():
         link.unlink()
     link.symlink_to(library)
     metadata = {"library": str(library), "build_sha256": digest, "gazebo_version": version,
-                "python_embed_flags": links, "control_period_s": .01, "physics_step_s": .001}
+                "support_sha256": support, "python_embed_flags": links, "control_period_s": .01, "physics_step_s": .001}
     (destination.parent/"control_bridge.json").write_text(json.dumps(metadata, indent=2), encoding="utf-8")
     print("Actual-state Python control bridge ready:", library, flush=True)
     return metadata

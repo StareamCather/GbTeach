@@ -25,5 +25,9 @@
     {"title": "改为低摩擦练习，随后点击重新加载", "command": "python3 lab.py set-surface slip"},
     {"title": "恢复正常摩擦，随后点击重新加载", "command": "python3 lab.py set-surface normal"},
     {"title": "同一真实轨迹离线重算错误轮距", "command": "python3 lab.py replay-calibration 0.48"}
-  ]
+  ],
+  "requires_pkg_config": {
+    "gazebo": "11.15.1"
+  },
+  "requires_native_server": true
 }

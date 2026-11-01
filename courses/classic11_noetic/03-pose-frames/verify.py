@@ -15,6 +15,9 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from _control_support.models import pose as native_model_pose
+
 DEADLINE = None
 IDENTITY = ([0.0,0.0,0.0],[0.0,0.0,0.0,1.0])
 POSITION_TOLERANCE = .01
@@ -178,6 +181,8 @@ def graph_configuration():
 
 
 def live_model(world,name):
+    raw=native_model_pose(world,name,DEADLINE)
+    if raw is not None:return raw,transform(raw)
     output=run("gz","model","-w",world,"-m",name,"-p")
     for line in reversed(output.splitlines()):
         if len(line.split())==6:
@@ -265,6 +270,29 @@ def move_rig(world,raw):
     run(*args)
 
 
+def confirm_rig_pose(world,raw,label):
+    """Observe the one published move; never resend it or extend DEADLINE."""
+    expected=transform(raw)
+    last=None
+    while DEADLINE-time.monotonic()>.3:
+        try:
+            _,last=live_model(world,"rig")
+        except Exception as exc:
+            raise RuntimeError("%s只读确认失败：目标位置/四元数=%s，最后实测=%s；%s"%
+                               (label,expected,last,exc)) from exc
+        try:
+            compare(label,last,expected)
+            return
+        except AssertionError:
+            # Publish completion is not application acknowledgement. A valid
+            # entity_info read may still precede ProcessModelMsgs this tick.
+            remaining=DEADLINE-time.monotonic()-.3
+            if remaining>0:
+                time.sleep(min(.05,remaining))
+    raise RuntimeError("%s未在原截止时间内确认：目标位置/四元数=%s，最后实测=%s；移动只发布一次"%
+                       (label,expected,last))
+
+
 def verify():
     global DEADLINE
     DEADLINE=time.monotonic()+12
@@ -285,8 +313,7 @@ def verify():
         shifted=list(rig_raw);shifted[0]+=.35
         moved=True  # Even an uncertain command outcome requires restoration.
         move_rig(world,shifted)
-        _,actual_rig=live_model(world,"rig")
-        compare("安装架已实际移动0.35m",actual_rig,transform(shifted))
+        confirm_rig_pose(world,shifted,"安装架已实际移动0.35m")
         _,after_marker=live_model(world,"sensor_marker")
         compare("独立标记没有因relative_to/attached_to而被拖动",after_marker,measured["sensor_marker"])
         print("PASS：变换预测来自当前frame图；跨模型初始位姿关系不构成运行期机械连接。验收未改变暂停状态。",flush=True)
@@ -298,8 +325,7 @@ def verify():
             DEADLINE=time.monotonic()+3
             try:
                 move_rig(world,rig_raw)
-                _,restored=live_model(world,"rig")
-                compare("恢复安装架原位姿",restored,transform(rig_raw))
+                confirm_rig_pose(world,rig_raw,"恢复安装架原位姿")
             except Exception as exc:
                 if experiment_error is not None:
                     print("附加恢复失败：%s；原实验失败原因保留"%exc,file=sys.stderr,flush=True)

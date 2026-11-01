@@ -248,3 +248,15 @@ python3 lab.py ready
 挑战三：若要增加独立的落地判据，先定义质心支撑高度、速度阈值、连续模拟时间窗口、有效样本数和数据缺失处理，再决定算法。只看一帧z接近0.2不能证明已经落稳。扩展实现仍需新的真实验收，默认课程通过不证明扩展通过。
 
 本课验收应区分自动数值检查、真实图形观察和仍未实现的扩展。截图能确认方块、地面与窗口；原生物理重力及带源时间的轨迹才用于验证作用和运动。官方依据另见[服务端参数与初始化](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/Server.cc)、[进程插件持有与退出](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/gazebo.cc)、[ODE重力设置](https://github.com/gazebosim/gazebo-classic/blob/gazebo11_11.15.1/gazebo/physics/ode/ODEPhysics.cc)。
+
+辅助SDK进程在初始化Transport之前还会核对编译SDK完整版本必须为11.15.1；运行库DSO必须与该完整版本相同。其他Classic 11小版本不能沿用这段私有ABI兼容逻辑。退出时仍先fini，再由持有Connection的主线程Stop并join IO，最后释放通信对象；这项版本拒绝不改变插件或实验的物理更新流程。
+
+## 原生只读请求如何等待响应
+
+`lab.py` 每次查询会启动一份有界的原生 observer。observer 先创建本次请求的 response 订阅与 request 发布通道，再查询原生状态；发现 request 订阅者，不等于反向 response 通道已经完成连接。因此，偶发缺少响应应保留为通信失败，不能把它解释成插件状态、物理状态或课程目标本身。
+
+`snapshot`、`entity`、`world`、`physics` 的请求通道建立、连接等待和读取共同使用同一个预算，默认总计 3 秒。observer 保持同一 Node、发布者和订阅者：第一次读取只使用剩余等待预算的一半；只有等不到匹配响应时，才允许发送第二个只读请求，并使用不同的正 31 位 request ID。snapshot 每次另生成新的 nonce，要求插件原样返回。第二次读取使用原预算剩余部分，不增加总等待时间；SDK 进程初始化仍受其原有独立界限约束。
+
+回调只接收当前 request ID 与请求类型匹配的响应，迟到的第一次响应被忽略。收到匹配响应后，必须通过 success、protobuf 类型与完整性校验；模型名须与请求相符，场景名须与本世界相符，snapshot nonce 也须一致。错误类型、错误名称、错误 nonce 或协议错误直接失败，不以再次查询掩盖。`lab.py` 的错误信息同时记录实际 mode、完整 argv 和返回码，以便区分哪次查询失败，并保留原始输出。
+
+这项有限重试仅用于读取。暂停、继续、步进、移动和复位仍按原路径各发一次；未知修改结果不自动重发。课程的实际运动、传感器采样、计数和原始消息验收条件保持原样。独立空世界中的丢首条响应试验只能验证 SDK 请求协议，不能替代本课插件及物理目标的真实验收。

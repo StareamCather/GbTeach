@@ -17,7 +17,7 @@ from unittest import mock
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 try:
-    from PyQt5 import QtCore, QtWidgets
+    from PyQt5 import QtCore, QtWidgets, QtTest, QtGui
 except ImportError:
     QtCore = QtWidgets = None
 
@@ -55,6 +55,13 @@ class EnvironmentDialogStateTests(unittest.TestCase):
             "ros_packages": sorted({name for lesson in self.lessons
                                     for name in lesson.data.get("requires_ros_packages", [])}),
             "incomplete_checks": [], "detection_errors": [],
+            "pkg_config": {name: {"version": version or "1.0.0", "available": True, "error": ""}
+                           for lesson in self.lessons for name, version in lesson.data.get("requires_pkg_config", {}).items()},
+            "sdk": {"headers_available": True, "error": ""}, "native_server": {"validated": True},
+            "qt_moc": {"available": True, "path": "/fixture/qt5/moc", "version": "5.12.8"},
+            "libraries": {"gazebo_gui": "/fixture/libgazebo_gui.so", "gazebo_ode": "/fixture/libgazebo_ode.so",
+                          "gazebo_util": "/fixture/libgazebo_util.so"},
+            "ros_package_versions": {"gazebo_plugins": "2.9.3"}, "python_modules": {"numpy": True},
         }
         self.docker_probe = {"backend": "docker", "execution_available": False, "daemon_checked": False,
                              "cli": {"installed": False, "path": None, "version": "", "error": ""}}
@@ -271,6 +278,65 @@ class EnvironmentDialogStateTests(unittest.TestCase):
         self.assertEqual(self.settings.value("docker_configuration"), stored)
         self.assertEqual(self.requested_jobs, [])
         self.assertFalse(window.docker_probe["execution_available"])
+
+    def test_actual_prerequisite_click_keeps_running_lesson_and_personal_files(self):
+        window = self.make_window()
+        window.select_lesson("37")
+        self.acknowledge(window)
+        lesson = window.current_lesson
+        workspace = window.storage.prepare(lesson)
+        marker = workspace / "parameters.json"
+        marker.write_text('{"student": "preserve this experiment"}', encoding="utf-8")
+        expected = marker.read_bytes()
+        session = SimpleNamespace(running=True, paused=False, lesson=lesson)
+        window.session = session
+        records_before = list(window.storage.records(150))
+        cursor = window.document.document().find("第7课：摩擦与碰撞")
+        self.assertFalse(cursor.isNull())
+        cursor.setPosition(cursor.selectionStart() + 2)
+        window.document.setTextCursor(cursor)
+        window.document.ensureCursorVisible()
+        self.application.processEvents()
+        point = window.document.cursorRect(cursor).center()
+        self.assertIn("07-friction-collision", window.document.anchorAt(point))
+        QtTest.QTest.mouseClick(window.document.viewport(), QtCore.Qt.LeftButton, pos=point)
+        self.application.processEvents()
+        reader = window.prerequisite_reader
+        self.assertIsNotNone(reader)
+        self.assertTrue(reader.isVisible())
+        self.assertEqual(reader.current_path.parent.name, "07-friction-collision")
+        self.assertTrue(reader.browser.isReadOnly())
+        self.assertIs(window.session, session)
+        self.assertIs(window.current_lesson, lesson)
+        self.assertEqual(marker.read_bytes(), expected)
+        self.assertEqual(window.storage.records(150), records_before)
+        self.assertEqual(self.requested_jobs, [])
+        reader.back_button.click()
+        self.assertEqual(reader.current_path.parent.name, "37-arm-push")
+        reader.close()
+
+    def test_internal_reader_rejects_outside_files_scripts_and_preserves_external_links(self):
+        from gazeboteach.reader import DocumentRegistry, MarkdownReader
+        window = self.make_window()
+        lesson = next(item for item in self.lessons if item.id == "37")
+        reader = MarkdownReader(window.document_registry, window)
+        reader.display(lesson.file("lesson.md"))
+        original = reader.current_path
+        for link in ("javascript:alert(1)", "../../../../outside.md", "../07-friction-collision/world.sdf",
+                     "httpsx://example.com/lesson.md"):
+            reader.open_link(QtCore.QUrl(link))
+            self.assertEqual(reader.current_path, original)
+            self.assertTrue(reader.location.text().startswith("链接不可打开"))
+        with mock.patch("gazeboteach.reader.QtGui.QDesktopServices.openUrl") as opened:
+            reader.open_link(QtCore.QUrl("https://classic.gazebosim.org/tutorials"))
+            opened.assert_called_once()
+        reader.close()
+
+    def test_reset_tooltip_explains_clock_and_private_state_boundary(self):
+        window = self.make_window()
+        text = window.buttons["reset"].toolTip()
+        for phrase in ("MODEL reset", "保留仿真时钟", "私有状态", "重载项目"):
+            self.assertIn(phrase, text)
 
 
 if __name__ == "__main__":

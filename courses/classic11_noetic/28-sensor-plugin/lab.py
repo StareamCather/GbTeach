@@ -65,10 +65,12 @@ class Lab:
         self.settings,self.record=prepared();self.workspace=Path.cwd().resolve();self.binary=self.workspace/'build/sensor_observer'
 
     def client(self,mode,*args,timeout=8):
-        p=subprocess.run([str(self.binary),mode]+list(args),text=True,capture_output=True,timeout=timeout)
+        argv=[str(self.binary),mode]+list(args)
+        context='mode='+mode+', argv='+json.dumps(argv,ensure_ascii=False)
+        p=subprocess.run(argv,text=True,capture_output=True,timeout=timeout)
         rows=decode(p.stdout)
-        require(p.returncode==0,'Actual native client failed: '+p.stdout[-1800:]+' '+p.stderr[-1200:])
-        require(rows,'Native client returned no actual result')
+        require(p.returncode==0,'Actual native client failed ('+context+', returncode='+str(p.returncode)+'): '+p.stdout[-1800:]+' '+p.stderr[-1200:])
+        require(rows,'Native client returned no actual result ('+context+')')
         return rows[-1]
     def stats(self):return self.client('stats')['data']
     def snapshot(self):return self.client('snapshot')['payload']
@@ -163,7 +165,9 @@ class Lab:
             if process and process.poll() is None:
                 try:process.communicate(timeout=8)
                 except subprocess.TimeoutExpired:process.terminate();process.communicate(timeout=3)
-            self.pause(True);result['restored_target']=self.move(pose=original);result['final_world']=self.pause(pause)
+            try:
+                self.pause(True);result['restored_target']=self.move(pose=original)
+            finally:result['final_world']=self.pause(pause)
         return result
 
     def reset(self):
@@ -186,15 +190,20 @@ class Lab:
         return result
 
     def verify(self):
-        result=self.demo();self.pause(True);before=self.stats();s=self.snapshot();time.sleep(.2);after=self.stats();t=self.snapshot()
-        require(ns(before['sim_time'])==ns(after['sim_time']),'Paused world advanced')
-        # A queued sensor callback may complete just after pause. Sample time
-        # cannot exceed the frozen world; do not pretend asynchronous work vanishes.
-        require(int(t['source_time_ns'])<=ns(after['sim_time']),'Sensor measurement came from the future')
-        result['pause_observation']={'world_before':before,'world_after':after,'sensor_before':s,'sensor_after':t}
-        result['steps']=self.step(100)
-        result['final_world']=self.pause(bool(result['final_world'].get('paused',False)))
+        # demo owns target restoration. This outer guard also covers failures
+        # in the subsequent pause observation and finite stepping checks.
+        entry_pause=bool(self.stats().get('paused',False));result={}
+        try:
+            result=self.demo();self.pause(True);before=self.stats();s=self.snapshot();time.sleep(.2);after=self.stats();t=self.snapshot()
+            require(ns(before['sim_time'])==ns(after['sim_time']),'Paused world advanced')
+            # A queued sensor callback may complete just after pause. Sample time
+            # cannot exceed the frozen world; do not pretend asynchronous work vanishes.
+            require(int(t['source_time_ns'])<=ns(after['sim_time']),'Sensor measurement came from the future')
+            result['pause_observation']={'world_before':before,'world_after':after,'sensor_before':s,'sensor_after':t}
+            result['steps']=self.step(100)
+        finally:result['final_world']=self.pause(entry_pause)
         return result
+
 
 def main():
     p=argparse.ArgumentParser(description=__doc__)

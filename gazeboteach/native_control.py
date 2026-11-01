@@ -155,6 +155,39 @@ class NativeControl:
 
     def status(self,timeout=3):return self._rpc('status',timeout)
 
+    def model_pose(self,name,timeout=3):
+        """Read actual Model.pose with one correlated native entity_info request."""
+        if not isinstance(name,str) or not name or len(name.encode('utf-8'))>512 or any(ord(c)<32 or ord(c)==127 for c in name):
+            raise ValueError('Model pose needs a nonempty bounded model name')
+        with self.lock:
+            previous_seq=self.last_stats['seq'] if self.last_stats else 0
+            value=self._rpc('model_pose',timeout,name=name)
+        try:
+            actual=value.get('model_name')
+            if not isinstance(actual,str) or (actual!=name and actual.rsplit('::',1)[-1]!=name):
+                raise RuntimeError('Native Model pose name differs')
+            request=value.get('request_id');response=value.get('response_id')
+            if type(request) is not int or not 1<=request<=0x7fffffff or type(response) is not int or request!=response or value.get('response_type')!='gazebo.msgs.Model':
+                raise RuntimeError('Native Model response ID/type differs')
+            pose=value.get('pose')
+            if not isinstance(pose,dict) or set(pose)!= {'position','orientation'}:
+                raise RuntimeError('Native Model pose schema is malformed')
+            for field,keys in (('position',{'x','y','z'}),('orientation',{'x','y','z','w'})):
+                components=pose[field]
+                if not isinstance(components,dict) or set(components)!=keys or any(type(v) not in (int,float) or not math.isfinite(v) for v in components.values()):
+                    raise RuntimeError('Native Model pose components are malformed')
+            if abs(sum(v*v for v in pose['orientation'].values())-1)>1e-6:
+                raise RuntimeError('Native Model pose quaternion is not unit length')
+            rpy=value.get('rpy')
+            if not isinstance(rpy,list) or len(rpy)!=3 or any(type(v) not in (int,float) or not math.isfinite(v) for v in rpy):
+                raise RuntimeError('Native Model pose Euler angles are malformed')
+            before=self._stats(value.get('pose_stats_before'));after=self._stats(value.get('pose_stats_after'))
+            if before['seq']<previous_seq or before['seq']>=after['seq'] or after!=value['stats']:
+                raise RuntimeError('Native Model pose statistics bracket is malformed')
+        except Exception as error:
+            self.poisoned=str(error);raise
+        return value
+
     def pause(self,paused,timeout=4):
         if type(paused) is not bool:raise ValueError('Pause requires explicit bool')
         value=self._rpc('pause',timeout,paused=paused)

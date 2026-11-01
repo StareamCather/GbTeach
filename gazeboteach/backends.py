@@ -170,7 +170,7 @@ class DockerBackend(ExecutionBackend):
                 "cli_detection_supported": True, "daemon_checked": False,
                 "image_fields": ["image", "host_workspace", "container_workspace", "display",
                                  "context", "container_name", "mounts"],
-                "message": "可校验并保存连接配置；V1尚未实现容器连接、挂载、显示转发或课程执行。"}
+                "message": "可校验并保存连接配置；当前版本尚未实现容器连接、挂载、显示转发或课程执行。"}
 
     def validate_configuration(self, value=None):
         if isinstance(value, DockerConnectionConfig):
@@ -195,7 +195,7 @@ class DockerBackend(ExecutionBackend):
                     result["cli"]["version"] = process.stdout.strip()[:2000]
             except (OSError, subprocess.TimeoutExpired) as error:
                 result["cli"]["error"] = str(error)
-        result["message"] = "检测仅确认Docker命令行程序；未检查daemon、镜像或容器，V1不提供Docker执行。"
+        result["message"] = "检测仅确认Docker命令行程序；未检查daemon、镜像或容器，当前版本不提供Docker执行。"
         return result
 
     def create_session(self, root, lesson, *, configuration=None, storage=None, notify=None):

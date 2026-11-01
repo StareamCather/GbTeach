@@ -39,5 +39,11 @@
     }
   ],
   "verify": "verify.py",
-  "needs_display": true
+  "needs_display": true,
+  "requires_pkg_config": {
+    "gazebo": "11.15.1",
+    "roscpp": "",
+    "sensor_msgs": ""
+  },
+  "requires_native_server": true
 }

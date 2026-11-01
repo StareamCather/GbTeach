@@ -111,28 +111,53 @@ class OwnedPlayback:
         except BaseException:
             self.__exit__(None,None,None);raise
 
+    def role(self,value):
+        # Recorded labels require the original PID AND start tick. Descendants
+        # still need the private token/UID checked by owned()/identity().
+        for original in self.record['processes']:
+            if value['pid']==original['pid'] and value['start_ticks']==original['start_ticks']:
+                if original['label']=='gzclient':return 'gui'
+                if original['label']=='gzserver':return 'server'
+        executable=Path(value['exe']).name
+        if executable.startswith('gzclient'):return 'gui'
+        if executable.startswith('gzserver'):return 'server'
+        return 'client'
+
     def __exit__(self,*unused):
+        # All GUI observation functions run synchronously inside the with block;
+        # none can issue a read/seek after exit starts. Defer repeat signals while
+        # this bounded cleanup drains GUI clients before their master/server.
+        handlers={sig:signal.signal(sig,signal.SIG_IGN) for sig in (signal.SIGTERM,signal.SIGINT)}
+        self.record['cleanup_events']=[]
         try:
-            for sig,limit in ((signal.SIGTERM,5),(signal.SIGKILL,2)):
-                values=self.owned()
-                for value in values:
-                    again=self.identity(value['pid'])
-                    if again and again['token']==self.token and again['start_ticks']==value['start_ticks']:
-                        try:os.kill(value['pid'],sig)
-                        except ProcessLookupError:pass
-                deadline=time.monotonic()+limit
-                while self.owned() and time.monotonic()<deadline:
-                    for process in self.processes:process.poll()
-                    time.sleep(.04)
+            for role in ('gui','client','server'):
+                for sig,limit in ((signal.SIGTERM,5),(signal.SIGKILL,2)):
+                    values=[v for v in self.owned() if self.role(v)==role]
+                    for value in values:
+                        again=self.identity(value['pid'])
+                        if again and again['token']==self.token and again['start_ticks']==value['start_ticks']:
+                            try:
+                                os.kill(value['pid'],sig)
+                                self.record['cleanup_events'].append({'role':role,'pid':value['pid'],
+                                    'start_ticks':value['start_ticks'],'signal':int(sig),'monotonic_ns':time.monotonic_ns()})
+                            except ProcessLookupError:pass
+                    deadline=time.monotonic()+limit
+                    while any(self.role(v)==role for v in self.owned()) and time.monotonic()<deadline:
+                        for process in self.processes:process.poll()
+                        time.sleep(.04)
+                # Do not tear down the server underneath a surviving GUI.
+                if any(self.role(v)==role for v in self.owned()):break
             for process in self.processes:
                 try:process.wait(timeout=1)
                 except subprocess.TimeoutExpired:pass
             remaining=self.owned();self.record['remaining']=remaining;self.record['cleaned']=not remaining
+            self.record['cleanup_order']='gui, client, server; each role fully exits before the next is signalled'
             self.record['owned_at_cleanup']=[{'pid':p.pid,'returncode':p.poll()} for p in self.processes]
             write_json(self.root/'ownership.json',self.record)
             require(not remaining,'Owned native playback descendants survived bounded cleanup')
         finally:
             for stream in self.streams:stream.close()
+            for sig,handler in handlers.items():signal.signal(sig,handler)
             if self.previous_signal is not None:signal.signal(signal.SIGTERM,self.previous_signal)
 
 

@@ -60,7 +60,7 @@ def verified_archive(filename):
         seen.add(name)
         members[name] = member
         if len(members) > 20000 or sum(value.size for value in members.values()) > 512*1024*1024:
-            fail("Archive exceeds the bounded V1 source-package size")
+            fail("Archive exceeds the bounded source-package size")
     if "release-manifest.json" not in members:
         fail("Release manifest missing")
     manifest_bytes = archive.extractfile(members["release-manifest.json"]).read()

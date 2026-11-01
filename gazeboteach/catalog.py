@@ -31,7 +31,7 @@ class Lesson:
         if isinstance(data.get("order", 0), bool):
             raise ValueError("order must be an integer")
         self.order = int(data.get("order", self.id))
-        for name in ("requires_ros", "needs_display"):
+        for name in ("requires_ros", "needs_display", "requires_gui", "requires_qt_moc", "requires_native_server"):
             if name in data and not isinstance(data[name], bool):
                 raise ValueError(name + " must be boolean")
         self.requires_ros = data.get("requires_ros", False)
@@ -40,10 +40,17 @@ class Lesson:
             raise ValueError("gui_start_attempts must be an integer within [1,3]")
         for name in ("requires_plugins", "requires_ros_packages", "requires_tools",
                      "prepare", "after_start", "after_startup", "after_gui", "server_args", "gui_args",
-                     "objectives", "ros_package_paths"):
+                     "objectives", "ros_package_paths", "requires_libraries", "requires_python_modules"):
             values = data.get(name, [])
             if not isinstance(values, list) or any(not isinstance(x, str) or not x.strip() for x in values):
                 raise ValueError(name + " must be a list of strings")
+        for name in ("requires_pkg_config", "requires_ros_package_versions"):
+            values = data.get(name, {})
+            if (not isinstance(values, dict) or any(not isinstance(k, str) or not re.fullmatch(r"[A-Za-z0-9_.+-]+", k)
+                    or not isinstance(v, str) or (v and not re.fullmatch(r"[0-9]+(?:\.[0-9]+)*", v)) for k, v in values.items())):
+                raise ValueError(name + " must map package names to exact versions or empty strings")
+        if data.get("requires_ros_package_versions") and not self.requires_ros:
+            raise ValueError("ROS version requirements need requires_ros=true")
         for name in ("commands", "startup"):
             values = data.get(name, [])
             if not isinstance(values, list):
@@ -119,6 +126,30 @@ def compatibility(lesson, environment, gui=True, terminals=False):
             return "本课需要 ROS Noetic；独立 Gazebo 课程仍可学习。"
     elif lesson.profile not in environment.get("profiles", []):
         return "当前环境没有与本课匹配的课程运行配置。"
+    if lesson.data.get("requires_gui") and not gui:
+        return "本课必须启动真实 Gazebo gzclient；CLI 请加入 --gui（仅设置 DISPLAY 不够）。"
+    for package, version in lesson.data.get("requires_pkg_config", {}).items():
+        capability = environment.get("pkg_config", {}).get(package, {})
+        if not capability.get("available"):
+            return "缺少开发包 {}.pc 或其编译/链接依赖：{}".format(package, capability.get("error", "未检测"))
+        if version and capability.get("version") != version:
+            return "本课需要 {} SDK 精确版本 {}；检测到 {}。".format(package, version, capability.get("version") or "未知")
+    if "gazebo" in lesson.data.get("requires_pkg_config", {}) and not environment.get("sdk", {}).get("headers_available"):
+        return "Gazebo SDK 头文件/编译链检查未通过：" + environment.get("sdk", {}).get("error", "未检测")
+    if lesson.data.get("requires_native_server") and not environment.get("native_server", {}).get("validated"):
+        return "本课需要与 SDK 一致的原生 gzserver 11.15.1：" + environment.get("native_server", {}).get("reason", "未检测")
+    for package, version in lesson.data.get("requires_ros_package_versions", {}).items():
+        actual = environment.get("ros_package_versions", {}).get(package, "")
+        if actual != version:
+            return "本课需要 Noetic {} 精确版本 {}；检测到 {}。".format(package, version, actual or "缺失")
+    if lesson.data.get("requires_qt_moc") and not environment.get("qt_moc", {}).get("available"):
+        return "缺少匹配 Qt5Core 的 Qt5 moc：" + environment.get("qt_moc", {}).get("error", "未检测")
+    for library in lesson.data.get("requires_libraries", []):
+        if not environment.get("libraries", {}).get(library):
+            return "缺少可链接开发库：lib" + library + ".so"
+    for module in lesson.data.get("requires_python_modules", []):
+        if not environment.get("python_modules", {}).get(module):
+            return "缺少 Python 3 模块：" + module
     required = {"gzserver", "gz", "bash"}
     if gui:
         required.add("gzclient")

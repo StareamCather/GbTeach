@@ -23,5 +23,8 @@
     {"title": "完整世界与时间复位（随后保持暂停）", "command": "python3 lab.py reset"},
     {"title": "编辑单变量速度，保存后重载课程", "command": "gedit --new-window parameters.json"},
     {"title": "有限完整验收", "command": "python3 verify.py"}
-  ]
+  ],
+  "requires_ros_package_versions": {
+    "gazebo_plugins": "2.9.3"
+  }
 }

@@ -161,3 +161,9 @@ observe与有限演示demo会通过正常模型复位建立新的采样轮次，
 | view等待超时 | gzclient是否真实连接本课会话；相机输入与输出主题不能混用 |
 
 继续深入可查[SDF高度图几何](https://sdformat.org/spec/1.7/geometry/)、[SDF Actor](https://sdformat.org/spec/1.7/actor/)和[Classic资源路径说明](https://classic.gazebosim.org/tutorials?tut=components)。本课的资源格式、固定拓扑与可改范围是为了保持实验可比较，不是Gazebo所有建模能力的上限。
+
+## 原生辅助工具的退出流程
+
+本课通信工具先核对编译SDK与实际Transport动态库均为Classic 11.15.1，并检查兼容层需要的符号；不匹配时在Transport初始化前报错。主线程随后持有一个未连接的Connection，再初始化通信。这个持有者保证异步回调不会成为共享IOManager的最后一个所有者。通信结束或出现异常时，先执行Transport fini，再在主线程调用公开IOManager.Stop并等待IO线程结束，最后释放订阅、发布器、节点和持有者；回调使用的对象一直保留到这两个停止屏障之后。
+
+这段流程只负责独立辅助进程的资源寿命，插件宿主中不执行全局Transport退出。原有命令参数、测量输出与每次控制只发布一次的规则保持；它不写入预测姿态、力或轨迹。编译缓存包含本课变更的C++源码与SDK/链接参数，保存源码后须重新准备或重载。设置`GAZEBOTEACH_IO_DIAGNOSTICS=1`可在标准错误流保留实际IO join证据，不混入实验数据输出。

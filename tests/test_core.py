@@ -120,7 +120,7 @@ class CatalogTests(unittest.TestCase):
         self.assertEqual(len(errors), 1)
 
     def test_gz_or_ign_tools_alone_do_not_imply_simulator(self):
-        def output(arguments, timeout=4):
+        def output(arguments, timeout=4, accepted_codes=(0,), env=None):
             return "The command provides tools. Available commands: topic, log, sdf."
         with mock.patch("gazeboteach.environment.shutil.which", side_effect=lambda name: "/tools/" + name if name in ("gz", "ign") else None), \
                 mock.patch("gazeboteach.environment._output", side_effect=output):

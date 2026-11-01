@@ -88,7 +88,7 @@ struct Receiver {
 class MainThreadIOOwner {
  public:
   MainThreadIOOwner() : thread(std::this_thread::get_id()) {
-    if (GAZEBO_MAJOR_VERSION != 11) throw std::runtime_error("IO guard requires Classic11 SDK");
+    if (std::string(GAZEBO_VERSION_FULL)!="11.15.1") throw std::runtime_error("IO guard private ABI is validated only on Classic11.15.1 SDK");
     dlerror();
     void *address=dlsym(RTLD_DEFAULT,"_ZN6gazebo9transport10Connection9iomanagerE");
     const char *error=dlerror();

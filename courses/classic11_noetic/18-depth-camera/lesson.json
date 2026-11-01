@@ -29,5 +29,8 @@
     {"title": "将墙移远一米", "command": "python3 lab.py wall --distance 4"},
     {"title": "恢复墙的位置", "command": "python3 lab.py wall --distance 3"},
     {"title": "真实深度与点云验收", "command": "python3 verify.py"}
+  ],
+  "requires_python_modules": [
+    "numpy"
   ]
 }

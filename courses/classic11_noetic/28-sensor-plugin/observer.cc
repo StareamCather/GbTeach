@@ -22,6 +22,8 @@
 #include <stdexcept>
 #include <thread>
 #include <vector>
+#include <random>
+#include <algorithm>
 
 using namespace gazebo;
 namespace {
@@ -93,7 +95,7 @@ struct Receiver {
 class MainThreadIOOwner {
  public:
   MainThreadIOOwner() : thread(std::this_thread::get_id()) {
-    if (GAZEBO_MAJOR_VERSION != 11) throw std::runtime_error("IO guard requires Classic11 SDK");
+    if (std::string(GAZEBO_VERSION_FULL)!="11.15.1") throw std::runtime_error("IO guard private ABI is validated only on Classic11.15.1 SDK");
     dlerror();
     void *address=dlsym(RTLD_DEFAULT,"_ZN6gazebo9transport10Connection9iomanagerE");
     const char *error=dlerror();
@@ -182,41 +184,83 @@ int main(int argc, char **argv) {
         Print("{\"source\":\"world_stats\",\"receive_monotonic_ns\":"+std::to_string(Now())+
               ",\"data\":"+Json(receiver.statistics)+",\"raw_protobuf\":"+Q(receiver.statistics.DebugString())+"}"); }
     } else if (mode == "snapshot" || mode == "entity" || mode == "world") {
-      { std::lock_guard<std::mutex> guard(receiver.mutex);
-        receiver.id = static_cast<int>((Now() & 0x3fffffff)+1);
-        receiver.requestName = mode == "snapshot" ? "gazeboteach_sensor_snapshot" : mode == "world" ? "scene_info" : "entity_info";
-      }
-      const std::string nonce = "l28-"+std::to_string(Now());
-      auto sub = node->Subscribe("~/response", &Receiver::Response, &receiver, true);
+      // Creating the request/response channel, connecting and both READ attempts
+      // share ONE deadline. SDK process initialization above has its own bound.
+      const auto readDeadline = std::chrono::steady_clock::now()+
+          std::chrono::duration_cast<std::chrono::steady_clock::duration>(std::chrono::duration<double>(timeout));
+      const std::string requestName = mode == "snapshot" ? "gazeboteach_sensor_snapshot" : mode == "world" ? "scene_info" : "entity_info";
+      const std::string expectedName = options.count("--name") ? options["--name"] : "target_box";
+      const std::string expectedWorld = options.count("--world") ? options["--world"] : "lesson28";
+      if (mode == "entity" && (expectedName.empty() || expectedName.size()>512 ||
+          std::any_of(expectedName.begin(),expectedName.end(),[](unsigned char c){return c<32||c==127;})))
+        throw std::runtime_error("Invalid entity name");
+      { std::lock_guard<std::mutex> guard(receiver.mutex); receiver.requestName=requestName; }
+      auto sub = node->Subscribe("~/response", &Receiver::Response, &receiver, false);
       auto pub = node->Advertise<msgs::Request>("~/request");
       subscriptions.push_back(sub);
       publishers.push_back(pub);
-      if (!pub->WaitForConnection(common::Time(1,0))) throw std::runtime_error("No native request subscriber");
-      msgs::Request query; query.set_id(receiver.id); query.set_request(receiver.requestName);
-      query.set_data(mode == "snapshot" ? nonce : options.count("--name") ? options["--name"] : "target_box"); pub->Publish(query);
-      { std::unique_lock<std::mutex> guard(receiver.mutex);
-        if (!receiver.condition.wait_for(guard, std::chrono::duration<double>(timeout), [&]{return receiver.responseReady;}))
-          throw std::runtime_error("No matching native response before deadline"); }
-      msgs::Response reply;
-      { std::lock_guard<std::mutex> guard(receiver.mutex); reply.CopyFrom(receiver.response); }
-      if (reply.response() != "success") throw std::runtime_error("Native request rejected");
-      if (mode == "snapshot") {
-        msgs::Any value;
-        if (reply.type() != "gazebo.msgs.Any" || !value.ParseFromString(reply.serialized_data())) throw std::runtime_error("Wrong plugin reply type/bytes");
-        const auto payload = AnyJson(value);
-        google::protobuf::Struct decoded; google::protobuf::util::JsonStringToMessage(payload, &decoded);
-        if (decoded.fields().at("query_nonce").string_value() != nonce) throw std::runtime_error("Plugin reply nonce mismatch");
-        Print("{\"source\":\"snapshot\",\"request_id\":"+std::to_string(receiver.id)+",\"response_id\":"+
-              std::to_string(reply.id())+",\"payload\":"+payload+",\"raw_protobuf\":"+Q(reply.DebugString())+"}");
-      } else if (mode == "world") {
-        msgs::Scene value;
-        if (reply.type() != "gazebo.msgs.Scene" || !value.ParseFromString(reply.serialized_data())) throw std::runtime_error("Wrong native scene type/bytes");
-        Print("{\"source\":\"world\",\"data\":"+Json(value)+",\"raw_protobuf\":"+Q(value.DebugString())+"}");
-      } else {
-        msgs::Model value;
-        if (reply.type() != "gazebo.msgs.Model" || !value.ParseFromString(reply.serialized_data())) throw std::runtime_error("Wrong native entity type/bytes");
-        Print("{\"source\":\"entity\",\"data\":"+Json(value)+",\"raw_protobuf\":"+Q(value.DebugString())+"}");
+      const double connectSeconds=std::chrono::duration<double>(readDeadline-std::chrono::steady_clock::now()).count();
+      if (connectSeconds<=0 || !pub->WaitForConnection(common::Time(connectSeconds)))
+        throw std::runtime_error("No native request subscriber within shared read deadline");
+      std::random_device random;
+      const auto seedTime=static_cast<unsigned long long>(Now());
+      std::seed_seq seed{random(),static_cast<unsigned int>(seedTime),static_cast<unsigned int>(seedTime>>32)};
+      std::mt19937 ids(seed);std::uniform_int_distribution<int> positiveID(1,INT_MAX);
+      int previousID=0;bool received=false;
+      for (unsigned int attempt=0;attempt<2;++attempt) {
+        if (std::chrono::steady_clock::now()>=readDeadline)break;
+        int id;do { id=positiveID(ids); } while(id==previousID);previousID=id;
+        const std::string nonce="l28-"+std::to_string(Now())+"-"+std::to_string(id);
+        { std::lock_guard<std::mutex> guard(receiver.mutex);
+          receiver.id=id;receiver.responseReady=false;receiver.response.Clear(); }
+        msgs::Request query;query.set_id(id);query.set_request(requestName);
+        query.set_data(mode=="snapshot" ? nonce : expectedName);
+        pub->Publish(query,true);
+        msgs::Response reply;
+        { std::unique_lock<std::mutex> guard(receiver.mutex);
+          const auto now=std::chrono::steady_clock::now();
+          const auto until=attempt==0 ? now+(readDeadline-now)/2 : readDeadline;
+          // Only a missing READ response permits another attempt. Reuse the
+          // live channel, but give attempt two an independent ID and nonce.
+          // Late responses for the previous ID are ignored by Receiver.
+          if (!receiver.condition.wait_until(guard,until,[&]{return receiver.responseReady;}))continue;
+          reply.CopyFrom(receiver.response);
+        }
+        if (!reply.IsInitialized() || reply.id()!=id || reply.request()!=requestName || reply.response()!="success")
+          throw std::runtime_error("Native read response correlation/success mismatch");
+        // A correlated protocol/type/name/nonce failure is never retried.
+        if (mode == "snapshot") {
+          msgs::Any value;
+          if (reply.type()!="gazebo.msgs.Any" || !value.ParseFromString(reply.serialized_data()) || !value.IsInitialized())
+            throw std::runtime_error("Wrong plugin reply type/bytes");
+          const auto payload=AnyJson(value);
+          google::protobuf::Struct decoded;
+          if (!google::protobuf::util::JsonStringToMessage(payload,&decoded).ok())
+            throw std::runtime_error("Plugin reply JSON is malformed");
+          const auto found=decoded.fields().find("query_nonce");
+          if (found==decoded.fields().end() || found->second.kind_case()!=google::protobuf::Value::kStringValue ||
+              found->second.string_value()!=nonce)throw std::runtime_error("Plugin reply nonce mismatch");
+          Print("{\"source\":\"snapshot\",\"request_id\":"+std::to_string(id)+",\"response_id\":"+
+                std::to_string(reply.id())+",\"payload\":"+payload+",\"raw_protobuf\":"+Q(reply.DebugString())+"}");
+        } else if (mode == "world") {
+          msgs::Scene value;
+          if (reply.type()!="gazebo.msgs.Scene" || !value.ParseFromString(reply.serialized_data()) || !value.IsInitialized())
+            throw std::runtime_error("Wrong native scene type/bytes");
+          if (value.name()!=expectedWorld)throw std::runtime_error("Native scene name differs from requested world");
+          Print("{\"source\":\"world\",\"data\":"+Json(value)+",\"raw_protobuf\":"+Q(reply.DebugString())+"}");
+        } else {
+          msgs::Model value;
+          if (reply.type()!="gazebo.msgs.Model" || !value.ParseFromString(reply.serialized_data()) || !value.IsInitialized() || !value.has_pose())
+            throw std::runtime_error("Wrong native entity type/bytes");
+          const auto separator=value.name().rfind("::");
+          const auto leaf=value.name().substr(separator==std::string::npos ? 0 : separator+2);
+          if (value.name()!=expectedName && leaf!=expectedName)
+            throw std::runtime_error("Native entity name differs from requested model");
+          Print("{\"source\":\"entity\",\"data\":"+Json(value)+",\"raw_protobuf\":"+Q(reply.DebugString())+"}");
+        }
+        received=true;break;
       }
+      if (!received)throw std::runtime_error("No matching native response before deadline");
     } else if(mode=="move") {
       msgs::Model message;message.set_name(options.count("--name")?options["--name"]:"target_box");
       auto pose=message.mutable_pose();

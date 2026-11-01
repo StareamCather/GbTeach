@@ -17,5 +17,9 @@
     {"title": "运行独立无GUI批量实验并导出JSON/CSV", "command": "python3 batch.py run"},
     {"title": "编辑批量组合、重复数和原生种子，重载生效", "command": "gedit --new-window parameters.json"},
     {"title": "完整有限验收", "command": "python3 verify.py"}
-  ]
+  ],
+  "requires_pkg_config": {
+    "gazebo": "11.15.1"
+  },
+  "requires_native_server": true
 }

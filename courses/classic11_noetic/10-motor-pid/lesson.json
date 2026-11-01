@@ -23,5 +23,12 @@
     {"title": "仅观察速度PI与负载", "command": "python3 lab.py run speed-pi"},
     {"title": "仅观察位置PD", "command": "python3 lab.py run position-pd"},
     {"title": "仅观察输出饱和", "command": "python3 lab.py run saturation"}
+  ],
+  "requires_pkg_config": {
+    "gazebo": "11.15.1"
+  },
+  "requires_native_server": true,
+  "requires_libraries": [
+    "gazebo_ode"
   ]
 }

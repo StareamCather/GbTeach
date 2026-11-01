@@ -20,6 +20,9 @@
 #include <algorithm>
 #include <cctype>
 #include <cmath>
+#include <random>
+#include <unordered_set>
+#include <unistd.h>
 using namespace gazebo;
 std::string Q(const std::string &v) {
   std::ostringstream out;out<<'"';
@@ -91,6 +94,72 @@ struct Statistics {
   }
 };
 
+// One request publisher/subscriber pair survives every model query. The SDK's
+// transport::request helper creates and destroys that pair on every call.
+struct ModelRequests {
+  std::mutex mutex;std::condition_variable condition;
+  int expected=0;std::mt19937 ids;std::unordered_set<int> issued;
+  bool ready=false;msgs::Response response;
+  ModelRequests() {
+    const auto now=static_cast<uint64_t>(std::chrono::steady_clock::now().time_since_epoch().count());
+    std::seed_seq nonce{std::random_device{}(),static_cast<unsigned int>(getpid()),
+        static_cast<unsigned int>(now),static_cast<unsigned int>(now>>32)};
+    ids.seed(nonce);
+  }
+  void Receive(ConstResponsePtr &message) {
+    std::lock_guard<std::mutex> lock(mutex);
+    if(message->id()!=expected || message->request()!="entity_info")return;
+    response.CopyFrom(*message);ready=true;condition.notify_all();
+  }
+  msgs::Response Query(const transport::PublisherPtr &publisher,const std::string &name,
+                       std::chrono::steady_clock::time_point end) {
+    for(int attempt=0;attempt<2;++attempt) {
+      if(std::chrono::steady_clock::now()>=end)break;
+      int id;
+      {std::lock_guard<std::mutex> lock(mutex);
+        do {id=static_cast<int>(ids()&0x7fffffff);}while(id==0||issued.count(id));
+        issued.insert(id);expected=id;ready=false;response.Clear();}
+      msgs::Request request;request.set_id(id);request.set_request("entity_info");request.set_data(name);
+      publisher->Publish(request,true);
+      std::unique_lock<std::mutex> lock(mutex);
+      // Request discovery does not prove the reverse subscription path. One
+      // idempotent READ retry with a fresh ID is allowed within the SAME action
+      // deadline. Late responses to the first ID cannot satisfy the second.
+      const auto now=std::chrono::steady_clock::now();
+      const auto until=attempt==0?now+(end-now)/2:end;
+      if(!condition.wait_until(lock,until,[&]{return ready;}))continue;
+      if(!response.IsInitialized()||response.id()!=id||response.request()!="entity_info"||response.response()!="success")
+        throw std::runtime_error("Actual model entity_info response failed correlation/success check");
+      return response;
+    }
+    throw std::runtime_error("Actual model entity_info response timed out after at most two read requests");
+  }
+};
+
+std::string ModelPoseJson(const msgs::Response &response,const std::string &name) {
+  msgs::Model model;
+  if(response.type()!=model.GetTypeName()||!model.ParseFromString(response.serialized_data())||!model.IsInitialized()||!model.has_pose())
+    throw std::runtime_error("entity_info did not return an initialized native Model pose");
+  const auto separator=model.name().rfind("::");
+  if(model.name()!=name && model.name().substr(separator==std::string::npos?0:separator+2)!=name)
+    throw std::runtime_error("entity_info Model name differs from the requested model");
+  const auto &p=model.pose().position();const auto &q=model.pose().orientation();
+  for(double value:{p.x(),p.y(),p.z(),q.x(),q.y(),q.z(),q.w()})
+    if(!std::isfinite(value))throw std::runtime_error("Native Model pose has a nonfinite component");
+  if(std::abs(q.x()*q.x()+q.y()*q.y()+q.z()*q.z()+q.w()*q.w()-1)>1e-6)
+    throw std::runtime_error("Native Model pose quaternion is not unit length");
+  // Use the installed Classic/ignition math conversion, including its Euler
+  // singularity convention, rather than interpreting quaternion xyz as RPY.
+  const auto euler=msgs::ConvertIgn(model.pose()).Rot().Euler();
+  std::ostringstream out;out.precision(17);
+  out<<",\"model_name\":"<<Q(model.name())<<",\"request_id\":"<<response.id()
+     <<",\"response_id\":"<<response.id()<<",\"response_type\":"<<Q(response.type())
+     <<",\"pose\":{\"position\":{\"x\":"<<p.x()<<",\"y\":"<<p.y()<<",\"z\":"<<p.z()
+     <<"},\"orientation\":{\"x\":"<<q.x()<<",\"y\":"<<q.y()<<",\"z\":"<<q.z()<<",\"w\":"<<q.w()
+     <<"}},\"rpy\":["<<euler.X()<<','<<euler.Y()<<','<<euler.Z()<<']';
+  return out.str();
+}
+
 std::string Json(const Statistics::Sample &sample) {
   const auto &s=sample.data;std::ostringstream out;out.precision(17);
   out<<"{\"seq\":"<<sample.seq<<",\"iterations\":"<<s.iterations()
@@ -102,7 +171,8 @@ std::string Json(const Statistics::Sample &sample) {
 int main(int argc,char **argv) {
   int code=0;bool initialized=false;std::unique_ptr<MainThreadIOOwner> owner;
   transport::NodePtr node;transport::PublisherPtr publisher;transport::SubscriberPtr subscriber;
-  Statistics stats;
+  transport::PublisherPtr requestPublisher;transport::SubscriberPtr responseSubscriber;
+  Statistics stats;ModelRequests models;
   try {
     if(argc!=2||std::string(argv[1]).empty())throw std::runtime_error("Use native_control WORLD_NAME");
     if(!std::getenv("GAZEBOTEACH_SESSION_TOKEN"))throw std::runtime_error("Private owned session required");
@@ -137,6 +207,22 @@ int main(int argc,char **argv) {
         auto observed=baseline;std::string extra;
         if(action=="status") {
           if(f.size()!=3)throw std::runtime_error("Unexpected status field");
+        } else if(action=="model_pose") {
+          if(f.size()!=4||!f.count("name")||f.at("name").kind_case()!=google::protobuf::Value::kStringValue)
+            throw std::runtime_error("model_pose requires a model name");
+          const std::string name=f.at("name").string_value();
+          if(name.empty()||name.size()>512||std::any_of(name.begin(),name.end(),[](unsigned char c){return c<32||c==127;}))
+            throw std::runtime_error("Invalid model name");
+          if(!requestPublisher) {
+            responseSubscriber=node->Subscribe("~/response",&ModelRequests::Receive,&models,false);
+            requestPublisher=node->Advertise<msgs::Request>("~/request");
+          }
+          const double remaining=std::chrono::duration<double>(end-std::chrono::steady_clock::now()).count();
+          if(remaining<=0||!requestPublisher->WaitForConnection(common::Time(remaining)))
+            throw std::runtime_error("No native model request subscriber within the action deadline");
+          extra=ModelPoseJson(models.Query(requestPublisher,name,end),name);
+          observed=stats.Fresh(stats.Sequence(),end,[](const msgs::WorldStatistics &){return true;});
+          extra+=",\"pose_stats_before\":"+Json(baseline)+",\"pose_stats_after\":"+Json(observed);
         } else {
           msgs::WorldControl control;
           if(action=="pause") {
@@ -176,7 +262,7 @@ int main(int argc,char **argv) {
   try {
     bool joined=false;
     if(initialized)transport::fini();if(owner){owner->Stop();joined=true;}
-    if(node)node->Fini();subscriber.reset();publisher.reset();node.reset();owner.reset();
+    if(node)node->Fini();subscriber.reset();publisher.reset();responseSubscriber.reset();requestPublisher.reset();node.reset();owner.reset();
     Print(std::string("{\"closed\":true,\"io_guard_joined\":")+(joined?"true":"false")+"}");
   } catch(const std::exception &error) {Print("{\"closed\":false,\"error\":"+Q(error.what())+"}");code=1;}
   return code;

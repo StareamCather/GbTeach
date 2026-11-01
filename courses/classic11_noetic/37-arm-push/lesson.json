@@ -22,5 +22,12 @@
     {"title":"恢复真实关节驱动","command":"python3 lab.py enable-arm --enabled true"},
     {"title":"修改单个轨迹时间或力矩上限，保存后重载","command":"gedit --new-window parameters.json"},
     {"title":"真实物理、误差及接触力验收","command":"python3 verify.py"}
-  ]
+  ],
+  "requires_pkg_config": {
+    "gazebo": "11.15.1"
+  },
+  "requires_native_server": true,
+  "requires_ros_package_versions": {
+    "gazebo_plugins": "2.9.3"
+  }
 }

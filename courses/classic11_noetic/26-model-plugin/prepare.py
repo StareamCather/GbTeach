@@ -34,7 +34,7 @@ def main():
     plugin.find('config_sha256').text = sha(workspace/'parameters.json')
     xml.write(str(world), encoding='utf-8', xml_declaration=True)
     version = subprocess.check_output(['pkg-config', '--modversion', 'gazebo'], text=True, timeout=5).strip()
-    if not version.startswith('11.'):
+    if version != '11.15.1':
         raise RuntimeError('Use the actual Gazebo Classic 11 SDK')
     flag_text = subprocess.check_output(['pkg-config', '--cflags', '--libs', 'gazebo'], text=True, timeout=5).strip()
     compiler = subprocess.check_output(['g++', '--version'], text=True, timeout=5).splitlines()[0]
@@ -49,7 +49,7 @@ def main():
         output = cache/name
         if not output.is_file():
             temporary = cache/('compile-'+uuid.uuid4().hex)
-            command = ['g++', '-std=c++17', '-O2', '-Wno-deprecated-declarations']+extra+[str(workspace/source), '-o', str(temporary)]+shlex.split(flag_text)
+            command = ['g++', '-std=c++17', '-O2', '-Wno-deprecated-declarations']+extra+[str(workspace/source), '-o', str(temporary)]+shlex.split(flag_text)+["-ldl"]
             commands.append(command)
             try:
                 result = subprocess.run(command, text=True, capture_output=True, timeout=65)

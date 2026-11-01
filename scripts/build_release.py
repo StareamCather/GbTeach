@@ -11,6 +11,10 @@ import subprocess
 import tarfile
 
 
+V2_COURSE_IDS = {"%02d" % value for value in range(1, 38)} | {"091", "092"}
+V2_DOCUMENTS = ("V2_INSTALL.md", "RELEASE_NOTES_V2.md", "V2_CURRICULUM.md", "V2_DOCKER.md", "ENVIRONMENT_V2.md")
+
+
 def git(root, *arguments, **kwargs):
     return subprocess.check_output(["git", "-C", str(root), *arguments], **kwargs)
 
@@ -57,7 +61,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--repo", type=Path, default=Path(__file__).resolve().parents[1])
     parser.add_argument("--revision", default="HEAD")
-    parser.add_argument("--version", default="1.0.0")
+    parser.add_argument("--version", default="2.0.0")
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
     if not re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+(?:-[A-Za-z0-9.-]+)?", args.version):
@@ -74,7 +78,16 @@ def main():
         if name.startswith("courses/") and name.endswith("/lesson.json"):
             item = json.loads(content.decode("utf-8"))
             lessons.append({key: item[key] for key in ("id", "title", "profile")})
-    if len(lessons) < 26:
+    is_v2 = int(args.version.split(".", 1)[0]) == 2
+    if is_v2:
+        if len(lessons) != 39 or {lesson["id"] for lesson in lessons} != V2_COURSE_IDS:
+            raise RuntimeError("V2 requires exactly L01-L37 plus 091/092: 39 distinct projects")
+        for required in ("resources/native_control.cc", "gazeboteach/native_control.py", "docs/NATIVE_CONTROL.md", *("docs/"+name for name in V2_DOCUMENTS)):
+            if required not in files:
+                raise RuntimeError("V2 tracked source payload is incomplete: "+required)
+        if any(lesson["profile"] != "classic11-noetic" for lesson in lessons):
+            raise RuntimeError("V2 projects must declare the Classic 11 / ROS Noetic profile")
+    elif len(lessons) < 26:
         raise RuntimeError("V1 requires the 26 delivered projects (L01–L24 plus two pendulum additions)")
     manifest = {"application": "GazeboTeach", "schema_version": 1, "version": args.version,
         "source_commit": commit, "source_tree": git(root, "rev-parse", commit+"^{tree}").decode().strip(),
@@ -83,6 +96,14 @@ def main():
         "files": {name: {"size": len(content), "sha256": hashlib.sha256(content).hexdigest(), "mode": mode}
             for name, (content, mode) in sorted(files.items())},
         "exclusions": "Git history, checkpoints, caches, generated builds, private keys and host dependencies are not included."}
+    if is_v2:
+        manifest["tested_platform"].update({"python": "3.8", "qt": "5.12", "gazebo": "Classic 11.15.1", "gazebo_plugins": "2.9.3"})
+        manifest["compatibility"] = {
+            "native_control": "Optional persistent helper requires the exact Classic 11.15.1 SDK/runtime and C++ toolchain; unsupported capability is explicitly legacy-cli.",
+            "cpp_courses": "Exact SDK/runtime and each lesson's declared tools, ROS packages and plugin requirements apply.",
+            "docker": "Backend/configuration interface and manual setup guide only; automatic course container execution and container end-to-end validation are not provided.",
+            "modern_gazebo_ros2": "Reading and diagnostics remain available; modern Gazebo and ROS 2 do not implement the Classic/Noetic course API.",
+            "validation": "Consult the separately published V2_VERIFICATION.md/json; packaging does not certify experiment outcomes."}
     manifest_bytes = (json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True)+"\n").encode("utf-8")
     epoch = int(git(root, "show", "-s", "--format=%ct", commit).decode().strip())
     folder = "GazeboTeach-"+args.version
@@ -107,6 +128,8 @@ def main():
     output.mkdir(parents=True, exist_ok=True)
     base = folder+"-ubuntu20.04-x86_64"
     assets = {base+".sh": installer, base+".tar.gz": payload, "release-manifest.json": manifest_bytes}
+    if is_v2:
+        assets.update({name: files["docs/"+name][0] for name in V2_DOCUMENTS})
     sums = []
     for name, content in assets.items():
         destination = output/name

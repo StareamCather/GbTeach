@@ -17,6 +17,7 @@ from .backends import get_backend
 from .environment import detect_environment
 from .environment_dialog import EnvironmentDialog
 from .markdown import render
+from .reader import DocumentRegistry, MarkdownReader
 from .storage import Storage
 
 
@@ -38,6 +39,8 @@ class MainWindow(QtWidgets.QMainWindow):
         if fixture is not None:
             self.lessons = [fixture]
             self.catalog_errors = []
+        self.document_registry = DocumentRegistry(self.root, self.lessons)
+        self.prerequisite_reader = None
         self.environment = None
         self.environment_report = None
         self.environment_dialog = None
@@ -217,16 +220,22 @@ class MainWindow(QtWidgets.QMainWindow):
             button.clicked.connect(callback)
             controls.addWidget(button, index // 6, index % 6)
             self.buttons[name] = button
+        self.buttons["reset"].setToolTip("执行 Gazebo MODEL reset，保留仿真时钟；不保证任意插件私有状态或关节内部状态复位。\n"
+                                           "需要完整重建本课实验时，请使用“重载项目”。")
         content_layout.addLayout(controls)
         self.tabs = QtWidgets.QTabWidget()
         self.tabs.setObjectName("course_tabs")
         self.document = QtWidgets.QTextBrowser()
         self.document.setObjectName("lesson_document")
-        self.document.setOpenExternalLinks(True)
+        self.document.setOpenLinks(False)
+        self.document.setOpenExternalLinks(False)
+        self.document.anchorClicked.connect(lambda url: self.open_document_link(url, self.document))
         self.tabs.addTab(self.document, "课程讲解")
         self.reference_view = QtWidgets.QTextBrowser()
         self.reference_view.setObjectName("reference_document")
-        self.reference_view.setOpenExternalLinks(True)
+        self.reference_view.setOpenLinks(False)
+        self.reference_view.setOpenExternalLinks(False)
+        self.reference_view.anchorClicked.connect(lambda url: self.open_document_link(url, self.reference_view))
         self.tabs.addTab(self.reference_view, "参考答案")
         self.commands_scroll = QtWidgets.QScrollArea()
         self.commands_scroll.setWidgetResizable(True)
@@ -337,7 +346,8 @@ class MainWindow(QtWidgets.QMainWindow):
 ## 实验文件与状态
 
 课程模板保持原样；自己的修改保存在独立练习目录。结束实验后仍可继续。
-“重置模型状态”保留项目文件；“备份并恢复起点”会先保存当前练习，再恢复课程模板。
+“重置模型状态”执行 MODEL reset 并保留仿真时钟；任意插件私有状态和关节内部状态不保证复位。
+需要完整重建实验时使用“重载项目”；“备份并恢复起点”会先保存当前练习，再恢复课程模板。
 
 ## 专业知识，按需补充
 
@@ -369,6 +379,11 @@ class MainWindow(QtWidgets.QMainWindow):
         if not self._profile_initialized:
             self._profile_initialized = True
             preferred = self.settings.value("last_profile", environment.get("course_profile", "classic11-noetic"))
+            ready = {}
+            for course in self.environment_report["courses"]:
+                ready[course["profile"]] = ready.get(course["profile"], 0) + int(course["compatible"])
+            if ready and not ready.get(preferred, 0) and max(ready.values()) > 0:
+                preferred = max(ready, key=ready.get)
             self.select_profile(preferred)
         self._refresh_buttons()
         if self.current_lesson:
@@ -452,6 +467,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.current_lesson = lesson
         self.course_title.setText(lesson.id + "  " + lesson.title)
         self.course_summary.setText(lesson.data.get("summary", ""))
+        path = lesson.file(lesson.data.get("lesson", "lesson.md"))
+        self.document.setProperty("markdown_path", str(path))
+        self.document.document().setBaseUrl(QtCore.QUrl.fromLocalFile(str(path)))
         self.document.setHtml(render(lesson.document))
         self.reference_view.setHtml(render("# 参考答案\n\n点击右上角“查看参考答案”加载本课独立解答。自己的练习文件保持不变。"))
         self.tabs.setCurrentWidget(self.document)
@@ -463,6 +481,38 @@ class MainWindow(QtWidgets.QMainWindow):
         if (self.autostart.isChecked() and self.environment and not self.busy
                 and not self._environment_dialog_pending and not self._lesson_problem(lesson)):
             QtCore.QTimer.singleShot(0, self.start_lesson)
+
+    def open_document_link(self, url, source=None):
+        """Reading prerequisites must never invoke selection, storage or runtime."""
+        if url.scheme().lower() in ("http", "https"):
+            QtGui.QDesktopServices.openUrl(url)
+            return
+        source = source or self.document
+        current = source.property("markdown_path")
+        if not current:
+            self.statusBar().showMessage("当前页面没有已登记的课程文档路径。")
+            return
+        if not url.scheme() and not url.path() and url.hasFragment():
+            source.scrollToAnchor(url.fragment())
+            return
+        reader = MarkdownReader(self.document_registry, self)
+        try:
+            reader.display(Path(current))
+            reader.open_link(url)
+            if reader.current_path == Path(current) and reader.location.text().startswith("链接不可打开"):
+                self.statusBar().showMessage(reader.location.text())
+                reader.deleteLater()
+                return
+        except (OSError, ValueError) as error:
+            self.statusBar().showMessage("链接不可打开：" + str(error))
+            reader.deleteLater()
+            return
+        if self.prerequisite_reader:
+            self.prerequisite_reader.close()
+            self.prerequisite_reader.deleteLater()
+        self.prerequisite_reader = reader
+        reader.show()
+        reader.raise_()
 
     def _show_lesson_status(self):
         if not self.current_lesson:
@@ -478,7 +528,9 @@ class MainWindow(QtWidgets.QMainWindow):
             if self._last_verification and self._last_verification[0] == self.session.token:
                 passed = self._last_verification[1].get("passed")
                 verification = " · 上次验收通过" if passed is True else " · 上次验收未通过" if passed is False else " · 本课含人工观察检查"
-            self.session_status.setText("{}{} · 练习：{}".format(self.session.state, verification, self.session.workspace))
+            diagnosis = getattr(self.session, "native_control_diagnosis", {})
+            backend = diagnosis.get("backend", "未检测")
+            self.session_status.setText("{}{} · 控制：{} · 练习：{}".format(self.session.state, verification, backend, self.session.workspace))
         else:
             target = self.storage.workspace(self.current_lesson)
             self.session_status.setText("尚未开始本课 · 练习目录：" + str(target))
@@ -689,6 +741,9 @@ class MainWindow(QtWidgets.QMainWindow):
                 text = "# 参考文件：" + path.name + "\n\n```text\n" + text + "\n```"
             return text
         def display(text):
+            path = lesson.file(relative)
+            self.reference_view.setProperty("markdown_path", str(path))
+            self.reference_view.document().setBaseUrl(QtCore.QUrl.fromLocalFile(str(path)))
             self.reference_view.setHtml(render(text))
             self.tabs.setCurrentWidget(self.reference_view)
             self.storage.record(lesson.id, "reference_viewed", profile=lesson.profile, reference=str(relative))

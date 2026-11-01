@@ -1,16 +1,20 @@
 # GazeboTeach
 
-V1 包含 24 门主课和两项倒立摆选做，共 26 个项目，并增加启动环境结果窗口与独立安装器。见 [安装运行指南（含手动 Docker）](docs/V1_INSTALL.md)与 [V1 发行资源](https://github.com/StareamCather/GazeboTeach/releases/tag/v1.0.0)。全部课程已逐课交付，正在执行最终回归和V2发布验收，最终 V2 将包含全部 39 个项目。
+**V2 包含37门主课和2项倒立摆选做，共39个项目**，在本地中文桌面应用中学习、修改并验收真实Gazebo小实验。
 
-![启动环境检测](docs/images/v1-environment.png)
+[安装运行指南](docs/V2_INSTALL.md) · [完整课表](docs/V2_CURRICULUM.md) · [V2发行资源与验证报告](https://github.com/StareamCather/GazeboTeach/releases/tag/v2.0.0) · [兼容检测](docs/ENVIRONMENT_V2.md) · [手动Docker配置](docs/V2_DOCKER.md)
 
+已验证课程环境为Ubuntu20.04、Gazebo Classic11.15.1与ROS Noetic。启动时显示实际软件、SDK及逐课依赖结果；其他环境可阅读教材，实验按兼容情况开放。新版Gazebo/ROS2课程尚未移植，Docker提供配置接口与手动指南。
 
+![V2启动环境检测](docs/images/v2-environment.png)
+
+V1保留24门主课及2项选做的历史快照，见[V1指南](docs/V1_INSTALL.md)与[V1发行资源](https://github.com/StareamCather/GazeboTeach/releases/tag/v1.0.0)。
 
 面向聪明初学者的 Gazebo 桌面教学工作台。使用真实 Gazebo 场景、终端和观测数据学习建模、物理、传感器、ROS 集成与插件开发。
 
 首个课程包：**Ubuntu 20.04 / Gazebo Classic 11 / ROS Noetic**，验证设备为 ikaros。
 
-桌面框架已通过 ikaros 真实运行验收，正式课程按编号逐次加入。课程完成状态以验证记录和 `--list` 为准，尚未验收的本地草稿不计入发布内容。
+桌面框架与全部39个项目已逐课交付；实际行为、图形检查和后续回归分别留证，详见验证记录与发行验证报告。
 
 
 在已验证的 Classic 11.15.1 SDK 环境中，暂停、单步和模型复位复用持久原生连接，逐次检查真实状态并在退出时完成线程清理；详见[控制后端与算法](docs/NATIVE_CONTROL.md)。缺少匹配SDK时会明确报告原有CLI后端。
@@ -26,11 +30,11 @@ cd /home/ikaros/GazeboTeach
 
 SSH 调试时应使用该用户的实际图形会话。常规桌面启动不需要手工设置 DISPLAY。
 
-![原生桌面工作台](docs/images/framework-ui.png)
+![V2桌面工作台](docs/images/v2-workbench.png)
 
 ![真实 Gazebo 诊断场景](docs/images/gazebo-diagnostic.png)
 
-教材和模型资源本地保存；先修资料链接在系统浏览器打开。应用保留每课个人练习副本，课程原始模板与参考材料不会被练习覆盖。
+教材和模型资源本地保存。内部先修课程在独立只读窗口打开，当前实验继续运行；外部资料使用系统浏览器。个人练习自动保留，模板更新时提示差异；恢复起点前保存完整备份。
 
 本次交付正式主课：**01–37，共 37 课**。各课含可修改实验、只读参考答案，以及基准场景、变式挑战和错误配置的真实验收；完整标题见应用课程地图或 `--list`。L09基础以真实关节状态测量被动单摆和重力滑轨。
 
@@ -92,9 +96,9 @@ L35在隔离副本复现SDF解析、插件加载、重力和碰撞四类故障�
 
 另已交付 **L09选做A：单级倒立摆控制（091）**与**选做B：双级倒立摆控制（092）**，在课程树“关节与机构”中进入。两项均通过三个Python填空完成状态误差、给定LQR反馈与双向限幅，提供分层提示及独立只读答案；双杆项目进一步学习相对关节角到六维绝对状态的转换。参考演示与学生代码的函数、真实三回合验收分别记录，默认TODO仍留给学员完成。
 
-本次交付合计**37门主课与2项选做，共39个项目**。真实物理、图形与桌面验收证据见[验证记录](docs/VALIDATION_LOG.md)，发布状态以main提交及远端核对为准。2026-10-31用户明确继续后恢复逐课实施；L37发布核对后继续G02最终回归与V2发布，按最新授权完成全部课程、最终回归和V2。主课01–37保持原编号，091/092不占用原主课编号。两项倒立摆均针对近直立局部稳定，完整起摆需另建扩展项目，个人填写不会自动被参考代码覆盖。
+本版合计**37门主课与2项选做，共39个项目**。真实物理、图形与桌面证据见[验证记录](docs/VALIDATION_LOG.md)，源码、安装资源和逐项校验见[V2发行报告](https://github.com/StareamCather/GazeboTeach/releases/tag/v2.0.0)。主课01–37保持原编号，091/092不占用主课编号。倒立摆学习近直立局部稳定，完整起摆属于扩展问题；个人填写不会自动被参考代码覆盖。
 
-原有14–16旧草稿已分别审查、重写并逐课验收；最终回归和V2发布验收仍待按计划实施，不计入上述交付清单。
+每课均有离线场景、完整教材、可修改练习和真实行为验收。自动检查使用新练习副本；091/092的自动参考验收仅在私有副本中填写，发布模板保留学员填空。
 
 ## 工作流程
 
@@ -117,6 +121,9 @@ python3 tests/ui_probe.py --screenshot /tmp/gazeboteach-ui.png --gazebo-screensh
 
 ## 开发与部署
 
+- [V2安装运行指南](docs/V2_INSTALL.md)
+- [完整课表与先修关系](docs/V2_CURRICULUM.md)
+- [V2变更说明](docs/RELEASE_NOTES_V2.md)
 - [执行计划](docs/EXECUTION_PLAN.md)
 - [框架运行流程](docs/framework-flow.md)
 - [验证记录](docs/VALIDATION_LOG.md)

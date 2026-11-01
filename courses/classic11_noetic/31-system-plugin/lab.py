@@ -40,10 +40,12 @@ class Lab:
         self.binary=self.workspace/'build/system_observer'
 
     def client(self,mode,*args,timeout=8):
-        process=subprocess.run([str(self.binary),mode]+list(args),text=True,capture_output=True,timeout=timeout)
+        argv=[str(self.binary),mode]+list(args)
+        context='mode='+mode+', argv='+json.dumps(argv,ensure_ascii=False)
+        process=subprocess.run(argv,text=True,capture_output=True,timeout=timeout)
         rows=decode(process.stdout)
-        require(process.returncode==0,'Actual native client failed: '+process.stdout[-1800:]+' '+process.stderr[-1200:])
-        require(rows and all(row.get('source') not in ('client_error','decode_error') for row in rows),'Native client returned no usable actual result')
+        require(process.returncode==0,'Actual native client failed ('+context+', returncode='+str(process.returncode)+'): '+process.stdout[-1800:]+' '+process.stderr[-1200:])
+        require(rows and all(row.get('source') not in ('client_error','decode_error') for row in rows),'Native client returned no usable actual result ('+context+')')
         return rows[-1]
 
     def stats(self):return self.client('stats')['data']
