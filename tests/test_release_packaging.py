@@ -69,8 +69,58 @@ class ReleasePackagingTests(unittest.TestCase):
         cls.output = cls.base / "artifacts"
         cls.build(cls.output)
         cls.installer = cls.output / "GazeboTeach-2.0.0-ubuntu20.04-x86_64.sh"
-        raw = cls.installer.read_bytes()
-        cls.installer_python = raw.split(b"<<'GAZEBOTEACH_INSTALLER_PYTHON'\n", 1)[1].split(
+        cls.installer_python = cls.embedded_python(cls.installer)
+        cls.add_expansion_fixtures()
+
+    @classmethod
+    def add_expansion_fixtures(cls):
+        additional = {
+            ("classic11_noetic", "classic11-noetic"): ["%02d" % value for value in range(38, 54)],
+            ("modern_ros2", "harmonic-jazzy"): ["01", "11", "22", "23", "24", "25", "26"],
+        }
+        for (folder_name, profile), lesson_ids in additional.items():
+            for lesson_id in lesson_ids:
+                folder = cls.repo / "courses" / folder_name / (lesson_id+"-fixture")
+                folder.mkdir(parents=True)
+                (folder/"lesson.json").write_text(json.dumps({
+                    "id": lesson_id, "title": "Fixture "+lesson_id, "profile": profile
+                }), encoding="utf-8")
+        (cls.repo/"gazeboteach/backends.py").write_text("# Fixture backend\n", encoding="utf-8")
+        version_file = cls.repo/"gazeboteach/__init__.py"
+        version_file.write_bytes(b'__version__ = "2.0.0"\n')
+        cls.git("add", ".")
+        cls.git("commit", "-qm", "Expansion tested code fixture")
+        cls.tested_expansion = cls.git("rev-parse", "HEAD").strip()
+        cls.expansion_documents = ("V2_1_INSTALL.md", "EXPANSION_VALIDATION.md", "EXPANSION_VERIFICATION.json")
+        for document in cls.expansion_documents[:2]:
+            (cls.repo/"docs"/document).write_text("Expansion fixture "+document+"\n", encoding="utf-8")
+        verification = cls.repo/"docs"/cls.expansion_documents[2]
+        report = {"tested_code_commit": cls.tested_expansion, "profiles": {
+            "classic11-noetic": {"passed": True, "course_count": 55, "cases": [{"id": k, "passed": True} for k in sorted({f"{i:02d}" for i in range(1, 54)} | {"091", "092"})]},
+            "harmonic-jazzy": {"passed": True, "course_count": 7, "cases": [{"id": k, "passed": True} for k in ("01", "11", "22", "23", "24", "25", "26")]},
+        }}
+        verification.write_text(json.dumps(report), encoding="utf-8")
+        version_file.write_bytes(b'__version__ = "2.1.0"\n')
+        cls.git("add", ".")
+        cls.git("commit", "-qm", "Expansion evidence fixture")
+        cls.expansion_commit = cls.git("rev-parse", "HEAD").strip()
+        report["profiles"]["harmonic-jazzy"]["passed"] = False
+        verification.write_text(json.dumps(report), encoding="utf-8")
+        cls.git("add", ".")
+        cls.git("commit", "-qm", "Rejected evidence fixture")
+        cls.failed_evidence_commit = cls.git("rev-parse", "HEAD").strip()
+        report["profiles"]["harmonic-jazzy"]["passed"] = True
+        verification.write_text(json.dumps(report), encoding="utf-8")
+        application = cls.repo/"gazeboteach/__main__.py"
+        application.write_bytes(application.read_bytes()+b"# Application changed after test\n")
+        cls.git("add", ".")
+        cls.git("commit", "-qm", "Rejected untested code fixture")
+        cls.untested_code_commit = cls.git("rev-parse", "HEAD").strip()
+
+    @staticmethod
+    def embedded_python(installer):
+        raw = installer.read_bytes()
+        return raw.split(b"<<'GAZEBOTEACH_INSTALLER_PYTHON'\n", 1)[1].split(
             b"\nGAZEBOTEACH_INSTALLER_PYTHON\n", 1
         )[0].decode("utf-8")
 
@@ -86,7 +136,7 @@ class ReleasePackagingTests(unittest.TestCase):
     def build(cls, output, *arguments):
         return subprocess.run([
             sys.executable, str(ROOT / "scripts/build_release.py"),
-            "--repo", str(cls.repo), "--output", str(output), *arguments
+            "--repo", str(cls.repo), "--output", str(output), "--revision", cls.commit, *arguments
         ], check=True, capture_output=True, text=True)
 
     def invoke(self, *args, installer=None, env=None):
@@ -129,6 +179,41 @@ class ReleasePackagingTests(unittest.TestCase):
         manifest = json.loads((legacy / "release-manifest.json").read_text(encoding="utf-8"))
         self.assertEqual(manifest["course_count"], 26)
         self.assertEqual(manifest["source_commit"], self.v1_commit)
+
+    def test_expansion_packages_both_profiles_and_verified_docs(self):
+        output = self.base/"expansion-artifacts"
+        self.build(output, "--version", "2.1.0", "--revision", self.expansion_commit)
+        manifest = json.loads((output/"release-manifest.json").read_text(encoding="utf-8"))
+        self.assertEqual(manifest["source_commit"], self.expansion_commit)
+        self.assertEqual(manifest["course_count"], 62)
+        self.assertEqual(manifest["course_counts_by_profile"], {"classic11-noetic": 55, "harmonic-jazzy": 7})
+        self.assertEqual({row["profile"] for row in manifest["courses"] if row["id"] == "01"},
+                         {"classic11-noetic", "harmonic-jazzy"})
+        self.assertEqual(manifest["tested_platforms"]["harmonic-jazzy"]["version"], "24.04")
+        self.assertEqual(manifest["verification"]["tested_code_commit"], self.tested_expansion)
+        for name in self.expansion_documents:
+            committed = subprocess.check_output(["git", "-C", str(self.repo), "show", self.expansion_commit+":docs/"+name])
+            self.assertEqual((output/name).read_bytes(), committed)
+        report = output/"EXPANSION_VERIFICATION.json"
+        self.assertEqual(manifest["verification"]["sha256"], hashlib.sha256(report.read_bytes()).hexdigest())
+        for name in ("GazeboTeach-2.1.0-linux-x86_64.sh", "GazeboTeach-2.1.0-linux-x86_64.tar.gz",
+                     "release-manifest.json", *self.expansion_documents):
+            self.assertIn("  "+name+"\n", (output/"SHA256SUMS").read_text(encoding="ascii"))
+        installer = output/"GazeboTeach-2.1.0-linux-x86_64.sh"
+        check = subprocess.run([sys.executable, "-c", self.embedded_python(installer), str(installer), "--check"],
+                               capture_output=True, text=True, check=True)
+        self.assertEqual(json.loads(check.stdout)["course_count"], 62)
+
+    def test_expansion_requires_correct_inventory_passed_report_and_tested_code(self):
+        cases = [
+            (self.commit, "55 Classic/Noetic and 7 Harmonic/Jazzy"),
+            (self.failed_evidence_commit, "passed evidence for harmonic-jazzy"),
+            (self.untested_code_commit, "application or course changes"),
+        ]
+        for revision, message in cases:
+            with self.subTest(revision=revision), self.assertRaises(subprocess.CalledProcessError) as caught:
+                self.build(self.base/"rejected-expansion", "--version", "2.1.0", "--revision", revision)
+            self.assertIn(message, caught.exception.stderr)
 
     def test_dirty_tracked_source_is_rejected(self):
         target = self.repo / "LICENSE"

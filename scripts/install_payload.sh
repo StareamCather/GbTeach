@@ -241,8 +241,16 @@ def main():
         set_current(prefix, target)
         warnings = []
         release = Path("/etc/os-release").read_text() if Path("/etc/os-release").exists() else ""
-        if not re.search(r'^ID=\"?ubuntu\"?$', release, re.M) or not re.search(r'^VERSION_ID=\"?20\.04\"?$', release, re.M) or platform.machine() not in ("x86_64", "amd64"):
-            warnings.append("This host is outside the tested Ubuntu 20.04 x86_64 platform. Reading/diagnostics may work; Classic 11/Noetic experiments are not modern Gazebo/ROS 2 courses.")
+        platforms = manifest.get("tested_platforms")
+        if isinstance(platforms, dict) and platforms:
+            versions = {item.get("version") for item in platforms.values() if item.get("os") == "Ubuntu"}
+        else:
+            versions = {"20.04"}
+        version_match = re.search(r'^VERSION_ID="?([^"\s]+)"?$', release, re.M)
+        if (not re.search(r'^ID="?ubuntu"?$', release, re.M) or not version_match
+                or version_match.group(1) not in versions or platform.machine() not in ("x86_64", "amd64")):
+            warnings.append("This host is outside the tested Ubuntu x86_64 releases (" + ", ".join(sorted(versions)) +
+                            "). Reading and diagnostics may work; experiments still require a matching Gazebo/ROS profile.")
         print(json.dumps({"installed": True, "version": VERSION, "source_commit": manifest["source_commit"], "prefix": str(prefix),
             "entry": str(entry), "previous_current": str(current) if current else None, "warnings": warnings,
             "diagnose": str(entry)+" --diagnose", "personal_data": str(storage),
