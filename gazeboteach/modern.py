@@ -166,13 +166,14 @@ def modern_compatibility_row(lesson, detected, gui=True, terminals=True):
 
 
 def modern_lesson_environment(root, workspace, lesson, token):
-    from .environment import _load_setup
+    from .environment import _load_setup, add_course_python_paths
     environment = ros2_base_environment(os.environ)
     if lesson.requires_ros or Path('/opt/ros/jazzy/setup.bash').is_file():
         setup = Path('/opt/ros/jazzy/setup.bash')
         if not setup.is_file():
             raise RuntimeError('ROS 2 Jazzy 环境不存在：' + str(setup))
         environment = _load_setup(setup, environment)
+    add_course_python_paths(environment, workspace, lesson)
     inherited_resources = environment.get('GZ_SIM_RESOURCE_PATH', '')
     environment.update({
         'GZ_PARTITION': 'gazeboteach-' + token, 'IGN_PARTITION': 'gazeboteach-' + token,

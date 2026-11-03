@@ -129,7 +129,8 @@ def detect_environment():
     names = ["gazebo", "gzserver", "gzclient", "gz", "ign", "roscore", "roslaunch",
              "rospack", "rosrun", "gnome-terminal", "xterm", "bash", "cmake", "make",
              "g++", "setsid", "gedit", "xdg-open", "python3", "ros2", "pkg-config", "python3-config",
-             "rosparam", "rosservice", "rostopic", "rosnode", "rosmsg", "rviz", "xacro", "colcon"]
+             "rosparam", "rosservice", "rostopic", "rosnode", "rosmsg", "rossrv", "catkin_make",
+             "rviz", "xacro", "colcon"]
     tools = {name: shutil.which(name) for name in names}
     incomplete, errors = [], []
     # Classic 11.15's version-only path returns 255 on the verified Ubuntu build.
@@ -242,6 +243,32 @@ def detect_environment():
     return result
 
 
+def add_course_python_paths(environment, workspace, lesson):
+    """Prepend generated ROS modules after setup, including not-yet-built paths.
+
+    Environment belongs to this session; never source a student setup globally.
+    Recheck the personal copy because symlinks may differ from source templates.
+    """
+    entries = lesson.data.get("ros_python_paths", [])
+    if not entries:
+        return
+    workspace_root = Path(workspace).resolve()
+    paths = []
+    for relative in entries:
+        if not lesson.requires_ros or Path(relative).is_absolute() or ":" in relative or ";" in relative:
+            raise ValueError("ros_python_paths needs relative paths and requires_ros=true")
+        directory = (workspace_root / relative).resolve()
+        if os.pathsep in str(directory):
+            raise ValueError("ROS Python directory contains a path-list separator")
+        if directory == workspace_root or workspace_root not in directory.parents:
+            raise ValueError("ROS Python paths must stay inside the personal workspace: " + relative)
+        if str(directory) not in paths:
+            paths.append(str(directory))
+    paths.extend(value for value in environment.get("PYTHONPATH", "").split(os.pathsep)
+                 if value and value not in paths)
+    environment["PYTHONPATH"] = os.pathsep.join(paths)
+
+
 def lesson_environment(root, workspace, lesson, gazebo_port, ros_port, session_token=None):
     """Source only this lesson's ROS installation, then isolate every transport."""
     from .modern import is_modern, modern_lesson_environment
@@ -266,9 +293,11 @@ def lesson_environment(root, workspace, lesson, gazebo_port, ros_port, session_t
     package_paths = []
     workspace_root = workspace.resolve()
     for relative in lesson.data.get("ros_package_paths", []):
-        if not lesson.requires_ros or Path(relative).is_absolute():
+        if not lesson.requires_ros or Path(relative).is_absolute() or ":" in relative or ";" in relative:
             raise ValueError("ros_package_paths needs relative paths and requires_ros=true")
         directory = (workspace_root / relative).resolve()
+        if os.pathsep in str(directory):
+            raise ValueError("ROS package directory contains a path-list separator")
         # Recheck the personal copy: a student may have replaced a source
         # directory with a symlink since its manifest was validated.
         if directory == workspace_root or workspace_root not in directory.parents:
@@ -281,6 +310,7 @@ def lesson_environment(root, workspace, lesson, gazebo_port, ros_port, session_t
             package_paths.extend(path for path in value.split(os.pathsep)
                                  if path and path not in package_paths)
         environment["ROS_PACKAGE_PATH"] = os.pathsep.join(package_paths)
+    add_course_python_paths(environment, workspace, lesson)
     token = session_token or uuid.uuid4().hex
     environment.update({
         "GAZEBO_MASTER_URI": "http://127.0.0.1:{}".format(gazebo_port),

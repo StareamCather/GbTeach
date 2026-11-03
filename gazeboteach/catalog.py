@@ -40,7 +40,7 @@ class Lesson:
             raise ValueError("gui_start_attempts must be an integer within [1,3]")
         for name in ("requires_plugins", "requires_ros_packages", "requires_tools",
                      "prepare", "after_start", "after_startup", "after_gui", "server_args", "gui_args",
-                     "objectives", "ros_package_paths", "requires_libraries", "requires_python_modules"):
+                     "objectives", "ros_package_paths", "ros_python_paths", "requires_libraries", "requires_python_modules"):
             values = data.get(name, [])
             if not isinstance(values, list) or any(not isinstance(x, str) or not x.strip() for x in values):
                 raise ValueError(name + " must be a list of strings")
@@ -65,11 +65,14 @@ class Lesson:
                 raise ValueError(name + " must be a positive duration")
         if data.get("requires_ros_packages") and not self.requires_ros:
             raise ValueError("ROS package requirements need requires_ros=true")
-        if "ros_package_paths" in data:
-            if not self.requires_ros:
-                raise ValueError("ros_package_paths needs requires_ros=true")
-            for relative in data["ros_package_paths"]:
-                self.file(relative)
+        for name in ("ros_package_paths", "ros_python_paths"):
+            if name in data:
+                if not self.requires_ros:
+                    raise ValueError(name + " needs requires_ros=true")
+                for relative in data[name]:
+                    if ":" in relative or ";" in relative:
+                        raise ValueError(name + " cannot contain path-list separators")
+                    self.file(relative)
         timeout = data.get("after_startup_timeout", 90)
         if (isinstance(timeout, bool) or not isinstance(timeout, (int, float))
                 or not math.isfinite(timeout) or timeout <= 0):
