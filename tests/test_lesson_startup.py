@@ -166,6 +166,13 @@ class ManagedStartupTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'graceful_server_shutdown'):
             Lesson(self.session.lesson.folder,dict(self.session.lesson.data,graceful_server_shutdown='yes'))
 
+    def test_owned_socket_prefix_requires_graceful_shutdown_and_scoped_name(self):
+        data = self.session.lesson.data
+        for options in (dict(owned_socket_prefix="gt-reinforce-"),
+                        dict(owned_socket_prefix="../tmp/", graceful_server_shutdown=True)):
+            with self.assertRaisesRegex(ValueError, "owned_socket_prefix"):
+                Lesson(self.session.lesson.folder, dict(data, **options))
+
     def assert_failed_stack_cleaned(self, message):
         with self.assertRaisesRegex(RuntimeError, message):
             self.session.start(gui=True, terminals=True)

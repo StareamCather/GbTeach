@@ -35,6 +35,11 @@ class Lesson:
                      "graceful_server_shutdown"):
             if name in data and not isinstance(data[name], bool):
                 raise ValueError(name + " must be boolean")
+        if "owned_socket_prefix" in data:
+            prefix = data["owned_socket_prefix"]
+            if (not isinstance(prefix, str) or not re.fullmatch(r"gt-[a-z0-9-]{1,40}-", prefix)
+                    or not data.get("graceful_server_shutdown")):
+                raise ValueError("owned_socket_prefix needs a gt-...- prefix and graceful_server_shutdown")
         self.requires_ros = data.get("requires_ros", False)
         attempts = data.get("gui_start_attempts", 1)
         if type(attempts) is not int or not 1 <= attempts <= 3:

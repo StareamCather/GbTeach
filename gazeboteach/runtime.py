@@ -8,6 +8,8 @@ import shlex
 import shutil
 import signal
 import socket
+import stat
+import struct
 import subprocess
 import threading
 import time
@@ -170,6 +172,7 @@ class LessonSession:
         gazebo_log_path.mkdir()
         self.env["GAZEBO_LOG_PATH"] = str(gazebo_log_path)
         self.server = None
+        self._owned_socket = None
         self.gui = None
         self.native_control = None
         self.native_control_diagnosis = {"backend": "legacy-cli", "reason": "尚未检查可选 SDK 控制后端"}
@@ -317,6 +320,7 @@ class LessonSession:
             for command in self.lesson.data.get("after_startup", []):
                 self.command(command, timeout=self.lesson.data.get("after_startup_timeout", 90),
                              label="辅助节点就绪检查")
+            self._owned_socket = self._snapshot_owned_socket()
             if gui:
                 self.open_gui()
             if terminals:
@@ -667,6 +671,47 @@ class LessonSession:
                 for pgid in groups:
                     _terminate_group(pgid, self.token, grace=1, first_signal=signal.SIGHUP)
 
+    def _snapshot_owned_socket(self):
+        prefix = self.lesson.data.get("owned_socket_prefix")
+        if not prefix or os.name != "posix" or not self.server or self.server.poll() is not None:
+            return None
+        path = Path("/tmp") / (prefix + self.token + ".sock")
+        try:
+            info = path.lstat()
+        except OSError:
+            return None
+        if not (stat.S_ISSOCK(info.st_mode) and info.st_uid == os.getuid() and stat.S_IMODE(info.st_mode) == 0o600
+                and hasattr(socket, "SO_PEERCRED")):
+            return None
+        identity = (info.st_dev, info.st_ino, info.st_uid, info.st_mode, info.st_ctime_ns)
+        try:
+            with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as client:
+                client.settimeout(0.25)
+                client.connect(str(path))
+                pid, uid, _ = struct.unpack("3i", client.getsockopt(socket.SOL_SOCKET, socket.SO_PEERCRED, struct.calcsize("3i")))
+            current = path.lstat()
+            if (pid == self.server.pid and uid == os.getuid()
+                    and (current.st_dev, current.st_ino, current.st_uid, current.st_mode, current.st_ctime_ns) == identity):
+                return path, identity
+        except OSError:
+            pass
+        return None
+
+    def _remove_owned_socket(self):
+        endpoint = getattr(self, "_owned_socket", None)
+        if not endpoint or not self.server or self.server.poll() is None or _token_processes(self.token):
+            return
+        path, identity = endpoint
+        try:
+            info = path.lstat()
+            if (info.st_dev, info.st_ino, info.st_uid, info.st_mode, info.st_ctime_ns) == identity:
+                path.unlink()
+                self.log("已清理异常退出遗留的本次实验套接字：" + str(path))
+        except FileNotFoundError:
+            pass
+        except OSError as error:
+            self.log("无法清理本次实验套接字：" + str(error))
+
     def stop(self, reason="结束实验"):
         self.cancelled.set()
         with self.lock:
@@ -698,6 +743,7 @@ class LessonSession:
                     for pgid in groups:
                         _terminate_group(pgid, self.token, grace=0.5)
                     time.sleep(0.1)
+            self._remove_owned_socket()
             self.state = "已结束"
             self._save_metadata()
         self._record("stopped", reason=reason, previous_state=previous)
