@@ -1,0 +1,49 @@
+{
+  "id": "11",
+  "title": "ROS 2差速车：速度、里程计与激光桥接",
+  "module": "现代Gazebo与ROS 2",
+  "order": 11,
+  "profile": "harmonic-jazzy",
+  "requires_ros": true,
+  "requires_ros_packages": [
+    "rclpy",
+    "ros_gz_bridge",
+    "geometry_msgs",
+    "sensor_msgs",
+    "nav_msgs"
+  ],
+  "world": "world.sdf",
+  "verify": "verify.py",
+  "reference": "reference.md",
+  "verify_timeout": 100,
+  "objectives": [
+    "通过单向 ROS 2 / Gazebo 桥接给实际轮关节发送直行与转向指令",
+    "对照真实模型位姿、原生轮速及 ROS 2 里程计，验证轮地接触与停车",
+    "验证 Ogre2 GPU 激光回波与独立测得的墙面接近量一致"
+  ],
+  "commands": [
+    {
+      "title": "直行、转向、停车及激光回波验收",
+      "command": "python3 lab.py"
+    },
+    {
+      "title": "重新验收",
+      "command": "python3 verify.py"
+    },
+    {
+      "title": "查看Gazebo Sim服务",
+      "command": "gz service -l"
+    },
+    {
+      "title": "查看实际左右轮关节状态",
+      "command": "gz topic -e -t /gt/wheels -n 1"
+    }
+  ],
+  "needs_display": true,
+  "startup": [
+    {
+      "name": "速度里程计激光桥",
+      "command": "ros2 run ros_gz_bridge parameter_bridge --ros-args -p config_file:=\"$(pwd)/bridge.yaml\""
+    }
+  ]
+}

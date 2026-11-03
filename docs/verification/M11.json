@@ -1,0 +1,249 @@
+{
+  "headless_smoke": {
+    "mode": "smoke",
+    "lesson": "11",
+    "profile": "harmonic-jazzy",
+    "data_dir": "/tmp/gazeboteach-smoke-40byscqy",
+    "fresh_data_dir": true,
+    "gui_requested": false,
+    "terminals_requested": false,
+    "workspace": "/tmp/gazeboteach-smoke-40byscqy/workspaces/harmonic-jazzy/11",
+    "log": "/tmp/gazeboteach-smoke-40byscqy/sessions/harmonic-jazzy-11-20261104-024046-521625/runtime.log",
+    "session_dir": "/tmp/gazeboteach-smoke-40byscqy/sessions/harmonic-jazzy-11-20261104-024046-521625",
+    "health": {
+      "running": true,
+      "state": "运行中",
+      "error": null,
+      "failed_processes": [],
+      "gui_running": false,
+      "terminal_running": 0,
+      "window_tag": "[GT-11]",
+      "window_role": "gazeboteach-e4b63807a97844dc98d944ce48fb3498",
+      "auxiliary": [
+        {
+          "name": "速度里程计激光桥",
+          "running": true,
+          "returncode": null
+        }
+      ]
+    },
+    "verification": {
+      "passed": true,
+      "returncode": 0,
+      "log": "/tmp/gazeboteach-smoke-40byscqy/sessions/harmonic-jazzy-11-20261104-024046-521625/runtime.log"
+    },
+    "ok": true,
+    "final_health": {
+      "running": false,
+      "state": "已结束",
+      "error": null,
+      "failed_processes": [
+        {
+          "name": "Gazebo 服务端",
+          "returncode": 0
+        },
+        {
+          "name": "速度里程计激光桥",
+          "returncode": -15
+        }
+      ],
+      "gui_running": false,
+      "terminal_running": 0,
+      "window_tag": "[GT-11]",
+      "window_role": "gazeboteach-e4b63807a97844dc98d944ce48fb3498",
+      "auxiliary": [
+        {
+          "name": "速度里程计激光桥",
+          "running": false,
+          "returncode": -15
+        }
+      ]
+    },
+    "elapsed_seconds": 12.449
+  },
+  "desktop": {
+    "ok": true,
+    "lesson": "11",
+    "profile": "harmonic-jazzy",
+    "data_dir": "/tmp/gazeboteach-addon-desktop-khzk5bot",
+    "checks": [
+      {
+        "name": "real_desktop_material_selected",
+        "passed": true,
+        "document_characters": 1835
+      },
+      {
+        "name": "start_button_initialized_real_world_gui_and_ptys",
+        "passed": true,
+        "session": "/tmp/gazeboteach-addon-desktop-khzk5bot/data/sessions/harmonic-jazzy-11-20261104-024145-152476",
+        "token": "44fca22899014b9a95cc1d9400d9b0e8"
+      },
+      {
+        "name": "real_owned_native_gui_window",
+        "passed": true,
+        "window_id": "0x5a0000e",
+        "pid": 4661,
+        "width": 1200,
+        "height": 1000,
+        "screenshot": "/tmp/gt-M11-desktop/desktop-gazebo.png",
+        "properties": "_NET_WM_PID(CARDINAL) = 4661\n_NET_WM_NAME(UTF8_STRING) = \"Gazebo Sim\"",
+        "image_metrics": {
+          "nontrivial_pixels": true,
+          "sample_count": 1584,
+          "distinct_sampled_colors": 56,
+          "luma_range": 250,
+          "nonblack_fraction": 0.99937,
+          "non_dominant_fraction": 0.74747
+        },
+        "manual_scene_review_required": true
+      },
+      {
+        "name": "verify_button_checks_real_behavior",
+        "passed": true
+      },
+      {
+        "name": "desktop_exit_cleans_owned_processes",
+        "passed": true
+      }
+    ],
+    "elapsed_seconds": 14.566
+  },
+  "desktop_physics": {
+    "passed": true,
+    "actual_dx": 0.4632806366012447,
+    "odom_dx": 0.46724999984189375,
+    "laser_front_before": 3.7011289596557617,
+    "laser_front_after": 3.2377114295959473,
+    "laser_front_delta_m": 0.46341753005981445,
+    "native_laser_front_before": 3.7011289596557617,
+    "native_laser_front_after": 3.2377090454101562,
+    "scan_stamp_before_s": 4.9,
+    "scan_stamp_after_s": 7.5,
+    "ray_count": 181,
+    "drive_duration_sim_s": 2.0059999999999993,
+    "actual_turn_rad": 0.6578529918247105,
+    "odom_turn_rad": 0.659449999995358,
+    "turn_duration_sim_s": 1.3599999999999994,
+    "drive_wheel_rad_s": [
+      1.6666666666666659,
+      1.6666666666666654
+    ],
+    "turn_wheel_rad_s": [
+      -0.953333333336483,
+      0.9533333333301831
+    ],
+    "stopped_wheel_rad_s": [
+      -5.1093548110854045e-17,
+      4.5085047242812573e-17
+    ],
+    "stop_drift_m": 0.0,
+    "stop_drift_rad": 0.0,
+    "scan_messages": 61,
+    "odom_messages": 182
+  },
+  "standalone_gui": {
+    "window_id": "0x580000e",
+    "pid": 5140,
+    "width": 1200,
+    "height": 1000,
+    "screenshot": "/tmp/gt-M11-view/drive.png",
+    "properties": "_NET_WM_PID(CARDINAL) = 5140\n_NET_WM_NAME(UTF8_STRING) = \"Gazebo Sim\"",
+    "image_metrics": {
+      "nontrivial_pixels": true,
+      "sample_count": 1584,
+      "distinct_sampled_colors": 54,
+      "luma_range": 250,
+      "nonblack_fraction": 0.99937,
+      "non_dominant_fraction": 0.73548
+    },
+    "manual_scene_review_required": true,
+    "session_dir": "/tmp/gt-m11-view-ghdo3tz1/sessions/harmonic-jazzy-11-20261104-024159-432612",
+    "owned_processes_cleaned": true
+  },
+  "repeat": {
+    "ok": true,
+    "session_dir": "/tmp/gt-modern-repeat-mvj513og/sessions/harmonic-jazzy-11-20261104-024114-164930",
+    "runtime_log": "/tmp/gt-modern-repeat-mvj513og/sessions/harmonic-jazzy-11-20261104-024114-164930/runtime.log",
+    "elapsed_seconds": 18.103,
+    "token": "29bb5ba883ee4e03a6541afbb67c501c"
+  },
+  "repeat_physics": [
+    {
+      "passed": true,
+      "actual_dx": 0.46628063684587984,
+      "odom_dx": 0.4702499998418612,
+      "laser_front_before": 3.7011289596557617,
+      "laser_front_after": 3.2347099781036377,
+      "laser_front_delta_m": 0.466418981552124,
+      "native_laser_front_before": 3.7011289596557617,
+      "native_laser_front_after": 3.234708070755005,
+      "scan_stamp_before_s": 2.2,
+      "scan_stamp_after_s": 4.8,
+      "ray_count": 181,
+      "drive_duration_sim_s": 2.006,
+      "actual_turn_rad": 0.6666523673063773,
+      "odom_turn_rad": 0.6682499999951608,
+      "turn_duration_sim_s": 1.3600000000000003,
+      "drive_wheel_rad_s": [
+        1.6666666666666659,
+        1.6666666666666656
+      ],
+      "turn_wheel_rad_s": [
+        -0.953333333336483,
+        0.9533333333301831
+      ],
+      "stopped_wheel_rad_s": [
+        -5.706866190313062e-17,
+        5.397295492837842e-17
+      ],
+      "stop_drift_m": 0.0,
+      "stop_drift_rad": 0.0,
+      "scan_messages": 62,
+      "odom_messages": 179
+    },
+    {
+      "passed": true,
+      "actual_dx": 0.4680230173185511,
+      "odom_dx": 0.4719999999508325,
+      "laser_front_before": 3.7011289596557617,
+      "laser_front_after": 3.2329652309417725,
+      "laser_front_delta_m": 0.46816372871398926,
+      "native_laser_front_before": 3.7011289596557617,
+      "native_laser_front_after": 3.2329630851745605,
+      "scan_stamp_before_s": 9.3,
+      "scan_stamp_after_s": 11.9,
+      "ray_count": 181,
+      "drive_duration_sim_s": 2.0060000000000002,
+      "actual_turn_rad": 0.6133836887212523,
+      "odom_turn_rad": 0.6148999999771876,
+      "turn_duration_sim_s": 1.3599999999999994,
+      "drive_wheel_rad_s": [
+        1.666666666666773,
+        1.6666666666665584
+      ],
+      "turn_wheel_rad_s": [
+        -0.9533333332719631,
+        0.9533333332656625
+      ],
+      "stopped_wheel_rad_s": [
+        4.02495165603422e-17,
+        -4.826434820524056e-17
+      ],
+      "stop_drift_m": 0.0,
+      "stop_drift_rad": 0.0,
+      "scan_messages": 62,
+      "odom_messages": 181
+    }
+  ],
+  "source_sha256": {
+    "courses/modern_ros2/11-drive-scan/_bootstrap.py": "7874870ac1e2ee63512b7cc354a88da6d58ee6b6b0a565a0bd684d8875359a5f",
+    "courses/modern_ros2/11-drive-scan/bridge.yaml": "517ddb9f178ac804b60e1b02d41372d107f996686482e6797f3e9d79d3e3a0c0",
+    "courses/modern_ros2/11-drive-scan/lab.py": "494884ee0cafd771f0fc2e70aeeccacec09b1a7084d7ce5df598267d475e87f4",
+    "courses/modern_ros2/11-drive-scan/lesson.json": "cd1e4a0f9cf13611a7969401f5cc50da3e510a439cd1342844846c79b4e39608",
+    "courses/modern_ros2/11-drive-scan/lesson.md": "8874cb41460c58a821726df30ba63d0d862c0d9c3d822982edfaef6fd7d0c334",
+    "courses/modern_ros2/11-drive-scan/reference.md": "b2e651ee115de611a7f986ac404d9966c9679df4e11e572d5b71adf915ae5df2",
+    "courses/modern_ros2/11-drive-scan/verify.py": "042cb190dcb7e962def1a0870fd783ae96ea2e099635d5702e09518418b6083f",
+    "courses/modern_ros2/11-drive-scan/world.sdf": "5b7810cea041a14b10ae6314a1336837b6ba62bf2fccbcb03d0c875ef173838d",
+    "courses/modern_ros2/_support/common.py": "2e8a4cb02f1132ceb6b3caa037e52d9703a06ed3113e29fb281b47fe0524f8c3"
+  }
+}
