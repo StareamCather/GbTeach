@@ -102,7 +102,9 @@ def effort(rospy,value,duration=.2):
 
 def clear(rospy):
     from gazebo_msgs.srv import JointRequest
-    return call(rospy,'/gazebo/clear_joint_forces',JointRequest,JOINT)
+    # Noetic clears jobs by Joint::GetName(), unlike GetJoint/ApplyJointEffort
+    # lookup. This isolated world has exactly one joint named slide.
+    return call(rospy,'/gazebo/clear_joint_forces',JointRequest,'slide')
 
 
 def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()

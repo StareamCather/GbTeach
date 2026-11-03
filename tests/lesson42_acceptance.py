@@ -2,6 +2,7 @@
 import argparse
 import json
 import os
+import shlex
 from pathlib import Path
 import sys
 import tempfile
@@ -31,6 +32,18 @@ def main():
         session=get_backend('native').create_session(ROOT,lesson,storage=storage)
         assert not session.env.get('ROS_NAMESPACE'),'External namespace renamed private services'
         session.start(gui=False,terminals=False)
+        (workspace/'build').mkdir(exist_ok=True)
+        session.pause(True)
+        probe='import instrument,json; r,n=instrument.initialize("queue_probe"); before=instrument.joint(r); instrument.effort(r,2,.2); instrument.clear(r); print(json.dumps({"before":before,"scheduled_sim_s":.2,"clear_name":"slide"}))'
+        session.command('python3 -c '+shlex.quote(probe)+' > build/clear-before.json',timeout=20)
+        session.pause(False);time.sleep(.3)
+        session.command('python3 lab.py state > build/clear-after.json',timeout=10)
+        before=json.loads((workspace/'build/clear-before.json').read_text())
+        after=json.loads((workspace/'build/clear-after.json').read_text())
+        assert after['receipt_clock_after_s']-before['before']['receipt_clock_after_s']>.2
+        assert abs(after['position_m']-before['before']['position_m'])<.003 and abs(after['velocity_m_s'])<.003
+        report['checks'].append({'name':'real_paused_force_queue_clear_prevents_motion_after_resume','passed':True,
+                                 'before':before,'after':after})
         for index in range(3):
             assert session.verify()['passed'] is True
             result=json.loads((workspace/'build/verification.json').read_text())

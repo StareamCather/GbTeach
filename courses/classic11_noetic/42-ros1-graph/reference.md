@@ -6,6 +6,8 @@ ready使用一个锁存发布者，只发布一次。之后创建的新订阅器
 
 queue_size限制发布队列，.04s是每轮额外墙钟休眠；服务耗时会延长周期。GetJointProperties没有原生采样Header，状态header.stamp只是仪器读完服务后的clock读回，不能视为原子物理快照。
 
+清理流程按Noetic实际实现区分名称：原生查询和ApplyJointEffort用 `workshop::slide`；clear_joint_forces用 `slide`，因为其删除条件比较 `Joint::GetName()`。该服务无匹配也返回true，不能把响应当成清队列的行为证据。本课隔离世界仅有一个slide，裸名称不会误清其他模型同名关节。正确行为检验是暂停→调度有限力→清理→继续→读真实位移；清除力本身仍不清除已有速度。[源码依据](https://github.com/ros-simulation/gazebo_ros_pkgs/blob/noetic-devel/gazebo_ros/src/gazebo_ros_api_plugin.cpp#L1742)。
+
 student.py的答案位于独立reference.py：
 
 ```python

@@ -1,0 +1,944 @@
+{
+  "phase": "A42-clear-fix",
+  "date": "2026-11-04",
+  "passed": true,
+  "acceptance": {
+    "lesson": "42",
+    "ok": true,
+    "data_dir": "/tmp/gazeboteach-a42-fww0vde6",
+    "checks": [
+      {
+        "name": "real_paused_force_queue_clear_prevents_motion_after_resume",
+        "passed": true,
+        "before": {
+          "before": {
+            "position_m": 0.0,
+            "velocity_m_s": 0.0,
+            "receipt_clock_before_s": 0.0,
+            "receipt_clock_after_s": 0.0,
+            "host_monotonic_before_ns": 33688750972285,
+            "host_monotonic_after_ns": 33688752793883,
+            "time_basis": "Two local /clock readbacks bracketing a synchronous GetJointProperties call; no native acquisition stamp or atomic snapshot claim"
+          },
+          "scheduled_sim_s": 0.2,
+          "clear_name": "slide"
+        },
+        "after": {
+          "position_m": 0.0,
+          "velocity_m_s": 0.0,
+          "receipt_clock_before_s": 4.596,
+          "receipt_clock_after_s": 4.598,
+          "host_monotonic_before_ns": 33690214232569,
+          "host_monotonic_after_ns": 33690216100605,
+          "time_basis": "Two local /clock readbacks bracketing a synchronous GetJointProperties call; no native acquisition stamp or atomic snapshot claim"
+        }
+      },
+      {
+        "name": "repeated_real_graph_and_pulse_1",
+        "passed": true,
+        "verification": {
+          "passed": true,
+          "assignment_pass": false,
+          "lesson": 42,
+          "scope": "Actual ROS Master graph, TCPROS publisher/subscriber handshakes, one late latched readiness message, finite effort and independent physical joint feedback",
+          "trusted_verifier_sha256": "4a121b47a4806601036974b2c9a87ff2ecacf4f752a839981026755502c592ba",
+          "world_sha256": "45298fb5c91499e7b2694e7ae1ed4a02168d8e132ad327e084b7b4671af884ac",
+          "checks": {
+            "graph_type": "geometry_msgs/PoseStamped",
+            "graph_publishers": [
+              "/workshop42/instrument"
+            ],
+            "graph_subscribers": [
+              "/workshop_42_verify_130919_1793722404454"
+            ],
+            "graph_pulse_servers": [
+              "/workshop42/instrument"
+            ],
+            "observing_subscriber": "/workshop_42_verify_130919_1793722404454",
+            "late_latched_status": {
+              "value": {
+                "node": "/workshop42/instrument",
+                "namespace": "/workshop42",
+                "session_token": "b803e678ad564e759bd7b7d42968361f",
+                "instrument_sha256": "9b0ad43ead41106e58893a2dd8d1c4bac1c73dd8bc08952d94002b2d1565851b",
+                "published_monotonic_ns": 33687429708968,
+                "joint_source": "/gazebo/get_joint_properties: workshop::slide",
+                "state_topic": "/workshop42/state",
+                "pulse_service": "/workshop42/pulse",
+                "first_actual_joint": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 3.013,
+                  "receipt_clock_after_s": 3.015,
+                  "host_monotonic_before_ns": 33687428183037,
+                  "host_monotonic_after_ns": 33687429642147,
+                  "time_basis": "Two local /clock readbacks bracketing a synchronous GetJointProperties call; no native acquisition stamp or atomic snapshot claim"
+                },
+                "ready_publications": 1
+              },
+              "connection": {
+                "callerid": "/workshop42/instrument",
+                "latching": "1",
+                "md5sum": "992ce8a1687cec8c8bd883ec73ca41d1",
+                "message_definition": "string data\n",
+                "topic": "/workshop42/ready",
+                "type": "std_msgs/String"
+              },
+              "receipt_monotonic_ns": 33691103795102
+            },
+            "state_connections": [
+              {
+                "callerid": "/workshop42/instrument",
+                "latching": "0",
+                "md5sum": "d3812c3cbc69362b77dc0b19b345f8f5",
+                "message_definition": "# A Pose with reference coordinate frame and timestamp\nHeader header\nPose pose\n\n================================================================================\nMSG: std_msgs/Header\n# Standard metadata for higher-level stamped data types.\n# This is generally used to communicate timestamped data \n# in a particular coordinate frame.\n# \n# sequence ID: consecutively increasing ID \nuint32 seq\n#Two-integer timestamp that is expressed as:\n# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')\n# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')\n# time-handling sugar is provided by the client library\ntime stamp\n#Frame this data is associated with\nstring frame_id\n\n================================================================================\nMSG: geometry_msgs/Pose\n# A representation of pose in free space, composed of position and orientation. \nPoint position\nQuaternion orientation\n\n================================================================================\nMSG: geometry_msgs/Point\n# This contains the position of a point in free space\nfloat64 x\nfloat64 y\nfloat64 z\n\n================================================================================\nMSG: geometry_msgs/Quaternion\n# This represents an orientation in free space in quaternion form.\n\nfloat64 x\nfloat64 y\nfloat64 z\nfloat64 w\n",
+                "topic": "/workshop42/state",
+                "type": "geometry_msgs/PoseStamped"
+              },
+              {
+                "callerid": "/workshop42/instrument",
+                "latching": "0",
+                "md5sum": "d3812c3cbc69362b77dc0b19b345f8f5",
+                "message_definition": "# A Pose with reference coordinate frame and timestamp\nHeader header\nPose pose\n\n================================================================================\nMSG: std_msgs/Header\n# Standard metadata for higher-level stamped data types.\n# This is generally used to communicate timestamped data \n# in a particular coordinate frame.\n# \n# sequence ID: consecutively increasing ID \nuint32 seq\n#Two-integer timestamp that is expressed as:\n# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')\n# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')\n# time-handling sugar is provided by the client library\ntime stamp\n#Frame this data is associated with\nstring frame_id\n\n================================================================================\nMSG: geometry_msgs/Pose\n# A representation of pose in free space, composed of position and orientation. \nPoint position\nQuaternion orientation\n\n================================================================================\nMSG: geometry_msgs/Point\n# This contains the position of a point in free space\nfloat64 x\nfloat64 y\nfloat64 z\n\n================================================================================\nMSG: geometry_msgs/Quaternion\n# This represents an orientation in free space in quaternion form.\n\nfloat64 x\nfloat64 y\nfloat64 z\nfloat64 w\n",
+                "topic": "/workshop42/state",
+                "type": "geometry_msgs/PoseStamped"
+              }
+            ],
+            "acceptance_reset": {
+              "service": "/gazebo/reset_world",
+              "before": {
+                "position_m": 0.0,
+                "velocity_m_s": 0.0,
+                "receipt_clock_before_s": 5.73,
+                "receipt_clock_after_s": 5.731,
+                "host_monotonic_before_ns": 33691348646066,
+                "host_monotonic_after_ns": 33691349772291,
+                "time_basis": "Two local /clock readbacks bracketing a synchronous GetJointProperties call; no native acquisition stamp or atomic snapshot claim"
+              },
+              "after": {
+                "position_m": 0.0,
+                "velocity_m_s": 0.0,
+                "receipt_clock_before_s": 5.775,
+                "receipt_clock_after_s": 5.776,
+                "host_monotonic_before_ns": 33691392999786,
+                "host_monotonic_after_ns": 33691394359876,
+                "time_basis": "Two local /clock readbacks bracketing a synchronous GetJointProperties call; no native acquisition stamp or atomic snapshot claim"
+              },
+              "native_world_time_before_s": 5.7330000000000005,
+              "native_world_time_after_s": 5.777,
+              "scope": "Owned isolated course world models and velocities reset once; simulation clock and personal files preserved"
+            },
+            "live_samples": 12,
+            "sim_time_advances": true,
+            "before_joint": {
+              "position_m": 0.0,
+              "velocity_m_s": 0.0,
+              "receipt_clock_before_s": 5.775,
+              "receipt_clock_after_s": 5.776,
+              "host_monotonic_before_ns": 33691392999786,
+              "host_monotonic_after_ns": 33691394359876,
+              "time_basis": "Two local /clock readbacks bracketing a synchronous GetJointProperties call; no native acquisition stamp or atomic snapshot claim"
+            },
+            "pulse": {
+              "force_N": 2.0,
+              "duration_sim_s": 0.2,
+              "before_joint": {
+                "position_m": 0.0,
+                "velocity_m_s": 0.0,
+                "receipt_clock_before_s": 5.7780000000000005,
+                "receipt_clock_after_s": 5.779,
+                "host_monotonic_before_ns": 33691396287208,
+                "host_monotonic_after_ns": 33691397407456,
+                "time_basis": "Two local /clock readbacks bracketing a synchronous GetJointProperties call; no native acquisition stamp or atomic snapshot claim"
+              },
+              "note": "Finite effort scheduled once; clearing force does not erase velocity"
+            },
+            "after_joint": {
+              "position_m": 0.03925616004419853,
+              "velocity_m_s": 0.3688901841119308,
+              "receipt_clock_before_s": 5.982,
+              "receipt_clock_after_s": 5.984,
+              "host_monotonic_before_ns": 33691600363222,
+              "host_monotonic_after_ns": 33691601980332,
+              "time_basis": "Two local /clock readbacks bracketing a synchronous GetJointProperties call; no native acquisition stamp or atomic snapshot claim"
+            },
+            "signed_native_displacement_m": 0.03925616004419853,
+            "minimum_native_displacement_m": 0.025,
+            "message_joint_consistency": {
+              "topic_x_m": 0.03452774734304644,
+              "native_x_m": 0.03925616004419853,
+              "absolute_difference_m": 0.004728412701152089,
+              "allowed_async_difference_m": 0.05,
+              "topic_receipt_age_s": 0.012794835
+            },
+            "received_trace": [
+              {
+                "seq": 1,
+                "stamp_s": 5.508,
+                "x_m": 0.0,
+                "receipt_monotonic_ns": 33691127097190
+              },
+              {
+                "seq": 2,
+                "stamp_s": 5.553,
+                "x_m": 0.0,
+                "receipt_monotonic_ns": 33691172684896
+              },
+              {
+                "seq": 3,
+                "stamp_s": 5.596,
+                "x_m": 0.0,
+                "receipt_monotonic_ns": 33691214103457
+              },
+              {
+                "seq": 4,
+                "stamp_s": 5.6370000000000005,
+                "x_m": 0.0,
+                "receipt_monotonic_ns": 33691255597155
+              },
+              {
+                "seq": 5,
+                "stamp_s": 5.679,
+                "x_m": 0.0,
+                "receipt_monotonic_ns": 33691297555208
+              },
+              {
+                "seq": 6,
+                "stamp_s": 5.721,
+                "x_m": 0.0,
+                "receipt_monotonic_ns": 33691339267530
+              },
+              {
+                "seq": 7,
+                "stamp_s": 5.763,
+                "x_m": 0.0,
+                "receipt_monotonic_ns": 33691380970667
+              },
+              {
+                "seq": 8,
+                "stamp_s": 5.804,
+                "x_m": 0.0005487751578659386,
+                "receipt_monotonic_ns": 33691422281211
+              },
+              {
+                "seq": 9,
+                "stamp_s": 5.845,
+                "x_m": 0.004090970220286069,
+                "receipt_monotonic_ns": 33691463810033
+              },
+              {
+                "seq": 10,
+                "stamp_s": 5.8870000000000005,
+                "x_m": 0.011030922184404282,
+                "receipt_monotonic_ns": 33691505103334
+              },
+              {
+                "seq": 11,
+                "stamp_s": 5.929,
+                "x_m": 0.021212228658573282,
+                "receipt_monotonic_ns": 33691547109378
+              },
+              {
+                "seq": 12,
+                "stamp_s": 5.971,
+                "x_m": 0.03452774734304644,
+                "receipt_monotonic_ns": 33691589193746
+              }
+            ],
+            "stamp_semantics": "Observation-node /clock readback after its joint query; not native acquisition time, no atomic sample/clock snapshot claim",
+            "student_exercise": "student.py is untouched and not automatically graded by the reference instrument"
+          },
+          "elapsed_wall_s": 0.501294948
+        }
+      },
+      {
+        "name": "repeated_real_graph_and_pulse_2",
+        "passed": true,
+        "verification": {
+          "passed": true,
+          "assignment_pass": false,
+          "lesson": 42,
+          "scope": "Actual ROS Master graph, TCPROS publisher/subscriber handshakes, one late latched readiness message, finite effort and independent physical joint feedback",
+          "trusted_verifier_sha256": "4a121b47a4806601036974b2c9a87ff2ecacf4f752a839981026755502c592ba",
+          "world_sha256": "45298fb5c91499e7b2694e7ae1ed4a02168d8e132ad327e084b7b4671af884ac",
+          "checks": {
+            "graph_type": "geometry_msgs/PoseStamped",
+            "graph_publishers": [
+              "/workshop42/instrument"
+            ],
+            "graph_subscribers": [
+              "/workshop_42_verify_131157_1793722405821"
+            ],
+            "graph_pulse_servers": [
+              "/workshop42/instrument"
+            ],
+            "observing_subscriber": "/workshop_42_verify_131157_1793722405821",
+            "late_latched_status": {
+              "value": {
+                "node": "/workshop42/instrument",
+                "namespace": "/workshop42",
+                "session_token": "b803e678ad564e759bd7b7d42968361f",
+                "instrument_sha256": "9b0ad43ead41106e58893a2dd8d1c4bac1c73dd8bc08952d94002b2d1565851b",
+                "published_monotonic_ns": 33687429708968,
+                "joint_source": "/gazebo/get_joint_properties: workshop::slide",
+                "state_topic": "/workshop42/state",
+                "pulse_service": "/workshop42/pulse",
+                "first_actual_joint": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 3.013,
+                  "receipt_clock_after_s": 3.015,
+                  "host_monotonic_before_ns": 33687428183037,
+                  "host_monotonic_after_ns": 33687429642147,
+                  "time_basis": "Two local /clock readbacks bracketing a synchronous GetJointProperties call; no native acquisition stamp or atomic snapshot claim"
+                },
+                "ready_publications": 1
+              },
+              "connection": {
+                "callerid": "/workshop42/instrument",
+                "latching": "1",
+                "md5sum": "992ce8a1687cec8c8bd883ec73ca41d1",
+                "message_definition": "string data\n",
+                "topic": "/workshop42/ready",
+                "type": "std_msgs/String"
+              },
+              "receipt_monotonic_ns": 33692363025829
+            },
+            "state_connections": [
+              {
+                "callerid": "/workshop42/instrument",
+                "latching": "0",
+                "md5sum": "d3812c3cbc69362b77dc0b19b345f8f5",
+                "message_definition": "# A Pose with reference coordinate frame and timestamp\nHeader header\nPose pose\n\n================================================================================\nMSG: std_msgs/Header\n# Standard metadata for higher-level stamped data types.\n# This is generally used to communicate timestamped data \n# in a particular coordinate frame.\n# \n# sequence ID: consecutively increasing ID \nuint32 seq\n#Two-integer timestamp that is expressed as:\n# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')\n# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')\n# time-handling sugar is provided by the client library\ntime stamp\n#Frame this data is associated with\nstring frame_id\n\n================================================================================\nMSG: geometry_msgs/Pose\n# A representation of pose in free space, composed of position and orientation. \nPoint position\nQuaternion orientation\n\n================================================================================\nMSG: geometry_msgs/Point\n# This contains the position of a point in free space\nfloat64 x\nfloat64 y\nfloat64 z\n\n================================================================================\nMSG: geometry_msgs/Quaternion\n# This represents an orientation in free space in quaternion form.\n\nfloat64 x\nfloat64 y\nfloat64 z\nfloat64 w\n",
+                "topic": "/workshop42/state",
+                "type": "geometry_msgs/PoseStamped"
+              },
+              {
+                "callerid": "/workshop42/instrument",
+                "latching": "0",
+                "md5sum": "d3812c3cbc69362b77dc0b19b345f8f5",
+                "message_definition": "# A Pose with reference coordinate frame and timestamp\nHeader header\nPose pose\n\n================================================================================\nMSG: std_msgs/Header\n# Standard metadata for higher-level stamped data types.\n# This is generally used to communicate timestamped data \n# in a particular coordinate frame.\n# \n# sequence ID: consecutively increasing ID \nuint32 seq\n#Two-integer timestamp that is expressed as:\n# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')\n# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')\n# time-handling sugar is provided by the client library\ntime stamp\n#Frame this data is associated with\nstring frame_id\n\n================================================================================\nMSG: geometry_msgs/Pose\n# A representation of pose in free space, composed of position and orientation. \nPoint position\nQuaternion orientation\n\n================================================================================\nMSG: geometry_msgs/Point\n# This contains the position of a point in free space\nfloat64 x\nfloat64 y\nfloat64 z\n\n================================================================================\nMSG: geometry_msgs/Quaternion\n# This represents an orientation in free space in quaternion form.\n\nfloat64 x\nfloat64 y\nfloat64 z\nfloat64 w\n",
+                "topic": "/workshop42/state",
+                "type": "geometry_msgs/PoseStamped"
+              }
+            ],
+            "acceptance_reset": {
+              "service": "/gazebo/reset_world",
+              "before": {
+                "position_m": 0.29730270031263506,
+                "velocity_m_s": 0.16228766988580032,
+                "receipt_clock_before_s": 7.009,
+                "receipt_clock_after_s": 7.01,
+                "host_monotonic_before_ns": 33692628015008,
+                "host_monotonic_after_ns": 33692629205101,
+                "time_basis": "Two local /clock readbacks bracketing a synchronous GetJointProperties call; no native acquisition stamp or atomic snapshot claim"
+              },
+              "after": {
+                "position_m": 0.0,
+                "velocity_m_s": 0.0,
+                "receipt_clock_before_s": 7.034,
+                "receipt_clock_after_s": 7.035,
+                "host_monotonic_before_ns": 33692652418100,
+                "host_monotonic_after_ns": 33692653490678,
+                "time_basis": "Two local /clock readbacks bracketing a synchronous GetJointProperties call; no native acquisition stamp or atomic snapshot claim"
+              },
+              "native_world_time_before_s": 7.012,
+              "native_world_time_after_s": 7.036,
+              "scope": "Owned isolated course world models and velocities reset once; simulation clock and personal files preserved"
+            },
+            "live_samples": 12,
+            "sim_time_advances": true,
+            "before_joint": {
+              "position_m": 0.0,
+              "velocity_m_s": 0.0,
+              "receipt_clock_before_s": 7.034,
+              "receipt_clock_after_s": 7.035,
+              "host_monotonic_before_ns": 33692652418100,
+              "host_monotonic_after_ns": 33692653490678,
+              "time_basis": "Two local /clock readbacks bracketing a synchronous GetJointProperties call; no native acquisition stamp or atomic snapshot claim"
+            },
+            "pulse": {
+              "force_N": 2.0,
+              "duration_sim_s": 0.2,
+              "before_joint": {
+                "position_m": 0.0,
+                "velocity_m_s": 0.0,
+                "receipt_clock_before_s": 7.037,
+                "receipt_clock_after_s": 7.038,
+                "host_monotonic_before_ns": 33692655418312,
+                "host_monotonic_after_ns": 33692656374332,
+                "time_basis": "Two local /clock readbacks bracketing a synchronous GetJointProperties call; no native acquisition stamp or atomic snapshot claim"
+              },
+              "note": "Finite effort scheduled once; clearing force does not erase velocity"
+            },
+            "after_joint": {
+              "position_m": 0.0388872698600866,
+              "velocity_m_s": 0.36918553253796116,
+              "receipt_clock_before_s": 7.24,
+              "receipt_clock_after_s": 7.242,
+              "host_monotonic_before_ns": 33692859188778,
+              "host_monotonic_after_ns": 33692860378485,
+              "time_basis": "Two local /clock readbacks bracketing a synchronous GetJointProperties call; no native acquisition stamp or atomic snapshot claim"
+            },
+            "signed_native_displacement_m": 0.0388872698600866,
+            "minimum_native_displacement_m": 0.025,
+            "message_joint_consistency": {
+              "topic_x_m": 0.03595555204640422,
+              "native_x_m": 0.0388872698600866,
+              "absolute_difference_m": 0.0029317178136823788,
+              "allowed_async_difference_m": 0.05,
+              "topic_receipt_age_s": 0.00794458
+            },
+            "received_trace": [
+              {
+                "seq": 15,
+                "stamp_s": 6.7780000000000005,
+                "x_m": 0.25594636632847384,
+                "receipt_monotonic_ns": 33692396970213
+              },
+              {
+                "seq": 16,
+                "stamp_s": 6.819,
+                "x_m": 0.26382456812740956,
+                "receipt_monotonic_ns": 33692438337014
+              },
+              {
+                "seq": 17,
+                "stamp_s": 6.861,
+                "x_m": 0.2716312979485423,
+                "receipt_monotonic_ns": 33692479980254
+              },
+              {
+                "seq": 18,
+                "stamp_s": 6.9030000000000005,
+                "x_m": 0.27917997793774735,
+                "receipt_monotonic_ns": 33692521522991
+              },
+              {
+                "seq": 19,
+                "stamp_s": 6.944,
+                "x_m": 0.2863081844261345,
+                "receipt_monotonic_ns": 33692562857530
+              },
+              {
+                "seq": 20,
+                "stamp_s": 6.986,
+                "x_m": 0.29337172298281383,
+                "receipt_monotonic_ns": 33692604585968
+              },
+              {
+                "seq": 21,
+                "stamp_s": 7.027,
+                "x_m": 0.0,
+                "receipt_monotonic_ns": 33692645958564
+              },
+              {
+                "seq": 22,
+                "stamp_s": 7.068,
+                "x_m": 0.0008061838800629957,
+                "receipt_monotonic_ns": 33692687212912
+              },
+              {
+                "seq": 23,
+                "stamp_s": 7.11,
+                "x_m": 0.004879782476872178,
+                "receipt_monotonic_ns": 33692728610350
+              },
+              {
+                "seq": 24,
+                "stamp_s": 7.151,
+                "x_m": 0.012075142412564136,
+                "receipt_monotonic_ns": 33692770086399
+              },
+              {
+                "seq": 25,
+                "stamp_s": 7.193,
+                "x_m": 0.02263511730647545,
+                "receipt_monotonic_ns": 33692811325403
+              },
+              {
+                "seq": 26,
+                "stamp_s": 7.234,
+                "x_m": 0.03595555204640422,
+                "receipt_monotonic_ns": 33692852442021
+              }
+            ],
+            "stamp_semantics": "Observation-node /clock readback after its joint query; not native acquisition time, no atomic sample/clock snapshot claim",
+            "student_exercise": "student.py is untouched and not automatically graded by the reference instrument"
+          },
+          "elapsed_wall_s": 0.500375438
+        }
+      },
+      {
+        "name": "repeated_real_graph_and_pulse_3",
+        "passed": true,
+        "verification": {
+          "passed": true,
+          "assignment_pass": false,
+          "lesson": 42,
+          "scope": "Actual ROS Master graph, TCPROS publisher/subscriber handshakes, one late latched readiness message, finite effort and independent physical joint feedback",
+          "trusted_verifier_sha256": "4a121b47a4806601036974b2c9a87ff2ecacf4f752a839981026755502c592ba",
+          "world_sha256": "45298fb5c91499e7b2694e7ae1ed4a02168d8e132ad327e084b7b4671af884ac",
+          "checks": {
+            "graph_type": "geometry_msgs/PoseStamped",
+            "graph_publishers": [
+              "/workshop42/instrument"
+            ],
+            "graph_subscribers": [
+              "/workshop_42_verify_131648_1793722407105"
+            ],
+            "graph_pulse_servers": [
+              "/workshop42/instrument"
+            ],
+            "observing_subscriber": "/workshop_42_verify_131648_1793722407105",
+            "late_latched_status": {
+              "value": {
+                "node": "/workshop42/instrument",
+                "namespace": "/workshop42",
+                "session_token": "b803e678ad564e759bd7b7d42968361f",
+                "instrument_sha256": "9b0ad43ead41106e58893a2dd8d1c4bac1c73dd8bc08952d94002b2d1565851b",
+                "published_monotonic_ns": 33687429708968,
+                "joint_source": "/gazebo/get_joint_properties: workshop::slide",
+                "state_topic": "/workshop42/state",
+                "pulse_service": "/workshop42/pulse",
+                "first_actual_joint": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 3.013,
+                  "receipt_clock_after_s": 3.015,
+                  "host_monotonic_before_ns": 33687428183037,
+                  "host_monotonic_after_ns": 33687429642147,
+                  "time_basis": "Two local /clock readbacks bracketing a synchronous GetJointProperties call; no native acquisition stamp or atomic snapshot claim"
+                },
+                "ready_publications": 1
+              },
+              "connection": {
+                "callerid": "/workshop42/instrument",
+                "latching": "1",
+                "md5sum": "992ce8a1687cec8c8bd883ec73ca41d1",
+                "message_definition": "string data\n",
+                "topic": "/workshop42/ready",
+                "type": "std_msgs/String"
+              },
+              "receipt_monotonic_ns": 33693770905016
+            },
+            "state_connections": [
+              {
+                "callerid": "/workshop42/instrument",
+                "latching": "0",
+                "md5sum": "d3812c3cbc69362b77dc0b19b345f8f5",
+                "message_definition": "# A Pose with reference coordinate frame and timestamp\nHeader header\nPose pose\n\n================================================================================\nMSG: std_msgs/Header\n# Standard metadata for higher-level stamped data types.\n# This is generally used to communicate timestamped data \n# in a particular coordinate frame.\n# \n# sequence ID: consecutively increasing ID \nuint32 seq\n#Two-integer timestamp that is expressed as:\n# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')\n# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')\n# time-handling sugar is provided by the client library\ntime stamp\n#Frame this data is associated with\nstring frame_id\n\n================================================================================\nMSG: geometry_msgs/Pose\n# A representation of pose in free space, composed of position and orientation. \nPoint position\nQuaternion orientation\n\n================================================================================\nMSG: geometry_msgs/Point\n# This contains the position of a point in free space\nfloat64 x\nfloat64 y\nfloat64 z\n\n================================================================================\nMSG: geometry_msgs/Quaternion\n# This represents an orientation in free space in quaternion form.\n\nfloat64 x\nfloat64 y\nfloat64 z\nfloat64 w\n",
+                "topic": "/workshop42/state",
+                "type": "geometry_msgs/PoseStamped"
+              },
+              {
+                "callerid": "/workshop42/instrument",
+                "latching": "0",
+                "md5sum": "d3812c3cbc69362b77dc0b19b345f8f5",
+                "message_definition": "# A Pose with reference coordinate frame and timestamp\nHeader header\nPose pose\n\n================================================================================\nMSG: std_msgs/Header\n# Standard metadata for higher-level stamped data types.\n# This is generally used to communicate timestamped data \n# in a particular coordinate frame.\n# \n# sequence ID: consecutively increasing ID \nuint32 seq\n#Two-integer timestamp that is expressed as:\n# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')\n# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')\n# time-handling sugar is provided by the client library\ntime stamp\n#Frame this data is associated with\nstring frame_id\n\n================================================================================\nMSG: geometry_msgs/Pose\n# A representation of pose in free space, composed of position and orientation. \nPoint position\nQuaternion orientation\n\n================================================================================\nMSG: geometry_msgs/Point\n# This contains the position of a point in free space\nfloat64 x\nfloat64 y\nfloat64 z\n\n================================================================================\nMSG: geometry_msgs/Quaternion\n# This represents an orientation in free space in quaternion form.\n\nfloat64 x\nfloat64 y\nfloat64 z\nfloat64 w\n",
+                "topic": "/workshop42/state",
+                "type": "geometry_msgs/PoseStamped"
+              }
+            ],
+            "acceptance_reset": {
+              "service": "/gazebo/reset_world",
+              "before": {
+                "position_m": 0.3268686321608169,
+                "velocity_m_s": 0.1386159870609951,
+                "receipt_clock_before_s": 8.462,
+                "receipt_clock_after_s": 8.466,
+                "host_monotonic_before_ns": 33694082088129,
+                "host_monotonic_after_ns": 33694086023044,
+                "time_basis": "Two local /clock readbacks bracketing a synchronous GetJointProperties call; no native acquisition stamp or atomic snapshot claim"
+              },
+              "after": {
+                "position_m": 0.0,
+                "velocity_m_s": 0.0,
+                "receipt_clock_before_s": 8.519,
+                "receipt_clock_after_s": 8.523,
+                "host_monotonic_before_ns": 33694138599763,
+                "host_monotonic_after_ns": 33694142755486,
+                "time_basis": "Two local /clock readbacks bracketing a synchronous GetJointProperties call; no native acquisition stamp or atomic snapshot claim"
+              },
+              "native_world_time_before_s": 8.47,
+              "native_world_time_after_s": 8.527,
+              "scope": "Owned isolated course world models and velocities reset once; simulation clock and personal files preserved"
+            },
+            "live_samples": 13,
+            "sim_time_advances": true,
+            "before_joint": {
+              "position_m": 0.0,
+              "velocity_m_s": 0.0,
+              "receipt_clock_before_s": 8.519,
+              "receipt_clock_after_s": 8.523,
+              "host_monotonic_before_ns": 33694138599763,
+              "host_monotonic_after_ns": 33694142755486,
+              "time_basis": "Two local /clock readbacks bracketing a synchronous GetJointProperties call; no native acquisition stamp or atomic snapshot claim"
+            },
+            "pulse": {
+              "force_N": 2.0,
+              "duration_sim_s": 0.2,
+              "before_joint": {
+                "position_m": 0.0,
+                "velocity_m_s": 0.0,
+                "receipt_clock_before_s": 8.531,
+                "receipt_clock_after_s": 8.536,
+                "host_monotonic_before_ns": 33694151109857,
+                "host_monotonic_after_ns": 33694155896011,
+                "time_basis": "Two local /clock readbacks bracketing a synchronous GetJointProperties call; no native acquisition stamp or atomic snapshot claim"
+              },
+              "note": "Finite effort scheduled once; clearing force does not erase velocity"
+            },
+            "after_joint": {
+              "position_m": 0.04036106086782059,
+              "velocity_m_s": 0.3680055557503439,
+              "receipt_clock_before_s": 8.748,
+              "receipt_clock_after_s": 8.752,
+              "host_monotonic_before_ns": 33694367589659,
+              "host_monotonic_after_ns": 33694372156415,
+              "time_basis": "Two local /clock readbacks bracketing a synchronous GetJointProperties call; no native acquisition stamp or atomic snapshot claim"
+            },
+            "signed_native_displacement_m": 0.04036106086782059,
+            "minimum_native_displacement_m": 0.025,
+            "message_joint_consistency": {
+              "topic_x_m": 0.03559602886949982,
+              "native_x_m": 0.04036106086782059,
+              "absolute_difference_m": 0.004765031998320769,
+              "allowed_async_difference_m": 0.05,
+              "topic_receipt_age_s": 0.013059698
+            },
+            "received_trace": [
+              {
+                "seq": 28,
+                "stamp_s": 8.197,
+                "x_m": 0.2851076716927149,
+                "receipt_monotonic_ns": 33693816210274
+              },
+              {
+                "seq": 29,
+                "stamp_s": 8.243,
+                "x_m": 0.2928750206061811,
+                "receipt_monotonic_ns": 33693862537718
+              },
+              {
+                "seq": 30,
+                "stamp_s": 8.286,
+                "x_m": 0.30004181118932155,
+                "receipt_monotonic_ns": 33693905955650
+              },
+              {
+                "seq": 31,
+                "stamp_s": 8.331,
+                "x_m": 0.30711505310681414,
+                "receipt_monotonic_ns": 33693951232185
+              },
+              {
+                "seq": 32,
+                "stamp_s": 8.377,
+                "x_m": 0.3140869384899557,
+                "receipt_monotonic_ns": 33693996909635
+              },
+              {
+                "seq": 33,
+                "stamp_s": 8.422,
+                "x_m": 0.32066335362705867,
+                "receipt_monotonic_ns": 33694042469373
+              },
+              {
+                "seq": 34,
+                "stamp_s": 8.468,
+                "x_m": 0.32700713725508823,
+                "receipt_monotonic_ns": 33694087641512
+              },
+              {
+                "seq": 35,
+                "stamp_s": 8.513,
+                "x_m": 0.0,
+                "receipt_monotonic_ns": 33694132717498
+              },
+              {
+                "seq": 36,
+                "stamp_s": 8.557,
+                "x_m": 0.00013164863278974844,
+                "receipt_monotonic_ns": 33694177669609
+              },
+              {
+                "seq": 37,
+                "stamp_s": 8.602,
+                "x_m": 0.003145685354758388,
+                "receipt_monotonic_ns": 33694222639814
+              },
+              {
+                "seq": 38,
+                "stamp_s": 8.649000000000001,
+                "x_m": 0.010426426260910376,
+                "receipt_monotonic_ns": 33694269411021
+              },
+              {
+                "seq": 39,
+                "stamp_s": 8.693999999999999,
+                "x_m": 0.021212228658573282,
+                "receipt_monotonic_ns": 33694314244920
+              },
+              {
+                "seq": 40,
+                "stamp_s": 8.739,
+                "x_m": 0.03559602886949982,
+                "receipt_monotonic_ns": 33694359127281
+              }
+            ],
+            "stamp_semantics": "Observation-node /clock readback after its joint query; not native acquisition time, no atomic sample/clock snapshot claim",
+            "student_exercise": "student.py is untouched and not automatically graded by the reference instrument"
+          },
+          "elapsed_wall_s": 0.62315029
+        }
+      },
+      {
+        "name": "reentry_preserves_personal_instrument_and_student",
+        "passed": true,
+        "verification": {
+          "passed": true,
+          "assignment_pass": false,
+          "lesson": 42,
+          "scope": "Actual ROS Master graph, TCPROS publisher/subscriber handshakes, one late latched readiness message, finite effort and independent physical joint feedback",
+          "trusted_verifier_sha256": "4a121b47a4806601036974b2c9a87ff2ecacf4f752a839981026755502c592ba",
+          "world_sha256": "45298fb5c91499e7b2694e7ae1ed4a02168d8e132ad327e084b7b4671af884ac",
+          "checks": {
+            "graph_type": "geometry_msgs/PoseStamped",
+            "graph_publishers": [
+              "/workshop42/instrument"
+            ],
+            "graph_subscribers": [
+              "/workshop_42_verify_133917_1793722418055"
+            ],
+            "graph_pulse_servers": [
+              "/workshop42/instrument"
+            ],
+            "observing_subscriber": "/workshop_42_verify_133917_1793722418055",
+            "late_latched_status": {
+              "value": {
+                "node": "/workshop42/instrument",
+                "namespace": "/workshop42",
+                "session_token": "39ea17a0be294e9383148be9aa87bd21",
+                "instrument_sha256": "9b0ad43ead41106e58893a2dd8d1c4bac1c73dd8bc08952d94002b2d1565851b",
+                "published_monotonic_ns": 33703815161170,
+                "joint_source": "/gazebo/get_joint_properties: workshop::slide",
+                "state_topic": "/workshop42/state",
+                "pulse_service": "/workshop42/pulse",
+                "first_actual_joint": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 3.406,
+                  "receipt_clock_after_s": 3.408,
+                  "host_monotonic_before_ns": 33703812768479,
+                  "host_monotonic_after_ns": 33703815037826,
+                  "time_basis": "Two local /clock readbacks bracketing a synchronous GetJointProperties call; no native acquisition stamp or atomic snapshot claim"
+                },
+                "ready_publications": 1
+              },
+              "connection": {
+                "callerid": "/workshop42/instrument",
+                "latching": "1",
+                "md5sum": "992ce8a1687cec8c8bd883ec73ca41d1",
+                "message_definition": "string data\n",
+                "topic": "/workshop42/ready",
+                "type": "std_msgs/String"
+              },
+              "receipt_monotonic_ns": 33704722862396
+            },
+            "state_connections": [
+              {
+                "callerid": "/workshop42/instrument",
+                "latching": "0",
+                "md5sum": "d3812c3cbc69362b77dc0b19b345f8f5",
+                "message_definition": "# A Pose with reference coordinate frame and timestamp\nHeader header\nPose pose\n\n================================================================================\nMSG: std_msgs/Header\n# Standard metadata for higher-level stamped data types.\n# This is generally used to communicate timestamped data \n# in a particular coordinate frame.\n# \n# sequence ID: consecutively increasing ID \nuint32 seq\n#Two-integer timestamp that is expressed as:\n# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')\n# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')\n# time-handling sugar is provided by the client library\ntime stamp\n#Frame this data is associated with\nstring frame_id\n\n================================================================================\nMSG: geometry_msgs/Pose\n# A representation of pose in free space, composed of position and orientation. \nPoint position\nQuaternion orientation\n\n================================================================================\nMSG: geometry_msgs/Point\n# This contains the position of a point in free space\nfloat64 x\nfloat64 y\nfloat64 z\n\n================================================================================\nMSG: geometry_msgs/Quaternion\n# This represents an orientation in free space in quaternion form.\n\nfloat64 x\nfloat64 y\nfloat64 z\nfloat64 w\n",
+                "topic": "/workshop42/state",
+                "type": "geometry_msgs/PoseStamped"
+              },
+              {
+                "callerid": "/workshop42/instrument",
+                "latching": "0",
+                "md5sum": "d3812c3cbc69362b77dc0b19b345f8f5",
+                "message_definition": "# A Pose with reference coordinate frame and timestamp\nHeader header\nPose pose\n\n================================================================================\nMSG: std_msgs/Header\n# Standard metadata for higher-level stamped data types.\n# This is generally used to communicate timestamped data \n# in a particular coordinate frame.\n# \n# sequence ID: consecutively increasing ID \nuint32 seq\n#Two-integer timestamp that is expressed as:\n# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')\n# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')\n# time-handling sugar is provided by the client library\ntime stamp\n#Frame this data is associated with\nstring frame_id\n\n================================================================================\nMSG: geometry_msgs/Pose\n# A representation of pose in free space, composed of position and orientation. \nPoint position\nQuaternion orientation\n\n================================================================================\nMSG: geometry_msgs/Point\n# This contains the position of a point in free space\nfloat64 x\nfloat64 y\nfloat64 z\n\n================================================================================\nMSG: geometry_msgs/Quaternion\n# This represents an orientation in free space in quaternion form.\n\nfloat64 x\nfloat64 y\nfloat64 z\nfloat64 w\n",
+                "topic": "/workshop42/state",
+                "type": "geometry_msgs/PoseStamped"
+              }
+            ],
+            "acceptance_reset": {
+              "service": "/gazebo/reset_world",
+              "before": {
+                "position_m": 0.0,
+                "velocity_m_s": 0.0,
+                "receipt_clock_before_s": 4.596,
+                "receipt_clock_after_s": 4.599,
+                "host_monotonic_before_ns": 33705003683822,
+                "host_monotonic_after_ns": 33705006376177,
+                "time_basis": "Two local /clock readbacks bracketing a synchronous GetJointProperties call; no native acquisition stamp or atomic snapshot claim"
+              },
+              "after": {
+                "position_m": 0.0,
+                "velocity_m_s": 0.0,
+                "receipt_clock_before_s": 4.648,
+                "receipt_clock_after_s": 4.652,
+                "host_monotonic_before_ns": 33705055399575,
+                "host_monotonic_after_ns": 33705059319818,
+                "time_basis": "Two local /clock readbacks bracketing a synchronous GetJointProperties call; no native acquisition stamp or atomic snapshot claim"
+              },
+              "native_world_time_before_s": 4.601,
+              "native_world_time_after_s": 4.656,
+              "scope": "Owned isolated course world models and velocities reset once; simulation clock and personal files preserved"
+            },
+            "live_samples": 13,
+            "sim_time_advances": true,
+            "before_joint": {
+              "position_m": 0.0,
+              "velocity_m_s": 0.0,
+              "receipt_clock_before_s": 4.648,
+              "receipt_clock_after_s": 4.652,
+              "host_monotonic_before_ns": 33705055399575,
+              "host_monotonic_after_ns": 33705059319818,
+              "time_basis": "Two local /clock readbacks bracketing a synchronous GetJointProperties call; no native acquisition stamp or atomic snapshot claim"
+            },
+            "pulse": {
+              "force_N": 2.0,
+              "duration_sim_s": 0.2,
+              "before_joint": {
+                "position_m": 0.0,
+                "velocity_m_s": 0.0,
+                "receipt_clock_before_s": 4.66,
+                "receipt_clock_after_s": 4.664,
+                "host_monotonic_before_ns": 33705067510374,
+                "host_monotonic_after_ns": 33705071734365,
+                "time_basis": "Two local /clock readbacks bracketing a synchronous GetJointProperties call; no native acquisition stamp or atomic snapshot claim"
+              },
+              "note": "Finite effort scheduled once; clearing force does not erase velocity"
+            },
+            "after_joint": {
+              "position_m": 0.039993055312070244,
+              "velocity_m_s": 0.3683001959070695,
+              "receipt_clock_before_s": 4.875,
+              "receipt_clock_after_s": 4.879,
+              "host_monotonic_before_ns": 33705282625722,
+              "host_monotonic_after_ns": 33705286891490,
+              "time_basis": "Two local /clock readbacks bracketing a synchronous GetJointProperties call; no native acquisition stamp or atomic snapshot claim"
+            },
+            "signed_native_displacement_m": 0.039993055312070244,
+            "minimum_native_displacement_m": 0.025,
+            "message_joint_consistency": {
+              "topic_x_m": 0.034882125145172006,
+              "native_x_m": 0.039993055312070244,
+              "absolute_difference_m": 0.005110930166898238,
+              "allowed_async_difference_m": 0.05,
+              "topic_receipt_age_s": 0.014142428
+            },
+            "received_trace": [
+              {
+                "seq": 1,
+                "stamp_s": 4.327,
+                "x_m": 0.0,
+                "receipt_monotonic_ns": 33704734324606
+              },
+              {
+                "seq": 2,
+                "stamp_s": 4.373,
+                "x_m": 0.0,
+                "receipt_monotonic_ns": 33704780416659
+              },
+              {
+                "seq": 3,
+                "stamp_s": 4.418,
+                "x_m": 0.0,
+                "receipt_monotonic_ns": 33704825584231
+              },
+              {
+                "seq": 4,
+                "stamp_s": 4.462,
+                "x_m": 0.0,
+                "receipt_monotonic_ns": 33704870369577
+              },
+              {
+                "seq": 5,
+                "stamp_s": 4.507,
+                "x_m": 0.0,
+                "receipt_monotonic_ns": 33704915230583
+              },
+              {
+                "seq": 6,
+                "stamp_s": 4.552,
+                "x_m": 0.0,
+                "receipt_monotonic_ns": 33704960361496
+              },
+              {
+                "seq": 7,
+                "stamp_s": 4.596,
+                "x_m": 0.0,
+                "receipt_monotonic_ns": 33705004096742
+              },
+              {
+                "seq": 8,
+                "stamp_s": 4.64,
+                "x_m": 0.0,
+                "receipt_monotonic_ns": 33705048124738
+              },
+              {
+                "seq": 9,
+                "stamp_s": 4.6850000000000005,
+                "x_m": 0.00013164863278974844,
+                "receipt_monotonic_ns": 33705092571768
+              },
+              {
+                "seq": 10,
+                "stamp_s": 4.73,
+                "x_m": 0.003145685354758388,
+                "receipt_monotonic_ns": 33705137521249
+              },
+              {
+                "seq": 11,
+                "stamp_s": 4.775,
+                "x_m": 0.010032635256434105,
+                "receipt_monotonic_ns": 33705183072363
+              },
+              {
+                "seq": 12,
+                "stamp_s": 4.82,
+                "x_m": 0.020655499438154687,
+                "receipt_monotonic_ns": 33705227966447
+              },
+              {
+                "seq": 13,
+                "stamp_s": 4.865,
+                "x_m": 0.034882125145172006,
+                "receipt_monotonic_ns": 33705272778036
+              }
+            ],
+            "stamp_semantics": "Observation-node /clock readback after its joint query; not native acquisition time, no atomic sample/clock snapshot claim",
+            "student_exercise": "student.py is untouched and not automatically graded by the reference instrument"
+          },
+          "elapsed_wall_s": 0.580447841
+        }
+      },
+      {
+        "name": "foreign_namespace_isolated_and_owned_processes_cleaned",
+        "passed": true
+      }
+    ],
+    "elapsed_seconds": 27.473
+  },
+  "cause": "Noetic clearJointForces compares Joint::GetName(), so scoped workshop::slide returned success without removing queued force jobs. Read/apply still use scoped names; queue clear now uses slide inside the isolated single-slide course world.",
+  "source_sha256": {
+    "courses/classic11_noetic/42-ros1-graph/instrument.py": "4a121b47a4806601036974b2c9a87ff2ecacf4f752a839981026755502c592ba",
+    "courses/classic11_noetic/42-ros1-graph/lab.py": "45bf15966ed336a4e6b70a096bec8e2e60e05c641f67d5a7e3fbc347b240db8e",
+    "courses/classic11_noetic/42-ros1-graph/lesson.json": "85dbb12b42f42a356846fc99de15c941b4b132e12d2bea2c5153d993ec41cf38",
+    "courses/classic11_noetic/42-ros1-graph/lesson.md": "483abacce8403f224ed266879780267aee0c677bf75621ddf32076644702f699",
+    "courses/classic11_noetic/42-ros1-graph/prepare.py": "30b986d676d49433a19946a868d118266449d61fc2f89269469eddab5c2a1a40",
+    "courses/classic11_noetic/42-ros1-graph/reference.md": "a8f95024206f66e26bf07a62211638edf8b6ee66ac62e5178b8794aecfde501f",
+    "courses/classic11_noetic/42-ros1-graph/reference.py": "18d7d7bee646b4a9b002315897d208ab505b0804c7df08f257a2c38b431f7572",
+    "courses/classic11_noetic/42-ros1-graph/ros_ws/src/gazeboteach_workshop42/config/controller.yaml": "06defe3c1e60b6b859295344723f90f189a72c7c2420f170cf52862e7232ff0f",
+    "courses/classic11_noetic/42-ros1-graph/ros_ws/src/gazeboteach_workshop42/launch/lab.launch": "a60da8dbb9eb8710c16071e4f924ccd728a0329bc08f2feeb1c552b88653ba97",
+    "courses/classic11_noetic/42-ros1-graph/ros_ws/src/gazeboteach_workshop42/package.xml": "0eb228dbbb7d2839d171105970a9aad3816d73d52482f9957252365d2a5c4dca",
+    "courses/classic11_noetic/42-ros1-graph/ros_ws/src/gazeboteach_workshop42/scripts/node.py": "b1ebe64937bb3283dbce66cc43af40a1d0c0576fcd8c0650b308f9e0bfd99ef3",
+    "courses/classic11_noetic/42-ros1-graph/student.py": "c02534ff80b174d8c4b95ec1c435a01e0d6cdb294f662d404aec05fb9ae0405b",
+    "courses/classic11_noetic/42-ros1-graph/verify.py": "1f7791df1bde922b25692228480432290014cc624b71624d7f9e2f7134d7adda",
+    "courses/classic11_noetic/42-ros1-graph/world.sdf": "45298fb5c91499e7b2694e7ae1ed4a02168d8e132ad327e084b7b4671af884ac"
+  }
+}

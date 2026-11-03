@@ -51,6 +51,8 @@ GetJointProperties没有原生测量时间戳。仪器在服务返回后读取�
 
 默认脉冲幅度2N、持续.2仿真秒，方向根据当前关节位置朝原点选择；在原点从正方向开始。服务先清理本课关节的待执行力，再调度一次有限力。**清除力不等于清除速度**，脉冲结束后滑块仍会因惯性继续运动，再由阻尼减速。手工改幅度须保持在.2—5N内；不要在模型到限位或高速运动时盲目连续点脉冲。
 
+Noetic接口还有一个需要按实现核对的细节：查询和施力使用 `workshop::slide`，而 `/gazebo/clear_joint_forces` 在插件内以 `Joint::GetName()` 比较，因此必须传不带模型前缀的 `slide`。即使没有匹配到任何待执行力，该清理服务也返回true；收到响应不能独立证明队列已清空。本课私有世界只有一个叫slide的关节，因此此处的裸名称没有跨模型歧义。检验清理效果应暂停世界、调度有限力、清理后再继续，确认实际滑块没有由该待执行力产生运动。[Noetic插件实现](https://github.com/ros-simulation/gazebo_ros_pkgs/blob/noetic-devel/gazebo_ros/src/gazebo_ros_api_plugin.cpp#L1742)。
+
 ## queue_size 与 latch 的单变量实验
 
 `queue_size=8` 是发布队列容量，不是可靠性、延迟或“永不丢消息”的承诺。消息seq的缺口也不能单独定位问题发生在发送队列、网络还是订阅回调。

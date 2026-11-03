@@ -21,6 +21,29 @@ def load():
 
 
 class ROS1GraphBoundaries(unittest.TestCase):
+    def test_clear_uses_unscoped_getname_while_read_and_apply_keep_scoped_lookup(self):
+        module=load()
+        package=types.ModuleType('gazebo_msgs');package.__path__=[]
+        services=types.ModuleType('gazebo_msgs.srv')
+        services.JointRequest=type('JointRequest',(),{})
+        services.GetJointProperties=type('GetJointProperties',(),{})
+        services.ApplyJointEffort=type('ApplyJointEffort',(),{})
+        class Time:
+            def __init__(self,value=0):self.value=value
+            @staticmethod
+            def now():return types.SimpleNamespace(to_sec=lambda:1.)
+        rospy=types.SimpleNamespace(Time=Time,Duration=lambda value:value)
+        reply=types.SimpleNamespace(position=[.1],rate=[.2])
+        with mock.patch.dict(sys.modules,{'gazebo_msgs':package,'gazebo_msgs.srv':services}),\
+             mock.patch.object(module,'call',return_value=reply) as call:
+            module.clear(rospy)
+            call.assert_called_once_with(rospy,'/gazebo/clear_joint_forces',services.JointRequest,'slide')
+            call.reset_mock();module.joint(rospy)
+            call.assert_called_once_with(rospy,'/gazebo/get_joint_properties',services.GetJointProperties,'workshop::slide')
+            call.reset_mock();module.effort(rospy,1)
+            self.assertEqual(call.call_args.args[0:4],
+                (rospy,'/gazebo/apply_joint_effort',services.ApplyJointEffort,'workshop::slide'))
+
     def test_blocked_worker_cannot_block_the_caller_indefinitely(self):
         module=load();release=threading.Event();entered=threading.Event();finished=threading.Event()
         def blocked():
