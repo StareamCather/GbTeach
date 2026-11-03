@@ -1,0 +1,167 @@
+<sdf version="1.9">
+  <world name="default">
+    <physics name="fixed_step" type="ignored">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+    </physics>
+    <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics" />
+    <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands" />
+    <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster" />
+    <gui>
+      <plugin filename="MinimalScene" name="3D View">
+        <gz-gui>
+          <property key="showTitleBar" type="bool">false</property>
+          <property key="state" type="string">docked</property>
+        </gz-gui>
+        <engine>ogre2</engine>
+        <scene>scene</scene>
+        <ambient_light>.47 .47 .47</ambient_light>
+        <background_color>.16 .21 .28</background_color>
+        <camera_pose>-2.2 -3.8 2.6 0 .47 1.05</camera_pose>
+      </plugin>
+      <plugin filename="GzSceneManager" name="Scene Manager">
+        <gz-gui>
+          <property key="showTitleBar" type="bool">false</property>
+          <property key="state" type="string">floating</property>
+          <property key="width" type="double">5</property>
+          <property key="height" type="double">5</property>
+        </gz-gui>
+      </plugin>
+      <plugin filename="InteractiveViewControl" name="Interactive view control" />
+      <plugin filename="EntityTree" name="Entity tree">
+        <gz-gui>
+          <property key="state" type="string">docked</property>
+        </gz-gui>
+      </plugin>
+      <plugin filename="WorldControl" name="World control">
+        <gz-gui>
+          <property key="showTitleBar" type="bool">false</property>
+          <property key="state" type="string">floating</property>
+          <property key="width" type="double">150</property>
+          <property key="height" type="double">64</property>
+          <anchors target="3D View">
+            <line own="left" target="left" />
+            <line own="bottom" target="bottom" />
+          </anchors>
+        </gz-gui>
+        <play_pause>true</play_pause>
+        <step>true</step>
+        <start_paused>false</start_paused>
+        <service>/world/default/control</service>
+        <stats_topic>/world/default/stats</stats_topic>
+      </plugin>
+    </gui>
+    <scene>
+      <ambient>0.35 0.35 0.35 1</ambient>
+      <background>0.12 0.15 0.2 1</background>
+    </scene>
+    <light name="sun" type="directional">
+      <pose>0 0 8 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.5 0.5 0.5 1</specular>
+      <direction>-0.4 0.3 -1</direction>
+      <cast_shadows>true</cast_shadows>
+    </light>
+    <model name="ground">
+      <static>true</static>
+      <link name="body">
+        <collision name="floor_collision">
+          <geometry>
+            <box>
+              <size>30 30 .2</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="floor_visual">
+          <geometry>
+            <box>
+              <size>30 30 .2</size>
+            </box>
+          </geometry>
+          <material>
+            <diffuse>0.35 0.4 0.45 1</diffuse>
+          </material>
+        </visual>
+      </link>
+      <pose>0 0 -.1 0 0 0</pose>
+    </model>
+    <plugin filename="gz-sim-imu-system" name="gz::sim::systems::Imu" />
+    <model name="instrument_stand">
+      <static>true</static>
+      <link name="stand">
+        <visual name="column">
+          <pose>0 0 .37 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>.16</radius>
+              <length>.74</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>.29 .33 .38 1</ambient>
+            <diffuse>.35 .40 .46 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="instrument_rotor" canonical_link="rotor">
+      <pose>0 0 .8 0 0 0</pose>
+      <link name="rotor">
+        <inertial>
+          <mass>1</mass>
+          <inertia>
+            <ixx>.007</ixx>
+            <iyy>.09</iyy>
+            <izz>.09</izz>
+          </inertia>
+        </inertial>
+        <visual name="blue_rotor">
+          <geometry>
+            <box>
+              <size>1.0 .18 .10</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.12 .39 .74 1</ambient>
+            <diffuse>.15 .53 .96 1</diffuse>
+          </material>
+        </visual>
+        <visual name="orange_imu">
+          <pose>.38 0 .09 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>.16 .14 .10</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.94 .39 .06 1</ambient>
+            <diffuse>1 .54 .10 1</diffuse>
+          </material>
+        </visual>
+        <sensor name="rotor_imu" type="imu">
+          <pose>.38 0 .09 0 0 0</pose>
+          <always_on>true</always_on>
+          <update_rate>25</update_rate>
+          <topic>/gt/lifecycle/raw_imu</topic>
+          <gz_frame_id>rotor_imu</gz_frame_id>
+        </sensor>
+      </link>
+      <joint name="rotor_joint" type="revolute">
+        <parent>world</parent>
+        <child>rotor</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <effort>12</effort>
+            <velocity>1.5</velocity>
+          </limit>
+        </axis>
+      </joint>
+      <plugin filename="gz-sim-joint-controller-system" name="gz::sim::systems::JointController">
+        <joint_name>rotor_joint</joint_name>
+        <topic>/gt/lifecycle/rotor_velocity</topic>
+        <initial_velocity>.55</initial_velocity>
+      </plugin>
+    </model>
+  </world>
+</sdf>

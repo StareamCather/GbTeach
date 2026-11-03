@@ -1,0 +1,60 @@
+{
+  "id": "26",
+  "title": "ROS 2工程化：ament、colcon与Lifecycle节点",
+  "module": "现代Gazebo与ROS 2",
+  "order": 26,
+  "profile": "harmonic-jazzy",
+  "requires_ros": true,
+  "requires_ros_packages": [
+    "rclpy",
+    "launch",
+    "launch_ros",
+    "lifecycle_msgs",
+    "sensor_msgs",
+    "rcl_interfaces",
+    "ament_index_python",
+    "ros_gz_bridge",
+    "rosgraph_msgs"
+  ],
+  "requires_tools": [
+    "colcon"
+  ],
+  "prepare": [
+    "bash build.sh"
+  ],
+  "prepare_timeout": 100,
+  "startup": [
+    {
+      "name": "Lifecycle课程launch",
+      "command": "bash start.sh"
+    }
+  ],
+  "world": "world.sdf",
+  "verify": "verify.py",
+  "reference": "reference.md",
+  "verify_timeout": 90,
+  "objectives": [
+    "构建私有 ament_python 工作区并从实际安装空间启动",
+    "用标准生命周期服务验证配置、激活、停用、清理及非法转换",
+    "将 Gazebo 原生 IMU 的相同数据和时间戳只在 active 状态转发",
+    "清理资源后重新配置，验证重复执行及输入独立继续推进"
+  ],
+  "commands": [
+    {
+      "title": "验收构建产物、IMU 数据门控及生命周期",
+      "command": ". ros_ws/install/local_setup.bash && python3 lab.py"
+    },
+    {
+      "title": "查看课程包安装位置",
+      "command": ". ros_ws/install/local_setup.bash && ros2 pkg prefix gazeboteach_lifecycle"
+    },
+    {
+      "title": "查询节点当前生命周期状态",
+      "command": "ros2 lifecycle get /sensor_lifecycle"
+    },
+    {
+      "title": "查看原生旋转 IMU",
+      "command": "gz topic -e -t /gt/lifecycle/raw_imu -n 1"
+    }
+  ]
+}

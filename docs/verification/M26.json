@@ -1,0 +1,986 @@
+{
+  "headless_smoke": {
+    "mode": "smoke",
+    "lesson": "26",
+    "profile": "harmonic-jazzy",
+    "data_dir": "/tmp/gazeboteach-smoke-yqy893za",
+    "fresh_data_dir": true,
+    "gui_requested": false,
+    "terminals_requested": false,
+    "workspace": "/tmp/gazeboteach-smoke-yqy893za/workspaces/harmonic-jazzy/26",
+    "log": "/tmp/gazeboteach-smoke-yqy893za/sessions/harmonic-jazzy-26-20261104-031027-158101/runtime.log",
+    "session_dir": "/tmp/gazeboteach-smoke-yqy893za/sessions/harmonic-jazzy-26-20261104-031027-158101",
+    "health": {
+      "running": true,
+      "state": "运行中",
+      "error": null,
+      "failed_processes": [],
+      "gui_running": false,
+      "terminal_running": 0,
+      "window_tag": "[GT-26]",
+      "window_role": "gazeboteach-85385ba1de5641e6b885b901e1d1f069",
+      "auxiliary": [
+        {
+          "name": "Lifecycle课程launch",
+          "running": true,
+          "returncode": null
+        }
+      ]
+    },
+    "verification": {
+      "passed": true,
+      "returncode": 0,
+      "log": "/tmp/gazeboteach-smoke-yqy893za/sessions/harmonic-jazzy-26-20261104-031027-158101/runtime.log"
+    },
+    "ok": true,
+    "final_health": {
+      "running": false,
+      "state": "已结束",
+      "error": null,
+      "failed_processes": [
+        {
+          "name": "Gazebo 服务端",
+          "returncode": 0
+        },
+        {
+          "name": "Lifecycle课程launch",
+          "returncode": -15
+        }
+      ],
+      "gui_running": false,
+      "terminal_running": 0,
+      "window_tag": "[GT-26]",
+      "window_role": "gazeboteach-85385ba1de5641e6b885b901e1d1f069",
+      "auxiliary": [
+        {
+          "name": "Lifecycle课程launch",
+          "running": false,
+          "returncode": -15
+        }
+      ]
+    },
+    "elapsed_seconds": 11.923
+  },
+  "desktop": {
+    "ok": true,
+    "lesson": "26",
+    "profile": "harmonic-jazzy",
+    "data_dir": "/tmp/gazeboteach-addon-desktop-s4yhuukb",
+    "checks": [
+      {
+        "name": "real_desktop_material_selected",
+        "passed": true,
+        "document_characters": 3099
+      },
+      {
+        "name": "start_button_initialized_real_world_gui_and_ptys",
+        "passed": true,
+        "session": "/tmp/gazeboteach-addon-desktop-s4yhuukb/data/sessions/harmonic-jazzy-26-20261104-031123-350986",
+        "token": "056364c753e34aceb372fa566c1bb812"
+      },
+      {
+        "name": "real_owned_native_gui_window",
+        "passed": true,
+        "window_id": "0x580000e",
+        "pid": 15234,
+        "width": 1200,
+        "height": 1000,
+        "screenshot": "/tmp/gt-M26-desktop/desktop-gazebo.png",
+        "properties": "_NET_WM_PID(CARDINAL) = 15234\n_NET_WM_NAME(UTF8_STRING) = \"Gazebo Sim\"",
+        "image_metrics": {
+          "nontrivial_pixels": true,
+          "sample_count": 1584,
+          "distinct_sampled_colors": 73,
+          "luma_range": 250,
+          "nonblack_fraction": 0.99937,
+          "non_dominant_fraction": 0.73864
+        },
+        "manual_scene_review_required": true
+      },
+      {
+        "name": "verify_button_checks_real_behavior",
+        "passed": true
+      },
+      {
+        "name": "desktop_exit_cleans_owned_processes",
+        "passed": true
+      }
+    ],
+    "elapsed_seconds": 13.933
+  },
+  "standalone_gui": {
+    "window_id": "0x560000e",
+    "pid": 15569,
+    "width": 1200,
+    "height": 1000,
+    "screenshot": "/tmp/gt-M26-view/lifecycle.png",
+    "properties": "_NET_WM_PID(CARDINAL) = 15569\n_NET_WM_NAME(UTF8_STRING) = \"Gazebo Sim\"",
+    "image_metrics": {
+      "nontrivial_pixels": true,
+      "sample_count": 1584,
+      "distinct_sampled_colors": 72,
+      "luma_range": 250,
+      "nonblack_fraction": 0.99937,
+      "non_dominant_fraction": 0.72727
+    },
+    "manual_scene_review_required": true,
+    "session_dir": "/tmp/gt-m26-view-4lxvlto6/sessions/harmonic-jazzy-26-20261104-031137-017240",
+    "owned_processes_cleaned": true
+  },
+  "source_sha256": {
+    "courses/modern_ros2/26-workspace-lifecycle/_bootstrap.py": "7874870ac1e2ee63512b7cc354a88da6d58ee6b6b0a565a0bd684d8875359a5f",
+    "courses/modern_ros2/26-workspace-lifecycle/build.sh": "16ed308e41d75caef3c18c6fad060868108af7240facb6800c431be63c4627a7",
+    "courses/modern_ros2/26-workspace-lifecycle/lab.py": "baf3603d25ed016c726e454931f8b4d75422c77d47338bafba1ec4852bfd2129",
+    "courses/modern_ros2/26-workspace-lifecycle/lesson.json": "9a9563bd1661fd0e05e6e9ddb3bf0a18b1d61d267ae372e3af718527fa4db86b",
+    "courses/modern_ros2/26-workspace-lifecycle/lesson.md": "8da1e177d61b0c0b19668480c1875dd732a3aa5f50999411ca1a05edc1e770c1",
+    "courses/modern_ros2/26-workspace-lifecycle/reference.md": "47d44d93ae2701377c1a454ad923eeacfdf22fcff27bc4fdfbef0e4bcc125559",
+    "courses/modern_ros2/26-workspace-lifecycle/ros_ws/src/gazeboteach_lifecycle/gazeboteach_lifecycle/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "courses/modern_ros2/26-workspace-lifecycle/ros_ws/src/gazeboteach_lifecycle/gazeboteach_lifecycle/sensor.py": "4d8378ae9d27a18caa5e59a219260907d42e773ad3da31f240c03fedb2112802",
+    "courses/modern_ros2/26-workspace-lifecycle/ros_ws/src/gazeboteach_lifecycle/launch/lab.launch.py": "809a56a094c605d7ef240617f56f52d0f5f17a73f320a3fdc913573e890f7445",
+    "courses/modern_ros2/26-workspace-lifecycle/ros_ws/src/gazeboteach_lifecycle/package.xml": "90d28d8f4e9e550dbdf8d4029b9bf190af36cff8dd409ebe8fa613be970af6b3",
+    "courses/modern_ros2/26-workspace-lifecycle/ros_ws/src/gazeboteach_lifecycle/resource/gazeboteach_lifecycle": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "courses/modern_ros2/26-workspace-lifecycle/ros_ws/src/gazeboteach_lifecycle/setup.cfg": "22d86cf9f0bc3b2469497ebf9b2b24a61b928e016b5370cef48bd7c2dc85236b",
+    "courses/modern_ros2/26-workspace-lifecycle/ros_ws/src/gazeboteach_lifecycle/setup.py": "f667a39b23f495d8dc0265352df448cf1d5c91250cd66b642ece38c6372c865e",
+    "courses/modern_ros2/26-workspace-lifecycle/start.sh": "5fe2d77583fdeb084f4418c07643fd619e7e94f06ef3425a5348c59f7b753199",
+    "courses/modern_ros2/26-workspace-lifecycle/verify.py": "6541f1eee796c41f786b639c4d3e94835893b7f258297afb6d2f2c66733472b5",
+    "courses/modern_ros2/26-workspace-lifecycle/world.sdf": "064f6a6df5c3ed43c802ca51ac1f2f6bda325a21ebcf9d37ab00269bb97c199f",
+    "courses/modern_ros2/_support/common.py": "2e8a4cb02f1132ceb6b3caa037e52d9703a06ed3113e29fb281b47fe0524f8c3"
+  },
+  "desktop_experiment": [
+    {
+      "passed": true,
+      "installed_package": {
+        "prefix": "/tmp/gazeboteach-addon-desktop-s4yhuukb/data/workspaces/harmonic-jazzy/26/ros_ws/install/gazeboteach_lifecycle",
+        "loaded_module": "/tmp/gazeboteach-addon-desktop-s4yhuukb/data/workspaces/harmonic-jazzy/26/ros_ws/install/gazeboteach_lifecycle/lib/python3.12/site-packages/gazeboteach_lifecycle/sensor.py",
+        "module_sha256": "4d8378ae9d27a18caa5e59a219260907d42e773ad3da31f240c03fedb2112802"
+      },
+      "native_gyro_z_rad_s": 0.5499999999999999,
+      "cycles": [
+        {
+          "configured": {
+            "phase": "configured_inactive",
+            "raw_samples": 10,
+            "forwarded_samples": 0,
+            "first_raw_stamp_ns": 4320000000,
+            "last_raw_stamp_ns": 4680000000,
+            "median_raw_gyro_z_rad_s": 0.55,
+            "raw_yaw_delta_rad": 0.19800000000001816
+          },
+          "active": {
+            "phase": "active",
+            "raw_samples": 10,
+            "forwarded_samples": 9,
+            "first_raw_stamp_ns": 5000000000,
+            "last_raw_stamp_ns": 5360000000,
+            "median_raw_gyro_z_rad_s": 0.55,
+            "raw_yaw_delta_rad": 0.19800000000001816
+          },
+          "deactivated": {
+            "phase": "deactivated",
+            "raw_samples": 10,
+            "forwarded_samples": 0,
+            "first_raw_stamp_ns": 5560000000,
+            "last_raw_stamp_ns": 5920000000,
+            "median_raw_gyro_z_rad_s": 0.55,
+            "raw_yaw_delta_rad": 0.19800000000001816
+          },
+          "cleaned": {
+            "phase": "cleaned_unconfigured",
+            "raw_samples": 10,
+            "forwarded_samples": 0,
+            "first_raw_stamp_ns": 6240000000,
+            "last_raw_stamp_ns": 6600000000,
+            "median_raw_gyro_z_rad_s": 0.55,
+            "raw_yaw_delta_rad": 0.19800000000001816
+          }
+        },
+        {
+          "configured": {
+            "phase": "configured_inactive",
+            "raw_samples": 10,
+            "forwarded_samples": 0,
+            "first_raw_stamp_ns": 6920000000,
+            "last_raw_stamp_ns": 7280000000,
+            "median_raw_gyro_z_rad_s": 0.55,
+            "raw_yaw_delta_rad": 0.1980000000000155
+          },
+          "active": {
+            "phase": "active",
+            "raw_samples": 10,
+            "forwarded_samples": 9,
+            "first_raw_stamp_ns": 7600000000,
+            "last_raw_stamp_ns": 7960000000,
+            "median_raw_gyro_z_rad_s": 0.55,
+            "raw_yaw_delta_rad": 0.1979999999998574
+          },
+          "deactivated": {
+            "phase": "deactivated",
+            "raw_samples": 10,
+            "forwarded_samples": 0,
+            "first_raw_stamp_ns": 8160000000,
+            "last_raw_stamp_ns": 8520000000,
+            "median_raw_gyro_z_rad_s": 0.55,
+            "raw_yaw_delta_rad": 0.19799999999985918
+          },
+          "cleaned": {
+            "phase": "cleaned_unconfigured",
+            "raw_samples": 10,
+            "forwarded_samples": 0,
+            "first_raw_stamp_ns": 8840000000,
+            "last_raw_stamp_ns": 9200000000,
+            "median_raw_gyro_z_rad_s": 0.55,
+            "raw_yaw_delta_rad": 0.1979999999998583
+          }
+        }
+      ],
+      "transitions": [
+        {
+          "transition_id": 3,
+          "available_ids": [
+            1,
+            5
+          ],
+          "submitted_as": "label",
+          "accepted": false,
+          "state_id": 1
+        },
+        {
+          "transition_id": 1,
+          "available_ids": [
+            1,
+            5
+          ],
+          "submitted_as": "id",
+          "accepted": true,
+          "state_id": 2
+        },
+        {
+          "transition_id": 3,
+          "available_ids": [
+            2,
+            3,
+            6
+          ],
+          "submitted_as": "id",
+          "accepted": true,
+          "state_id": 3
+        },
+        {
+          "transition_id": 2,
+          "available_ids": [
+            4,
+            7
+          ],
+          "submitted_as": "label",
+          "accepted": false,
+          "state_id": 3
+        },
+        {
+          "transition_id": 4,
+          "available_ids": [
+            4,
+            7
+          ],
+          "submitted_as": "id",
+          "accepted": true,
+          "state_id": 2
+        },
+        {
+          "transition_id": 2,
+          "available_ids": [
+            2,
+            3,
+            6
+          ],
+          "submitted_as": "id",
+          "accepted": true,
+          "state_id": 1
+        },
+        {
+          "transition_id": 1,
+          "available_ids": [
+            1,
+            5
+          ],
+          "submitted_as": "id",
+          "accepted": true,
+          "state_id": 2
+        },
+        {
+          "transition_id": 3,
+          "available_ids": [
+            2,
+            3,
+            6
+          ],
+          "submitted_as": "id",
+          "accepted": true,
+          "state_id": 3
+        },
+        {
+          "transition_id": 2,
+          "available_ids": [
+            4,
+            7
+          ],
+          "submitted_as": "label",
+          "accepted": false,
+          "state_id": 3
+        },
+        {
+          "transition_id": 4,
+          "available_ids": [
+            4,
+            7
+          ],
+          "submitted_as": "id",
+          "accepted": true,
+          "state_id": 2
+        },
+        {
+          "transition_id": 2,
+          "available_ids": [
+            2,
+            3,
+            6
+          ],
+          "submitted_as": "id",
+          "accepted": true,
+          "state_id": 1
+        }
+      ],
+      "final_state": 1
+    }
+  ],
+  "desktop_runtime_sha256": "26c7b8682082766e0938c7df6a7699ba0c8a2eeee618ed0a11cb1c6b8352000f",
+  "smoke_experiment": [
+    {
+      "passed": true,
+      "installed_package": {
+        "prefix": "/tmp/gazeboteach-smoke-yqy893za/workspaces/harmonic-jazzy/26/ros_ws/install/gazeboteach_lifecycle",
+        "loaded_module": "/tmp/gazeboteach-smoke-yqy893za/workspaces/harmonic-jazzy/26/ros_ws/install/gazeboteach_lifecycle/lib/python3.12/site-packages/gazeboteach_lifecycle/sensor.py",
+        "module_sha256": "4d8378ae9d27a18caa5e59a219260907d42e773ad3da31f240c03fedb2112802"
+      },
+      "native_gyro_z_rad_s": 0.5499999999999999,
+      "cycles": [
+        {
+          "configured": {
+            "phase": "configured_inactive",
+            "raw_samples": 10,
+            "forwarded_samples": 0,
+            "first_raw_stamp_ns": 3280000000,
+            "last_raw_stamp_ns": 3640000000,
+            "median_raw_gyro_z_rad_s": 0.55,
+            "raw_yaw_delta_rad": 0.19800000000001905
+          },
+          "active": {
+            "phase": "active",
+            "raw_samples": 10,
+            "forwarded_samples": 9,
+            "first_raw_stamp_ns": 3960000000,
+            "last_raw_stamp_ns": 4320000000,
+            "median_raw_gyro_z_rad_s": 0.55,
+            "raw_yaw_delta_rad": 0.19800000000001816
+          },
+          "deactivated": {
+            "phase": "deactivated",
+            "raw_samples": 10,
+            "forwarded_samples": 0,
+            "first_raw_stamp_ns": 4520000000,
+            "last_raw_stamp_ns": 4880000000,
+            "median_raw_gyro_z_rad_s": 0.55,
+            "raw_yaw_delta_rad": 0.1980000000000186
+          },
+          "cleaned": {
+            "phase": "cleaned_unconfigured",
+            "raw_samples": 10,
+            "forwarded_samples": 0,
+            "first_raw_stamp_ns": 5200000000,
+            "last_raw_stamp_ns": 5560000000,
+            "median_raw_gyro_z_rad_s": 0.55,
+            "raw_yaw_delta_rad": 0.19800000000001816
+          }
+        },
+        {
+          "configured": {
+            "phase": "configured_inactive",
+            "raw_samples": 10,
+            "forwarded_samples": 0,
+            "first_raw_stamp_ns": 5880000000,
+            "last_raw_stamp_ns": 6240000000,
+            "median_raw_gyro_z_rad_s": 0.55,
+            "raw_yaw_delta_rad": 0.1980000000000186
+          },
+          "active": {
+            "phase": "active",
+            "raw_samples": 10,
+            "forwarded_samples": 9,
+            "first_raw_stamp_ns": 6560000000,
+            "last_raw_stamp_ns": 6920000000,
+            "median_raw_gyro_z_rad_s": 0.55,
+            "raw_yaw_delta_rad": 0.1980000000000186
+          },
+          "deactivated": {
+            "phase": "deactivated",
+            "raw_samples": 10,
+            "forwarded_samples": 0,
+            "first_raw_stamp_ns": 7120000000,
+            "last_raw_stamp_ns": 7480000000,
+            "median_raw_gyro_z_rad_s": 0.5499999999999999,
+            "raw_yaw_delta_rad": 0.19799999999992757
+          },
+          "cleaned": {
+            "phase": "cleaned_unconfigured",
+            "raw_samples": 10,
+            "forwarded_samples": 0,
+            "first_raw_stamp_ns": 7800000000,
+            "last_raw_stamp_ns": 8160000000,
+            "median_raw_gyro_z_rad_s": 0.55,
+            "raw_yaw_delta_rad": 0.1979999999998583
+          }
+        }
+      ],
+      "transitions": [
+        {
+          "transition_id": 3,
+          "available_ids": [
+            1,
+            5
+          ],
+          "submitted_as": "label",
+          "accepted": false,
+          "state_id": 1
+        },
+        {
+          "transition_id": 1,
+          "available_ids": [
+            1,
+            5
+          ],
+          "submitted_as": "id",
+          "accepted": true,
+          "state_id": 2
+        },
+        {
+          "transition_id": 3,
+          "available_ids": [
+            2,
+            3,
+            6
+          ],
+          "submitted_as": "id",
+          "accepted": true,
+          "state_id": 3
+        },
+        {
+          "transition_id": 2,
+          "available_ids": [
+            4,
+            7
+          ],
+          "submitted_as": "label",
+          "accepted": false,
+          "state_id": 3
+        },
+        {
+          "transition_id": 4,
+          "available_ids": [
+            4,
+            7
+          ],
+          "submitted_as": "id",
+          "accepted": true,
+          "state_id": 2
+        },
+        {
+          "transition_id": 2,
+          "available_ids": [
+            2,
+            3,
+            6
+          ],
+          "submitted_as": "id",
+          "accepted": true,
+          "state_id": 1
+        },
+        {
+          "transition_id": 1,
+          "available_ids": [
+            1,
+            5
+          ],
+          "submitted_as": "id",
+          "accepted": true,
+          "state_id": 2
+        },
+        {
+          "transition_id": 3,
+          "available_ids": [
+            2,
+            3,
+            6
+          ],
+          "submitted_as": "id",
+          "accepted": true,
+          "state_id": 3
+        },
+        {
+          "transition_id": 2,
+          "available_ids": [
+            4,
+            7
+          ],
+          "submitted_as": "label",
+          "accepted": false,
+          "state_id": 3
+        },
+        {
+          "transition_id": 4,
+          "available_ids": [
+            4,
+            7
+          ],
+          "submitted_as": "id",
+          "accepted": true,
+          "state_id": 2
+        },
+        {
+          "transition_id": 2,
+          "available_ids": [
+            2,
+            3,
+            6
+          ],
+          "submitted_as": "id",
+          "accepted": true,
+          "state_id": 1
+        }
+      ],
+      "final_state": 1
+    }
+  ],
+  "smoke_runtime_sha256": "16589b383a7fbeab0275db3726e7425a78bd45acdc69aafe598b5358c40f4d78",
+  "repeat_experiment": [
+    {
+      "passed": true,
+      "installed_package": {
+        "prefix": "/tmp/gt-modern-repeat-2m3b60q1/workspaces/harmonic-jazzy/26/ros_ws/install/gazeboteach_lifecycle",
+        "loaded_module": "/tmp/gt-modern-repeat-2m3b60q1/workspaces/harmonic-jazzy/26/ros_ws/install/gazeboteach_lifecycle/lib/python3.12/site-packages/gazeboteach_lifecycle/sensor.py",
+        "module_sha256": "4d8378ae9d27a18caa5e59a219260907d42e773ad3da31f240c03fedb2112802"
+      },
+      "native_gyro_z_rad_s": 0.55,
+      "cycles": [
+        {
+          "configured": {
+            "phase": "configured_inactive",
+            "raw_samples": 10,
+            "forwarded_samples": 0,
+            "first_raw_stamp_ns": 1240000000,
+            "last_raw_stamp_ns": 1600000000,
+            "median_raw_gyro_z_rad_s": 0.55,
+            "raw_yaw_delta_rad": 0.19800000000001816
+          },
+          "active": {
+            "phase": "active",
+            "raw_samples": 10,
+            "forwarded_samples": 9,
+            "first_raw_stamp_ns": 1920000000,
+            "last_raw_stamp_ns": 2280000000,
+            "median_raw_gyro_z_rad_s": 0.55,
+            "raw_yaw_delta_rad": 0.19800000000001816
+          },
+          "deactivated": {
+            "phase": "deactivated",
+            "raw_samples": 10,
+            "forwarded_samples": 0,
+            "first_raw_stamp_ns": 2480000000,
+            "last_raw_stamp_ns": 2840000000,
+            "median_raw_gyro_z_rad_s": 0.55,
+            "raw_yaw_delta_rad": 0.19800000000001816
+          },
+          "cleaned": {
+            "phase": "cleaned_unconfigured",
+            "raw_samples": 10,
+            "forwarded_samples": 0,
+            "first_raw_stamp_ns": 3160000000,
+            "last_raw_stamp_ns": 3520000000,
+            "median_raw_gyro_z_rad_s": 0.55,
+            "raw_yaw_delta_rad": 0.19800000000001772
+          }
+        },
+        {
+          "configured": {
+            "phase": "configured_inactive",
+            "raw_samples": 10,
+            "forwarded_samples": 0,
+            "first_raw_stamp_ns": 3840000000,
+            "last_raw_stamp_ns": 4200000000,
+            "median_raw_gyro_z_rad_s": 0.55,
+            "raw_yaw_delta_rad": 0.19800000000001816
+          },
+          "active": {
+            "phase": "active",
+            "raw_samples": 10,
+            "forwarded_samples": 9,
+            "first_raw_stamp_ns": 4520000000,
+            "last_raw_stamp_ns": 4880000000,
+            "median_raw_gyro_z_rad_s": 0.55,
+            "raw_yaw_delta_rad": 0.1980000000000186
+          },
+          "deactivated": {
+            "phase": "deactivated",
+            "raw_samples": 10,
+            "forwarded_samples": 0,
+            "first_raw_stamp_ns": 5080000000,
+            "last_raw_stamp_ns": 5440000000,
+            "median_raw_gyro_z_rad_s": 0.55,
+            "raw_yaw_delta_rad": 0.19800000000001816
+          },
+          "cleaned": {
+            "phase": "cleaned_unconfigured",
+            "raw_samples": 10,
+            "forwarded_samples": 0,
+            "first_raw_stamp_ns": 5760000000,
+            "last_raw_stamp_ns": 6120000000,
+            "median_raw_gyro_z_rad_s": 0.55,
+            "raw_yaw_delta_rad": 0.1980000000000186
+          }
+        }
+      ],
+      "transitions": [
+        {
+          "transition_id": 3,
+          "available_ids": [
+            1,
+            5
+          ],
+          "submitted_as": "label",
+          "accepted": false,
+          "state_id": 1
+        },
+        {
+          "transition_id": 1,
+          "available_ids": [
+            1,
+            5
+          ],
+          "submitted_as": "id",
+          "accepted": true,
+          "state_id": 2
+        },
+        {
+          "transition_id": 3,
+          "available_ids": [
+            2,
+            3,
+            6
+          ],
+          "submitted_as": "id",
+          "accepted": true,
+          "state_id": 3
+        },
+        {
+          "transition_id": 2,
+          "available_ids": [
+            4,
+            7
+          ],
+          "submitted_as": "label",
+          "accepted": false,
+          "state_id": 3
+        },
+        {
+          "transition_id": 4,
+          "available_ids": [
+            4,
+            7
+          ],
+          "submitted_as": "id",
+          "accepted": true,
+          "state_id": 2
+        },
+        {
+          "transition_id": 2,
+          "available_ids": [
+            2,
+            3,
+            6
+          ],
+          "submitted_as": "id",
+          "accepted": true,
+          "state_id": 1
+        },
+        {
+          "transition_id": 1,
+          "available_ids": [
+            1,
+            5
+          ],
+          "submitted_as": "id",
+          "accepted": true,
+          "state_id": 2
+        },
+        {
+          "transition_id": 3,
+          "available_ids": [
+            2,
+            3,
+            6
+          ],
+          "submitted_as": "id",
+          "accepted": true,
+          "state_id": 3
+        },
+        {
+          "transition_id": 2,
+          "available_ids": [
+            4,
+            7
+          ],
+          "submitted_as": "label",
+          "accepted": false,
+          "state_id": 3
+        },
+        {
+          "transition_id": 4,
+          "available_ids": [
+            4,
+            7
+          ],
+          "submitted_as": "id",
+          "accepted": true,
+          "state_id": 2
+        },
+        {
+          "transition_id": 2,
+          "available_ids": [
+            2,
+            3,
+            6
+          ],
+          "submitted_as": "id",
+          "accepted": true,
+          "state_id": 1
+        }
+      ],
+      "final_state": 1
+    },
+    {
+      "passed": true,
+      "installed_package": {
+        "prefix": "/tmp/gt-modern-repeat-2m3b60q1/workspaces/harmonic-jazzy/26/ros_ws/install/gazeboteach_lifecycle",
+        "loaded_module": "/tmp/gt-modern-repeat-2m3b60q1/workspaces/harmonic-jazzy/26/ros_ws/install/gazeboteach_lifecycle/lib/python3.12/site-packages/gazeboteach_lifecycle/sensor.py",
+        "module_sha256": "4d8378ae9d27a18caa5e59a219260907d42e773ad3da31f240c03fedb2112802"
+      },
+      "native_gyro_z_rad_s": 0.5499999999999998,
+      "cycles": [
+        {
+          "configured": {
+            "phase": "configured_inactive",
+            "raw_samples": 10,
+            "forwarded_samples": 0,
+            "first_raw_stamp_ns": 7400000000,
+            "last_raw_stamp_ns": 7760000000,
+            "median_raw_gyro_z_rad_s": 0.5499999999999999,
+            "raw_yaw_delta_rad": 0.19799999999985873
+          },
+          "active": {
+            "phase": "active",
+            "raw_samples": 10,
+            "forwarded_samples": 9,
+            "first_raw_stamp_ns": 8080000000,
+            "last_raw_stamp_ns": 8440000000,
+            "median_raw_gyro_z_rad_s": 0.55,
+            "raw_yaw_delta_rad": 0.1979999999998583
+          },
+          "deactivated": {
+            "phase": "deactivated",
+            "raw_samples": 10,
+            "forwarded_samples": 0,
+            "first_raw_stamp_ns": 8640000000,
+            "last_raw_stamp_ns": 9000000000,
+            "median_raw_gyro_z_rad_s": 0.55,
+            "raw_yaw_delta_rad": 0.1979999999998583
+          },
+          "cleaned": {
+            "phase": "cleaned_unconfigured",
+            "raw_samples": 10,
+            "forwarded_samples": 0,
+            "first_raw_stamp_ns": 9320000000,
+            "last_raw_stamp_ns": 9680000000,
+            "median_raw_gyro_z_rad_s": 0.55,
+            "raw_yaw_delta_rad": 0.1979999999998583
+          }
+        },
+        {
+          "configured": {
+            "phase": "configured_inactive",
+            "raw_samples": 10,
+            "forwarded_samples": 0,
+            "first_raw_stamp_ns": 10000000000,
+            "last_raw_stamp_ns": 10360000000,
+            "median_raw_gyro_z_rad_s": 0.55,
+            "raw_yaw_delta_rad": 0.1979999999998583
+          },
+          "active": {
+            "phase": "active",
+            "raw_samples": 10,
+            "forwarded_samples": 9,
+            "first_raw_stamp_ns": 10680000000,
+            "last_raw_stamp_ns": 11040000000,
+            "median_raw_gyro_z_rad_s": 0.55,
+            "raw_yaw_delta_rad": 0.1979999999998583
+          },
+          "deactivated": {
+            "phase": "deactivated",
+            "raw_samples": 10,
+            "forwarded_samples": 0,
+            "first_raw_stamp_ns": 11240000000,
+            "last_raw_stamp_ns": 11600000000,
+            "median_raw_gyro_z_rad_s": 0.55,
+            "raw_yaw_delta_rad": 0.1979999999998583
+          },
+          "cleaned": {
+            "phase": "cleaned_unconfigured",
+            "raw_samples": 10,
+            "forwarded_samples": 0,
+            "first_raw_stamp_ns": 11920000000,
+            "last_raw_stamp_ns": 12280000000,
+            "median_raw_gyro_z_rad_s": 0.55,
+            "raw_yaw_delta_rad": 0.1979999999998583
+          }
+        }
+      ],
+      "transitions": [
+        {
+          "transition_id": 3,
+          "available_ids": [
+            1,
+            5
+          ],
+          "submitted_as": "label",
+          "accepted": false,
+          "state_id": 1
+        },
+        {
+          "transition_id": 1,
+          "available_ids": [
+            1,
+            5
+          ],
+          "submitted_as": "id",
+          "accepted": true,
+          "state_id": 2
+        },
+        {
+          "transition_id": 3,
+          "available_ids": [
+            2,
+            3,
+            6
+          ],
+          "submitted_as": "id",
+          "accepted": true,
+          "state_id": 3
+        },
+        {
+          "transition_id": 2,
+          "available_ids": [
+            4,
+            7
+          ],
+          "submitted_as": "label",
+          "accepted": false,
+          "state_id": 3
+        },
+        {
+          "transition_id": 4,
+          "available_ids": [
+            4,
+            7
+          ],
+          "submitted_as": "id",
+          "accepted": true,
+          "state_id": 2
+        },
+        {
+          "transition_id": 2,
+          "available_ids": [
+            2,
+            3,
+            6
+          ],
+          "submitted_as": "id",
+          "accepted": true,
+          "state_id": 1
+        },
+        {
+          "transition_id": 1,
+          "available_ids": [
+            1,
+            5
+          ],
+          "submitted_as": "id",
+          "accepted": true,
+          "state_id": 2
+        },
+        {
+          "transition_id": 3,
+          "available_ids": [
+            2,
+            3,
+            6
+          ],
+          "submitted_as": "id",
+          "accepted": true,
+          "state_id": 3
+        },
+        {
+          "transition_id": 2,
+          "available_ids": [
+            4,
+            7
+          ],
+          "submitted_as": "label",
+          "accepted": false,
+          "state_id": 3
+        },
+        {
+          "transition_id": 4,
+          "available_ids": [
+            4,
+            7
+          ],
+          "submitted_as": "id",
+          "accepted": true,
+          "state_id": 2
+        },
+        {
+          "transition_id": 2,
+          "available_ids": [
+            2,
+            3,
+            6
+          ],
+          "submitted_as": "id",
+          "accepted": true,
+          "state_id": 1
+        }
+      ],
+      "final_state": 1
+    }
+  ],
+  "repeat_runtime_sha256": "93b33a3807054b755903cddcc013881f3b7c1983bf4d917e8325f9bb6e912ebd",
+  "repeat": {
+    "ok": true,
+    "session_dir": "/tmp/gt-modern-repeat-2m3b60q1/sessions/harmonic-jazzy-26-20261104-031106-493428",
+    "runtime_log": "/tmp/gt-modern-repeat-2m3b60q1/sessions/harmonic-jazzy-26-20261104-031106-493428/runtime.log",
+    "elapsed_seconds": 16.073,
+    "token": "6142591a2f224a0785adeb136802159c"
+  },
+  "invalid_numeric_transition_regression": {
+    "raw_log_sha256": "ab438d136e1e8ac2b8e9025d7eb0a58f27d79434a7c173c097fc1b1eb5cd9bc7",
+    "cause": "Jazzy rclpy uncaught RCLError for unregistered numeric transition",
+    "safe_negative_path": "GetAvailableTransitions plus rejected label request, then unchanged GetState"
+  }
+}

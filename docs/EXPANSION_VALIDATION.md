@@ -284,12 +284,20 @@ ROS 时钟单向由 ros_gz 桥入，两个实际纳秒消息夹住独立读取�
 
 ## M25：同源 URDF、实际关节与带时刻的 TF
 
-2026-11-04，Gazebo Harmonic 真转换并加载个人 URDF 的 SDF；生成文件独立核对 base、arm、tool、revolute shoulder 和保留的 fixed tool_mount。实际 ROS 2 launch 将相同 robot_description 交给 robot_state_publisher，并启动速度命令／关节状态和时钟桥。测试在 +0.65、−0.45、0 rad 三个目标等待原生关节稳定，再按关节消息的时刻查询 TF，独立原生工具位置和 TF 的最大差约 0.94 mm。正负角到达工具的不同侧，最后回到中位并检查停稳。
+2026-11-04，Gazebo Harmonic 真转换并加载个人 URDF 的 SDF；生成文件独立核对 base、arm、tool、revolute shoulder 和保留的 fixed tool_mount。实际 ROS 2 launch 将相同 robot_description 交给 robot_state_publisher，并启动位置命令／关节状态和时钟桥。测试在 +0.65、−0.45、0 rad 三个目标等待原生关节稳定，再按关节消息的时刻查询 TF，独立原生工具位置和 TF 的最大差约 0.94 mm。正负角到达工具的不同侧，最后回到中位并检查停稳。
 
 SDF 有效，命令行 10.564 秒、同会话两次 14.410 秒、桌面 12.737 秒；真实模型、终端、验收和进程清理通过。[验证记录](verification/M25.json) 附各时刻的原生位姿与 TF，转换文件和日志在两端 `.deploy/addons/M25`。
 
 ![M25 从 URDF 生成的实际机械臂](images/m25-arm.png)
 
+## M26：Jazzy 私有 colcon 安装与生命周期数据门控
+
+2026-11-04，实际 colcon 在个人工作区构建并安装 ament_python 包，从已安装模块启动，核对 ament 前缀、模块路径及源码摘要。Harmonic 转子原生 IMU 测得约 0.55 rad/s；configure 创建资源，activate 只转发实际原始消息，按时间戳核对 CDR 一致。桌面两个生命周期循环各观察到 9 条有效转发；configure 未激活、deactivate 和 cleanup 观察窗口内均无新转发，原始 IMU 仍推进。cleanup 移除端点，最终为 unconfigured。
+
+首轮向不允许的状态提交数字 ID 使当前 Jazzy rclpy 抛出异常；现先读实际 GetAvailableTransitions，合法转换用 ID，拒绝实验用标签请求得到实际 false 和未变状态。命令行 11.923 秒、同会话两次 16.073 秒、桌面 13.933 秒；实际图形、两个终端及清理通过。[验证记录](verification/M26.json) 和两端 `.deploy/addons/M26` 保留原始证据。
+
+![M26 原生转子与传感器](images/m26-lifecycle.png)
+
 ## 后续目标
 
-M26：按计划逐门建立活动目标、真实验收、提交推送后追加记录。目前不能因本地存在草稿就计为完成。
+G04：对已交付的 62 个项目执行跨环境回归、核对清理和安装包。
