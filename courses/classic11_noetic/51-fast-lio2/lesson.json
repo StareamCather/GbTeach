@@ -1,0 +1,32 @@
+{
+  "id": "51",
+  "title": "FAST-LIO2：直接点到地图、增量 ikd-Tree 与特征模式对照",
+  "module": "附加专项·激光惯性里程计",
+  "order": 51,
+  "profile": "classic11-noetic",
+  "requires_ros": true,
+  "requires_tools": ["g++", "pkg-config", "catkin_make", "rosbag"],
+  "requires_plugins": ["libgazebo_ros_imu_sensor.so"],
+  "requires_ros_packages": ["gazebo_plugins", "pcl_ros", "pcl_conversions", "eigen_conversions"],
+  "requires_python_modules": ["numpy"],
+  "requires_pkg_config": {"gazebo": "11.15.1"},
+  "requires_native_server": true,
+  "graceful_server_shutdown": true,
+  "world": "world.sdf",
+  "prepare": ["python3 prepare.py", "python3 build_fast_lio2.py --download"],
+  "prepare_timeout": 980,
+  "after_startup": ["python3 native_ready.py"],
+  "verify": "verify.py",
+  "verify_timeout": 160,
+  "reference": "reference.md",
+  "objectives": [
+    "核对分时点云的实际 ring 与秒单位 time 字段",
+    "跟踪 IKFoM、点到面匹配及 ikd-Tree 增量地图更新",
+    "用同一份数据比较直接模式与特征模式的输出和误差"
+  ],
+  "commands": [
+    {"title": "实采并比较直接模式与特征模式", "command": "python3 adapter.py run"},
+    {"title": "编辑体素与雅可比练习", "command": "gedit --new-window learner.py"},
+    {"title": "检查个人练习", "command": "python3 student_check.py"}
+  ]
+}

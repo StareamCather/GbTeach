@@ -1,0 +1,50 @@
+<launch>
+  <arg name="mode_namespace"/>
+  <arg name="features" default="false"/>
+  <group ns="$(arg mode_namespace)">
+    <rosparam>
+      common:
+        lid_topic: /gt_lio/replay_points
+        imu_topic: /gt_lio/replay_imu
+        time_sync_en: false
+        time_offset_lidar_to_imu: 0.0
+      preprocess:
+        lidar_type: 2
+        scan_line: 16
+        scan_rate: 10
+        timestamp_unit: 0
+        blind: 0.35
+      mapping:
+        acc_cov: 0.1
+        gyr_cov: 0.1
+        b_acc_cov: 0.0001
+        b_gyr_cov: 0.0001
+        fov_degree: 180.0
+        det_range: 30.0
+        extrinsic_est_en: false
+        extrinsic_T: [0.04165, 0.02326, -0.0284]
+        extrinsic_R: [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0]
+      publish:
+        path_en: true
+        scan_publish_en: true
+        dense_publish_en: false
+        scan_bodyframe_pub_en: false
+        local_map_en: true
+      pcd_save:
+        pcd_save_en: false
+      max_iteration: 4
+      point_filter_num: 1
+      filter_size_surf: 0.2
+      filter_size_map: 0.2
+      cube_side_length: 100.0
+      runtime_pos_log_enable: true
+    </rosparam>
+    <param name="feature_extract_enable" type="bool" value="$(arg features)"/>
+    <node pkg="fast_lio" type="fastlio_mapping" name="laserMapping" output="screen" required="true">
+      <remap from="/Odometry" to="/$(arg mode_namespace)/odometry"/>
+      <remap from="/cloud_registered" to="/$(arg mode_namespace)/registered"/>
+      <remap from="/Laser_map" to="/$(arg mode_namespace)/map"/>
+      <remap from="/path" to="/$(arg mode_namespace)/path"/>
+    </node>
+  </group>
+</launch>
