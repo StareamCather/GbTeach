@@ -1,6 +1,7 @@
 """Lesson-local ROS discovery and managed startup readiness; no ROS is started."""
 
 import os
+import signal
 from pathlib import Path
 import subprocess
 import tempfile
@@ -151,6 +152,19 @@ class ManagedStartupTests(unittest.TestCase):
         self.session.start(gui=False, terminals=False)
         self.assertEqual(self.calls, ["prepare-fixture", "gzserver", "server-ready", "world-ready",
                                      "launch-driver", "launch-monitor"])
+
+    def test_opt_in_graceful_shutdown_only_signals_the_owned_server_differently(self):
+        self.session.lesson.data['graceful_server_shutdown']=True
+        self.session.start(gui=False,terminals=False)
+        with mock.patch('gazeboteach.runtime.terminate_owned',side_effect=self.terminate) as terminate:
+            self.session.stop()
+        changed=[entry for entry in terminate.call_args_list if entry.kwargs.get('first_signal') is not None]
+        self.assertEqual(changed,[mock.call(self.session.server,first_signal=signal.SIGINT)])
+        self.assertTrue(all(child.poll() is not None for child in self.children))
+
+    def test_graceful_shutdown_manifest_flag_must_be_boolean(self):
+        with self.assertRaisesRegex(ValueError,'graceful_server_shutdown'):
+            Lesson(self.session.lesson.folder,dict(self.session.lesson.data,graceful_server_shutdown='yes'))
 
     def assert_failed_stack_cleaned(self, message):
         with self.assertRaisesRegex(RuntimeError, message):

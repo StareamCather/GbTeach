@@ -97,7 +97,7 @@ def _terminate_group(pgid, token, grace=3, first_signal=None):
             time.sleep(0.05)
 
 
-def terminate_owned(process, grace=3, token=None):
+def terminate_owned(process, grace=3, token=None, first_signal=None):
     """Clean a created process group even when its original parent has exited."""
     if os.name == "posix":
         token = token or getattr(process, "_gazeboteach_token", None)
@@ -107,7 +107,7 @@ def terminate_owned(process, grace=3, token=None):
             recorded = getattr(process, "_gazeboteach_start_time", None)
             if info and recorded and info["start_time"] != recorded:
                 return
-            _terminate_group(pgid, token, grace=grace)
+            _terminate_group(pgid, token, grace=grace, first_signal=first_signal)
         elif process.poll() is None:
             # Backwards compatible for caller-owned Popen; do not signal its caller's group.
             try:
@@ -679,7 +679,13 @@ class LessonSession:
                 self.log("持久原生控制客户端清理（先于服务端）：" + json.dumps(cleanup, ensure_ascii=False))
             self._close_terminal_groups()
             for name, process in reversed(self.processes):
-                terminate_owned(process)
+                if process is self.server and self.lesson.data.get("graceful_server_shutdown"):
+                    # Classic handles SIGINT through its normal shutdown path,
+                    # which gives this opt-in course's plugin time to release
+                    # filesystem endpoints. Ownership/kill bounds still apply.
+                    terminate_owned(process, first_signal=signal.SIGINT)
+                else:
+                    terminate_owned(process)
             if os.name == "posix":
                 # ROS launchers may create new process groups; the unguessable inherited
                 # token proves ownership even after their immediate parent has exited.

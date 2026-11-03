@@ -31,7 +31,8 @@ class Lesson:
         if isinstance(data.get("order", 0), bool):
             raise ValueError("order must be an integer")
         self.order = int(data.get("order", self.id))
-        for name in ("requires_ros", "needs_display", "requires_gui", "requires_qt_moc", "requires_native_server"):
+        for name in ("requires_ros", "needs_display", "requires_gui", "requires_qt_moc", "requires_native_server",
+                     "graceful_server_shutdown"):
             if name in data and not isinstance(data[name], bool):
                 raise ValueError(name + " must be boolean")
         self.requires_ros = data.get("requires_ros", False)
