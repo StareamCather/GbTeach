@@ -1,0 +1,88 @@
+{
+  "id": "42",
+  "title": "ROS 1 通信专项：节点图、类型、队列与锁存",
+  "module": "附加专项·ROS 1工程",
+  "profile": "classic11-noetic",
+  "order": 42,
+  "summary": "从第22课知道如何启动节点后，本课回答“数据究竟从哪里来、谁在接收”。把运动滑块作为数据源，先画通信图，再通过真实 ROS Master 和 TCPROS 消息验证。",
+  "requires_ros": true,
+  "requires_plugins": [
+    "libgazebo_ros_api_plugin.so"
+  ],
+  "requires_ros_packages": [
+    "rospy",
+    "roslaunch",
+    "rosgraph",
+    "std_msgs",
+    "std_srvs",
+    "geometry_msgs",
+    "gazebo_msgs"
+  ],
+  "requires_tools": [
+    "roslaunch",
+    "rosparam",
+    "rospack",
+    "rostopic",
+    "rosnode",
+    "rosmsg"
+  ],
+  "ros_package_paths": [
+    "ros_ws/src"
+  ],
+  "world": "world.sdf",
+  "prepare": [
+    "python3 prepare.py"
+  ],
+  "startup": [
+    {
+      "name": "ROS1专项仪器",
+      "command": "roslaunch gazeboteach_workshop42 lab.launch"
+    }
+  ],
+  "after_startup": [
+    "python3 lab.py ready"
+  ],
+  "after_startup_timeout": 25,
+  "verify": "verify.py",
+  "verify_timeout": 65,
+  "reference": "reference.md",
+  "objectives": [
+    "节点图、类型、队列与锁存",
+    "追溯Gazebo真实关节与ROS消息来源",
+    "比较预测、运行读回与故障证据"
+  ],
+  "commands": [
+    {
+      "title": "查看真实关节与时钟",
+      "command": "python3 lab.py state"
+    },
+    {
+      "title": "施加有限力脉冲",
+      "command": "python3 lab.py pulse"
+    },
+    {
+      "title": "执行本课真实验收",
+      "command": "python3 verify.py"
+    },
+    {
+      "title": "查看ROS图",
+      "command": "rostopic list"
+    },
+    {
+      "title": "查看实际节点注册",
+      "command": "rosnode list"
+    },
+    {
+      "title": "查看状态的类型与连接",
+      "command": "rostopic info /workshop42/state"
+    },
+    {
+      "title": "迟加入订阅器读取锁存状态",
+      "command": "rostopic echo -n 1 /workshop42/ready"
+    },
+    {
+      "title": "编辑独立填空练习",
+      "command": "gedit --new-window student.py"
+    }
+  ]
+}

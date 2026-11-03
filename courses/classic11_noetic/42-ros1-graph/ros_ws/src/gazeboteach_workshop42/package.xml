@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>gazeboteach_workshop42</name><version>0.1.0</version>
+  <description>A42 independent private typed ROS1 joint-feedback teaching instrument</description>
+  <maintainer email="maintainer@example.invalid">GazeboTeach</maintainer><license>MIT</license>
+  <buildtool_depend>catkin</buildtool_depend>
+  <exec_depend>rospy</exec_depend><exec_depend>rosgraph</exec_depend>
+  <exec_depend>std_msgs</exec_depend><exec_depend>std_srvs</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend><exec_depend>gazebo_msgs</exec_depend>
+</package>
