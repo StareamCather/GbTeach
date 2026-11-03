@@ -1,0 +1,137 @@
+{
+  "phase": "A38",
+  "date": "2026-11-03",
+  "passed": true,
+  "acceptance": {
+    "lesson": "38",
+    "ok": true,
+    "data_dir": "/tmp/gazeboteach-a38-thutglb8",
+    "checks": [
+      {
+        "name": "real_baseline_probes_and_window",
+        "passed": true,
+        "actual": {
+          "sequence": 60,
+          "sim_time_s": 5.918,
+          "probes": [
+            {
+              "name": "probe_table",
+              "x": -2,
+              "y": 0,
+              "z": 1.0799999999970569,
+              "speed": 0
+            },
+            {
+              "name": "probe_pallet",
+              "x": 0,
+              "y": 0.32,
+              "z": 0.479999999997057,
+              "speed": 0
+            },
+            {
+              "name": "probe_gap",
+              "x": 0,
+              "y": 0,
+              "z": 0.079999999997057,
+              "speed": 0
+            }
+          ]
+        },
+        "gui": {
+          "window_id": "0x5c00012",
+          "pid": 75983,
+          "width": 2488,
+          "height": 1376,
+          "screenshot": "/home/ikaros/GazeboTeach/.deploy/addons/A38/a38-factory-overview.png",
+          "properties": "_NET_WM_PID(CARDINAL) = 75983\n_NET_WM_NAME(UTF8_STRING) = \"Gazebo\"",
+          "image_metrics": {
+            "nontrivial_pixels": true,
+            "sample_count": 1568,
+            "distinct_sampled_colors": 87,
+            "luma_range": 184,
+            "nonblack_fraction": 1.0,
+            "non_dominant_fraction": 0.83036
+          },
+          "manual_scene_review_required": true
+        }
+      },
+      {
+        "name": "student_table_height_change_only",
+        "passed": true,
+        "before": {
+          "probe_table": 1.0799999999970569,
+          "probe_pallet": 0.479999999997057,
+          "probe_gap": 0.079999999997057
+        },
+        "after": {
+          "probe_table": 1.2799999999970568,
+          "probe_pallet": 0.479999999997057,
+          "probe_gap": 0.079999999997057
+        }
+      },
+      {
+        "name": "all_test_owned_processes_cleaned",
+        "passed": true
+      }
+    ],
+    "elapsed_seconds": 19.836
+  },
+  "desktop": {
+    "ok": true,
+    "lesson": "38",
+    "profile": "classic11-noetic",
+    "data_dir": "/tmp/gazeboteach-addon-desktop-ilbu2srw",
+    "checks": [
+      {
+        "name": "real_desktop_material_selected",
+        "passed": true,
+        "document_characters": 2747
+      },
+      {
+        "name": "start_button_initialized_real_world_gui_and_ptys",
+        "passed": true,
+        "session": "/tmp/gazeboteach-addon-desktop-ilbu2srw/data/sessions/classic11-noetic-38-20261103-224449-345468",
+        "token": "6f9f972e83fa47039afc0e722c46cb13"
+      },
+      {
+        "name": "verify_button_checks_real_behavior",
+        "passed": true
+      },
+      {
+        "name": "desktop_exit_cleans_owned_processes",
+        "passed": true
+      }
+    ],
+    "elapsed_seconds": 12.324
+  },
+  "manual_scene_review": {
+    "passed": true,
+    "observed": [
+      "rack/crate assembly",
+      "machine shell and vent detail",
+      "table with settled ball",
+      "pallet visual versus collision result",
+      "real back-wall doorway"
+    ],
+    "remaining_learner_tasks": [
+      "rotate to inspect every mesh normal",
+      "interactive collision overlay and custom doorway challenge"
+    ]
+  },
+  "source_sha256": {
+    "courses/classic11_noetic/38-detailed-factory/lab.py": "dcb8bcbcca93be24793cf983c6aca08ee8ebc00dddaec6e1e8378586fa3edb36",
+    "courses/classic11_noetic/38-detailed-factory/lesson.json": "1a88759cd72b13729c733cf6e2f17ad03564b761f580560423556d4bf929b878",
+    "courses/classic11_noetic/38-detailed-factory/lesson.md": "418cd547390c71a79b4bd9a1179a0cc759c807b9c3682215b701add7c6880dd0",
+    "courses/classic11_noetic/38-detailed-factory/mesh_builder.py": "82d555af40ecd542168ff62dddfe201604d43989b6ac8e98e4899968045c0187",
+    "courses/classic11_noetic/38-detailed-factory/models/factory_detail/meshes/cell.dae": "3a7823ba6aa4dab3cb96fdfa53616216df43e6f06b35444b54578d16fb1f15d2",
+    "courses/classic11_noetic/38-detailed-factory/models/factory_detail/model.config": "fbd5bd7db6e9e0d93157bba5265d7df9d42b84a66a94f1b27ccc79b426a6c99e",
+    "courses/classic11_noetic/38-detailed-factory/models/factory_detail/model.sdf": "612697b3f485b31e0e996f7f60fed2e5636d163e688aea17f23b0bcdffd3c344",
+    "courses/classic11_noetic/38-detailed-factory/native/probes.cc": "b2e5b0f0ed6fd5fa3ac8feb20937092717bb51d0e7ba63988f0fbf227df8771c",
+    "courses/classic11_noetic/38-detailed-factory/parameters.json": "4c1af61c120b473a8fc626a7edb47290b916c9d01c2bf261c8a4ed1c7d8b5e37",
+    "courses/classic11_noetic/38-detailed-factory/prepare.py": "bb841aa71788f74c0e529f48608d7cd685da6fd9ebd5efbd0e03b7e268a8f7f1",
+    "courses/classic11_noetic/38-detailed-factory/reference.md": "be62cfbfd81c7a07b1e088e983720751c944bb3ac4ad30067ab4b791cce34897",
+    "courses/classic11_noetic/38-detailed-factory/scene.py": "89fcdadf6c8d2a0dde83423e8183767084eb9efc41ff5d41216182062f08d566",
+    "courses/classic11_noetic/38-detailed-factory/verify.py": "e0e02338c2a153bb55662d88b39b81a0660dabae0835174218a8e5ab5c7ef4b7",
+    "courses/classic11_noetic/38-detailed-factory/world.sdf": "d288149c0b263bac26d487bc635593676b4f6b8fbefb5d2772e5581d8515ad5f"
+  }
+}

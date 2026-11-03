@@ -1,0 +1,52 @@
+{
+  "id": "38",
+  "title": "精细工厂：参数化网格、装配层级与碰撞代理",
+  "module": "附加专项·精细场景",
+  "summary": "从毫米级装配细节到米制SDF，用真实落球发现“看得见”和“撞得到”的差别。",
+  "order": 38,
+  "profile": "classic11-noetic",
+  "requires_ros": false,
+  "requires_tools": [
+    "g++",
+    "pkg-config"
+  ],
+  "requires_pkg_config": {
+    "gazebo": "11.15.1"
+  },
+  "requires_native_server": true,
+  "world": "world.sdf",
+  "prepare": [
+    "python3 prepare.py"
+  ],
+  "prepare_timeout": 150,
+  "verify": "verify.py",
+  "verify_timeout": 35,
+  "reference": "reference.md",
+  "objectives": [
+    "拆解 visual / collision / inertial / frame 的独立职责",
+    "生成离线 COLLADA 网格，控制单位、轴向、三角面数和UV密度",
+    "以三组真实落球检查碰撞代理、托盘间隙和台面高度"
+  ],
+  "commands": [
+    {
+      "title": "查看当前模型与资源清单",
+      "command": "python3 lab.py inspect"
+    },
+    {
+      "title": "离线重建个人机床网格，重启后显示",
+      "command": "python3 mesh_builder.py"
+    },
+    {
+      "title": "运行真实行为验收",
+      "command": "python3 verify.py"
+    },
+    {
+      "title": "用系统编辑器修改练习输入",
+      "command": "gedit --new-window parameters.json"
+    },
+    {
+      "title": "查看算法参考与实验建议",
+      "command": "gedit --new-window reference.md"
+    }
+  ]
+}

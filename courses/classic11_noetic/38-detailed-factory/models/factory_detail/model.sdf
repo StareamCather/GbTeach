@@ -1,0 +1,1 @@
+<sdf version="1.6"><model name="factory_detail"><static>true</static><link name="body"><visual name="detail"><geometry><mesh><uri>model://factory_detail/meshes/cell.dae</uri></mesh></geometry></visual></link></model></sdf>
