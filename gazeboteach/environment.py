@@ -129,7 +129,7 @@ def detect_environment():
     names = ["gazebo", "gzserver", "gzclient", "gz", "ign", "roscore", "roslaunch",
              "rospack", "rosrun", "gnome-terminal", "xterm", "bash", "cmake", "make",
              "g++", "setsid", "gedit", "xdg-open", "python3", "ros2", "pkg-config", "python3-config",
-             "rosparam", "rosservice", "rostopic", "rosnode", "rosmsg", "rossrv", "catkin_make",
+             "rosparam", "rosservice", "rostopic", "rosnode", "rosmsg", "rossrv", "catkin_make", "rosbag",
              "rviz", "xacro", "colcon"]
     tools = {name: shutil.which(name) for name in names}
     incomplete, errors = [], []

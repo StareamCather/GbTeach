@@ -17,8 +17,8 @@ class ROSGraphToolDiscovery(unittest.TestCase):
         self.assertEqual(child['DISPLAY'],':1')
         self.assertEqual(inherited['ROS_NAMESPACE'],'/external_robot')
 
-    def test_graph_schema_and_build_tools_are_probed_and_enable_the_matching_lesson(self):
-        requested=('rosnode','rosmsg','rossrv','catkin_make')
+    def test_graph_schema_build_and_bag_tools_are_probed_and_enable_the_matching_lesson(self):
+        requested=('rosnode','rosmsg','rossrv','catkin_make','rosbag')
         def which(name):
             return '/fixture/bin/'+name if name in requested else None
         with mock.patch('gazeboteach.environment.shutil.which',side_effect=which), \
