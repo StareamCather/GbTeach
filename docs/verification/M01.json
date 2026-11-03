@@ -1,0 +1,365 @@
+{
+  "headless_smoke": {
+    "mode": "smoke",
+    "lesson": "01",
+    "profile": "harmonic-jazzy",
+    "data_dir": "/tmp/gazeboteach-smoke-m7kd6lg5",
+    "fresh_data_dir": true,
+    "gui_requested": false,
+    "terminals_requested": false,
+    "workspace": "/tmp/gazeboteach-smoke-m7kd6lg5/workspaces/harmonic-jazzy/01",
+    "log": "/tmp/gazeboteach-smoke-m7kd6lg5/sessions/harmonic-jazzy-01-20261104-023419-140863/runtime.log",
+    "session_dir": "/tmp/gazeboteach-smoke-m7kd6lg5/sessions/harmonic-jazzy-01-20261104-023419-140863",
+    "health": {
+      "running": true,
+      "state": "运行中",
+      "error": null,
+      "failed_processes": [],
+      "gui_running": false,
+      "terminal_running": 0,
+      "window_tag": "[GT-01]",
+      "window_role": "gazeboteach-68aab09979ee40ebb825fa742b5b8f4d",
+      "auxiliary": []
+    },
+    "verification": {
+      "passed": true,
+      "returncode": 0,
+      "log": "/tmp/gazeboteach-smoke-m7kd6lg5/sessions/harmonic-jazzy-01-20261104-023419-140863/runtime.log"
+    },
+    "ok": true,
+    "final_health": {
+      "running": false,
+      "state": "已结束",
+      "error": null,
+      "failed_processes": [
+        {
+          "name": "Gazebo 服务端",
+          "returncode": 0
+        }
+      ],
+      "gui_running": false,
+      "terminal_running": 0,
+      "window_tag": "[GT-01]",
+      "window_role": "gazeboteach-68aab09979ee40ebb825fa742b5b8f4d",
+      "auxiliary": []
+    },
+    "elapsed_seconds": 10.338
+  },
+  "desktop_final": {
+    "ok": true,
+    "lesson": "01",
+    "profile": "harmonic-jazzy",
+    "data_dir": "/tmp/gazeboteach-addon-desktop-wopz_igl",
+    "checks": [
+      {
+        "name": "real_desktop_material_selected",
+        "passed": true,
+        "document_characters": 3014
+      },
+      {
+        "name": "start_button_initialized_real_world_gui_and_ptys",
+        "passed": true,
+        "session": "/tmp/gazeboteach-addon-desktop-wopz_igl/data/sessions/harmonic-jazzy-01-20261104-023741-449630",
+        "token": "1926e97c92f54b5cba053543a1c640a2"
+      },
+      {
+        "name": "real_owned_native_gui_window",
+        "passed": true,
+        "window_id": "0x560000e",
+        "pid": 3180,
+        "width": 1200,
+        "height": 1000,
+        "screenshot": "/tmp/gt-M01-final/desktop-gazebo.png",
+        "properties": "_NET_WM_PID(CARDINAL) = 3180\n_NET_WM_NAME(UTF8_STRING) = \"Gazebo Sim\"",
+        "image_metrics": {
+          "nontrivial_pixels": true,
+          "sample_count": 1584,
+          "distinct_sampled_colors": 73,
+          "luma_range": 250,
+          "nonblack_fraction": 0.99937,
+          "non_dominant_fraction": 0.73674
+        },
+        "manual_scene_review_required": true
+      },
+      {
+        "name": "verify_button_checks_real_behavior",
+        "passed": true
+      },
+      {
+        "name": "desktop_exit_cleans_owned_processes",
+        "passed": true
+      }
+    ],
+    "elapsed_seconds": 12.746
+  },
+  "desktop_final_physics": {
+    "passed": true,
+    "beam_landing": {
+      "expected_z": 2.8000000000000003,
+      "landing": [
+        6.90213448322257e-20,
+        1.35,
+        2.7969226779946506
+      ],
+      "settled_samples": [
+        [
+          9.537092009001448e-20,
+          1.35,
+          2.7966247071974997
+        ],
+        [
+          6.893551578580924e-20,
+          1.35,
+          2.796774692498079
+        ],
+        [
+          6.90213448322257e-20,
+          1.35,
+          2.7969226779946506
+        ]
+      ]
+    },
+    "floor_landing": {
+      "expected_z": 0.1,
+      "landing": [
+        6.881856161261267e-19,
+        2.65,
+        0.09815864937965633
+      ],
+      "settled_samples": [
+        [
+          6.148106109348617e-19,
+          2.65,
+          0.09786067858255922
+        ],
+        [
+          6.511424481171083e-19,
+          2.65,
+          0.09800466447108937
+        ],
+        [
+          6.881856161261267e-19,
+          2.65,
+          0.09815864937965633
+        ]
+      ]
+    },
+    "stations": {
+      "station_a": {
+        "center": [
+          -1.9,
+          -1.3,
+          0.6
+        ],
+        "visual_size": [
+          1.15,
+          0.86,
+          0.4
+        ],
+        "collision_size": [
+          1.15,
+          0.86,
+          0.4
+        ],
+        "expected_z": 0.9,
+        "landing": [
+          -1.9,
+          -1.3,
+          0.898184871134824
+        ],
+        "settled_samples": [
+          [
+            -1.9,
+            -1.3,
+            0.8978569032776301
+          ],
+          [
+            -1.9,
+            -1.3,
+            0.8980308862262635
+          ],
+          [
+            -1.9,
+            -1.3,
+            0.898184871134824
+          ]
+        ]
+      },
+      "station_b": {
+        "center": [
+          0.0,
+          -1.3,
+          0.6
+        ],
+        "visual_size": [
+          1.15,
+          0.86,
+          0.16
+        ],
+        "collision_size": [
+          1.15,
+          0.86,
+          0.4
+        ],
+        "expected_z": 0.9,
+        "landing": [
+          -1.8313086471150732e-19,
+          -1.3,
+          0.8981308764266275
+        ],
+        "settled_samples": [
+          [
+            -2.0241166764339144e-19,
+            -1.3,
+            0.89783490543355
+          ],
+          [
+            -1.877863172207036e-19,
+            -1.3,
+            0.897984890734096
+          ],
+          [
+            -1.8313086471150732e-19,
+            -1.3,
+            0.8981308764266275
+          ]
+        ]
+      },
+      "station_c": {
+        "center": [
+          1.9,
+          -1.3,
+          0.6
+        ],
+        "visual_size": [
+          1.15,
+          0.86,
+          0.16
+        ],
+        "collision_size": [
+          1.15,
+          0.86,
+          0.8
+        ],
+        "expected_z": 1.1,
+        "landing": [
+          1.9,
+          -1.3,
+          1.0981428752506706
+        ],
+        "settled_samples": [
+          [
+            1.9,
+            -1.3,
+            1.0978429046495786
+          ],
+          [
+            1.9,
+            -1.3,
+            1.0979868905381027
+          ],
+          [
+            1.9,
+            -1.3,
+            1.0981428752506706
+          ]
+        ]
+      }
+    },
+    "visual_only_height_delta_m": -5.3994708196558605e-05,
+    "collision_only_height_delta_m": 0.20001199882404308,
+    "collision_only_expected_delta_m": 0.2,
+    "pbr_local_texture_files": [
+      "textures/albedo.png",
+      "textures/normal.png",
+      "textures/roughness.png"
+    ],
+    "visual_check": "Inspect Ogre2 materials, lighting and silhouettes in the GUI."
+  },
+  "standalone_gui_final": {
+    "window_id": "0x540000e",
+    "pid": 2677,
+    "width": 1200,
+    "height": 1000,
+    "screenshot": "/tmp/gt-M01-view/pbr-neutral.png",
+    "properties": "_NET_WM_PID(CARDINAL) = 2677\n_NET_WM_NAME(UTF8_STRING) = \"Gazebo Sim\"",
+    "image_metrics": {
+      "nontrivial_pixels": true,
+      "sample_count": 1584,
+      "distinct_sampled_colors": 70,
+      "luma_range": 250,
+      "nonblack_fraction": 0.99937,
+      "non_dominant_fraction": 0.72475
+    },
+    "manual_scene_review_required": true,
+    "session_dir": "/tmp/gt-m01-view-sgilvexu/sessions/harmonic-jazzy-01-20261104-023651-677572",
+    "owned_processes_cleaned": true
+  },
+  "roughness_variant": {
+    "window_id": "0x540000e",
+    "pid": 2909,
+    "width": 1200,
+    "height": 1000,
+    "screenshot": "/tmp/gt-M01-view/pbr-rough.png",
+    "properties": "_NET_WM_PID(CARDINAL) = 2909\n_NET_WM_NAME(UTF8_STRING) = \"Gazebo Sim\"",
+    "image_metrics": {
+      "nontrivial_pixels": true,
+      "sample_count": 1584,
+      "distinct_sampled_colors": 70,
+      "luma_range": 250,
+      "nonblack_fraction": 0.99937,
+      "non_dominant_fraction": 0.72475
+    },
+    "manual_scene_review_required": true,
+    "session_dir": "/tmp/gt-m01-view-64kr7e00/sessions/harmonic-jazzy-01-20261104-023732-266428",
+    "right_roughness": 0.8,
+    "owned_processes_cleaned": true
+  },
+  "visual_comparison": {
+    "only_changed": "right_visual roughness 0.15 to 0.8",
+    "pixel_region_bounds_xyxy": {
+      "right_post": [
+        443,
+        470,
+        470,
+        540
+      ],
+      "left_post": [
+        365,
+        390,
+        465,
+        525
+      ],
+      "beam": [
+        430,
+        460,
+        400,
+        430
+      ]
+    },
+    "mean_absolute_rgb_difference_8bit": {
+      "right_post": 20.335273368606703,
+      "left_post": 0.0,
+      "beam": 0.0
+    },
+    "raw_screenshot_sha256": {
+      "pbr-delayed.png": "653dc55fb90ed1c7998f82ac75d0ec571aad225d56d79c0549a111b0a07092ba",
+      "pbr-neutral.png": "5ebac7f83e5a0df9c14c0a44ac912c5a5f37bf267c5659fa48a8ab507c8e4a96",
+      "pbr-rough.png": "4d867ee4ebe9152b846eef49f8070d3fb8f2472ecaf6b37cb7ee52e7a06bd248"
+    },
+    "renderer": "Ogre2 NVIDIA GeForce RTX 4090/PCIe/SSE2"
+  },
+  "source_sha256": {
+    "courses/modern_ros2/01-pbr-workshop/_bootstrap.py": "7874870ac1e2ee63512b7cc354a88da6d58ee6b6b0a565a0bd684d8875359a5f",
+    "courses/modern_ros2/01-pbr-workshop/lab.py": "5312259ab3b18c1ab409e3cb2933e4d282d703386a3af52181d17020f22c51e7",
+    "courses/modern_ros2/01-pbr-workshop/lesson.json": "67e8feb189ce6a7ceec2eb8bfecc0131764ca55634f16eb4674f5dd98c44f568",
+    "courses/modern_ros2/01-pbr-workshop/lesson.md": "bd1d93c068d8d6726e2232d159ffdf8bdf33ac7874a8e4891908160e5aa5fb66",
+    "courses/modern_ros2/01-pbr-workshop/reference.md": "a0be364d768b08f249ac1e64bcd9e39fde508d82c70577843b05b47892b37059",
+    "courses/modern_ros2/01-pbr-workshop/textures/albedo.png": "07c93d6241c4261ff6fd1901714341852ea5873fea56a1db02aeab5d74bca81b",
+    "courses/modern_ros2/01-pbr-workshop/textures/normal.png": "9066e5dfe5f664b2afbf79044205c88b14ecc3f75d4551093daad728613c7b4b",
+    "courses/modern_ros2/01-pbr-workshop/textures/roughness.png": "ca094d7401ea30f829f55dfdc8f44c49eaa120f0647be80968164b3fa58f8320",
+    "courses/modern_ros2/01-pbr-workshop/verify.py": "042cb190dcb7e962def1a0870fd783ae96ea2e099635d5702e09518418b6083f",
+    "courses/modern_ros2/01-pbr-workshop/world.sdf": "2ff8c8510b94d6f8e038b8f59be061ecdf9043ae39a89e3da3a9bdf48f54065c",
+    "courses/modern_ros2/_support/common.py": "2e8a4cb02f1132ceb6b3caa037e52d9703a06ed3113e29fb281b47fe0524f8c3"
+  }
+}
