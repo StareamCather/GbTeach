@@ -1,0 +1,335 @@
+{
+  "phase": "A40",
+  "date": "2026-11-03",
+  "passed": true,
+  "acceptance": {
+    "lesson": "40",
+    "ok": true,
+    "data_dir": "/tmp/gazeboteach-a40-0c_s_461",
+    "checks": [
+      {
+        "name": "baseline",
+        "passed": true,
+        "verification": {
+          "passed": true,
+          "checks": {
+            "actual_frame_advances": true,
+            "red_light_changes_graycard": true,
+            "blue_light_changes_graycard": true,
+            "finite_illuminated_scene": true
+          },
+          "actual": {
+            "sequence": 10,
+            "sim_time_s": 0.667,
+            "width": 640,
+            "height": 360,
+            "format": "R8G8B8",
+            "fnv64": "1612533116522107224"
+          },
+          "graycard_rgb": {
+            "red_spot": [
+              136.3869642857143,
+              27.025714285714287,
+              27.025714285714287
+            ],
+            "blue_spot": [
+              26.10625,
+              26.10625,
+              135.46714285714285
+            ],
+            "occluded_center": [
+              18.775,
+              18.775,
+              18.775
+            ]
+          },
+          "configuration": {
+            "parameters": {
+              "ambient": 0.04,
+              "red_intensity": 0.9,
+              "blue_intensity": 0.9,
+              "attenuation_linear": 0.12,
+              "attenuation_quadratic": 0.04,
+              "spot_outer_rad": 0.9,
+              "directional_fill_intensity": 0.02
+            },
+            "attenuation_at_2_8m": 0.6062075654704171,
+            "graycard_diffuse": 0.8,
+            "lights": [
+              {
+                "name": "red_spot",
+                "type": "spot"
+              },
+              {
+                "name": "blue_spot",
+                "type": "spot"
+              },
+              {
+                "name": "white_fill",
+                "type": "point"
+              },
+              {
+                "name": "neutral_directional",
+                "type": "directional"
+              }
+            ]
+          },
+          "image_path": "/tmp/gazeboteach-a40-0c_s_461/sessions/classic11-noetic-40-20261103-231022-066010/camera.ppm",
+          "visual_review": "manual: shadow edge, cast_shadows toggle, specular view dependence; auto check does not certify photometric accuracy"
+        }
+      },
+      {
+        "name": "attenuation_only",
+        "passed": true,
+        "verification": {
+          "passed": true,
+          "checks": {
+            "actual_frame_advances": true,
+            "red_light_changes_graycard": true,
+            "blue_light_changes_graycard": true,
+            "finite_illuminated_scene": true
+          },
+          "actual": {
+            "sequence": 10,
+            "sim_time_s": 0.667,
+            "width": 640,
+            "height": 360,
+            "format": "R8G8B8",
+            "fnv64": "9778560200841377292"
+          },
+          "graycard_rgb": {
+            "red_spot": [
+              106.20589285714286,
+              26.69232142857143,
+              26.69232142857143
+            ],
+            "blue_spot": [
+              25.77,
+              25.77,
+              105.28464285714286
+            ],
+            "occluded_center": [
+              18.775,
+              18.775,
+              18.775
+            ]
+          },
+          "configuration": {
+            "parameters": {
+              "ambient": 0.04,
+              "red_intensity": 0.9,
+              "blue_intensity": 0.9,
+              "attenuation_linear": 0.12,
+              "attenuation_quadratic": 0.12,
+              "spot_outer_rad": 0.9,
+              "directional_fill_intensity": 0.02
+            },
+            "attenuation_at_2_8m": 0.4392129304286719,
+            "graycard_diffuse": 0.8,
+            "lights": [
+              {
+                "name": "red_spot",
+                "type": "spot"
+              },
+              {
+                "name": "blue_spot",
+                "type": "spot"
+              },
+              {
+                "name": "white_fill",
+                "type": "point"
+              },
+              {
+                "name": "neutral_directional",
+                "type": "directional"
+              }
+            ]
+          },
+          "image_path": "/tmp/gazeboteach-a40-0c_s_461/sessions/classic11-noetic-40-20261103-231027-923938/camera.ppm",
+          "visual_review": "manual: shadow edge, cast_shadows toggle, specular view dependence; auto check does not certify photometric accuracy"
+        }
+      },
+      {
+        "name": "directional_only",
+        "passed": true,
+        "verification": {
+          "passed": true,
+          "checks": {
+            "actual_frame_advances": true,
+            "red_light_changes_graycard": true,
+            "blue_light_changes_graycard": true,
+            "finite_illuminated_scene": true
+          },
+          "actual": {
+            "sequence": 10,
+            "sim_time_s": 0.667,
+            "width": 640,
+            "height": 360,
+            "format": "R8G8B8",
+            "fnv64": "14959784226455364327"
+          },
+          "graycard_rgb": {
+            "red_spot": [
+              150.97232142857143,
+              41.620892857142856,
+              41.620892857142856
+            ],
+            "blue_spot": [
+              40.69589285714286,
+              40.69589285714286,
+              150.04875
+            ],
+            "occluded_center": [
+              27.74535714285714,
+              27.74535714285714,
+              27.74535714285714
+            ]
+          },
+          "configuration": {
+            "parameters": {
+              "ambient": 0.04,
+              "red_intensity": 0.9,
+              "blue_intensity": 0.9,
+              "attenuation_linear": 0.12,
+              "attenuation_quadratic": 0.04,
+              "spot_outer_rad": 0.9,
+              "directional_fill_intensity": 0.1
+            },
+            "attenuation_at_2_8m": 0.6062075654704171,
+            "graycard_diffuse": 0.8,
+            "lights": [
+              {
+                "name": "red_spot",
+                "type": "spot"
+              },
+              {
+                "name": "blue_spot",
+                "type": "spot"
+              },
+              {
+                "name": "white_fill",
+                "type": "point"
+              },
+              {
+                "name": "neutral_directional",
+                "type": "directional"
+              }
+            ]
+          },
+          "image_path": "/tmp/gazeboteach-a40-0c_s_461/sessions/classic11-noetic-40-20261103-231033-972566/camera.ppm",
+          "visual_review": "manual: shadow edge, cast_shadows toggle, specular view dependence; auto check does not certify photometric accuracy"
+        }
+      },
+      {
+        "name": "real_parameter_effects",
+        "passed": true,
+        "baseline_rgb": {
+          "red_spot": [
+            136.3869642857143,
+            27.025714285714287,
+            27.025714285714287
+          ],
+          "blue_spot": [
+            26.10625,
+            26.10625,
+            135.46714285714285
+          ],
+          "occluded_center": [
+            18.775,
+            18.775,
+            18.775
+          ]
+        },
+        "attenuated_rgb": {
+          "red_spot": [
+            106.20589285714286,
+            26.69232142857143,
+            26.69232142857143
+          ],
+          "blue_spot": [
+            25.77,
+            25.77,
+            105.28464285714286
+          ],
+          "occluded_center": [
+            18.775,
+            18.775,
+            18.775
+          ]
+        },
+        "directional_rgb": {
+          "red_spot": [
+            150.97232142857143,
+            41.620892857142856,
+            41.620892857142856
+          ],
+          "blue_spot": [
+            40.69589285714286,
+            40.69589285714286,
+            150.04875
+          ],
+          "occluded_center": [
+            27.74535714285714,
+            27.74535714285714,
+            27.74535714285714
+          ]
+        }
+      }
+    ],
+    "elapsed_seconds": 17.783
+  },
+  "desktop": {
+    "ok": true,
+    "lesson": "40",
+    "profile": "classic11-noetic",
+    "data_dir": "/tmp/gazeboteach-addon-desktop-cc9zyktc",
+    "checks": [
+      {
+        "name": "real_desktop_material_selected",
+        "passed": true,
+        "document_characters": 3081
+      },
+      {
+        "name": "start_button_initialized_real_world_gui_and_ptys",
+        "passed": true,
+        "session": "/tmp/gazeboteach-addon-desktop-cc9zyktc/data/sessions/classic11-noetic-40-20261103-231059-976688",
+        "token": "a93171c701b849468f978e0e6e2189e5"
+      },
+      {
+        "name": "verify_button_checks_real_behavior",
+        "passed": true
+      },
+      {
+        "name": "desktop_exit_cleans_owned_processes",
+        "passed": true
+      }
+    ],
+    "elapsed_seconds": 12.9
+  },
+  "manual_scene_review": {
+    "passed": true,
+    "image": "images/a40-lighting.png",
+    "observed": [
+      "red and blue spot-lit graycards",
+      "neutral center card and physical gobo",
+      "three actual light types in source and live scene"
+    ],
+    "remaining_learner_tasks": [
+      "shadowedge quality and bias",
+      "specularviewdependence",
+      "photometriccalibration"
+    ]
+  },
+  "source_sha256": {
+    "courses/classic11_noetic/40-lighting-studio/lab.py": "dcb8bcbcca93be24793cf983c6aca08ee8ebc00dddaec6e1e8378586fa3edb36",
+    "courses/classic11_noetic/40-lighting-studio/lesson.json": "88f7d4e782336a6c2034ca2478d3d649ca51412fb4bedef06b061568cce2f5a0",
+    "courses/classic11_noetic/40-lighting-studio/lesson.md": "43f695ceb2069e58d15fc0ce386509248319bfe4ede7281e54236ef05872e487",
+    "courses/classic11_noetic/40-lighting-studio/native/camera.cc": "b965c3454b4ea7f14fa1eef33330bf78e7903a43b921efef736a04da66b99dd7",
+    "courses/classic11_noetic/40-lighting-studio/parameters.json": "75ac718a09a20d0a996f0feca3032c052acf17d43fcebc72299ba3080939d1fa",
+    "courses/classic11_noetic/40-lighting-studio/prepare.py": "fc470a5718117cb48c07d42edf85370ed01ee0e2217f5fbfa0938afe6e3f6fd6",
+    "courses/classic11_noetic/40-lighting-studio/reference.md": "6abf2efbfd94955b9db8fe2c8bd50b433b769e3c50f3d771f395eea2f577246e",
+    "courses/classic11_noetic/40-lighting-studio/scene.py": "654ae1558341a44cae8a0436c6c5b856a2ac636e1c3379c14c07a71058e0332f",
+    "courses/classic11_noetic/40-lighting-studio/verify.py": "dd0db1eeeaa346227073f5d36d83674e56c0eb01cb59c22b3f3f5db9559df1ff",
+    "courses/classic11_noetic/40-lighting-studio/world.sdf": "65fc27a561dc429ee12f3e1061b63b57a150cc433e67fcd9f00224d1fb95f4f2"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "id": "40",
+  "title": "光照摄影棚：衰减、聚光、阴影与可测亮度",
+  "module": "附加专项·精细场景",
+  "summary": "建立可重复的三类灯光和灰卡，用真实RGB帧解释光色、材质反射与阴影边界。",
+  "order": 40,
+  "profile": "classic11-noetic",
+  "requires_ros": false,
+  "requires_tools": [
+    "g++",
+    "pkg-config"
+  ],
+  "requires_pkg_config": {
+    "gazebo": "11.15.1",
+    "OGRE": "",
+    "OGRE-Paging": "",
+    "OGRE-Terrain": "",
+    "OGRE-RTShaderSystem": ""
+  },
+  "requires_native_server": true,
+  "world": "world.sdf",
+  "prepare": [
+    "python3 prepare.py"
+  ],
+  "prepare_timeout": 150,
+  "verify": "verify.py",
+  "verify_timeout": 35,
+  "reference": "reference.md",
+  "objectives": [
+    "区分point、spot、directional三类灯光及环境光/漫反射/镜面反射",
+    "按距离衰减和聚光角预测灰卡亮度与颜色",
+    "以实际相机帧检查光色，单独进行阴影与镜面视觉验收"
+  ],
+  "commands": [
+    {
+      "title": "查看当前模型与资源清单",
+      "command": "python3 lab.py inspect"
+    },
+    {
+      "title": "查看实际摄影棚相机帧",
+      "command": "python3 lab.py image"
+    },
+    {
+      "title": "运行真实行为验收",
+      "command": "python3 verify.py"
+    },
+    {
+      "title": "用系统编辑器修改练习输入",
+      "command": "gedit --new-window parameters.json"
+    },
+    {
+      "title": "查看算法参考与实验建议",
+      "command": "gedit --new-window reference.md"
+    }
+  ],
+  "needs_display": true
+}

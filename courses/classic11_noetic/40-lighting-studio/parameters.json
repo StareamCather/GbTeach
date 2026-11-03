@@ -1,0 +1,9 @@
+{
+  "ambient": 0.04,
+  "red_intensity": 0.9,
+  "blue_intensity": 0.9,
+  "attenuation_linear": 0.12,
+  "attenuation_quadratic": 0.04,
+  "spot_outer_rad": 0.9,
+  "directional_fill_intensity": 0.02
+}
