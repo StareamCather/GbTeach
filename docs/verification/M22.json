@@ -1,0 +1,712 @@
+{
+  "headless_smoke": {
+    "mode": "smoke",
+    "lesson": "22",
+    "profile": "harmonic-jazzy",
+    "data_dir": "/tmp/gazeboteach-smoke-5asbtpxs",
+    "fresh_data_dir": true,
+    "gui_requested": false,
+    "terminals_requested": false,
+    "workspace": "/tmp/gazeboteach-smoke-5asbtpxs/workspaces/harmonic-jazzy/22",
+    "log": "/tmp/gazeboteach-smoke-5asbtpxs/sessions/harmonic-jazzy-22-20261104-024504-128910/runtime.log",
+    "session_dir": "/tmp/gazeboteach-smoke-5asbtpxs/sessions/harmonic-jazzy-22-20261104-024504-128910",
+    "health": {
+      "running": true,
+      "state": "运行中",
+      "error": null,
+      "failed_processes": [],
+      "gui_running": false,
+      "terminal_running": 0,
+      "window_tag": "[GT-22]",
+      "window_role": "gazeboteach-af3b7af049064e8da282885e7b1b53bf",
+      "auxiliary": [
+        {
+          "name": "仿真时钟桥",
+          "running": true,
+          "returncode": null
+        }
+      ]
+    },
+    "verification": {
+      "passed": true,
+      "returncode": 0,
+      "log": "/tmp/gazeboteach-smoke-5asbtpxs/sessions/harmonic-jazzy-22-20261104-024504-128910/runtime.log"
+    },
+    "ok": true,
+    "final_health": {
+      "running": false,
+      "state": "已结束",
+      "error": null,
+      "failed_processes": [
+        {
+          "name": "Gazebo 服务端",
+          "returncode": 0
+        },
+        {
+          "name": "仿真时钟桥",
+          "returncode": -15
+        }
+      ],
+      "gui_running": false,
+      "terminal_running": 0,
+      "window_tag": "[GT-22]",
+      "window_role": "gazeboteach-af3b7af049064e8da282885e7b1b53bf",
+      "auxiliary": [
+        {
+          "name": "仿真时钟桥",
+          "running": false,
+          "returncode": -15
+        }
+      ]
+    },
+    "elapsed_seconds": 7.068
+  },
+  "desktop": {
+    "ok": true,
+    "lesson": "22",
+    "profile": "harmonic-jazzy",
+    "data_dir": "/tmp/gazeboteach-addon-desktop-gi8470vd",
+    "checks": [
+      {
+        "name": "real_desktop_material_selected",
+        "passed": true,
+        "document_characters": 2440
+      },
+      {
+        "name": "start_button_initialized_real_world_gui_and_ptys",
+        "passed": true,
+        "session": "/tmp/gazeboteach-addon-desktop-gi8470vd/data/sessions/harmonic-jazzy-22-20261104-024532-341484",
+        "token": "20963abd606e4a36be0317d076d0ab4a"
+      },
+      {
+        "name": "real_owned_native_gui_window",
+        "passed": true,
+        "window_id": "0x560000e",
+        "pid": 5796,
+        "width": 1200,
+        "height": 1000,
+        "screenshot": "/tmp/gt-M22-desktop/desktop-gazebo.png",
+        "properties": "_NET_WM_PID(CARDINAL) = 5796\n_NET_WM_NAME(UTF8_STRING) = \"Gazebo Sim\"",
+        "image_metrics": {
+          "nontrivial_pixels": true,
+          "sample_count": 1584,
+          "distinct_sampled_colors": 67,
+          "luma_range": 250,
+          "nonblack_fraction": 0.99937,
+          "non_dominant_fraction": 0.74684
+        },
+        "manual_scene_review_required": true
+      },
+      {
+        "name": "verify_button_checks_real_behavior",
+        "passed": true
+      },
+      {
+        "name": "desktop_exit_cleans_owned_processes",
+        "passed": true
+      }
+    ],
+    "elapsed_seconds": 9.325
+  },
+  "standalone_gui": {
+    "window_id": "0x540000e",
+    "pid": 6083,
+    "width": 1200,
+    "height": 1000,
+    "screenshot": "/tmp/gt-M22-view/qos.png",
+    "properties": "_NET_WM_PID(CARDINAL) = 6083\n_NET_WM_NAME(UTF8_STRING) = \"Gazebo Sim\"",
+    "image_metrics": {
+      "nontrivial_pixels": true,
+      "sample_count": 1584,
+      "distinct_sampled_colors": 66,
+      "luma_range": 250,
+      "nonblack_fraction": 0.99937,
+      "non_dominant_fraction": 0.73485
+    },
+    "manual_scene_review_required": true,
+    "session_dir": "/tmp/gt-m22-view-epqob7ru/sessions/harmonic-jazzy-22-20261104-024541-364536",
+    "owned_processes_cleaned": true
+  },
+  "source_sha256": {
+    "courses/modern_ros2/22-qos-pubsub/_bootstrap.py": "7874870ac1e2ee63512b7cc354a88da6d58ee6b6b0a565a0bd684d8875359a5f",
+    "courses/modern_ros2/22-qos-pubsub/lab.py": "1ac5e6756d0dde3907cdd8857039364f52017392a2f93591da8a1f90b7b3fe32",
+    "courses/modern_ros2/22-qos-pubsub/lesson.json": "0f7d5c2c85607b6b9a7c036869d4b8a493bbbe8166de7a873e6096850aa370ad",
+    "courses/modern_ros2/22-qos-pubsub/lesson.md": "4d57ef42b61382fc946e08c351cc84a1b3d0bbe64534eac01d7260226b69f2de",
+    "courses/modern_ros2/22-qos-pubsub/reference.md": "b266162d3117255a75568fd711ced0767414b39287db04ced286e66aca58df30",
+    "courses/modern_ros2/22-qos-pubsub/verify.py": "042cb190dcb7e962def1a0870fd783ae96ea2e099635d5702e09518418b6083f",
+    "courses/modern_ros2/22-qos-pubsub/world.sdf": "b73f2f319a5554ed05ba93f72e4684b5b8e04eed0ea275ac9f069ed1efb3dc0e",
+    "courses/modern_ros2/_support/common.py": "2e8a4cb02f1132ceb6b3caa037e52d9703a06ed3113e29fb281b47fe0524f8c3"
+  },
+  "desktop_experiment": [
+    {
+      "passed": true,
+      "namespace": "/gt/qos/run_9929b3c5fa",
+      "rmw": "rmw_fastrtps_cpp",
+      "reliability": {
+        "topic": "/gt/qos/run_9929b3c5fa/reliability",
+        "sent": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "compatible_received": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "incompatible_received": [],
+        "incompatible_events": [
+          {
+            "total_count": 1,
+            "last_policy_kind": "RELIABILITY"
+          }
+        ],
+        "writer_endpoints": [
+          {
+            "node": "source",
+            "namespace": "/gt/qos/run_9929b3c5fa",
+            "type": "std_msgs/msg/Int32",
+            "reliability": "BEST_EFFORT",
+            "durability": "VOLATILE"
+          }
+        ],
+        "reader_endpoints": [
+          {
+            "node": "reader_a",
+            "namespace": "/gt/qos/run_9929b3c5fa",
+            "type": "std_msgs/msg/Int32",
+            "reliability": "BEST_EFFORT",
+            "durability": "VOLATILE"
+          },
+          {
+            "node": "reader_b",
+            "namespace": "/gt/qos/run_9929b3c5fa",
+            "type": "std_msgs/msg/Int32",
+            "reliability": "RELIABLE",
+            "durability": "VOLATILE"
+          }
+        ],
+        "matched_readers": 1
+      },
+      "durability": {
+        "topic": "/gt/qos/run_9929b3c5fa/durability",
+        "published_before_join": [
+          10,
+          11,
+          12
+        ],
+        "published_after_join": 13,
+        "transient_local_received": [
+          10,
+          11,
+          12,
+          13
+        ],
+        "volatile_received": [
+          13
+        ]
+      },
+      "history": {
+        "topic": "/gt/qos/run_9929b3c5fa/depth",
+        "sent": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "dds_ack_before_spin": true,
+        "depth_3_received": [
+          9,
+          10,
+          11
+        ],
+        "depth_16_received": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ]
+      },
+      "clock": {
+        "bridge_publishers": [
+          {
+            "node": "ros_gz_bridge",
+            "namespace": "/",
+            "type": "rosgraph_msgs/msg/Clock",
+            "reliability": "RELIABLE",
+            "durability": "VOLATILE"
+          }
+        ],
+        "ros_before_ns": 5263000000,
+        "native_sim_ns": 5327000000,
+        "ros_after_ns": 5328000000,
+        "ros_clock_advance_s": 0.065
+      }
+    }
+  ],
+  "desktop_runtime_sha256": "5d23464566a8471e68f9ef3f4ccbe985d2db7c40ab63cf32d5671f4086d9a112",
+  "smoke_experiment": [
+    {
+      "passed": true,
+      "namespace": "/gt/qos/run_7254f9b698",
+      "rmw": "rmw_fastrtps_cpp",
+      "reliability": {
+        "topic": "/gt/qos/run_7254f9b698/reliability",
+        "sent": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "compatible_received": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "incompatible_received": [],
+        "incompatible_events": [
+          {
+            "total_count": 1,
+            "last_policy_kind": "RELIABILITY"
+          }
+        ],
+        "writer_endpoints": [
+          {
+            "node": "source",
+            "namespace": "/gt/qos/run_7254f9b698",
+            "type": "std_msgs/msg/Int32",
+            "reliability": "BEST_EFFORT",
+            "durability": "VOLATILE"
+          }
+        ],
+        "reader_endpoints": [
+          {
+            "node": "reader_a",
+            "namespace": "/gt/qos/run_7254f9b698",
+            "type": "std_msgs/msg/Int32",
+            "reliability": "BEST_EFFORT",
+            "durability": "VOLATILE"
+          },
+          {
+            "node": "reader_b",
+            "namespace": "/gt/qos/run_7254f9b698",
+            "type": "std_msgs/msg/Int32",
+            "reliability": "RELIABLE",
+            "durability": "VOLATILE"
+          }
+        ],
+        "matched_readers": 1
+      },
+      "durability": {
+        "topic": "/gt/qos/run_7254f9b698/durability",
+        "published_before_join": [
+          10,
+          11,
+          12
+        ],
+        "published_after_join": 13,
+        "transient_local_received": [
+          10,
+          11,
+          12,
+          13
+        ],
+        "volatile_received": [
+          13
+        ]
+      },
+      "history": {
+        "topic": "/gt/qos/run_7254f9b698/depth",
+        "sent": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "dds_ack_before_spin": true,
+        "depth_3_received": [
+          9,
+          10,
+          11
+        ],
+        "depth_16_received": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ]
+      },
+      "clock": {
+        "bridge_publishers": [
+          {
+            "node": "ros_gz_bridge",
+            "namespace": "/",
+            "type": "rosgraph_msgs/msg/Clock",
+            "reliability": "RELIABLE",
+            "durability": "VOLATILE"
+          }
+        ],
+        "ros_before_ns": 4001000000,
+        "native_sim_ns": 4056000000,
+        "ros_after_ns": 4057000000,
+        "ros_clock_advance_s": 0.056
+      }
+    }
+  ],
+  "smoke_runtime_sha256": "bffc5442bfd5b0cfd0e8b6b636adb13e11ff427da3c6568eb81c34da20d08717",
+  "repeat_experiment": [
+    {
+      "passed": true,
+      "namespace": "/gt/qos/run_3edbf8a0a3",
+      "rmw": "rmw_fastrtps_cpp",
+      "reliability": {
+        "topic": "/gt/qos/run_3edbf8a0a3/reliability",
+        "sent": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "compatible_received": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "incompatible_received": [],
+        "incompatible_events": [
+          {
+            "total_count": 1,
+            "last_policy_kind": "RELIABILITY"
+          }
+        ],
+        "writer_endpoints": [
+          {
+            "node": "source",
+            "namespace": "/gt/qos/run_3edbf8a0a3",
+            "type": "std_msgs/msg/Int32",
+            "reliability": "BEST_EFFORT",
+            "durability": "VOLATILE"
+          }
+        ],
+        "reader_endpoints": [
+          {
+            "node": "reader_a",
+            "namespace": "/gt/qos/run_3edbf8a0a3",
+            "type": "std_msgs/msg/Int32",
+            "reliability": "BEST_EFFORT",
+            "durability": "VOLATILE"
+          },
+          {
+            "node": "reader_b",
+            "namespace": "/gt/qos/run_3edbf8a0a3",
+            "type": "std_msgs/msg/Int32",
+            "reliability": "RELIABLE",
+            "durability": "VOLATILE"
+          }
+        ],
+        "matched_readers": 1
+      },
+      "durability": {
+        "topic": "/gt/qos/run_3edbf8a0a3/durability",
+        "published_before_join": [
+          10,
+          11,
+          12
+        ],
+        "published_after_join": 13,
+        "transient_local_received": [
+          10,
+          11,
+          12,
+          13
+        ],
+        "volatile_received": [
+          13
+        ]
+      },
+      "history": {
+        "topic": "/gt/qos/run_3edbf8a0a3/depth",
+        "sent": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "dds_ack_before_spin": true,
+        "depth_3_received": [
+          9,
+          10,
+          11
+        ],
+        "depth_16_received": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ]
+      },
+      "clock": {
+        "bridge_publishers": [
+          {
+            "node": "ros_gz_bridge",
+            "namespace": "/",
+            "type": "rosgraph_msgs/msg/Clock",
+            "reliability": "RELIABLE",
+            "durability": "VOLATILE"
+          }
+        ],
+        "ros_before_ns": 1958000000,
+        "native_sim_ns": 2020000000,
+        "ros_after_ns": 2021000000,
+        "ros_clock_advance_s": 0.063
+      }
+    },
+    {
+      "passed": true,
+      "namespace": "/gt/qos/run_17f5ae78cf",
+      "rmw": "rmw_fastrtps_cpp",
+      "reliability": {
+        "topic": "/gt/qos/run_17f5ae78cf/reliability",
+        "sent": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "compatible_received": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "incompatible_received": [],
+        "incompatible_events": [
+          {
+            "total_count": 1,
+            "last_policy_kind": "RELIABILITY"
+          }
+        ],
+        "writer_endpoints": [
+          {
+            "node": "source",
+            "namespace": "/gt/qos/run_17f5ae78cf",
+            "type": "std_msgs/msg/Int32",
+            "reliability": "BEST_EFFORT",
+            "durability": "VOLATILE"
+          }
+        ],
+        "reader_endpoints": [
+          {
+            "node": "reader_a",
+            "namespace": "/gt/qos/run_17f5ae78cf",
+            "type": "std_msgs/msg/Int32",
+            "reliability": "BEST_EFFORT",
+            "durability": "VOLATILE"
+          },
+          {
+            "node": "reader_b",
+            "namespace": "/gt/qos/run_17f5ae78cf",
+            "type": "std_msgs/msg/Int32",
+            "reliability": "RELIABLE",
+            "durability": "VOLATILE"
+          }
+        ],
+        "matched_readers": 1
+      },
+      "durability": {
+        "topic": "/gt/qos/run_17f5ae78cf/durability",
+        "published_before_join": [
+          10,
+          11,
+          12
+        ],
+        "published_after_join": 13,
+        "transient_local_received": [
+          10,
+          11,
+          12,
+          13
+        ],
+        "volatile_received": [
+          13
+        ]
+      },
+      "history": {
+        "topic": "/gt/qos/run_17f5ae78cf/depth",
+        "sent": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "dds_ack_before_spin": true,
+        "depth_3_received": [
+          9,
+          10,
+          11
+        ],
+        "depth_16_received": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ]
+      },
+      "clock": {
+        "bridge_publishers": [
+          {
+            "node": "ros_gz_bridge",
+            "namespace": "/",
+            "type": "rosgraph_msgs/msg/Clock",
+            "reliability": "RELIABLE",
+            "durability": "VOLATILE"
+          }
+        ],
+        "ros_before_ns": 4031000000,
+        "native_sim_ns": 4091000000,
+        "ros_after_ns": 4092000000,
+        "ros_clock_advance_s": 0.061
+      }
+    }
+  ],
+  "repeat_runtime_sha256": "5deb8f0ca9d24be953fabd512e10fde694fc752c573528e122a4583753873274",
+  "repeat": {
+    "ok": true,
+    "session_dir": "/tmp/gt-modern-repeat-0quahv6w/sessions/harmonic-jazzy-22-20261104-024524-436620",
+    "runtime_log": "/tmp/gt-modern-repeat-0quahv6w/sessions/harmonic-jazzy-22-20261104-024524-436620/runtime.log",
+    "elapsed_seconds": 7.059,
+    "token": "9f2e26bb511e496397d283ee10e332bf"
+  }
+}
