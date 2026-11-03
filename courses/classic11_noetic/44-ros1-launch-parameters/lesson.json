@@ -1,0 +1,78 @@
+{
+  "id": "44",
+  "title": "ROS 1 工程专项：包、launch、YAML与运行期参数",
+  "module": "附加专项·ROS 1工程",
+  "profile": "classic11-noetic",
+  "order": 44,
+  "summary": "本课集中学习可复现启动，而非把一长串命令手工复制。先修第22课；此处无需新建catkin工作空间或联网下载。",
+  "requires_ros": true,
+  "requires_plugins": [
+    "libgazebo_ros_api_plugin.so"
+  ],
+  "requires_ros_packages": [
+    "rospy",
+    "roslaunch",
+    "std_msgs",
+    "std_srvs",
+    "gazebo_msgs"
+  ],
+  "requires_tools": [
+    "roslaunch",
+    "rosparam",
+    "rospack",
+    "rostopic",
+    "rosnode",
+    "rosservice"
+  ],
+  "ros_package_paths": [
+    "ros_ws/src"
+  ],
+  "world": "world.sdf",
+  "prepare": [
+    "python3 prepare.py"
+  ],
+  "startup": [
+    {
+      "name": "ROS1专项仪器",
+      "command": "roslaunch gazeboteach_workshop44 lab.launch"
+    }
+  ],
+  "after_startup": [
+    "python3 lab.py ready"
+  ],
+  "after_startup_timeout": 25,
+  "verify": "verify.py",
+  "verify_timeout": 90,
+  "reference": "reference.md",
+  "objectives": [
+    "包、launch、YAML与运行期参数",
+    "追溯Gazebo真实关节与ROS消息来源",
+    "比较预测、运行读回与故障证据"
+  ],
+  "commands": [
+    {
+      "title": "查看实际参数作用域与关节反馈",
+      "command": "python3 lab.py state"
+    },
+    {
+      "title": "施加有限力脉冲",
+      "command": "python3 lab.py pulse"
+    },
+    {
+      "title": "执行本课真实验收",
+      "command": "python3 verify.py"
+    },
+    {
+      "title": "查看ROS图",
+      "command": "rostopic list"
+    },
+    {
+      "title": "编辑独立填空练习",
+      "command": "gedit --new-window student.py"
+    },
+    {
+      "title": "独立检查个人参数校验填空",
+      "command": "python3 lab.py student-check"
+    }
+  ]
+}

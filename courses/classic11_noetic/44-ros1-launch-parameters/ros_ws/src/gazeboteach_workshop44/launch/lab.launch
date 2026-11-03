@@ -1,0 +1,11 @@
+<launch>
+  <arg name="namespace" default="workshop44"/>
+  <arg name="pulse_scale" default="1.0"/>
+  <group ns="$(arg namespace)">
+    <param name="scope_example" value="group_scope" type="str"/>
+    <node pkg="gazeboteach_workshop44" type="node.py" name="instrument" args="daemon" output="screen" required="true">
+      <rosparam command="load" file="$(find gazeboteach_workshop44)/config/controller.yaml"/>
+      <param name="pulse_scale" value="$(arg pulse_scale)" type="double"/>
+    </node>
+  </group>
+</launch>

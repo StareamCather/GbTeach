@@ -1,0 +1,1848 @@
+{
+  "phase": "A44",
+  "date": "2026-11-04",
+  "passed": true,
+  "acceptance": {
+    "lesson": "44",
+    "ok": true,
+    "data_dir": "/tmp/gazeboteach-a44-p6qwy5pc",
+    "checks": [
+      {
+        "name": "default_repeated_parameter_and_physics_1",
+        "passed": true,
+        "verification": {
+          "passed": true,
+          "assignment_pass": false,
+          "lesson": 44,
+          "namespace": "/workshop44",
+          "checks": {
+            "launch_scope": {
+              "relative": {
+                "name": "/workshop44/scope_example",
+                "value": "group_scope"
+              },
+              "private": {
+                "name": "/workshop44/instrument/scope_example",
+                "value": "private_scope"
+              },
+              "cached_scale": 1.0,
+              "actual_mass_kg": 1.0,
+              "sdf_damping": 0.8,
+              "damping_scope": "SDF configuration .8; GetJointProperties damping is empty in the Noetic ROS API, not falsely treated as a measured field"
+            },
+            "paired_force_trials": {
+              "F": {
+                "requested_force_N": 1.0,
+                "active_scale": 1.0,
+                "scheduled": {
+                  "scheduled_once": true,
+                  "requested_force": 1.0,
+                  "active_scale": 1.0,
+                  "effective_force_N": 1.0,
+                  "force_parameter": "/workshop44/instrument/pulse_force",
+                  "scale_parameter": "/workshop44/instrument/pulse_scale",
+                  "server_scale": {
+                    "type": "float",
+                    "repr": "0.5",
+                    "value": 0.5
+                  },
+                  "joint_before": {
+                    "position_m": 0.0,
+                    "velocity_m_s": 0.0,
+                    "receipt_clock_before_s": 4.274,
+                    "receipt_clock_after_s": 4.275,
+                    "host_monotonic_before_ns": 34547261089298,
+                    "host_monotonic_after_ns": 34547262046645,
+                    "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                  },
+                  "scheduled_start_sim_s": 4.357,
+                  "duration_sim_s": 0.2,
+                  "native_schedule_before_s": 4.277,
+                  "native_schedule_ack_s": 4.279,
+                  "task_finished": false,
+                  "parameter_policy": "live requested force times startup-cached scale"
+                },
+                "reset": {
+                  "before_native_world_s": 4.228,
+                  "after_native_world_s": 4.272,
+                  "after_actual_joint": {
+                    "position_m": 0.0,
+                    "velocity_m_s": 0.0,
+                    "receipt_clock_before_s": 4.27,
+                    "receipt_clock_after_s": 4.271,
+                    "host_monotonic_before_ns": 34547257212005,
+                    "host_monotonic_after_ns": 34547258269127,
+                    "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                  }
+                },
+                "actual_joint": {
+                  "position_m": 0.06253999314202256,
+                  "velocity_m_s": 0.15108887658765224,
+                  "receipt_clock_before_s": 4.814,
+                  "receipt_clock_after_s": 4.8149999999999995,
+                  "host_monotonic_before_ns": 34547801458828,
+                  "host_monotonic_after_ns": 34547802535322,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                },
+                "native_world_before_s": 4.814,
+                "native_world_after_s": 4.816,
+                "elapsed_sim_bracket_s": [
+                  0.45699999999999985,
+                  0.45899999999999963
+                ],
+                "elapsed_sim_midpoint_s": 0.4579999999999993,
+                "analytic_expected_x_m": 0.06205913658082134,
+                "analytic_expected_v_m_s": 0.15035269073534294,
+                "common_elapsed_sim_s": 0.45,
+                "measured_x_normalized_to_common_time_m": 0.06132396458067799,
+                "measured_v_normalized_to_common_time_m_s": 0.15205894630975483,
+                "normalization_note": "Raw native readings are retained; only time differences are corrected using the known 1 kg/.8 linear-damping response, not synthesized from the requested force"
+              },
+              "2F": {
+                "requested_force_N": 2.0,
+                "active_scale": 1.0,
+                "scheduled": {
+                  "scheduled_once": true,
+                  "requested_force": 2.0,
+                  "active_scale": 1.0,
+                  "effective_force_N": 2.0,
+                  "force_parameter": "/workshop44/instrument/pulse_force",
+                  "scale_parameter": "/workshop44/instrument/pulse_scale",
+                  "server_scale": {
+                    "type": "float",
+                    "repr": "0.5",
+                    "value": 0.5
+                  },
+                  "joint_before": {
+                    "position_m": 0.0,
+                    "velocity_m_s": 0.0,
+                    "receipt_clock_before_s": 4.842,
+                    "receipt_clock_after_s": 4.843,
+                    "host_monotonic_before_ns": 34547829823313,
+                    "host_monotonic_after_ns": 34547830768679,
+                    "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                  },
+                  "scheduled_start_sim_s": 4.925,
+                  "duration_sim_s": 0.2,
+                  "native_schedule_before_s": 4.845,
+                  "native_schedule_ack_s": 4.847,
+                  "task_finished": false,
+                  "parameter_policy": "live requested force times startup-cached scale"
+                },
+                "reset": {
+                  "before_native_world_s": 4.817,
+                  "after_native_world_s": 4.841,
+                  "after_actual_joint": {
+                    "position_m": 0.0,
+                    "velocity_m_s": 0.0,
+                    "receipt_clock_before_s": 4.839,
+                    "receipt_clock_after_s": 4.84,
+                    "host_monotonic_before_ns": 34547826130808,
+                    "host_monotonic_after_ns": 34547827103721,
+                    "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                  }
+                },
+                "actual_joint": {
+                  "position_m": 0.12461196043296056,
+                  "velocity_m_s": 0.3005508723515128,
+                  "receipt_clock_before_s": 5.383,
+                  "receipt_clock_after_s": 5.383,
+                  "host_monotonic_before_ns": 34548370112183,
+                  "host_monotonic_after_ns": 34548370943462,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                },
+                "native_world_before_s": 5.383,
+                "native_world_after_s": 5.384,
+                "elapsed_sim_bracket_s": [
+                  0.4580000000000002,
+                  0.4590000000000005
+                ],
+                "elapsed_sim_midpoint_s": 0.4584999999999999,
+                "analytic_expected_x_m": 0.12426859578584903,
+                "analytic_expected_v_m_s": 0.3005851233713208,
+                "common_elapsed_sim_s": 0.45,
+                "measured_x_normalized_to_common_time_m": 0.1220411965850795,
+                "measured_v_normalized_to_common_time_m_s": 0.3026015827969527,
+                "normalization_note": "Raw native readings are retained; only time differences are corrected using the known 1 kg/.8 linear-damping response, not synthesized from the requested force"
+              },
+              "measured_time_normalized_position_ratio": 1.990106109733361,
+              "measured_time_normalized_velocity_ratio": 1.990028144615259,
+              "common_elapsed_sim_s": 0.45,
+              "server_scale_after_update": 0.5,
+              "actual_node_cached_scale": 1.0,
+              "conclusion": "Parameter server update is visible but not automatically applied to the startup-cached scale; live force is explicitly re-read per request"
+            },
+            "invalid_reset": {
+              "before_native_world_s": 5.385,
+              "after_native_world_s": 5.429,
+              "after_actual_joint": {
+                "position_m": 0.0,
+                "velocity_m_s": 0.0,
+                "receipt_clock_before_s": 5.427,
+                "receipt_clock_after_s": 5.428,
+                "host_monotonic_before_ns": 34548414861639,
+                "host_monotonic_after_ns": 34548415935663,
+                "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+              }
+            },
+            "invalid_parameter_rejections": [
+              {
+                "parameter": {
+                  "type": "bool",
+                  "repr": "True",
+                  "value": true
+                },
+                "rejection": "ValueError: pulse_force must be a real finite number within [.2,3] N; bool/string are not accepted",
+                "actual_before": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 5.43,
+                  "receipt_clock_after_s": 5.431,
+                  "host_monotonic_before_ns": 34548417336727,
+                  "host_monotonic_after_ns": 34548418602684,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                },
+                "actual_after": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 5.532,
+                  "receipt_clock_after_s": 5.534,
+                  "host_monotonic_before_ns": 34548519897593,
+                  "host_monotonic_after_ns": 34548521271356,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                }
+              },
+              {
+                "parameter": {
+                  "type": "str",
+                  "repr": "'2.0'",
+                  "value": "2.0"
+                },
+                "rejection": "ValueError: pulse_force must be a real finite number within [.2,3] N; bool/string are not accepted",
+                "actual_before": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 5.574,
+                  "receipt_clock_after_s": 5.576,
+                  "host_monotonic_before_ns": 34548561933252,
+                  "host_monotonic_after_ns": 34548563139441,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                },
+                "actual_after": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 5.677,
+                  "receipt_clock_after_s": 5.678,
+                  "host_monotonic_before_ns": 34548664408234,
+                  "host_monotonic_after_ns": 34548665676043,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                }
+              },
+              {
+                "parameter": {
+                  "type": "float",
+                  "repr": "nan",
+                  "value": null
+                },
+                "rejection": "ValueError: pulse_force must be a real finite number within [.2,3] N; bool/string are not accepted",
+                "actual_before": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 5.739,
+                  "receipt_clock_after_s": 5.741,
+                  "host_monotonic_before_ns": 34548726705068,
+                  "host_monotonic_after_ns": 34548728089745,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                },
+                "actual_after": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 5.842,
+                  "receipt_clock_after_s": 5.843,
+                  "host_monotonic_before_ns": 34548829430375,
+                  "host_monotonic_after_ns": 34548830558692,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                }
+              },
+              {
+                "parameter": {
+                  "type": "float",
+                  "repr": "inf",
+                  "value": null
+                },
+                "rejection": "ValueError: pulse_force must be a real finite number within [.2,3] N; bool/string are not accepted",
+                "actual_before": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 5.884,
+                  "receipt_clock_after_s": 5.886,
+                  "host_monotonic_before_ns": 34548871479779,
+                  "host_monotonic_after_ns": 34548873574154,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                },
+                "actual_after": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 5.989,
+                  "receipt_clock_after_s": 5.99,
+                  "host_monotonic_before_ns": 34548977096325,
+                  "host_monotonic_after_ns": 34548978308552,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                }
+              },
+              {
+                "parameter": {
+                  "type": "float",
+                  "repr": "0.1",
+                  "value": 0.1
+                },
+                "rejection": "ValueError: pulse_force must be a real finite number within [.2,3] N; bool/string are not accepted",
+                "actual_before": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 6.015,
+                  "receipt_clock_after_s": 6.028,
+                  "host_monotonic_before_ns": 34549003134050,
+                  "host_monotonic_after_ns": 34549016656077,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                },
+                "actual_after": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 6.145,
+                  "receipt_clock_after_s": 6.147,
+                  "host_monotonic_before_ns": 34549133114711,
+                  "host_monotonic_after_ns": 34549135082713,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                }
+              },
+              {
+                "parameter": {
+                  "type": "float",
+                  "repr": "3.1",
+                  "value": 3.1
+                },
+                "rejection": "ValueError: pulse_force must be a real finite number within [.2,3] N; bool/string are not accepted",
+                "actual_before": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 6.188,
+                  "receipt_clock_after_s": 6.189,
+                  "host_monotonic_before_ns": 34549175909750,
+                  "host_monotonic_after_ns": 34549177570368,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                },
+                "actual_after": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 6.291,
+                  "receipt_clock_after_s": 6.302,
+                  "host_monotonic_before_ns": 34549279606161,
+                  "host_monotonic_after_ns": 34549289893018,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                }
+              }
+            ],
+            "recovery_after_parameter_correction": {
+              "requested_force_N": 1.0,
+              "active_scale": 1.0,
+              "scheduled": {
+                "scheduled_once": true,
+                "requested_force": 1.0,
+                "active_scale": 1.0,
+                "effective_force_N": 1.0,
+                "force_parameter": "/workshop44/instrument/pulse_force",
+                "scale_parameter": "/workshop44/instrument/pulse_scale",
+                "server_scale": {
+                  "type": "float",
+                  "repr": "0.5",
+                  "value": 0.5
+                },
+                "joint_before": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 6.368,
+                  "receipt_clock_after_s": 6.37,
+                  "host_monotonic_before_ns": 34549357109741,
+                  "host_monotonic_after_ns": 34549359026807,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                },
+                "scheduled_start_sim_s": 6.454,
+                "duration_sim_s": 0.2,
+                "native_schedule_before_s": 6.374,
+                "native_schedule_ack_s": 6.38,
+                "task_finished": false,
+                "parameter_policy": "live requested force times startup-cached scale"
+              },
+              "reset": {
+                "before_native_world_s": 6.338,
+                "after_native_world_s": 6.364,
+                "after_actual_joint": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 6.361,
+                  "receipt_clock_after_s": 6.362,
+                  "host_monotonic_before_ns": 34549350061550,
+                  "host_monotonic_after_ns": 34549351465899,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                }
+              },
+              "actual_joint": {
+                "position_m": 0.06454573903619587,
+                "velocity_m_s": 0.14848219452666464,
+                "receipt_clock_before_s": 6.922,
+                "receipt_clock_after_s": 6.927,
+                "host_monotonic_before_ns": 34549911001077,
+                "host_monotonic_after_ns": 34549916011189,
+                "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+              },
+              "native_world_before_s": 6.922,
+              "native_world_after_s": 6.931,
+              "elapsed_sim_bracket_s": [
+                0.46799999999999997,
+                0.4770000000000003
+              ],
+              "elapsed_sim_midpoint_s": 0.47250000000000014,
+              "analytic_expected_x_m": 0.06422665468642294,
+              "analytic_expected_v_m_s": 0.14861867625086167,
+              "common_elapsed_sim_s": 0.45,
+              "measured_x_normalized_to_common_time_m": 0.061154778808774554,
+              "measured_v_normalized_to_common_time_m_s": 0.15117907312015724,
+              "normalization_note": "Raw native readings are retained; only time differences are corrected using the known 1 kg/.8 linear-damping response, not synthesized from the requested force"
+            }
+          },
+          "trusted_verifier_sha256": "26c33dc2e2fda37a3c647f45b6cd8163e03cc03cc239ec75bebeb7c58030dec7",
+          "world_sha256": "45298fb5c91499e7b2694e7ae1ed4a02168d8e132ad327e084b7b4671af884ac",
+          "active_scale": 1.0,
+          "startup_scale_source": {
+            "parameter": "/workshop44/instrument/pulse_scale",
+            "read_policy": "read once during node startup, cached in this process",
+            "type": "float"
+          },
+          "parameter_restoration": {
+            "/workshop44/instrument/pulse_force": {
+              "restored": true,
+              "value": {
+                "type": "float",
+                "repr": "1.0",
+                "value": 1.0
+              }
+            },
+            "/workshop44/instrument/pulse_scale": {
+              "restored": true,
+              "value": {
+                "type": "float",
+                "repr": "1.0",
+                "value": 1.0
+              }
+            }
+          },
+          "elapsed_wall_s": 2.8653649530024268
+        }
+      },
+      {
+        "name": "default_repeated_parameter_and_physics_2",
+        "passed": true,
+        "verification": {
+          "passed": true,
+          "assignment_pass": false,
+          "lesson": 44,
+          "namespace": "/workshop44",
+          "checks": {
+            "launch_scope": {
+              "relative": {
+                "name": "/workshop44/scope_example",
+                "value": "group_scope"
+              },
+              "private": {
+                "name": "/workshop44/instrument/scope_example",
+                "value": "private_scope"
+              },
+              "cached_scale": 1.0,
+              "actual_mass_kg": 1.0,
+              "sdf_damping": 0.8,
+              "damping_scope": "SDF configuration .8; GetJointProperties damping is empty in the Noetic ROS API, not falsely treated as a measured field"
+            },
+            "paired_force_trials": {
+              "F": {
+                "requested_force_N": 1.0,
+                "active_scale": 1.0,
+                "scheduled": {
+                  "scheduled_once": true,
+                  "requested_force": 1.0,
+                  "active_scale": 1.0,
+                  "effective_force_N": 1.0,
+                  "force_parameter": "/workshop44/instrument/pulse_force",
+                  "scale_parameter": "/workshop44/instrument/pulse_scale",
+                  "server_scale": {
+                    "type": "float",
+                    "repr": "0.5",
+                    "value": 0.5
+                  },
+                  "joint_before": {
+                    "position_m": 0.0,
+                    "velocity_m_s": 0.0,
+                    "receipt_clock_before_s": 8.114,
+                    "receipt_clock_after_s": 8.119,
+                    "host_monotonic_before_ns": 34551104736902,
+                    "host_monotonic_after_ns": 34551109047098,
+                    "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                  },
+                  "scheduled_start_sim_s": 8.207,
+                  "duration_sim_s": 0.2,
+                  "native_schedule_before_s": 8.127,
+                  "native_schedule_ack_s": 8.137,
+                  "task_finished": false,
+                  "parameter_policy": "live requested force times startup-cached scale"
+                },
+                "reset": {
+                  "before_native_world_s": 8.047,
+                  "after_native_world_s": 8.106,
+                  "after_actual_joint": {
+                    "position_m": 0.0,
+                    "velocity_m_s": 0.0,
+                    "receipt_clock_before_s": 8.096,
+                    "receipt_clock_after_s": 8.101,
+                    "host_monotonic_before_ns": 34551086634446,
+                    "host_monotonic_after_ns": 34551091281852,
+                    "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                  }
+                },
+                "actual_joint": {
+                  "position_m": 0.06314314090394256,
+                  "velocity_m_s": 0.15060597205448972,
+                  "receipt_clock_before_s": 8.665,
+                  "receipt_clock_after_s": 8.669,
+                  "host_monotonic_before_ns": 34551655165446,
+                  "host_monotonic_after_ns": 34551659468762,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                },
+                "native_world_before_s": 8.664,
+                "native_world_after_s": 8.673,
+                "elapsed_sim_bracket_s": [
+                  0.45699999999999896,
+                  0.4659999999999993
+                ],
+                "elapsed_sim_midpoint_s": 0.46149999999999913,
+                "analytic_expected_x_m": 0.0625846349573423,
+                "analytic_expected_v_m_s": 0.14993229203412617,
+                "common_elapsed_sim_s": 0.45,
+                "measured_x_normalized_to_common_time_m": 0.06139550578091774,
+                "measured_v_normalized_to_common_time_m_s": 0.15199794023301041,
+                "normalization_note": "Raw native readings are retained; only time differences are corrected using the known 1 kg/.8 linear-damping response, not synthesized from the requested force"
+              },
+              "2F": {
+                "requested_force_N": 2.0,
+                "active_scale": 1.0,
+                "scheduled": {
+                  "scheduled_once": true,
+                  "requested_force": 2.0,
+                  "active_scale": 1.0,
+                  "effective_force_N": 2.0,
+                  "force_parameter": "/workshop44/instrument/pulse_force",
+                  "scale_parameter": "/workshop44/instrument/pulse_scale",
+                  "server_scale": {
+                    "type": "float",
+                    "repr": "0.5",
+                    "value": 0.5
+                  },
+                  "joint_before": {
+                    "position_m": 0.0,
+                    "velocity_m_s": 0.0,
+                    "receipt_clock_before_s": 8.725,
+                    "receipt_clock_after_s": 8.729,
+                    "host_monotonic_before_ns": 34551715520353,
+                    "host_monotonic_after_ns": 34551719918065,
+                    "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                  },
+                  "scheduled_start_sim_s": 8.818,
+                  "duration_sim_s": 0.2,
+                  "native_schedule_before_s": 8.738,
+                  "native_schedule_ack_s": 8.748,
+                  "task_finished": false,
+                  "parameter_policy": "live requested force times startup-cached scale"
+                },
+                "reset": {
+                  "before_native_world_s": 8.677,
+                  "after_native_world_s": 8.716,
+                  "after_actual_joint": {
+                    "position_m": 0.0,
+                    "velocity_m_s": 0.0,
+                    "receipt_clock_before_s": 8.706,
+                    "receipt_clock_after_s": 8.711,
+                    "host_monotonic_before_ns": 34551696984974,
+                    "host_monotonic_after_ns": 34551701958999,
+                    "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                  }
+                },
+                "actual_joint": {
+                  "position_m": 0.1296846943260219,
+                  "velocity_m_s": 0.29648943608805295,
+                  "receipt_clock_before_s": 9.288,
+                  "receipt_clock_after_s": 9.293,
+                  "host_monotonic_before_ns": 34552278875193,
+                  "host_monotonic_after_ns": 34552284616340,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                },
+                "native_world_before_s": 9.288,
+                "native_world_after_s": 9.299,
+                "elapsed_sim_bracket_s": [
+                  0.47000000000000064,
+                  0.48099999999999987
+                ],
+                "elapsed_sim_midpoint_s": 0.47550000000000026,
+                "analytic_expected_x_m": 0.12934395223141223,
+                "analytic_expected_v_m_s": 0.29652483821487025,
+                "common_elapsed_sim_s": 0.45,
+                "measured_x_normalized_to_common_time_m": 0.12202553351506766,
+                "measured_v_normalized_to_common_time_m_s": 0.30259993577034955,
+                "normalization_note": "Raw native readings are retained; only time differences are corrected using the known 1 kg/.8 linear-damping response, not synthesized from the requested force"
+              },
+              "measured_time_normalized_position_ratio": 1.9875320182311171,
+              "measured_time_normalized_velocity_ratio": 1.9908160288650536,
+              "common_elapsed_sim_s": 0.45,
+              "server_scale_after_update": 0.5,
+              "actual_node_cached_scale": 1.0,
+              "conclusion": "Parameter server update is visible but not automatically applied to the startup-cached scale; live force is explicitly re-read per request"
+            },
+            "invalid_reset": {
+              "before_native_world_s": 9.304,
+              "after_native_world_s": 9.376,
+              "after_actual_joint": {
+                "position_m": 0.0,
+                "velocity_m_s": 0.0,
+                "receipt_clock_before_s": 9.374,
+                "receipt_clock_after_s": 9.375,
+                "host_monotonic_before_ns": 34552364582866,
+                "host_monotonic_after_ns": 34552365692954,
+                "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+              }
+            },
+            "invalid_parameter_rejections": [
+              {
+                "parameter": {
+                  "type": "bool",
+                  "repr": "True",
+                  "value": true
+                },
+                "rejection": "ValueError: pulse_force must be a real finite number within [.2,3] N; bool/string are not accepted",
+                "actual_before": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 9.376,
+                  "receipt_clock_after_s": 9.377,
+                  "host_monotonic_before_ns": 34552367225586,
+                  "host_monotonic_after_ns": 34552368168976,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                },
+                "actual_after": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 9.479,
+                  "receipt_clock_after_s": 9.48,
+                  "host_monotonic_before_ns": 34552469404907,
+                  "host_monotonic_after_ns": 34552470677395,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                }
+              },
+              {
+                "parameter": {
+                  "type": "str",
+                  "repr": "'2.0'",
+                  "value": "2.0"
+                },
+                "rejection": "ValueError: pulse_force must be a real finite number within [.2,3] N; bool/string are not accepted",
+                "actual_before": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 9.52,
+                  "receipt_clock_after_s": 9.522,
+                  "host_monotonic_before_ns": 34552511393618,
+                  "host_monotonic_after_ns": 34552512971657,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                },
+                "actual_after": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 9.623,
+                  "receipt_clock_after_s": 9.627,
+                  "host_monotonic_before_ns": 34552614716751,
+                  "host_monotonic_after_ns": 34552618108104,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                }
+              },
+              {
+                "parameter": {
+                  "type": "float",
+                  "repr": "nan",
+                  "value": null
+                },
+                "rejection": "ValueError: pulse_force must be a real finite number within [.2,3] N; bool/string are not accepted",
+                "actual_before": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 9.688,
+                  "receipt_clock_after_s": 9.692,
+                  "host_monotonic_before_ns": 34552679939716,
+                  "host_monotonic_after_ns": 34552683316286,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                },
+                "actual_after": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 9.796,
+                  "receipt_clock_after_s": 9.802,
+                  "host_monotonic_before_ns": 34552787956819,
+                  "host_monotonic_after_ns": 34552794101350,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                }
+              },
+              {
+                "parameter": {
+                  "type": "float",
+                  "repr": "inf",
+                  "value": null
+                },
+                "rejection": "ValueError: pulse_force must be a real finite number within [.2,3] N; bool/string are not accepted",
+                "actual_before": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 9.824,
+                  "receipt_clock_after_s": 9.83,
+                  "host_monotonic_before_ns": 34552816138381,
+                  "host_monotonic_after_ns": 34552821761304,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                },
+                "actual_after": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 9.936,
+                  "receipt_clock_after_s": 9.942,
+                  "host_monotonic_before_ns": 34552928315742,
+                  "host_monotonic_after_ns": 34552933929752,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                }
+              },
+              {
+                "parameter": {
+                  "type": "float",
+                  "repr": "0.1",
+                  "value": 0.1
+                },
+                "rejection": "ValueError: pulse_force must be a real finite number within [.2,3] N; bool/string are not accepted",
+                "actual_before": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 10.004,
+                  "receipt_clock_after_s": 10.009,
+                  "host_monotonic_before_ns": 34552996117999,
+                  "host_monotonic_after_ns": 34553000993917,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                },
+                "actual_after": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 10.115,
+                  "receipt_clock_after_s": 10.12,
+                  "host_monotonic_before_ns": 34553107392985,
+                  "host_monotonic_after_ns": 34553112129811,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                }
+              },
+              {
+                "parameter": {
+                  "type": "float",
+                  "repr": "3.1",
+                  "value": 3.1
+                },
+                "rejection": "ValueError: pulse_force must be a real finite number within [.2,3] N; bool/string are not accepted",
+                "actual_before": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 10.181,
+                  "receipt_clock_after_s": 10.184,
+                  "host_monotonic_before_ns": 34553173686693,
+                  "host_monotonic_after_ns": 34553176568750,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                },
+                "actual_after": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 10.287,
+                  "receipt_clock_after_s": 10.288,
+                  "host_monotonic_before_ns": 34553278660635,
+                  "host_monotonic_after_ns": 34553279935832,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                }
+              }
+            ],
+            "recovery_after_parameter_correction": {
+              "requested_force_N": 1.0,
+              "active_scale": 1.0,
+              "scheduled": {
+                "scheduled_once": true,
+                "requested_force": 1.0,
+                "active_scale": 1.0,
+                "effective_force_N": 1.0,
+                "force_parameter": "/workshop44/instrument/pulse_force",
+                "scale_parameter": "/workshop44/instrument/pulse_scale",
+                "server_scale": {
+                  "type": "float",
+                  "repr": "0.5",
+                  "value": 0.5
+                },
+                "joint_before": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 10.397,
+                  "receipt_clock_after_s": 10.398,
+                  "host_monotonic_before_ns": 34553388488464,
+                  "host_monotonic_after_ns": 34553389501696,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                },
+                "scheduled_start_sim_s": 10.48,
+                "duration_sim_s": 0.2,
+                "native_schedule_before_s": 10.4,
+                "native_schedule_ack_s": 10.401,
+                "task_finished": false,
+                "parameter_policy": "live requested force times startup-cached scale"
+              },
+              "reset": {
+                "before_native_world_s": 10.35,
+                "after_native_world_s": 10.395,
+                "after_actual_joint": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 10.393,
+                  "receipt_clock_after_s": 10.394,
+                  "host_monotonic_before_ns": 34553384475560,
+                  "host_monotonic_after_ns": 34553385729092,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                }
+              },
+              "actual_joint": {
+                "position_m": 0.06419401452687373,
+                "velocity_m_s": 0.14976460005854803,
+                "receipt_clock_before_s": 10.943,
+                "receipt_clock_after_s": 10.949,
+                "host_monotonic_before_ns": 34553934790270,
+                "host_monotonic_after_ns": 34553941163107,
+                "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+              },
+              "native_world_before_s": 10.943,
+              "native_world_after_s": 10.955,
+              "elapsed_sim_bracket_s": [
+                0.4629999999999992,
+                0.47499999999999964
+              ],
+              "elapsed_sim_midpoint_s": 0.4689999999999994,
+              "analytic_expected_x_m": 0.06370576040787237,
+              "analytic_expected_v_m_s": 0.1490353916737021,
+              "common_elapsed_sim_s": 0.45,
+              "measured_x_normalized_to_common_time_m": 0.06131884361954317,
+              "measured_v_normalized_to_common_time_m_s": 0.15205841077757012,
+              "normalization_note": "Raw native readings are retained; only time differences are corrected using the known 1 kg/.8 linear-damping response, not synthesized from the requested force"
+            }
+          },
+          "trusted_verifier_sha256": "26c33dc2e2fda37a3c647f45b6cd8163e03cc03cc239ec75bebeb7c58030dec7",
+          "world_sha256": "45298fb5c91499e7b2694e7ae1ed4a02168d8e132ad327e084b7b4671af884ac",
+          "active_scale": 1.0,
+          "startup_scale_source": {
+            "parameter": "/workshop44/instrument/pulse_scale",
+            "read_policy": "read once during node startup, cached in this process",
+            "type": "float"
+          },
+          "parameter_restoration": {
+            "/workshop44/instrument/pulse_force": {
+              "restored": true,
+              "value": {
+                "type": "float",
+                "repr": "1.0",
+                "value": 1.0
+              }
+            },
+            "/workshop44/instrument/pulse_scale": {
+              "restored": true,
+              "value": {
+                "type": "float",
+                "repr": "1.0",
+                "value": 1.0
+              }
+            }
+          },
+          "elapsed_wall_s": 3.1328016679981374
+        }
+      },
+      {
+        "name": "private_package_static_launch_and_real_parameter_dump",
+        "passed": true,
+        "resolved_package": "/tmp/gazeboteach-a44-p6qwy5pc/workspaces/classic11-noetic/44/ros_ws/src/gazeboteach_workshop44",
+        "expanded_nodes": "/workshop44/instrument\n"
+      },
+      {
+        "name": "reentry_preserves_personal_code",
+        "passed": true,
+        "verification": {
+          "passed": true,
+          "assignment_pass": false,
+          "lesson": 44,
+          "namespace": "/workshop44",
+          "checks": {
+            "launch_scope": {
+              "relative": {
+                "name": "/workshop44/scope_example",
+                "value": "group_scope"
+              },
+              "private": {
+                "name": "/workshop44/instrument/scope_example",
+                "value": "private_scope"
+              },
+              "cached_scale": 1.0,
+              "actual_mass_kg": 1.0,
+              "sdf_damping": 0.8,
+              "damping_scope": "SDF configuration .8; GetJointProperties damping is empty in the Noetic ROS API, not falsely treated as a measured field"
+            },
+            "paired_force_trials": {
+              "F": {
+                "requested_force_N": 1.0,
+                "active_scale": 1.0,
+                "scheduled": {
+                  "scheduled_once": true,
+                  "requested_force": 1.0,
+                  "active_scale": 1.0,
+                  "effective_force_N": 1.0,
+                  "force_parameter": "/workshop44/instrument/pulse_force",
+                  "scale_parameter": "/workshop44/instrument/pulse_scale",
+                  "server_scale": {
+                    "type": "float",
+                    "repr": "0.5",
+                    "value": 0.5
+                  },
+                  "joint_before": {
+                    "position_m": 0.0,
+                    "velocity_m_s": 0.0,
+                    "receipt_clock_before_s": 4.337,
+                    "receipt_clock_after_s": 4.341,
+                    "host_monotonic_before_ns": 34564420469793,
+                    "host_monotonic_after_ns": 34564424771817,
+                    "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                  },
+                  "scheduled_start_sim_s": 4.429,
+                  "duration_sim_s": 0.2,
+                  "native_schedule_before_s": 4.349,
+                  "native_schedule_ack_s": 4.357,
+                  "task_finished": false,
+                  "parameter_policy": "live requested force times startup-cached scale"
+                },
+                "reset": {
+                  "before_native_world_s": 4.27,
+                  "after_native_world_s": 4.328,
+                  "after_actual_joint": {
+                    "position_m": 0.0,
+                    "velocity_m_s": 0.0,
+                    "receipt_clock_before_s": 4.319,
+                    "receipt_clock_after_s": 4.324,
+                    "host_monotonic_before_ns": 34564403005903,
+                    "host_monotonic_after_ns": 34564408249698,
+                    "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                  }
+                },
+                "actual_joint": {
+                  "position_m": 0.06404424992681519,
+                  "velocity_m_s": 0.14988450766467976,
+                  "receipt_clock_before_s": 4.893,
+                  "receipt_clock_after_s": 4.897,
+                  "host_monotonic_before_ns": 34564977281106,
+                  "host_monotonic_after_ns": 34564981885012,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                },
+                "native_world_before_s": 4.892,
+                "native_world_after_s": 4.902,
+                "elapsed_sim_bracket_s": [
+                  0.4630000000000001,
+                  0.47299999999999986
+                ],
+                "elapsed_sim_midpoint_s": 0.46799999999999997,
+                "analytic_expected_x_m": 0.0635566653861418,
+                "analytic_expected_v_m_s": 0.14915466769108657,
+                "common_elapsed_sim_s": 0.45,
+                "measured_x_normalized_to_common_time_m": 0.06131929660612661,
+                "measured_v_normalized_to_common_time_m_s": 0.1520584594622363,
+                "normalization_note": "Raw native readings are retained; only time differences are corrected using the known 1 kg/.8 linear-damping response, not synthesized from the requested force"
+              },
+              "2F": {
+                "requested_force_N": 2.0,
+                "active_scale": 1.0,
+                "scheduled": {
+                  "scheduled_once": true,
+                  "requested_force": 2.0,
+                  "active_scale": 1.0,
+                  "effective_force_N": 2.0,
+                  "force_parameter": "/workshop44/instrument/pulse_force",
+                  "scale_parameter": "/workshop44/instrument/pulse_scale",
+                  "server_scale": {
+                    "type": "float",
+                    "repr": "0.5",
+                    "value": 0.5
+                  },
+                  "joint_before": {
+                    "position_m": 0.0,
+                    "velocity_m_s": 0.0,
+                    "receipt_clock_before_s": 4.995,
+                    "receipt_clock_after_s": 4.999,
+                    "host_monotonic_before_ns": 34565079450108,
+                    "host_monotonic_after_ns": 34565083588153,
+                    "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                  },
+                  "scheduled_start_sim_s": 5.087,
+                  "duration_sim_s": 0.2,
+                  "native_schedule_before_s": 5.007,
+                  "native_schedule_ack_s": 5.014,
+                  "task_finished": false,
+                  "parameter_policy": "live requested force times startup-cached scale"
+                },
+                "reset": {
+                  "before_native_world_s": 4.907,
+                  "after_native_world_s": 4.986,
+                  "after_actual_joint": {
+                    "position_m": 0.0,
+                    "velocity_m_s": 0.0,
+                    "receipt_clock_before_s": 4.977,
+                    "receipt_clock_after_s": 4.981,
+                    "host_monotonic_before_ns": 34565061437014,
+                    "host_monotonic_after_ns": 34565065798290,
+                    "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                  }
+                },
+                "actual_joint": {
+                  "position_m": 0.1252123410479225,
+                  "velocity_m_s": 0.3000701833083087,
+                  "receipt_clock_before_s": 5.542,
+                  "receipt_clock_after_s": 5.548,
+                  "host_monotonic_before_ns": 34565627557168,
+                  "host_monotonic_after_ns": 34565632777752,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                },
+                "native_world_before_s": 5.542,
+                "native_world_after_s": 5.553,
+                "elapsed_sim_bracket_s": [
+                  0.45500000000000007,
+                  0.4660000000000002
+                ],
+                "elapsed_sim_midpoint_s": 0.4604999999999997,
+                "analytic_expected_x_m": 0.12486928535279097,
+                "analytic_expected_v_m_s": 0.3001045717177672,
+                "common_elapsed_sim_s": 0.45,
+                "measured_x_normalized_to_common_time_m": 0.12203927776692255,
+                "measured_v_normalized_to_common_time_m_s": 0.30260138902865175,
+                "normalization_note": "Raw native readings are retained; only time differences are corrected using the known 1 kg/.8 linear-damping response, not synthesized from the requested force"
+              },
+              "measured_time_normalized_position_ratio": 1.9902263157194993,
+              "measured_time_normalized_velocity_ratio": 1.9900332418125197,
+              "common_elapsed_sim_s": 0.45,
+              "server_scale_after_update": 0.5,
+              "actual_node_cached_scale": 1.0,
+              "conclusion": "Parameter server update is visible but not automatically applied to the startup-cached scale; live force is explicitly re-read per request"
+            },
+            "invalid_reset": {
+              "before_native_world_s": 5.558,
+              "after_native_world_s": 5.598,
+              "after_actual_joint": {
+                "position_m": 0.0,
+                "velocity_m_s": 0.0,
+                "receipt_clock_before_s": 5.588,
+                "receipt_clock_after_s": 5.594,
+                "host_monotonic_before_ns": 34565673620650,
+                "host_monotonic_after_ns": 34565678967222,
+                "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+              }
+            },
+            "invalid_parameter_rejections": [
+              {
+                "parameter": {
+                  "type": "bool",
+                  "repr": "True",
+                  "value": true
+                },
+                "rejection": "ValueError: pulse_force must be a real finite number within [.2,3] N; bool/string are not accepted",
+                "actual_before": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 5.6,
+                  "receipt_clock_after_s": 5.605,
+                  "host_monotonic_before_ns": 34565685130962,
+                  "host_monotonic_after_ns": 34565689788393,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                },
+                "actual_after": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 5.711,
+                  "receipt_clock_after_s": 5.717,
+                  "host_monotonic_before_ns": 34565796396516,
+                  "host_monotonic_after_ns": 34565802655375,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                }
+              },
+              {
+                "parameter": {
+                  "type": "str",
+                  "repr": "'2.0'",
+                  "value": "2.0"
+                },
+                "rejection": "ValueError: pulse_force must be a real finite number within [.2,3] N; bool/string are not accepted",
+                "actual_before": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 5.759,
+                  "receipt_clock_after_s": 5.765,
+                  "host_monotonic_before_ns": 34565844269575,
+                  "host_monotonic_after_ns": 34565849994744,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                },
+                "actual_after": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 5.872,
+                  "receipt_clock_after_s": 5.876,
+                  "host_monotonic_before_ns": 34565956873864,
+                  "host_monotonic_after_ns": 34565961702274,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                }
+              },
+              {
+                "parameter": {
+                  "type": "float",
+                  "repr": "nan",
+                  "value": null
+                },
+                "rejection": "ValueError: pulse_force must be a real finite number within [.2,3] N; bool/string are not accepted",
+                "actual_before": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 5.898,
+                  "receipt_clock_after_s": 5.9030000000000005,
+                  "host_monotonic_before_ns": 34565983658474,
+                  "host_monotonic_after_ns": 34565988272688,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                },
+                "actual_after": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 6.01,
+                  "receipt_clock_after_s": 6.015,
+                  "host_monotonic_before_ns": 34566095105365,
+                  "host_monotonic_after_ns": 34566100896724,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                }
+              },
+              {
+                "parameter": {
+                  "type": "float",
+                  "repr": "inf",
+                  "value": null
+                },
+                "rejection": "ValueError: pulse_force must be a real finite number within [.2,3] N; bool/string are not accepted",
+                "actual_before": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 6.078,
+                  "receipt_clock_after_s": 6.083,
+                  "host_monotonic_before_ns": 34566163116444,
+                  "host_monotonic_after_ns": 34566168043824,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                },
+                "actual_after": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 6.189,
+                  "receipt_clock_after_s": 6.195,
+                  "host_monotonic_before_ns": 34566274929038,
+                  "host_monotonic_after_ns": 34566280357998,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                }
+              },
+              {
+                "parameter": {
+                  "type": "float",
+                  "repr": "0.1",
+                  "value": 0.1
+                },
+                "rejection": "ValueError: pulse_force must be a real finite number within [.2,3] N; bool/string are not accepted",
+                "actual_before": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 6.257,
+                  "receipt_clock_after_s": 6.263,
+                  "host_monotonic_before_ns": 34566342625074,
+                  "host_monotonic_after_ns": 34566348111508,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                },
+                "actual_after": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 6.37,
+                  "receipt_clock_after_s": 6.375,
+                  "host_monotonic_before_ns": 34566455283023,
+                  "host_monotonic_after_ns": 34566461068529,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                }
+              },
+              {
+                "parameter": {
+                  "type": "float",
+                  "repr": "3.1",
+                  "value": 3.1
+                },
+                "rejection": "ValueError: pulse_force must be a real finite number within [.2,3] N; bool/string are not accepted",
+                "actual_before": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 6.438,
+                  "receipt_clock_after_s": 6.442,
+                  "host_monotonic_before_ns": 34566523209628,
+                  "host_monotonic_after_ns": 34566527694071,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                },
+                "actual_after": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 6.548,
+                  "receipt_clock_after_s": 6.554,
+                  "host_monotonic_before_ns": 34566634195792,
+                  "host_monotonic_after_ns": 34566639386027,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                }
+              }
+            ],
+            "recovery_after_parameter_correction": {
+              "requested_force_N": 1.0,
+              "active_scale": 1.0,
+              "scheduled": {
+                "scheduled_once": true,
+                "requested_force": 1.0,
+                "active_scale": 1.0,
+                "effective_force_N": 1.0,
+                "force_parameter": "/workshop44/instrument/pulse_force",
+                "scale_parameter": "/workshop44/instrument/pulse_scale",
+                "server_scale": {
+                  "type": "float",
+                  "repr": "0.5",
+                  "value": 0.5
+                },
+                "joint_before": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 6.692,
+                  "receipt_clock_after_s": 6.697,
+                  "host_monotonic_before_ns": 34566777781175,
+                  "host_monotonic_after_ns": 34566782364727,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                },
+                "scheduled_start_sim_s": 6.7860000000000005,
+                "duration_sim_s": 0.2,
+                "native_schedule_before_s": 6.706,
+                "native_schedule_ack_s": 6.716,
+                "task_finished": false,
+                "parameter_policy": "live requested force times startup-cached scale"
+              },
+              "reset": {
+                "before_native_world_s": 6.622,
+                "after_native_world_s": 6.683,
+                "after_actual_joint": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 6.673,
+                  "receipt_clock_after_s": 6.677,
+                  "host_monotonic_before_ns": 34566758255136,
+                  "host_monotonic_after_ns": 34566762664793,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                }
+              },
+              "actual_joint": {
+                "position_m": 0.06419401452687373,
+                "velocity_m_s": 0.14976460005854803,
+                "receipt_clock_before_s": 7.251,
+                "receipt_clock_after_s": 7.255,
+                "host_monotonic_before_ns": 34567337230311,
+                "host_monotonic_after_ns": 34567341237515,
+                "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+              },
+              "native_world_before_s": 7.251,
+              "native_world_after_s": 7.259,
+              "elapsed_sim_bracket_s": [
+                0.46499999999999986,
+                0.47299999999999986
+              ],
+              "elapsed_sim_midpoint_s": 0.4690000000000003,
+              "analytic_expected_x_m": 0.06370576040787251,
+              "analytic_expected_v_m_s": 0.149035391673702,
+              "common_elapsed_sim_s": 0.45,
+              "measured_x_normalized_to_common_time_m": 0.06131884361954304,
+              "measured_v_normalized_to_common_time_m_s": 0.15205841077757026,
+              "normalization_note": "Raw native readings are retained; only time differences are corrected using the known 1 kg/.8 linear-damping response, not synthesized from the requested force"
+            }
+          },
+          "trusted_verifier_sha256": "26c33dc2e2fda37a3c647f45b6cd8163e03cc03cc239ec75bebeb7c58030dec7",
+          "world_sha256": "45298fb5c91499e7b2694e7ae1ed4a02168d8e132ad327e084b7b4671af884ac",
+          "active_scale": 1.0,
+          "startup_scale_source": {
+            "parameter": "/workshop44/instrument/pulse_scale",
+            "read_policy": "read once during node startup, cached in this process",
+            "type": "float"
+          },
+          "parameter_restoration": {
+            "/workshop44/instrument/pulse_force": {
+              "restored": true,
+              "value": {
+                "type": "float",
+                "repr": "1.0",
+                "value": 1.0
+              }
+            },
+            "/workshop44/instrument/pulse_scale": {
+              "restored": true,
+              "value": {
+                "type": "float",
+                "repr": "1.0",
+                "value": 1.0
+              }
+            }
+          },
+          "elapsed_wall_s": 3.2055764670003555
+        }
+      },
+      {
+        "name": "actual_namespace_and_half_scale_launch_variant",
+        "passed": true,
+        "verification": {
+          "passed": true,
+          "assignment_pass": false,
+          "lesson": 44,
+          "namespace": "/experiment44",
+          "checks": {
+            "launch_scope": {
+              "relative": {
+                "name": "/experiment44/scope_example",
+                "value": "group_scope"
+              },
+              "private": {
+                "name": "/experiment44/instrument/scope_example",
+                "value": "private_scope"
+              },
+              "cached_scale": 0.5,
+              "actual_mass_kg": 1.0,
+              "sdf_damping": 0.8,
+              "damping_scope": "SDF configuration .8; GetJointProperties damping is empty in the Noetic ROS API, not falsely treated as a measured field"
+            },
+            "paired_force_trials": {
+              "F": {
+                "requested_force_N": 1.0,
+                "active_scale": 0.5,
+                "scheduled": {
+                  "scheduled_once": true,
+                  "requested_force": 1.0,
+                  "active_scale": 0.5,
+                  "effective_force_N": 0.5,
+                  "force_parameter": "/experiment44/instrument/pulse_force",
+                  "scale_parameter": "/experiment44/instrument/pulse_scale",
+                  "server_scale": {
+                    "type": "float",
+                    "repr": "1.25",
+                    "value": 1.25
+                  },
+                  "joint_before": {
+                    "position_m": 0.0,
+                    "velocity_m_s": 0.0,
+                    "receipt_clock_before_s": 4.1,
+                    "receipt_clock_after_s": 4.105,
+                    "host_monotonic_before_ns": 34577188902587,
+                    "host_monotonic_after_ns": 34577194291268,
+                    "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                  },
+                  "scheduled_start_sim_s": 4.195,
+                  "duration_sim_s": 0.2,
+                  "native_schedule_before_s": 4.115,
+                  "native_schedule_ack_s": 4.126,
+                  "task_finished": false,
+                  "parameter_policy": "live requested force times startup-cached scale"
+                },
+                "reset": {
+                  "before_native_world_s": 4.034,
+                  "after_native_world_s": 4.091,
+                  "after_actual_joint": {
+                    "position_m": 0.0,
+                    "velocity_m_s": 0.0,
+                    "receipt_clock_before_s": 4.082,
+                    "receipt_clock_after_s": 4.087,
+                    "host_monotonic_before_ns": 34577171210853,
+                    "host_monotonic_after_ns": 34577175758303,
+                    "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                  }
+                },
+                "actual_joint": {
+                  "position_m": 0.031496267465944035,
+                  "velocity_m_s": 0.07536327664856371,
+                  "receipt_clock_before_s": 4.654,
+                  "receipt_clock_after_s": 4.656,
+                  "host_monotonic_before_ns": 34577743043774,
+                  "host_monotonic_after_ns": 34577745730527,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                },
+                "native_world_before_s": 4.6530000000000005,
+                "native_world_after_s": 4.659,
+                "elapsed_sim_bracket_s": [
+                  0.4580000000000002,
+                  0.4639999999999995
+                ],
+                "elapsed_sim_midpoint_s": 0.4610000000000003,
+                "analytic_expected_x_m": 0.03125482690804846,
+                "analytic_expected_v_m_s": 0.07499613847356124,
+                "common_elapsed_sim_s": 0.45,
+                "measured_x_normalized_to_common_time_m": 0.03066126861811152,
+                "measured_v_normalized_to_common_time_m_s": 0.07602940012766785,
+                "normalization_note": "Raw native readings are retained; only time differences are corrected using the known 1 kg/.8 linear-damping response, not synthesized from the requested force"
+              },
+              "2F": {
+                "requested_force_N": 2.0,
+                "active_scale": 0.5,
+                "scheduled": {
+                  "scheduled_once": true,
+                  "requested_force": 2.0,
+                  "active_scale": 0.5,
+                  "effective_force_N": 1.0,
+                  "force_parameter": "/experiment44/instrument/pulse_force",
+                  "scale_parameter": "/experiment44/instrument/pulse_scale",
+                  "server_scale": {
+                    "type": "float",
+                    "repr": "1.25",
+                    "value": 1.25
+                  },
+                  "joint_before": {
+                    "position_m": 0.0,
+                    "velocity_m_s": 0.0,
+                    "receipt_clock_before_s": 4.711,
+                    "receipt_clock_after_s": 4.712,
+                    "host_monotonic_before_ns": 34577799402001,
+                    "host_monotonic_after_ns": 34577800296616,
+                    "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                  },
+                  "scheduled_start_sim_s": 4.793,
+                  "duration_sim_s": 0.2,
+                  "native_schedule_before_s": 4.713,
+                  "native_schedule_ack_s": 4.715,
+                  "task_finished": false,
+                  "parameter_policy": "live requested force times startup-cached scale"
+                },
+                "reset": {
+                  "before_native_world_s": 4.662,
+                  "after_native_world_s": 4.709,
+                  "after_actual_joint": {
+                    "position_m": 0.0,
+                    "velocity_m_s": 0.0,
+                    "receipt_clock_before_s": 4.707,
+                    "receipt_clock_after_s": 4.708,
+                    "host_monotonic_before_ns": 34577795579015,
+                    "host_monotonic_after_ns": 34577796848128,
+                    "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                  }
+                },
+                "actual_joint": {
+                  "position_m": 0.06449318438780004,
+                  "velocity_m_s": 0.14952507254779837,
+                  "receipt_clock_before_s": 5.26,
+                  "receipt_clock_after_s": 5.264,
+                  "host_monotonic_before_ns": 34578349113991,
+                  "host_monotonic_after_ns": 34578353297488,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                },
+                "native_world_before_s": 5.26,
+                "native_world_after_s": 5.269,
+                "elapsed_sim_bracket_s": [
+                  0.46699999999999964,
+                  0.476
+                ],
+                "elapsed_sim_midpoint_s": 0.4714999999999998,
+                "analytic_expected_x_m": 0.06407797654684569,
+                "analytic_expected_v_m_s": 0.14873761876252345,
+                "common_elapsed_sim_s": 0.45,
+                "measured_x_normalized_to_common_time_m": 0.06124676515936492,
+                "measured_v_normalized_to_common_time_m_s": 0.15211914889993522,
+                "normalization_note": "Raw native readings are retained; only time differences are corrected using the known 1 kg/.8 linear-damping response, not synthesized from the requested force"
+              },
+              "measured_time_normalized_position_ratio": 1.9975287364067722,
+              "measured_time_normalized_velocity_ratio": 2.000793754054329,
+              "common_elapsed_sim_s": 0.45,
+              "server_scale_after_update": 1.25,
+              "actual_node_cached_scale": 0.5,
+              "conclusion": "Parameter server update is visible but not automatically applied to the startup-cached scale; live force is explicitly re-read per request"
+            },
+            "invalid_reset": {
+              "before_native_world_s": 5.273,
+              "after_native_world_s": 5.329,
+              "after_actual_joint": {
+                "position_m": 0.0,
+                "velocity_m_s": 0.0,
+                "receipt_clock_before_s": 5.321,
+                "receipt_clock_after_s": 5.325,
+                "host_monotonic_before_ns": 34578409731615,
+                "host_monotonic_after_ns": 34578413896534,
+                "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+              }
+            },
+            "invalid_parameter_rejections": [
+              {
+                "parameter": {
+                  "type": "bool",
+                  "repr": "True",
+                  "value": true
+                },
+                "rejection": "ValueError: pulse_force must be a real finite number within [.2,3] N; bool/string are not accepted",
+                "actual_before": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 5.331,
+                  "receipt_clock_after_s": 5.335,
+                  "host_monotonic_before_ns": 34578419945850,
+                  "host_monotonic_after_ns": 34578424216920,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                },
+                "actual_after": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 5.441,
+                  "receipt_clock_after_s": 5.446,
+                  "host_monotonic_before_ns": 34578529716090,
+                  "host_monotonic_after_ns": 34578535266066,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                }
+              },
+              {
+                "parameter": {
+                  "type": "str",
+                  "repr": "'2.0'",
+                  "value": "2.0"
+                },
+                "rejection": "ValueError: pulse_force must be a real finite number within [.2,3] N; bool/string are not accepted",
+                "actual_before": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 5.509,
+                  "receipt_clock_after_s": 5.515,
+                  "host_monotonic_before_ns": 34578597786211,
+                  "host_monotonic_after_ns": 34578603629493,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                },
+                "actual_after": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 5.621,
+                  "receipt_clock_after_s": 5.627,
+                  "host_monotonic_before_ns": 34578710374310,
+                  "host_monotonic_after_ns": 34578715881835,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                }
+              },
+              {
+                "parameter": {
+                  "type": "float",
+                  "repr": "nan",
+                  "value": null
+                },
+                "rejection": "ValueError: pulse_force must be a real finite number within [.2,3] N; bool/string are not accepted",
+                "actual_before": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 5.689,
+                  "receipt_clock_after_s": 5.694,
+                  "host_monotonic_before_ns": 34578778023780,
+                  "host_monotonic_after_ns": 34578782749353,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                },
+                "actual_after": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 5.799,
+                  "receipt_clock_after_s": 5.804,
+                  "host_monotonic_before_ns": 34578888261940,
+                  "host_monotonic_after_ns": 34578892989308,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                }
+              },
+              {
+                "parameter": {
+                  "type": "float",
+                  "repr": "inf",
+                  "value": null
+                },
+                "rejection": "ValueError: pulse_force must be a real finite number within [.2,3] N; bool/string are not accepted",
+                "actual_before": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 5.866,
+                  "receipt_clock_after_s": 5.871,
+                  "host_monotonic_before_ns": 34578955430234,
+                  "host_monotonic_after_ns": 34578960491912,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                },
+                "actual_after": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 5.976,
+                  "receipt_clock_after_s": 5.982,
+                  "host_monotonic_before_ns": 34579065549766,
+                  "host_monotonic_after_ns": 34579071794735,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                }
+              },
+              {
+                "parameter": {
+                  "type": "float",
+                  "repr": "0.1",
+                  "value": 0.1
+                },
+                "rejection": "ValueError: pulse_force must be a real finite number within [.2,3] N; bool/string are not accepted",
+                "actual_before": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 6.004,
+                  "receipt_clock_after_s": 6.01,
+                  "host_monotonic_before_ns": 34579093856153,
+                  "host_monotonic_after_ns": 34579099329574,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                },
+                "actual_after": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 6.116,
+                  "receipt_clock_after_s": 6.12,
+                  "host_monotonic_before_ns": 34579205733834,
+                  "host_monotonic_after_ns": 34579209888757,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                }
+              },
+              {
+                "parameter": {
+                  "type": "float",
+                  "repr": "3.1",
+                  "value": 3.1
+                },
+                "rejection": "ValueError: pulse_force must be a real finite number within [.2,3] N; bool/string are not accepted",
+                "actual_before": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 6.182,
+                  "receipt_clock_after_s": 6.188,
+                  "host_monotonic_before_ns": 34579272262825,
+                  "host_monotonic_after_ns": 34579277739147,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                },
+                "actual_after": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 6.294,
+                  "receipt_clock_after_s": 6.3,
+                  "host_monotonic_before_ns": 34579383793385,
+                  "host_monotonic_after_ns": 34579390040434,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                }
+              }
+            ],
+            "recovery_after_parameter_correction": {
+              "requested_force_N": 1.0,
+              "active_scale": 0.5,
+              "scheduled": {
+                "scheduled_once": true,
+                "requested_force": 1.0,
+                "active_scale": 0.5,
+                "effective_force_N": 0.5,
+                "force_parameter": "/experiment44/instrument/pulse_force",
+                "scale_parameter": "/experiment44/instrument/pulse_scale",
+                "server_scale": {
+                  "type": "float",
+                  "repr": "1.25",
+                  "value": 1.25
+                },
+                "joint_before": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 6.436,
+                  "receipt_clock_after_s": 6.44,
+                  "host_monotonic_before_ns": 34579526441739,
+                  "host_monotonic_after_ns": 34579530837372,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                },
+                "scheduled_start_sim_s": 6.5280000000000005,
+                "duration_sim_s": 0.2,
+                "native_schedule_before_s": 6.448,
+                "native_schedule_ack_s": 6.457,
+                "task_finished": false,
+                "parameter_policy": "live requested force times startup-cached scale"
+              },
+              "reset": {
+                "before_native_world_s": 6.367,
+                "after_native_world_s": 6.427,
+                "after_actual_joint": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 6.418,
+                  "receipt_clock_after_s": 6.423,
+                  "host_monotonic_before_ns": 34579508351269,
+                  "host_monotonic_after_ns": 34579513219412,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                }
+              },
+              "actual_joint": {
+                "position_m": 0.03239593788420878,
+                "velocity_m_s": 0.07464296406388417,
+                "receipt_clock_before_s": 6.995,
+                "receipt_clock_after_s": 7.001,
+                "host_monotonic_before_ns": 34580085797964,
+                "host_monotonic_after_ns": 34580091327084,
+                "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+              },
+              "native_world_before_s": 6.995,
+              "native_world_after_s": 7.005,
+              "elapsed_sim_bracket_s": [
+                0.46699999999999964,
+                0.4769999999999994
+              ],
+              "elapsed_sim_midpoint_s": 0.47199999999999953,
+              "analytic_expected_x_m": 0.032076165242223995,
+              "analytic_expected_v_m_s": 0.07433906780622081,
+              "common_elapsed_sim_s": 0.45,
+              "measured_x_normalized_to_common_time_m": 0.030729553052188066,
+              "measured_v_normalized_to_common_time_m_s": 0.07596830905594318,
+              "normalization_note": "Raw native readings are retained; only time differences are corrected using the known 1 kg/.8 linear-damping response, not synthesized from the requested force"
+            }
+          },
+          "trusted_verifier_sha256": "26c33dc2e2fda37a3c647f45b6cd8163e03cc03cc239ec75bebeb7c58030dec7",
+          "world_sha256": "45298fb5c91499e7b2694e7ae1ed4a02168d8e132ad327e084b7b4671af884ac",
+          "active_scale": 0.5,
+          "startup_scale_source": {
+            "parameter": "/experiment44/instrument/pulse_scale",
+            "read_policy": "read once during node startup, cached in this process",
+            "type": "float"
+          },
+          "parameter_restoration": {
+            "/experiment44/instrument/pulse_force": {
+              "restored": true,
+              "value": {
+                "type": "float",
+                "repr": "1.0",
+                "value": 1.0
+              }
+            },
+            "/experiment44/instrument/pulse_scale": {
+              "restored": true,
+              "value": {
+                "type": "float",
+                "repr": "0.5",
+                "value": 0.5
+              }
+            }
+          },
+          "elapsed_wall_s": 3.165387926994299
+        }
+      },
+      {
+        "name": "all_owned_processes_cleaned",
+        "passed": true
+      }
+    ],
+    "elapsed_seconds": 43.602
+  },
+  "desktop": {
+    "ok": true,
+    "lesson": "44",
+    "profile": "classic11-noetic",
+    "data_dir": "/tmp/gazeboteach-addon-desktop-kv950hpp",
+    "checks": [
+      {
+        "name": "real_desktop_material_selected",
+        "passed": true,
+        "document_characters": 5551
+      },
+      {
+        "name": "start_button_initialized_real_world_gui_and_ptys",
+        "passed": true,
+        "session": "/tmp/gazeboteach-addon-desktop-kv950hpp/data/sessions/classic11-noetic-44-20261104-002736-160196",
+        "token": "5941b4af005647319d9f6319f37d4210"
+      },
+      {
+        "name": "real_owned_native_gui_window",
+        "passed": true,
+        "window_id": "0x6200012",
+        "pid": 157873,
+        "width": 2488,
+        "height": 1376,
+        "screenshot": "/home/ikaros/GazeboTeach/.deploy/addons/A44/desktop-gazebo.png",
+        "properties": "_NET_WM_PID(CARDINAL) = 157873\n_NET_WM_NAME(UTF8_STRING) = \"Gazebo\"",
+        "image_metrics": {
+          "nontrivial_pixels": true,
+          "sample_count": 1568,
+          "distinct_sampled_colors": 92,
+          "luma_range": 231,
+          "nonblack_fraction": 1.0,
+          "non_dominant_fraction": 0.80038
+        },
+        "manual_scene_review_required": true
+      },
+      {
+        "name": "verify_button_checks_real_behavior",
+        "passed": true
+      },
+      {
+        "name": "desktop_exit_cleans_owned_processes",
+        "passed": true
+      }
+    ],
+    "elapsed_seconds": 19.65
+  },
+  "standalone_gui": {
+    "window_id": "0x5c00012",
+    "pid": 165810,
+    "width": 2488,
+    "height": 1376,
+    "screenshot": "/home/ikaros/GazeboTeach/.deploy/addons/A44/parameters-scene.png",
+    "properties": "_NET_WM_PID(CARDINAL) = 165810\n_NET_WM_NAME(UTF8_STRING) = \"Gazebo\"",
+    "image_metrics": {
+      "nontrivial_pixels": true,
+      "sample_count": 1568,
+      "distinct_sampled_colors": 22,
+      "luma_range": 176,
+      "nonblack_fraction": 1.0,
+      "non_dominant_fraction": 0.57972
+    },
+    "manual_scene_review_required": true
+  },
+  "manual_scene_review": {
+    "passed": true,
+    "image": "docs/images/a44-parameters.png",
+    "observed": "Actual unobscured Gazebo window shows cyan slide, yellow rail and floor; physics conclusions use independent joint readbacks."
+  },
+  "limits": [
+    "ROS1 source-only package; no custom messages or catkin build required.",
+    "Requested force is explicitly re-read per Trigger, active scale is cached at startup; no dynamic_reconfigure claim.",
+    "Measured raw native joint data and simulator time brackets are retained; the 1kg/.8 analytic model only normalizes sample time and checks predictions.",
+    "Joint damping .8 is checked in the loaded SDF, not reported as an available GetJointProperties measurement.",
+    "Default experiment does not run or grade the separate student validator.",
+    "Caller wall timeout does not cancel unknown remote requests; unknown clear is not automatically resent."
+  ],
+  "source_sha256": {
+    "courses/classic11_noetic/44-ros1-launch-parameters/instrument.py": "26c33dc2e2fda37a3c647f45b6cd8163e03cc03cc239ec75bebeb7c58030dec7",
+    "courses/classic11_noetic/44-ros1-launch-parameters/lab.py": "f1fd0e08aaf005b918000098804bf63ef5e3fe2420fcaca7613832b11a2a20f2",
+    "courses/classic11_noetic/44-ros1-launch-parameters/lesson.json": "217844042867d6d679ba477c2b064387572d0e3e2b86387f57be264d1f6408c1",
+    "courses/classic11_noetic/44-ros1-launch-parameters/lesson.md": "ee8f15a7916dc5d0f0840af4d2afc40c1311e0b35fc8845f8955891f8f2b4628",
+    "courses/classic11_noetic/44-ros1-launch-parameters/prepare.py": "49652fb3273a20c914d342dfb6874a7bb04ada65be1e0c842dd46fabb09c726c",
+    "courses/classic11_noetic/44-ros1-launch-parameters/reference.md": "de4496c61643a6d5568a9d5d3c8224194dbce2899d98ff6198094f998c001f59",
+    "courses/classic11_noetic/44-ros1-launch-parameters/reference.py": "6ef159d758b35dad816f012e159daa975b11683955103e37d5bbf03cbab4aafc",
+    "courses/classic11_noetic/44-ros1-launch-parameters/ros_ws/src/gazeboteach_workshop44/config/controller.yaml": "28f689e736e8e2a6875e9d3022be2db0a1a0e36e85e7286ca260d123a77f99f6",
+    "courses/classic11_noetic/44-ros1-launch-parameters/ros_ws/src/gazeboteach_workshop44/launch/lab.launch": "609aad2e580bee462d318b2d2094e6a6e98ec6a0f689a79cb39ee6dd7fb3bb49",
+    "courses/classic11_noetic/44-ros1-launch-parameters/ros_ws/src/gazeboteach_workshop44/package.xml": "920016c23bc21beff515d9943722c93c242945a2faa205dd7b631d0cbd767380",
+    "courses/classic11_noetic/44-ros1-launch-parameters/ros_ws/src/gazeboteach_workshop44/scripts/node.py": "3024e1f4ce5b39008da2d470d36c60d149592e2f056e6197d20401fec3a8c920",
+    "courses/classic11_noetic/44-ros1-launch-parameters/student.py": "1b92317b1ef2ef63be5cd5615b0421bc44c737d49e76dbe3255e9d1a85493fd9",
+    "courses/classic11_noetic/44-ros1-launch-parameters/verify.py": "d9d34ecc00085c92ec354ba09070ced1916c840802e0e5598d9f0eb536b9e10d",
+    "courses/classic11_noetic/44-ros1-launch-parameters/world.sdf": "45298fb5c91499e7b2694e7ae1ed4a02168d8e132ad327e084b7b4671af884ac"
+  }
+}

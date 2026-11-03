@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<package format="2"><name>gazeboteach_workshop44</name><version>0.1.0</version>
+<description>A44 private launch/parameter teaching node and finite Gazebo force</description>
+<maintainer email="maintainer@example.invalid">GazeboTeach</maintainer><license>MIT</license>
+<buildtool_depend>catkin</buildtool_depend><exec_depend>rospy</exec_depend><exec_depend>std_msgs</exec_depend>
+<exec_depend>std_srvs</exec_depend><exec_depend>gazebo_msgs</exec_depend></package>

@@ -1,0 +1,3 @@
+# YAML is loaded inside the <node>, so these are node-private parameters.
+pulse_force: 1.0
+scope_example: private_scope
