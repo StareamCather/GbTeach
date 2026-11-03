@@ -4,12 +4,19 @@ from pathlib import Path
 import unittest
 from unittest import mock
 
-from gazeboteach.environment import detect_environment
+from gazeboteach.environment import detect_environment,noetic_base_environment
 from gazeboteach.compatibility import lesson_compatibility
 from tests.test_core import environment,make_lesson
 
 
 class ROSGraphToolDiscovery(unittest.TestCase):
+    def test_an_external_ros_namespace_does_not_rename_private_gazebo_services(self):
+        inherited={'ROS_NAMESPACE':'/external_robot','PATH':'/usr/bin','DISPLAY':':1'}
+        child=noetic_base_environment(inherited)
+        self.assertNotIn('ROS_NAMESPACE',child)
+        self.assertEqual(child['DISPLAY'],':1')
+        self.assertEqual(inherited['ROS_NAMESPACE'],'/external_robot')
+
     def test_rosnode_and_rosmsg_are_probed_and_enable_the_matching_lesson(self):
         def which(name):
             return '/fixture/bin/'+name if name in ('rosnode','rosmsg') else None

@@ -118,7 +118,7 @@ def noetic_base_environment(environment):
             if path is None or not any(path == root or root in path.parents for root in roots):
                 kept.append(value)
         result[name] = os.pathsep.join(kept)
-    for name in ("ROS_DISTRO", "ROS_VERSION", "ROS_PYTHON_VERSION", "ROS_DOMAIN_ID", "ROS_LOCALHOST_ONLY",
+    for name in ("ROS_DISTRO", "ROS_VERSION", "ROS_PYTHON_VERSION", "ROS_NAMESPACE", "ROS_DOMAIN_ID", "ROS_LOCALHOST_ONLY",
                  "ROS_AUTOMATIC_DISCOVERY_RANGE", "ROS_STATIC_PEERS", "RMW_IMPLEMENTATION", "AMENT_PREFIX_PATH",
                  "AMENT_CURRENT_PREFIX", "COLCON_PREFIX_PATH", "CYCLONEDDS_URI", "FASTRTPS_DEFAULT_PROFILES_FILE"):
         result.pop(name, None)
