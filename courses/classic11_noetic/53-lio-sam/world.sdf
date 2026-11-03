@@ -1,0 +1,623 @@
+<?xml version='1.0' encoding='utf-8'?>
+<sdf version="1.7">
+  <world name="default">
+    <gravity>0 0 -9.81</gravity>
+    <physics name="ode" type="ode">
+      <max_step_size>0.0005</max_step_size>
+      <real_time_update_rate>2000</real_time_update_rate>
+    </physics>
+    <scene>
+      <ambient>.55 .55 .55 1</ambient>
+      <background>.82 .87 .92 1</background>
+      <shadows>true</shadows>
+    </scene>
+    <light name="sun" type="directional">
+      <pose>0 0 8 0 0 0</pose>
+      <diffuse>.9 .9 .88 1</diffuse>
+      <direction>-.4 .2 -1</direction>
+    </light>
+    <gui>
+      <camera name="user_camera">
+        <pose>14 -17 14 0 .62 2.22</pose>
+      </camera>
+    </gui>
+    <model name="floor">
+      <static>true</static>
+      <pose>4 0 -.125 0 0 0</pose>
+      <link name="body">
+        <collision name="shape">
+          <laser_retro>50</laser_retro>
+          <geometry>
+            <box>
+              <size>22 16 .25</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="appearance">
+          <geometry>
+            <box>
+              <size>22 16 .25</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.52 .55 .58 1</ambient>
+            <diffuse>.52 .55 .58 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="west">
+      <static>true</static>
+      <pose>-5 0 3.25 0 0 0</pose>
+      <link name="body">
+        <collision name="shape">
+          <laser_retro>75</laser_retro>
+          <geometry>
+            <box>
+              <size>.24 14 6.5</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="appearance">
+          <geometry>
+            <box>
+              <size>.24 14 6.5</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.42 .52 .64 1</ambient>
+            <diffuse>.42 .52 .64 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="east">
+      <static>true</static>
+      <pose>13 0 3.25 0 0 0</pose>
+      <link name="body">
+        <collision name="shape">
+          <laser_retro>75</laser_retro>
+          <geometry>
+            <box>
+              <size>.24 14 6.5</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="appearance">
+          <geometry>
+            <box>
+              <size>.24 14 6.5</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.42 .52 .64 1</ambient>
+            <diffuse>.42 .52 .64 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="south">
+      <static>true</static>
+      <pose>4 -7 3.25 0 0 0</pose>
+      <link name="body">
+        <collision name="shape">
+          <laser_retro>80</laser_retro>
+          <geometry>
+            <box>
+              <size>18 .24 6.5</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="appearance">
+          <geometry>
+            <box>
+              <size>18 .24 6.5</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.51 .57 .62 1</ambient>
+            <diffuse>.51 .57 .62 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="north">
+      <static>true</static>
+      <pose>4 7 3.25 0 0 0</pose>
+      <link name="body">
+        <collision name="shape">
+          <laser_retro>80</laser_retro>
+          <geometry>
+            <box>
+              <size>18 .24 6.5</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="appearance">
+          <geometry>
+            <box>
+              <size>18 .24 6.5</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.51 .57 .62 1</ambient>
+            <diffuse>.51 .57 .62 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="pillar_0">
+      <static>true</static>
+      <pose>-2 -3 1.2 0 0 0.3</pose>
+      <link name="body">
+        <collision name="shape">
+          <laser_retro>100</laser_retro>
+          <geometry>
+            <box>
+              <size>.55 .7 2.4</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="appearance">
+          <geometry>
+            <box>
+              <size>.55 .7 2.4</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.72 .54 .32 1</ambient>
+            <diffuse>.72 .54 .32 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="pillar_1">
+      <static>true</static>
+      <pose>-1 3.6 1.6 0 0 -0.2</pose>
+      <link name="body">
+        <collision name="shape">
+          <laser_retro>106</laser_retro>
+          <geometry>
+            <box>
+              <size>.55 .7 3.2</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="appearance">
+          <geometry>
+            <box>
+              <size>.55 .7 3.2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.72 .54 .32 1</ambient>
+            <diffuse>.72 .54 .32 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="pillar_2">
+      <static>true</static>
+      <pose>1.4 -2.8 1.1 0 0 0.55</pose>
+      <link name="body">
+        <collision name="shape">
+          <laser_retro>112</laser_retro>
+          <geometry>
+            <box>
+              <size>.55 .7 2.2</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="appearance">
+          <geometry>
+            <box>
+              <size>.55 .7 2.2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.72 .54 .32 1</ambient>
+            <diffuse>.72 .54 .32 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="pillar_3">
+      <static>true</static>
+      <pose>2.1 2.7 1.75 0 0 0.1</pose>
+      <link name="body">
+        <collision name="shape">
+          <laser_retro>118</laser_retro>
+          <geometry>
+            <box>
+              <size>.55 .7 3.5</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="appearance">
+          <geometry>
+            <box>
+              <size>.55 .7 3.5</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.72 .54 .32 1</ambient>
+            <diffuse>.72 .54 .32 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="pillar_4">
+      <static>true</static>
+      <pose>4 -4 1.4 0 0 0.27</pose>
+      <link name="body">
+        <collision name="shape">
+          <laser_retro>124</laser_retro>
+          <geometry>
+            <box>
+              <size>.55 .7 2.8</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="appearance">
+          <geometry>
+            <box>
+              <size>.55 .7 2.8</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.72 .54 .32 1</ambient>
+            <diffuse>.72 .54 .32 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="pillar_5">
+      <static>true</static>
+      <pose>5 3 1.7 0 0 -0.43</pose>
+      <link name="body">
+        <collision name="shape">
+          <laser_retro>130</laser_retro>
+          <geometry>
+            <box>
+              <size>.55 .7 3.4</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="appearance">
+          <geometry>
+            <box>
+              <size>.55 .7 3.4</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.72 .54 .32 1</ambient>
+            <diffuse>.72 .54 .32 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="pillar_6">
+      <static>true</static>
+      <pose>7.5 -2.6 1.2 0 0 -0.34</pose>
+      <link name="body">
+        <collision name="shape">
+          <laser_retro>136</laser_retro>
+          <geometry>
+            <box>
+              <size>.55 .7 2.4</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="appearance">
+          <geometry>
+            <box>
+              <size>.55 .7 2.4</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.72 .54 .32 1</ambient>
+            <diffuse>.72 .54 .32 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="pillar_7">
+      <static>true</static>
+      <pose>8 2.2 1.25 0 0 0.41</pose>
+      <link name="body">
+        <collision name="shape">
+          <laser_retro>142</laser_retro>
+          <geometry>
+            <box>
+              <size>.55 .7 2.5</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="appearance">
+          <geometry>
+            <box>
+              <size>.55 .7 2.5</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.72 .54 .32 1</ambient>
+            <diffuse>.72 .54 .32 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="pillar_8">
+      <static>true</static>
+      <pose>10 4 2 0 0 0.16</pose>
+      <link name="body">
+        <collision name="shape">
+          <laser_retro>148</laser_retro>
+          <geometry>
+            <box>
+              <size>.55 .7 4</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="appearance">
+          <geometry>
+            <box>
+              <size>.55 .7 4</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.72 .54 .32 1</ambient>
+            <diffuse>.72 .54 .32 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="pillar_9">
+      <static>true</static>
+      <pose>9 -5 1.1 0 0 0</pose>
+      <link name="body">
+        <collision name="shape">
+          <laser_retro>154</laser_retro>
+          <geometry>
+            <box>
+              <size>.55 .7 2.2</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="appearance">
+          <geometry>
+            <box>
+              <size>.55 .7 2.2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.72 .54 .32 1</ambient>
+            <diffuse>.72 .54 .32 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="angled_partition">
+      <static>true</static>
+      <pose>6 -4.8 1 0 0 -.35</pose>
+      <link name="body">
+        <collision name="shape">
+          <laser_retro>150</laser_retro>
+          <geometry>
+            <box>
+              <size>4 .2 2</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="appearance">
+          <geometry>
+            <box>
+              <size>4 .2 2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.42 .61 .57 1</ambient>
+            <diffuse>.42 .61 .57 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="ramp">
+      <static>true</static>
+      <pose>4 4.5 .45 0 -.28 .2</pose>
+      <link name="body">
+        <collision name="shape">
+          <laser_retro>125</laser_retro>
+          <geometry>
+            <box>
+              <size>3 1.8 .25</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="appearance">
+          <geometry>
+            <box>
+              <size>3 1.8 .25</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.48 .6 .41 1</ambient>
+            <diffuse>.48 .6 .41 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="step_0">
+      <static>true</static>
+      <pose>9.0 4.3 0.1 0 0 0</pose>
+      <link name="body">
+        <collision name="shape">
+          <laser_retro>185</laser_retro>
+          <geometry>
+            <box>
+              <size>.35 1.5 0.2</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="appearance">
+          <geometry>
+            <box>
+              <size>.35 1.5 0.2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.7 .63 .4 1</ambient>
+            <diffuse>.7 .63 .4 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="step_1">
+      <static>true</static>
+      <pose>9.35 4.3 0.2 0 0 0</pose>
+      <link name="body">
+        <collision name="shape">
+          <laser_retro>185</laser_retro>
+          <geometry>
+            <box>
+              <size>.35 1.5 0.4</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="appearance">
+          <geometry>
+            <box>
+              <size>.35 1.5 0.4</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.7 .63 .4 1</ambient>
+            <diffuse>.7 .63 .4 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="step_2">
+      <static>true</static>
+      <pose>9.7 4.3 0.30000000000000004 0 0 0</pose>
+      <link name="body">
+        <collision name="shape">
+          <laser_retro>185</laser_retro>
+          <geometry>
+            <box>
+              <size>.35 1.5 0.6000000000000001</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="appearance">
+          <geometry>
+            <box>
+              <size>.35 1.5 0.6000000000000001</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.7 .63 .4 1</ambient>
+            <diffuse>.7 .63 .4 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="step_3">
+      <static>true</static>
+      <pose>10.05 4.3 0.4 0 0 0</pose>
+      <link name="body">
+        <collision name="shape">
+          <laser_retro>185</laser_retro>
+          <geometry>
+            <box>
+              <size>.35 1.5 0.8</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="appearance">
+          <geometry>
+            <box>
+              <size>.35 1.5 0.8</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.7 .63 .4 1</ambient>
+            <diffuse>.7 .63 .4 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="survey_rig">
+      <pose>0 0 1.2 0 0 0</pose>
+      <allow_auto_disable>false</allow_auto_disable>
+      <link name="sensor_body">
+        <inertial>
+          <mass>1</mass>
+          <inertia>
+            <ixx>.06</ixx>
+            <iyy>.06</iyy>
+            <izz>.08</izz>
+          </inertia>
+        </inertial>
+        <visual name="sensor_housing">
+          <geometry>
+            <cylinder>
+              <radius>.20</radius>
+              <length>.17</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>.18 .41 .88 1</ambient>
+            <diffuse>.18 .41 .88 1</diffuse>
+          </material>
+        </visual>
+        <visual name="heading">
+          <pose>.19 0 .04 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>.24 .08 .08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>.91 .27 .14 1</ambient>
+            <diffuse>.91 .27 .14 1</diffuse>
+          </material>
+        </visual>
+        <sensor name="body_imu" type="imu">
+          <always_on>true</always_on>
+          <update_rate>200</update_rate>
+          <plugin name="imu_ros" filename="libgazebo_ros_imu_sensor.so">
+            <topicName>/gt_lio/imu</topicName>
+            <frameName>sensor_body</frameName>
+            <bodyName>sensor_body</bodyName>
+            <updateRateHZ>200</updateRateHZ>
+            <gaussianNoise>0</gaussianNoise>
+            <initialOrientationAsReference>false</initialOrientationAsReference>
+          </plugin>
+        </sensor>
+      </link>
+      <plugin name="gt_rolling_lidar" filename="libgazeboteach_rolling_lidar.so">
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>1</samples>
+              <resolution>1</resolution>
+              <min_angle>0</min_angle>
+              <max_angle>0</max_angle>
+            </horizontal>
+            <vertical>
+              <samples>16</samples>
+              <resolution>1</resolution>
+              <min_angle>-.3839724354</min_angle>
+              <max_angle>.3839724354</max_angle>
+            </vertical>
+          </scan>
+          <range>
+            <min>.3</min>
+            <max>22</max>
+            <resolution>.001</resolution>
+          </range>
+        </ray>
+      </plugin>
+    </model>
+  </world>
+</sdf>

@@ -1,0 +1,61 @@
+<launch>
+  <arg name="mode_namespace"/>
+  <arg name="loop_enabled" default="false"/>
+  <group ns="$(arg mode_namespace)">
+    <rosparam param="lio_sam">
+      pointCloudTopic: /gt_lio/replay_points
+      imuTopic: /gt_lio/replay_imu
+      odomTopic: odometry/imu
+      gpsTopic: odometry/no_gps_input
+      lidarFrame: gt_lio_lidar
+      baselinkFrame: gt_lio_lidar
+      odometryFrame: lio_odometry
+      mapFrame: lio_map
+      useImuHeadingInitialization: false
+      useGpsElevation: false
+      savePCD: false
+      sensor: velodyne
+      N_SCAN: 16
+      Horizon_SCAN: 200
+      downsampleRate: 1
+      lidarMinRange: 0.35
+      lidarMaxRange: 30.0
+      imuGravity: 9.81
+      imuAccNoise: 0.004
+      imuGyrNoise: 0.0016
+      imuAccBiasN: 0.000065
+      imuGyrBiasN: 0.000036
+      imuRPYWeight: 0.01
+      extrinsicTrans: [-0.04165, -0.02326, 0.0284]
+      extrinsicRot: [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0]
+      extrinsicRPY: [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0]
+      edgeThreshold: 0.1
+      surfThreshold: 0.1
+      edgeFeatureMinValidNum: 10
+      surfFeatureMinValidNum: 100
+      odometrySurfLeafSize: 0.15
+      mappingCornerLeafSize: 0.15
+      mappingSurfLeafSize: 0.2
+      numberOfCores: 2
+      mappingProcessInterval: 0.09
+      surroundingkeyframeAddingDistThreshold: 0.35
+      surroundingkeyframeAddingAngleThreshold: 0.15
+      surroundingKeyframeDensity: 0.35
+      surroundingKeyframeSearchRadius: 30.0
+      surroundingKeyframeSize: 60
+      loopClosureFrequency: 4.0
+      historyKeyframeSearchRadius: 1.3
+      historyKeyframeSearchTimeDiff: 12.0
+      historyKeyframeSearchNum: 8
+      historyKeyframeFitnessScore: 0.3
+      globalMapVisualizationSearchRadius: 100.0
+      globalMapVisualizationPoseDensity: 0.35
+      globalMapVisualizationLeafSize: 0.2
+    </rosparam>
+    <param name="lio_sam/loopClosureEnableFlag" type="bool" value="$(arg loop_enabled)"/>
+    <node pkg="lio_sam" type="lio_sam_imuPreintegration" name="imuPreintegration" output="screen" required="true"/>
+    <node pkg="lio_sam" type="lio_sam_imageProjection" name="imageProjection" output="screen" required="true"/>
+    <node pkg="lio_sam" type="lio_sam_featureExtraction" name="featureExtraction" output="screen" required="true"/>
+    <node pkg="lio_sam" type="lio_sam_mapOptmization" name="mapOptimization" output="screen" required="true"/>
+  </group>
+</launch>
