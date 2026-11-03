@@ -1,0 +1,62 @@
+{
+  "id": "50",
+  "title": "FAST-LIO 第一代：分时雷达采样、IMU 去畸变与迭代滤波",
+  "module": "附加专项·激光惯性里程计",
+  "order": 50,
+  "profile": "classic11-noetic",
+  "requires_ros": true,
+  "requires_tools": [
+    "g++",
+    "pkg-config",
+    "catkin_make",
+    "rosbag"
+  ],
+  "requires_plugins": [
+    "libgazebo_ros_imu_sensor.so"
+  ],
+  "requires_ros_packages": [
+    "gazebo_plugins",
+    "pcl_ros",
+    "pcl_conversions",
+    "eigen_conversions"
+  ],
+  "requires_python_modules": [
+    "numpy"
+  ],
+  "requires_pkg_config": {
+    "gazebo": "11.15.1"
+  },
+  "requires_native_server": true,
+  "graceful_server_shutdown": true,
+  "world": "world.sdf",
+  "prepare": [
+    "python3 prepare.py",
+    "python3 build_fast_lio1.py --download"
+  ],
+  "prepare_timeout": 980,
+  "after_startup": [
+    "python3 native_ready.py"
+  ],
+  "verify": "verify.py",
+  "verify_timeout": 120,
+  "reference": "reference.md",
+  "objectives": [
+    "核对分时射线、点时间单位和 IMU 覆盖",
+    "跟踪真实第一代特征提取、去畸变和误差状态更新",
+    "使用独立 IMU 位姿真值量化估计误差"
+  ],
+  "commands": [
+    {
+      "title": "采集并回放到 FAST-LIO 第一代",
+      "command": "python3 adapter.py run"
+    },
+    {
+      "title": "编辑时间戳与残差练习",
+      "command": "gedit --new-window learner.py"
+    },
+    {
+      "title": "检查个人练习",
+      "command": "python3 student_check.py"
+    }
+  ]
+}

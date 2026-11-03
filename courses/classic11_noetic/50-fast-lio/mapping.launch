@@ -1,0 +1,19 @@
+<launch>
+  <param name="lidar_type" value="1" type="int"/>
+  <param name="N_SCANS" value="16" type="int"/>
+  <param name="blind" value="0.35" type="double"/>
+  <param name="p2l_ratio" value="225.0" type="double"/>
+  <param name="point_filter_num" value="3" type="int"/>
+  <node pkg="fast_lio" type="loam_feat_extract" name="feature_extract" output="screen" required="true"/>
+  <node pkg="fast_lio" type="loam_laserMapping" name="laserMapping" output="screen" required="true">
+    <remap from="/livox/imu" to="/gt_lio/replay_imu"/>
+    <param name="map_file_path" value="" type="str"/>
+    <param name="max_iteration" value="10" type="int"/>
+    <param name="dense_map_enable" value="true" type="bool"/>
+    <param name="fov_degree" value="350.0" type="double"/>
+    <param name="filter_size_corner" value="0.3" type="double"/>
+    <param name="filter_size_surf" value="0.2" type="double"/>
+    <param name="filter_size_map" value="0.2" type="double"/>
+    <param name="cube_side_length" value="10.0" type="double"/>
+  </node>
+</launch>

@@ -1,0 +1,604 @@
+{
+  "acceptance": {
+    "ok": true,
+    "runs": [
+      {
+        "schema": 1,
+        "passed": true,
+        "request_id": "1bb7fc3450ce43a69a24a10974462d78",
+        "run_directory": "/tmp/gt-a50-repeat-r5e7aapx/workspaces/classic11-noetic/50/results/run-1bb7fc3450ce43a69a24a10974462d78",
+        "algorithm": "FAST-LIO first generation",
+        "upstream_commit": "6e1fa94351316eafac5fcf55c5fcd575f3e89829",
+        "build_receipt": {
+          "workspace": "/home/ikaros/.cache/gazeboteach/a50-fast-lio1/d3d136ed98bdc87bbbfddf50527f097c4ccf804364e26ec9bc9807dcf26bf308/ws",
+          "setup_bash": "/home/ikaros/.cache/gazeboteach/a50-fast-lio1/d3d136ed98bdc87bbbfddf50527f097c4ccf804364e26ec9bc9807dcf26bf308/ws/devel/setup.bash",
+          "python_path": "/home/ikaros/.cache/gazeboteach/a50-fast-lio1/d3d136ed98bdc87bbbfddf50527f097c4ccf804364e26ec9bc9807dcf26bf308/ws/devel/lib/python3/dist-packages",
+          "feature_extract": "/home/ikaros/.cache/gazeboteach/a50-fast-lio1/d3d136ed98bdc87bbbfddf50527f097c4ccf804364e26ec9bc9807dcf26bf308/ws/devel/lib/fast_lio/loam_feat_extract",
+          "laser_mapping": "/home/ikaros/.cache/gazeboteach/a50-fast-lio1/d3d136ed98bdc87bbbfddf50527f097c4ccf804364e26ec9bc9807dcf26bf308/ws/devel/lib/fast_lio/loam_laserMapping",
+          "algorithm_commit": "6e1fa94351316eafac5fcf55c5fcd575f3e89829",
+          "livox_message_commit": "3d240d5666129e1a3052e78ee8487a04b08fdda3",
+          "archive_sha256": {
+            "fast-lio1.tar.gz": "b5e05896a9290592eca705bf2f666e62316c67021432c3b65580726353af2fb6",
+            "livox-ros-driver.tar.gz": "e953ffe14cdb45ea4989807924c5c7360f2ecde63e93b40272159928beae0f7b"
+          },
+          "patches": {
+            "generated-targets": "Order both native targets after generated Livox and FAST-LIO message headers.",
+            "feature-input-guards": "Check point count, finite fields and ring length before indexing.",
+            "ordered-feature-times": "Sort surface features by original per-point time before backend synchronization.",
+            "empty-measurement-guards": "Drop empty feature groups and clear stale undistortion output.",
+            "scan-end-publication": "Timestamp estimate, TF, path and point clouds at the processed feature scan end.",
+            "runtime-log-directory": "Write upstream debug files relative to the node's working directory."
+          },
+          "feature_extract_sha256": "772b48b60bada269e8941d1d4b30c40d7f768f719892cdccb4bde1a190a6dca1",
+          "laser_mapping_sha256": "1f0f95a13c17ad745c9cd0913aeeb7dc0965871b8ff993ea945f4f1b9c51ea0f",
+          "build_key": "d3d136ed98bdc87bbbfddf50527f097c4ccf804364e26ec9bc9807dcf26bf308"
+        },
+        "build_receipt_sha256": "3041fab7bd4fb6b8de64faebc4a129180bc7a81d6cd594cb584fdbf9d1a2b988",
+        "inputs": {
+          "lidar": "/livox/lidar",
+          "imu": "/gt_lio/replay_imu",
+          "truth_published": false,
+          "lidar_point_stamp": "header stamp + offset_time (ns)",
+          "scan_bag_record_time": "last acquired raw ray time",
+          "extrinsic_T_IL_m": [
+            0.04165,
+            0.02326,
+            -0.0284
+          ],
+          "extrinsic_R_IL": "identity",
+          "truth_frame": "IMU link pose in Gazebo world"
+        },
+        "capture": {
+          "native_records": "/tmp/gt-a50-repeat-r5e7aapx/workspaces/classic11-noetic/50/results/run-1bb7fc3450ce43a69a24a10974462d78/native.jsonl",
+          "sha256": "18421d93b58a995468f5d8cbc05df2b257a96eee4dbb739eaaa0efa4c25d2757",
+          "scans": 140,
+          "truth_samples": 1400,
+          "points": 447199,
+          "first_scan_ns": 4120000000,
+          "last_scan_end_ns": 18119500000,
+          "scan_span_min_ns": 99500000,
+          "scan_span_max_ns": 99500000
+        },
+        "imu": {
+          "topic": "/gt_lio/imu",
+          "publishers": [
+            "/gazebo"
+          ],
+          "frames": [
+            "sensor_body"
+          ],
+          "count": 2860,
+          "median_dt_ns": 5000000.0,
+          "largest_dt_ns": 5000000,
+          "first_ns": 4020000000,
+          "last_ns": 18315000000,
+          "median_accel_norm_m_s2": 9.812000338581457
+        },
+        "bag": {
+          "path": "/tmp/gt-a50-repeat-r5e7aapx/workspaces/classic11-noetic/50/results/run-1bb7fc3450ce43a69a24a10974462d78/sensors.bag",
+          "sha256": "dafda9522d2e9e8f499550e84c56688ae59f54f5efc881aaba3a6af2d97ad9e3",
+          "published_clock": false,
+          "lidar_msg_md5": "e4d6829bdfe657cb6c21a746c86b21a6",
+          "topics": [
+            "/livox/lidar",
+            "/gt_lio/replay_imu"
+          ]
+        },
+        "outputs": {
+          "surface_messages": 140,
+          "nonempty_surface_messages": 140,
+          "corner_messages": 140,
+          "nonempty_map_messages": 131,
+          "max_map_points": 12167,
+          "odometry_messages": 131,
+          "odometry_frame_pairs": [
+            [
+              "/camera_init",
+              "/aft_mapped"
+            ]
+          ],
+          "odom_time_basis": "processed surface feature scan end",
+          "max_matching_tolerance_ns": 1000
+        },
+        "metrics": {
+          "alignment": "first_matched_pose_SE3_no_scale_fit",
+          "anchor_stamp_ns": 5119500000,
+          "alignment_rotation_xyzw": [
+            6.385134403348402e-05,
+            -6.265761265776655e-05,
+            -7.562846406578985e-05,
+            0.9999999931386825
+          ],
+          "alignment_translation_m": [
+            -0.03849325438831952,
+            -0.0214346865982681,
+            -1.1723339339070908
+          ],
+          "matched": 130,
+          "unmatched": 1,
+          "position_rmse_m": 0.02920842232848084,
+          "orientation_rmse_rad": 0.0019631311243867512,
+          "final_position_error_m": 0.030734334632961862,
+          "truth_path_length_m": 6.309283226925585,
+          "estimate_path_length_m": 6.322864134357685,
+          "truth_max_displacement_m": 5.802579399777068,
+          "estimate_max_displacement_m": 5.8070214151322785
+        },
+        "elapsed_wall_s": 36.775689752998005
+      },
+      {
+        "schema": 1,
+        "passed": true,
+        "request_id": "58d4b8a3b2944913ae5e867a3ecad2bb",
+        "run_directory": "/tmp/gt-a50-repeat-r5e7aapx/workspaces/classic11-noetic/50/results/run-58d4b8a3b2944913ae5e867a3ecad2bb",
+        "algorithm": "FAST-LIO first generation",
+        "upstream_commit": "6e1fa94351316eafac5fcf55c5fcd575f3e89829",
+        "build_receipt": {
+          "workspace": "/home/ikaros/.cache/gazeboteach/a50-fast-lio1/d3d136ed98bdc87bbbfddf50527f097c4ccf804364e26ec9bc9807dcf26bf308/ws",
+          "setup_bash": "/home/ikaros/.cache/gazeboteach/a50-fast-lio1/d3d136ed98bdc87bbbfddf50527f097c4ccf804364e26ec9bc9807dcf26bf308/ws/devel/setup.bash",
+          "python_path": "/home/ikaros/.cache/gazeboteach/a50-fast-lio1/d3d136ed98bdc87bbbfddf50527f097c4ccf804364e26ec9bc9807dcf26bf308/ws/devel/lib/python3/dist-packages",
+          "feature_extract": "/home/ikaros/.cache/gazeboteach/a50-fast-lio1/d3d136ed98bdc87bbbfddf50527f097c4ccf804364e26ec9bc9807dcf26bf308/ws/devel/lib/fast_lio/loam_feat_extract",
+          "laser_mapping": "/home/ikaros/.cache/gazeboteach/a50-fast-lio1/d3d136ed98bdc87bbbfddf50527f097c4ccf804364e26ec9bc9807dcf26bf308/ws/devel/lib/fast_lio/loam_laserMapping",
+          "algorithm_commit": "6e1fa94351316eafac5fcf55c5fcd575f3e89829",
+          "livox_message_commit": "3d240d5666129e1a3052e78ee8487a04b08fdda3",
+          "archive_sha256": {
+            "fast-lio1.tar.gz": "b5e05896a9290592eca705bf2f666e62316c67021432c3b65580726353af2fb6",
+            "livox-ros-driver.tar.gz": "e953ffe14cdb45ea4989807924c5c7360f2ecde63e93b40272159928beae0f7b"
+          },
+          "patches": {
+            "generated-targets": "Order both native targets after generated Livox and FAST-LIO message headers.",
+            "feature-input-guards": "Check point count, finite fields and ring length before indexing.",
+            "ordered-feature-times": "Sort surface features by original per-point time before backend synchronization.",
+            "empty-measurement-guards": "Drop empty feature groups and clear stale undistortion output.",
+            "scan-end-publication": "Timestamp estimate, TF, path and point clouds at the processed feature scan end.",
+            "runtime-log-directory": "Write upstream debug files relative to the node's working directory."
+          },
+          "feature_extract_sha256": "772b48b60bada269e8941d1d4b30c40d7f768f719892cdccb4bde1a190a6dca1",
+          "laser_mapping_sha256": "1f0f95a13c17ad745c9cd0913aeeb7dc0965871b8ff993ea945f4f1b9c51ea0f",
+          "build_key": "d3d136ed98bdc87bbbfddf50527f097c4ccf804364e26ec9bc9807dcf26bf308"
+        },
+        "build_receipt_sha256": "3041fab7bd4fb6b8de64faebc4a129180bc7a81d6cd594cb584fdbf9d1a2b988",
+        "inputs": {
+          "lidar": "/livox/lidar",
+          "imu": "/gt_lio/replay_imu",
+          "truth_published": false,
+          "lidar_point_stamp": "header stamp + offset_time (ns)",
+          "scan_bag_record_time": "last acquired raw ray time",
+          "extrinsic_T_IL_m": [
+            0.04165,
+            0.02326,
+            -0.0284
+          ],
+          "extrinsic_R_IL": "identity",
+          "truth_frame": "IMU link pose in Gazebo world"
+        },
+        "capture": {
+          "native_records": "/tmp/gt-a50-repeat-r5e7aapx/workspaces/classic11-noetic/50/results/run-58d4b8a3b2944913ae5e867a3ecad2bb/native.jsonl",
+          "sha256": "15ea69d94ebfc33b8ba6027ccf1602408bc003a6cb7ce55c4b0eff038950a318",
+          "scans": 140,
+          "truth_samples": 1400,
+          "points": 447199,
+          "first_scan_ns": 40400000000,
+          "last_scan_end_ns": 54399500000,
+          "scan_span_min_ns": 99500000,
+          "scan_span_max_ns": 99500000
+        },
+        "imu": {
+          "topic": "/gt_lio/imu",
+          "publishers": [
+            "/gazebo"
+          ],
+          "frames": [
+            "sensor_body"
+          ],
+          "count": 2860,
+          "median_dt_ns": 5000000.0,
+          "largest_dt_ns": 5000000,
+          "first_ns": 40300000000,
+          "last_ns": 54595000000,
+          "median_accel_norm_m_s2": 9.812000338581457
+        },
+        "bag": {
+          "path": "/tmp/gt-a50-repeat-r5e7aapx/workspaces/classic11-noetic/50/results/run-58d4b8a3b2944913ae5e867a3ecad2bb/sensors.bag",
+          "sha256": "373585fa89641319db4485d688d8d439fff2b408c29d1bdaf3eff9c510888775",
+          "published_clock": false,
+          "lidar_msg_md5": "e4d6829bdfe657cb6c21a746c86b21a6",
+          "topics": [
+            "/livox/lidar",
+            "/gt_lio/replay_imu"
+          ]
+        },
+        "outputs": {
+          "surface_messages": 140,
+          "nonempty_surface_messages": 140,
+          "corner_messages": 140,
+          "nonempty_map_messages": 131,
+          "max_map_points": 12163,
+          "odometry_messages": 131,
+          "odometry_frame_pairs": [
+            [
+              "/camera_init",
+              "/aft_mapped"
+            ]
+          ],
+          "odom_time_basis": "processed surface feature scan end",
+          "max_matching_tolerance_ns": 1000
+        },
+        "metrics": {
+          "alignment": "first_matched_pose_SE3_no_scale_fit",
+          "anchor_stamp_ns": 41399500000,
+          "alignment_rotation_xyzw": [
+            6.385134403348407e-05,
+            -6.265761265776661e-05,
+            -7.562846406578983e-05,
+            0.9999999931386825
+          ],
+          "alignment_translation_m": [
+            -0.03849325438831952,
+            -0.0214346865982681,
+            -1.1723339339070908
+          ],
+          "matched": 130,
+          "unmatched": 1,
+          "position_rmse_m": 0.02919126308584334,
+          "orientation_rmse_rad": 0.0020212805262522465,
+          "final_position_error_m": 0.03047536454907918,
+          "truth_path_length_m": 6.309283226925585,
+          "estimate_path_length_m": 6.321939557038522,
+          "truth_max_displacement_m": 5.802579399777068,
+          "estimate_max_displacement_m": 5.806776511348609
+        },
+        "elapsed_wall_s": 36.644565411996155
+      }
+    ],
+    "artifacts": {
+      "/tmp/gt-a50-repeat-r5e7aapx/workspaces/classic11-noetic/50/results/run-1bb7fc3450ce43a69a24a10974462d78/native.jsonl": "18421d93b58a995468f5d8cbc05df2b257a96eee4dbb739eaaa0efa4c25d2757",
+      "/tmp/gt-a50-repeat-r5e7aapx/workspaces/classic11-noetic/50/results/run-1bb7fc3450ce43a69a24a10974462d78/capture-done.json": "faab44e30f671f4dec9e0e09071eb5ccf3ade6f9268d34328fddc2b758174c06",
+      "/tmp/gt-a50-repeat-r5e7aapx/workspaces/classic11-noetic/50/results/run-1bb7fc3450ce43a69a24a10974462d78/sensors.bag": "dafda9522d2e9e8f499550e84c56688ae59f54f5efc881aaba3a6af2d97ad9e3",
+      "/tmp/gt-a50-repeat-r5e7aapx/workspaces/classic11-noetic/50/results/run-1bb7fc3450ce43a69a24a10974462d78/report.json": "8fe3f62a50745198b6c7925158590c30abf8fa5520ed1d562bb9512726fb37a0",
+      "/tmp/gt-a50-repeat-r5e7aapx/workspaces/classic11-noetic/50/results/run-1bb7fc3450ce43a69a24a10974462d78/trajectory-comparison.json": "94ddd3d1adaf87e6d693f99f21340c91eb2da629508431e7ce6b251b0977c7b5",
+      "/tmp/gt-a50-repeat-r5e7aapx/workspaces/classic11-noetic/50/results/run-58d4b8a3b2944913ae5e867a3ecad2bb/native.jsonl": "15ea69d94ebfc33b8ba6027ccf1602408bc003a6cb7ce55c4b0eff038950a318",
+      "/tmp/gt-a50-repeat-r5e7aapx/workspaces/classic11-noetic/50/results/run-58d4b8a3b2944913ae5e867a3ecad2bb/capture-done.json": "d767ec335aea8a8791fe0e13cd2e3e3d38b59c957ee40b7bbebb6ae8ed34beaa",
+      "/tmp/gt-a50-repeat-r5e7aapx/workspaces/classic11-noetic/50/results/run-58d4b8a3b2944913ae5e867a3ecad2bb/sensors.bag": "373585fa89641319db4485d688d8d439fff2b408c29d1bdaf3eff9c510888775",
+      "/tmp/gt-a50-repeat-r5e7aapx/workspaces/classic11-noetic/50/results/run-58d4b8a3b2944913ae5e867a3ecad2bb/report.json": "b7089f98e55e18ceee61fc685877d0f500a6b6ba86e3457d0dee33d0428b19bc",
+      "/tmp/gt-a50-repeat-r5e7aapx/workspaces/classic11-noetic/50/results/run-58d4b8a3b2944913ae5e867a3ecad2bb/trajectory-comparison.json": "1f8b4c5936937886dc4a578cd09abcb11b137d909b9d41c6d92b9ec4d4e555a4"
+    },
+    "runtime_log": "/tmp/gt-a50-repeat-r5e7aapx/sessions/classic11-noetic-50-20261104-015344-891952/runtime.log",
+    "elapsed_seconds": 83.024,
+    "owned_processes_cleaned": true
+  },
+  "desktop": {
+    "ok": true,
+    "lesson": "50",
+    "profile": "classic11-noetic",
+    "data_dir": "/tmp/gazeboteach-addon-desktop-ko_mptjt",
+    "checks": [
+      {
+        "name": "real_desktop_material_selected",
+        "passed": true,
+        "document_characters": 5095
+      },
+      {
+        "name": "start_button_initialized_real_world_gui_and_ptys",
+        "passed": true,
+        "session": "/tmp/gazeboteach-addon-desktop-ko_mptjt/data/sessions/classic11-noetic-50-20261104-015442-111268",
+        "token": "3dcc9916b52849759e0a6a7c8fb1c0b8"
+      },
+      {
+        "name": "real_owned_native_gui_window",
+        "passed": true,
+        "window_id": "0x6200012",
+        "pid": 233922,
+        "width": 2488,
+        "height": 1376,
+        "screenshot": "/home/ikaros/GazeboTeach/.deploy/addons/A50/desktop-gazebo.png",
+        "properties": "_NET_WM_PID(CARDINAL) = 233922\n_NET_WM_NAME(UTF8_STRING) = \"Gazebo\"",
+        "image_metrics": {
+          "nontrivial_pixels": true,
+          "sample_count": 1568,
+          "distinct_sampled_colors": 105,
+          "luma_range": 231,
+          "nonblack_fraction": 1.0,
+          "non_dominant_fraction": 0.80166
+        },
+        "manual_scene_review_required": true
+      },
+      {
+        "name": "verify_button_checks_real_behavior",
+        "passed": true
+      },
+      {
+        "name": "desktop_exit_cleans_owned_processes",
+        "passed": true
+      }
+    ],
+    "elapsed_seconds": 52.378
+  },
+  "desktop_experiment": {
+    "schema": 1,
+    "passed": true,
+    "request_id": "208d2b9ab84e41509a607653c1a81280",
+    "run_directory": "/tmp/gazeboteach-addon-desktop-ko_mptjt/data/workspaces/classic11-noetic/50/results/run-208d2b9ab84e41509a607653c1a81280",
+    "algorithm": "FAST-LIO first generation",
+    "upstream_commit": "6e1fa94351316eafac5fcf55c5fcd575f3e89829",
+    "build_receipt": {
+      "workspace": "/home/ikaros/.cache/gazeboteach/a50-fast-lio1/d3d136ed98bdc87bbbfddf50527f097c4ccf804364e26ec9bc9807dcf26bf308/ws",
+      "setup_bash": "/home/ikaros/.cache/gazeboteach/a50-fast-lio1/d3d136ed98bdc87bbbfddf50527f097c4ccf804364e26ec9bc9807dcf26bf308/ws/devel/setup.bash",
+      "python_path": "/home/ikaros/.cache/gazeboteach/a50-fast-lio1/d3d136ed98bdc87bbbfddf50527f097c4ccf804364e26ec9bc9807dcf26bf308/ws/devel/lib/python3/dist-packages",
+      "feature_extract": "/home/ikaros/.cache/gazeboteach/a50-fast-lio1/d3d136ed98bdc87bbbfddf50527f097c4ccf804364e26ec9bc9807dcf26bf308/ws/devel/lib/fast_lio/loam_feat_extract",
+      "laser_mapping": "/home/ikaros/.cache/gazeboteach/a50-fast-lio1/d3d136ed98bdc87bbbfddf50527f097c4ccf804364e26ec9bc9807dcf26bf308/ws/devel/lib/fast_lio/loam_laserMapping",
+      "algorithm_commit": "6e1fa94351316eafac5fcf55c5fcd575f3e89829",
+      "livox_message_commit": "3d240d5666129e1a3052e78ee8487a04b08fdda3",
+      "archive_sha256": {
+        "fast-lio1.tar.gz": "b5e05896a9290592eca705bf2f666e62316c67021432c3b65580726353af2fb6",
+        "livox-ros-driver.tar.gz": "e953ffe14cdb45ea4989807924c5c7360f2ecde63e93b40272159928beae0f7b"
+      },
+      "patches": {
+        "generated-targets": "Order both native targets after generated Livox and FAST-LIO message headers.",
+        "feature-input-guards": "Check point count, finite fields and ring length before indexing.",
+        "ordered-feature-times": "Sort surface features by original per-point time before backend synchronization.",
+        "empty-measurement-guards": "Drop empty feature groups and clear stale undistortion output.",
+        "scan-end-publication": "Timestamp estimate, TF, path and point clouds at the processed feature scan end.",
+        "runtime-log-directory": "Write upstream debug files relative to the node's working directory."
+      },
+      "feature_extract_sha256": "772b48b60bada269e8941d1d4b30c40d7f768f719892cdccb4bde1a190a6dca1",
+      "laser_mapping_sha256": "1f0f95a13c17ad745c9cd0913aeeb7dc0965871b8ff993ea945f4f1b9c51ea0f",
+      "build_key": "d3d136ed98bdc87bbbfddf50527f097c4ccf804364e26ec9bc9807dcf26bf308"
+    },
+    "build_receipt_sha256": "3041fab7bd4fb6b8de64faebc4a129180bc7a81d6cd594cb584fdbf9d1a2b988",
+    "inputs": {
+      "lidar": "/livox/lidar",
+      "imu": "/gt_lio/replay_imu",
+      "truth_published": false,
+      "lidar_point_stamp": "header stamp + offset_time (ns)",
+      "scan_bag_record_time": "last acquired raw ray time",
+      "extrinsic_T_IL_m": [
+        0.04165,
+        0.02326,
+        -0.0284
+      ],
+      "extrinsic_R_IL": "identity",
+      "truth_frame": "IMU link pose in Gazebo world"
+    },
+    "capture": {
+      "native_records": "/tmp/gazeboteach-addon-desktop-ko_mptjt/data/workspaces/classic11-noetic/50/results/run-208d2b9ab84e41509a607653c1a81280/native.jsonl",
+      "sha256": "ce5e29c4b1fc670a67c27e9fb3c24521e51097ffeebb31a4692e497704ea632d",
+      "scans": 140,
+      "truth_samples": 1400,
+      "points": 447199,
+      "first_scan_ns": 8030000000,
+      "last_scan_end_ns": 22029500000,
+      "scan_span_min_ns": 99500000,
+      "scan_span_max_ns": 99500000
+    },
+    "imu": {
+      "topic": "/gt_lio/imu",
+      "publishers": [
+        "/gazebo"
+      ],
+      "frames": [
+        "sensor_body"
+      ],
+      "count": 2860,
+      "median_dt_ns": 5000000.0,
+      "largest_dt_ns": 5000000,
+      "first_ns": 7930000000,
+      "last_ns": 22225000000,
+      "median_accel_norm_m_s2": 9.81200491389247
+    },
+    "bag": {
+      "path": "/tmp/gazeboteach-addon-desktop-ko_mptjt/data/workspaces/classic11-noetic/50/results/run-208d2b9ab84e41509a607653c1a81280/sensors.bag",
+      "sha256": "234eb2ec50913c26dafb77ea87657be98f01fc848feed6091c0df5dea5720c77",
+      "published_clock": false,
+      "lidar_msg_md5": "e4d6829bdfe657cb6c21a746c86b21a6",
+      "topics": [
+        "/livox/lidar",
+        "/gt_lio/replay_imu"
+      ]
+    },
+    "outputs": {
+      "surface_messages": 140,
+      "nonempty_surface_messages": 140,
+      "corner_messages": 140,
+      "nonempty_map_messages": 131,
+      "max_map_points": 12162,
+      "odometry_messages": 131,
+      "odometry_frame_pairs": [
+        [
+          "/camera_init",
+          "/aft_mapped"
+        ]
+      ],
+      "odom_time_basis": "processed surface feature scan end",
+      "max_matching_tolerance_ns": 1000
+    },
+    "map_artifact": {
+      "path": "/tmp/gazeboteach-addon-desktop-ko_mptjt/data/workspaces/classic11-noetic/50/results/run-208d2b9ab84e41509a607653c1a81280/laser-map.pcd",
+      "sha256": "d91ee23fc38ab3b5a333a98abb54185a8426dc9be3eb859b1754a69d93593524",
+      "format": "PCD v0.7 ASCII XYZ",
+      "point_count": 12162,
+      "original_point_count": 12162,
+      "frame_id": "/camera_init",
+      "stamp_ns": 22027500000,
+      "topic": "/Laser_map",
+      "publisher": "/laserMapping"
+    },
+    "metrics": {
+      "alignment": "first_matched_pose_SE3_no_scale_fit",
+      "anchor_stamp_ns": 9029500000,
+      "alignment_rotation_xyzw": [
+        6.385134403348392e-05,
+        -6.265761265776677e-05,
+        -7.562846406578985e-05,
+        0.9999999931386825
+      ],
+      "alignment_translation_m": [
+        -0.03849325438831952,
+        -0.0214346865982681,
+        -1.1723339339070908
+      ],
+      "matched": 130,
+      "unmatched": 1,
+      "position_rmse_m": 0.029160461366984053,
+      "orientation_rmse_rad": 0.0021283523649708916,
+      "final_position_error_m": 0.03057155403422128,
+      "truth_path_length_m": 6.309283226925585,
+      "estimate_path_length_m": 6.325342316470118,
+      "truth_max_displacement_m": 5.802579399777068,
+      "estimate_max_displacement_m": 5.808255038268538
+    },
+    "elapsed_wall_s": 36.684412146001705
+  },
+  "standalone_gui": {
+    "window_id": "0x6000012",
+    "pid": 232314,
+    "width": 2488,
+    "height": 1376,
+    "screenshot": "/home/ikaros/GazeboTeach/.deploy/addons/A50/rolling-scene.png",
+    "properties": "_NET_WM_PID(CARDINAL) = 232314\n_NET_WM_NAME(UTF8_STRING) = \"Gazebo\"",
+    "image_metrics": {
+      "nontrivial_pixels": true,
+      "sample_count": 1568,
+      "distinct_sampled_colors": 42,
+      "luma_range": 171,
+      "nonblack_fraction": 1.0,
+      "non_dominant_fraction": 0.62436
+    },
+    "manual_scene_review_required": true
+  },
+  "sensor_preflight": {
+    "ok": true,
+    "first_ns": 3770000000,
+    "last_ns": 17769500000,
+    "scans": 140,
+    "truth_samples": 1400,
+    "request_id": "b06ac12d58354176bbbb70eec602fa73",
+    "reason": "capture finished",
+    "total_points": 447199,
+    "first_scan_min_range_m": 2.768148540624301,
+    "first_scan_max_range_m": 15.245181105966354,
+    "first_truth": {
+      "type": "truth",
+      "stamp_ns": 3770000000,
+      "position": [
+        0,
+        0,
+        1.2
+      ],
+      "orientation": [
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    "last_truth": {
+      "type": "truth",
+      "stamp_ns": 17760000000,
+      "position": [
+        5.81257649,
+        0.7393111111,
+        1.2
+      ],
+      "orientation": [
+        0,
+        0,
+        0.2816364652,
+        0.9595211834
+      ]
+    },
+    "raw": "/tmp/gt-a50-native-6uiftcah/workspaces/classic11-noetic/50/build/native.jsonl",
+    "runtime_log": "/tmp/gt-a50-native-6uiftcah/sessions/classic11-noetic-50-20261104-015103-375577/runtime.log"
+  },
+  "raw_artifact_sha256": {
+    ".deploy/addons/A50/artifacts/run-1bb7fc3450ce43a69a24a10974462d78/native.jsonl": "18421d93b58a995468f5d8cbc05df2b257a96eee4dbb739eaaa0efa4c25d2757",
+    ".deploy/addons/A50/artifacts/run-1bb7fc3450ce43a69a24a10974462d78/capture-done.json": "faab44e30f671f4dec9e0e09071eb5ccf3ade6f9268d34328fddc2b758174c06",
+    ".deploy/addons/A50/artifacts/run-1bb7fc3450ce43a69a24a10974462d78/sensors.bag": "dafda9522d2e9e8f499550e84c56688ae59f54f5efc881aaba3a6af2d97ad9e3",
+    ".deploy/addons/A50/artifacts/run-1bb7fc3450ce43a69a24a10974462d78/report.json": "8fe3f62a50745198b6c7925158590c30abf8fa5520ed1d562bb9512726fb37a0",
+    ".deploy/addons/A50/artifacts/run-1bb7fc3450ce43a69a24a10974462d78/trajectory-comparison.json": "94ddd3d1adaf87e6d693f99f21340c91eb2da629508431e7ce6b251b0977c7b5",
+    ".deploy/addons/A50/artifacts/run-1bb7fc3450ce43a69a24a10974462d78/estimator.log": "496ed3ce2a4f0914524abb75e4b391a32206099318f6b86878b99af74e5cb517",
+    ".deploy/addons/A50/artifacts/run-1bb7fc3450ce43a69a24a10974462d78/replay.log": "c7024991dc3ba563a23894602434d0c9d50c55d6cda11e3bc9141338a40ec2df",
+    ".deploy/addons/A50/artifacts/run-58d4b8a3b2944913ae5e867a3ecad2bb/native.jsonl": "15ea69d94ebfc33b8ba6027ccf1602408bc003a6cb7ce55c4b0eff038950a318",
+    ".deploy/addons/A50/artifacts/run-58d4b8a3b2944913ae5e867a3ecad2bb/capture-done.json": "d767ec335aea8a8791fe0e13cd2e3e3d38b59c957ee40b7bbebb6ae8ed34beaa",
+    ".deploy/addons/A50/artifacts/run-58d4b8a3b2944913ae5e867a3ecad2bb/sensors.bag": "373585fa89641319db4485d688d8d439fff2b408c29d1bdaf3eff9c510888775",
+    ".deploy/addons/A50/artifacts/run-58d4b8a3b2944913ae5e867a3ecad2bb/report.json": "b7089f98e55e18ceee61fc685877d0f500a6b6ba86e3457d0dee33d0428b19bc",
+    ".deploy/addons/A50/artifacts/run-58d4b8a3b2944913ae5e867a3ecad2bb/trajectory-comparison.json": "1f8b4c5936937886dc4a578cd09abcb11b137d909b9d41c6d92b9ec4d4e555a4",
+    ".deploy/addons/A50/artifacts/run-58d4b8a3b2944913ae5e867a3ecad2bb/estimator.log": "b718be9afdd060463ad158b1a7083d99db4e75cad58982704bcd00e4f070d9fb",
+    ".deploy/addons/A50/artifacts/run-58d4b8a3b2944913ae5e867a3ecad2bb/replay.log": "108255e3e7eb387b8cd71458658ab948d1e04ca562f753e1543989a2ba319a7a",
+    ".deploy/addons/A50/artifacts/run-208d2b9ab84e41509a607653c1a81280/native.jsonl": "ce5e29c4b1fc670a67c27e9fb3c24521e51097ffeebb31a4692e497704ea632d",
+    ".deploy/addons/A50/artifacts/run-208d2b9ab84e41509a607653c1a81280/capture-done.json": "b1411d8cbe3f00a2caf57e8ecc0ec2c58e3ab4577775ecd3eb589786c9350fd3",
+    ".deploy/addons/A50/artifacts/run-208d2b9ab84e41509a607653c1a81280/sensors.bag": "234eb2ec50913c26dafb77ea87657be98f01fc848feed6091c0df5dea5720c77",
+    ".deploy/addons/A50/artifacts/run-208d2b9ab84e41509a607653c1a81280/report.json": "ba84316655a2d27f45536be026f89d7fda75e32382eb0c88803d27bc85c08d5a",
+    ".deploy/addons/A50/artifacts/run-208d2b9ab84e41509a607653c1a81280/trajectory-comparison.json": "5f38824831e6b51032a67428f4fe8bce2297794a0ebe1fa4a42458770848fdf9",
+    ".deploy/addons/A50/artifacts/run-208d2b9ab84e41509a607653c1a81280/estimator.log": "4957b6703200cc09438dbc84fa02cfe2af3409d191c25e9fb0d823be130b199a",
+    ".deploy/addons/A50/artifacts/run-208d2b9ab84e41509a607653c1a81280/replay.log": "91ca16969d4c4d98851a329f790c858f82398c99ab78bd2e457cb7607204e2f6",
+    ".deploy/addons/A50/artifacts/run-208d2b9ab84e41509a607653c1a81280/laser-map.pcd": "d91ee23fc38ab3b5a333a98abb54185a8426dc9be3eb859b1754a69d93593524"
+  },
+  "source_sha256": {
+    "courses/classic11_noetic/50-fast-lio/adapter.py": "42b34117c397bbbf39d4cd776a4617a3a72600e149861a6cf0fb2dcc85f3c520",
+    "courses/classic11_noetic/50-fast-lio/audit.py": "ce66cd5e5c687b76dfd561211ebecf1a1a418b6248cb0f19ad53c5c90a8eca1e",
+    "courses/classic11_noetic/50-fast-lio/build_fast_lio1.py": "a9ecd9ae29a9cec344ba45f72f2ecd601e7192c90d642f9bb9a1996525cd9d15",
+    "courses/classic11_noetic/50-fast-lio/learner.py": "415a0cc68605c79e310635582d1440de0e1491ae3c86852c663054a67629036b",
+    "courses/classic11_noetic/50-fast-lio/lesson.json": "b1f96b9e0556124e83e258273224dbb4e7820ccc22982b895baf49670e067c1d",
+    "courses/classic11_noetic/50-fast-lio/lesson.md": "1ee250265c5f4949e465422d5efdea3fafc5f752072cd92f2056ed178b2788eb",
+    "courses/classic11_noetic/50-fast-lio/mapping.launch": "7554a5f4a9b4080df69b4f96fd87afd2645338ac64425b95d9185c9be7dc32b1",
+    "courses/classic11_noetic/50-fast-lio/native_ready.py": "08e5e40f7fe13860cb01e03f35429ac21cb41bac175a48e14e4385220aa1491a",
+    "courses/classic11_noetic/50-fast-lio/prepare.py": "b71e0dd8f5e5c314f8eab522bce3d9470f5819f289c8381d4715197a8bf2892a",
+    "courses/classic11_noetic/50-fast-lio/reference.md": "1f804f5abd7a9cf9455e4a9c22c8d2f0d6adbcfa23a8d9863d2f669950cc2ba7",
+    "courses/classic11_noetic/50-fast-lio/rolling_lidar.cc": "d1173c09933401814f1a87922547ee6344060fd81ae45fa1c30d2ca1387de270",
+    "courses/classic11_noetic/50-fast-lio/student_check.py": "349e4155e5a3b0ab21496e878e59c63be99a3222eae2a53b4dbdbb06210c9715",
+    "courses/classic11_noetic/50-fast-lio/verify.py": "47da25fabb918a1a42a4ccee04c4377b23cff2652c9e8c0d32c2a80b98baf53d",
+    "courses/classic11_noetic/50-fast-lio/world.sdf": "631bd7ee794d995d4a4fbf3e736a1faa2dbb7a711c3b5130cbd45cb07da44c2c"
+  },
+  "final_cli_smoke": {
+    "mode": "smoke",
+    "lesson": "50",
+    "profile": "classic11-noetic",
+    "data_dir": "/tmp/gazeboteach-smoke-i108p2t3",
+    "fresh_data_dir": true,
+    "gui_requested": false,
+    "terminals_requested": false,
+    "workspace": "/tmp/gazeboteach-smoke-i108p2t3/workspaces/classic11-noetic/50",
+    "log": "/tmp/gazeboteach-smoke-i108p2t3/sessions/classic11-noetic-50-20261104-015632-532246/runtime.log",
+    "session_dir": "/tmp/gazeboteach-smoke-i108p2t3/sessions/classic11-noetic-50-20261104-015632-532246",
+    "health": {
+      "running": true,
+      "state": "运行中",
+      "error": null,
+      "failed_processes": [],
+      "gui_running": false,
+      "terminal_running": 0,
+      "window_tag": "[GT-50]",
+      "window_role": "gazeboteach-3f5057102ea44b44b87b27c2648efecd",
+      "auxiliary": []
+    },
+    "verification": {
+      "passed": true,
+      "returncode": 0,
+      "log": "/tmp/gazeboteach-smoke-i108p2t3/sessions/classic11-noetic-50-20261104-015632-532246/runtime.log"
+    },
+    "ok": true,
+    "final_health": {
+      "running": false,
+      "state": "已结束",
+      "error": null,
+      "failed_processes": [
+        {
+          "name": "ROS Master",
+          "returncode": 0
+        },
+        {
+          "name": "Gazebo 服务端",
+          "returncode": 0
+        }
+      ],
+      "gui_running": false,
+      "terminal_running": 0,
+      "window_tag": "[GT-50]",
+      "window_role": "gazeboteach-3f5057102ea44b44b87b27c2648efecd",
+      "auxiliary": []
+    },
+    "elapsed_seconds": 47.525
+  },
+  "final_cli_raw_log_sha256": "7f3b8897920033ae55cd8c252dfeae6e06fd41af25547f1b519ecf558b480d4b"
+}
