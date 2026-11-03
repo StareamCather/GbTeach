@@ -1,0 +1,55 @@
+{
+  "id": "48",
+  "title": "MLP 强化学习：用真实交互估计策略梯度",
+  "module": "附加专项·学习控制与飞行",
+  "order": 48,
+  "profile": "classic11-noetic",
+  "requires_ros": false,
+  "requires_tools": [
+    "g++",
+    "pkg-config"
+  ],
+  "requires_pkg_config": {
+    "gazebo": "11.15.1"
+  },
+  "requires_native_server": true,
+  "requires_python_modules": [
+    "numpy"
+  ],
+  "world": "world.sdf",
+  "prepare": [
+    "python3 prepare.py"
+  ],
+  "prepare_timeout": 90,
+  "verify": "verify.py",
+  "verify_timeout": 150,
+  "reference": "reference.md",
+  "objectives": [
+    "追踪真实 Gazebo 状态、随机策略动作与奖励",
+    "实现奖励到达和高斯策略梯度，理解基线与动作限幅",
+    "用相同初始条件比较训练前后的物理轨迹"
+  ],
+  "commands": [
+    {
+      "title": "完整参考实验（不计作业完成）",
+      "command": "python3 lab.py demo"
+    },
+    {
+      "title": "编辑关键代码",
+      "command": "gedit --new-window learner.py"
+    },
+    {
+      "title": "检查个人代数实现",
+      "command": "python3 lab.py student-check"
+    },
+    {
+      "title": "执行个人实现与真实物理验收",
+      "command": "python3 lab.py student"
+    }
+  ],
+  "graceful_server_shutdown": true,
+  "after_startup": [
+    "python3 lab.py ready"
+  ],
+  "owned_socket_prefix": "gt-reinforce-"
+}
