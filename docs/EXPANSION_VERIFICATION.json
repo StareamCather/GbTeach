@@ -1,0 +1,1471 @@
+{
+  "schema_version": 1,
+  "passed": true,
+  "tested_code_commit": "d940973c9c1c6623009440cb08dbc0f6a9d4dd12",
+  "scope": "Fresh public CLI smoke cases; manual GUI checks and earlier development runs have separate scope.",
+  "profiles": {
+    "classic11-noetic": {
+      "passed": true,
+      "course_count": 55,
+      "cases": [
+        {
+          "id": "01",
+          "passed": true,
+          "source_report_sha256": "af397f537c2d323f27d6cb1372cd74abd82edaedd518237a54e59ec408799d45",
+          "attempt": 1,
+          "elapsed_seconds": 18.413,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "02",
+          "passed": true,
+          "source_report_sha256": "af397f537c2d323f27d6cb1372cd74abd82edaedd518237a54e59ec408799d45",
+          "attempt": 1,
+          "elapsed_seconds": 20.252,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "03",
+          "passed": true,
+          "source_report_sha256": "af397f537c2d323f27d6cb1372cd74abd82edaedd518237a54e59ec408799d45",
+          "attempt": 1,
+          "elapsed_seconds": 15.893,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "04",
+          "passed": true,
+          "source_report_sha256": "54a466a912ccdfc6113bedd489d1317216e63753f26b8a00de41809f6ecdf2ac",
+          "attempt": 4,
+          "elapsed_seconds": 35.168,
+          "gui_requested": true,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "05",
+          "passed": true,
+          "source_report_sha256": "af397f537c2d323f27d6cb1372cd74abd82edaedd518237a54e59ec408799d45",
+          "attempt": 1,
+          "elapsed_seconds": 22.565,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "06",
+          "passed": true,
+          "source_report_sha256": "af397f537c2d323f27d6cb1372cd74abd82edaedd518237a54e59ec408799d45",
+          "attempt": 1,
+          "elapsed_seconds": 44.399,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "07",
+          "passed": true,
+          "source_report_sha256": "af397f537c2d323f27d6cb1372cd74abd82edaedd518237a54e59ec408799d45",
+          "attempt": 1,
+          "elapsed_seconds": 55.532,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "08",
+          "passed": true,
+          "source_report_sha256": "af397f537c2d323f27d6cb1372cd74abd82edaedd518237a54e59ec408799d45",
+          "attempt": 1,
+          "elapsed_seconds": 60.142,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "09",
+          "passed": true,
+          "source_report_sha256": "af397f537c2d323f27d6cb1372cd74abd82edaedd518237a54e59ec408799d45",
+          "attempt": 1,
+          "elapsed_seconds": 63.275,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "091",
+          "passed": true,
+          "source_report_sha256": "af397f537c2d323f27d6cb1372cd74abd82edaedd518237a54e59ec408799d45",
+          "attempt": 1,
+          "elapsed_seconds": 41.762,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "092",
+          "passed": true,
+          "source_report_sha256": "af397f537c2d323f27d6cb1372cd74abd82edaedd518237a54e59ec408799d45",
+          "attempt": 1,
+          "elapsed_seconds": 48.159,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "10",
+          "passed": true,
+          "source_report_sha256": "af397f537c2d323f27d6cb1372cd74abd82edaedd518237a54e59ec408799d45",
+          "attempt": 1,
+          "elapsed_seconds": 36.953,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "11",
+          "passed": true,
+          "source_report_sha256": "af397f537c2d323f27d6cb1372cd74abd82edaedd518237a54e59ec408799d45",
+          "attempt": 1,
+          "elapsed_seconds": 22.107,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "12",
+          "passed": true,
+          "source_report_sha256": "af397f537c2d323f27d6cb1372cd74abd82edaedd518237a54e59ec408799d45",
+          "attempt": 1,
+          "elapsed_seconds": 20.649,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "13",
+          "passed": true,
+          "source_report_sha256": "af397f537c2d323f27d6cb1372cd74abd82edaedd518237a54e59ec408799d45",
+          "attempt": 1,
+          "elapsed_seconds": 26.215,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "14",
+          "passed": true,
+          "source_report_sha256": "af397f537c2d323f27d6cb1372cd74abd82edaedd518237a54e59ec408799d45",
+          "attempt": 1,
+          "elapsed_seconds": 13.689,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "15",
+          "passed": true,
+          "source_report_sha256": "af397f537c2d323f27d6cb1372cd74abd82edaedd518237a54e59ec408799d45",
+          "attempt": 1,
+          "elapsed_seconds": 13.649,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "16",
+          "passed": true,
+          "source_report_sha256": "af397f537c2d323f27d6cb1372cd74abd82edaedd518237a54e59ec408799d45",
+          "attempt": 1,
+          "elapsed_seconds": 15.091,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "17",
+          "passed": true,
+          "source_report_sha256": "af397f537c2d323f27d6cb1372cd74abd82edaedd518237a54e59ec408799d45",
+          "attempt": 1,
+          "elapsed_seconds": 14.489,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "18",
+          "passed": true,
+          "source_report_sha256": "af397f537c2d323f27d6cb1372cd74abd82edaedd518237a54e59ec408799d45",
+          "attempt": 1,
+          "elapsed_seconds": 15.639,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "19",
+          "passed": true,
+          "source_report_sha256": "af397f537c2d323f27d6cb1372cd74abd82edaedd518237a54e59ec408799d45",
+          "attempt": 1,
+          "elapsed_seconds": 14.3,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "20",
+          "passed": true,
+          "source_report_sha256": "af397f537c2d323f27d6cb1372cd74abd82edaedd518237a54e59ec408799d45",
+          "attempt": 1,
+          "elapsed_seconds": 29.422,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "21",
+          "passed": true,
+          "source_report_sha256": "af397f537c2d323f27d6cb1372cd74abd82edaedd518237a54e59ec408799d45",
+          "attempt": 1,
+          "elapsed_seconds": 26.712,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "22",
+          "passed": true,
+          "source_report_sha256": "af397f537c2d323f27d6cb1372cd74abd82edaedd518237a54e59ec408799d45",
+          "attempt": 1,
+          "elapsed_seconds": 15.147,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "23",
+          "passed": true,
+          "source_report_sha256": "af397f537c2d323f27d6cb1372cd74abd82edaedd518237a54e59ec408799d45",
+          "attempt": 1,
+          "elapsed_seconds": 14.39,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "24",
+          "passed": true,
+          "source_report_sha256": "af397f537c2d323f27d6cb1372cd74abd82edaedd518237a54e59ec408799d45",
+          "attempt": 1,
+          "elapsed_seconds": 17.949,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "25",
+          "passed": true,
+          "source_report_sha256": "23352b2f01d1c112a47d5f700143eeb76a1cde894b2a8310d0e49e32029389bb",
+          "attempt": 2,
+          "elapsed_seconds": 28.469,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "26",
+          "passed": true,
+          "source_report_sha256": "23352b2f01d1c112a47d5f700143eeb76a1cde894b2a8310d0e49e32029389bb",
+          "attempt": 2,
+          "elapsed_seconds": 31.566,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "27",
+          "passed": true,
+          "source_report_sha256": "23352b2f01d1c112a47d5f700143eeb76a1cde894b2a8310d0e49e32029389bb",
+          "attempt": 2,
+          "elapsed_seconds": 49.251,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "28",
+          "passed": true,
+          "source_report_sha256": "23352b2f01d1c112a47d5f700143eeb76a1cde894b2a8310d0e49e32029389bb",
+          "attempt": 2,
+          "elapsed_seconds": 47.353,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "29",
+          "passed": true,
+          "source_report_sha256": "23352b2f01d1c112a47d5f700143eeb76a1cde894b2a8310d0e49e32029389bb",
+          "attempt": 2,
+          "elapsed_seconds": 27.11,
+          "gui_requested": true,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "30",
+          "passed": true,
+          "source_report_sha256": "23352b2f01d1c112a47d5f700143eeb76a1cde894b2a8310d0e49e32029389bb",
+          "attempt": 2,
+          "elapsed_seconds": 22.452,
+          "gui_requested": true,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "31",
+          "passed": true,
+          "source_report_sha256": "23352b2f01d1c112a47d5f700143eeb76a1cde894b2a8310d0e49e32029389bb",
+          "attempt": 2,
+          "elapsed_seconds": 38.645,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "32",
+          "passed": true,
+          "source_report_sha256": "23352b2f01d1c112a47d5f700143eeb76a1cde894b2a8310d0e49e32029389bb",
+          "attempt": 2,
+          "elapsed_seconds": 41.584,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "33",
+          "passed": true,
+          "source_report_sha256": "23352b2f01d1c112a47d5f700143eeb76a1cde894b2a8310d0e49e32029389bb",
+          "attempt": 2,
+          "elapsed_seconds": 26.791,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "34",
+          "passed": true,
+          "source_report_sha256": "23352b2f01d1c112a47d5f700143eeb76a1cde894b2a8310d0e49e32029389bb",
+          "attempt": 2,
+          "elapsed_seconds": 67.77,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "35",
+          "passed": true,
+          "source_report_sha256": "23352b2f01d1c112a47d5f700143eeb76a1cde894b2a8310d0e49e32029389bb",
+          "attempt": 2,
+          "elapsed_seconds": 73.135,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "36",
+          "passed": true,
+          "source_report_sha256": "23352b2f01d1c112a47d5f700143eeb76a1cde894b2a8310d0e49e32029389bb",
+          "attempt": 2,
+          "elapsed_seconds": 36.43,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "37",
+          "passed": true,
+          "source_report_sha256": "23352b2f01d1c112a47d5f700143eeb76a1cde894b2a8310d0e49e32029389bb",
+          "attempt": 2,
+          "elapsed_seconds": 24.661,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "38",
+          "passed": true,
+          "source_report_sha256": "6e394859e5fa0036deb59f02bf05478a51ea2ff25a48d28a145ecd52710f1049",
+          "attempt": 6,
+          "elapsed_seconds": 11.686,
+          "gui_requested": true,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "39",
+          "passed": true,
+          "source_report_sha256": "ea69852b995bfcf2d5e4936968df346f0d2b38ff47d86be54c2aa7eea7c364ba",
+          "attempt": 3,
+          "elapsed_seconds": 8.483,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "40",
+          "passed": true,
+          "source_report_sha256": "ea69852b995bfcf2d5e4936968df346f0d2b38ff47d86be54c2aa7eea7c364ba",
+          "attempt": 3,
+          "elapsed_seconds": 8.635,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "41",
+          "passed": true,
+          "source_report_sha256": "ea69852b995bfcf2d5e4936968df346f0d2b38ff47d86be54c2aa7eea7c364ba",
+          "attempt": 3,
+          "elapsed_seconds": 8.484,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "42",
+          "passed": true,
+          "source_report_sha256": "ea69852b995bfcf2d5e4936968df346f0d2b38ff47d86be54c2aa7eea7c364ba",
+          "attempt": 3,
+          "elapsed_seconds": 12.736,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "43",
+          "passed": true,
+          "source_report_sha256": "ea69852b995bfcf2d5e4936968df346f0d2b38ff47d86be54c2aa7eea7c364ba",
+          "attempt": 3,
+          "elapsed_seconds": 17.497,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "44",
+          "passed": true,
+          "source_report_sha256": "ea69852b995bfcf2d5e4936968df346f0d2b38ff47d86be54c2aa7eea7c364ba",
+          "attempt": 3,
+          "elapsed_seconds": 15.64,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "45",
+          "passed": true,
+          "source_report_sha256": "ea69852b995bfcf2d5e4936968df346f0d2b38ff47d86be54c2aa7eea7c364ba",
+          "attempt": 3,
+          "elapsed_seconds": 12.941,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "46",
+          "passed": true,
+          "source_report_sha256": "ea69852b995bfcf2d5e4936968df346f0d2b38ff47d86be54c2aa7eea7c364ba",
+          "attempt": 3,
+          "elapsed_seconds": 22.004,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "47",
+          "passed": true,
+          "source_report_sha256": "ea69852b995bfcf2d5e4936968df346f0d2b38ff47d86be54c2aa7eea7c364ba",
+          "attempt": 3,
+          "elapsed_seconds": 27.861,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "48",
+          "passed": true,
+          "source_report_sha256": "ea69852b995bfcf2d5e4936968df346f0d2b38ff47d86be54c2aa7eea7c364ba",
+          "attempt": 3,
+          "elapsed_seconds": 37.683,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "49",
+          "passed": true,
+          "source_report_sha256": "ea69852b995bfcf2d5e4936968df346f0d2b38ff47d86be54c2aa7eea7c364ba",
+          "attempt": 3,
+          "elapsed_seconds": 24.857,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "50",
+          "passed": true,
+          "source_report_sha256": "ea69852b995bfcf2d5e4936968df346f0d2b38ff47d86be54c2aa7eea7c364ba",
+          "attempt": 3,
+          "elapsed_seconds": 47.544,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "51",
+          "passed": true,
+          "source_report_sha256": "6e394859e5fa0036deb59f02bf05478a51ea2ff25a48d28a145ecd52710f1049",
+          "attempt": 6,
+          "elapsed_seconds": 71.451,
+          "gui_requested": true,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "52",
+          "passed": true,
+          "source_report_sha256": "ea69852b995bfcf2d5e4936968df346f0d2b38ff47d86be54c2aa7eea7c364ba",
+          "attempt": 3,
+          "elapsed_seconds": 91.258,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "53",
+          "passed": true,
+          "source_report_sha256": "ea69852b995bfcf2d5e4936968df346f0d2b38ff47d86be54c2aa7eea7c364ba",
+          "attempt": 3,
+          "elapsed_seconds": 142.394,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        }
+      ],
+      "environment": {
+        "os": "Ubuntu 20.04",
+        "simulator": "Gazebo Classic 11.15.1",
+        "ros": "ROS Noetic 1.17.4",
+        "runtime": "native"
+      }
+    },
+    "harmonic-jazzy": {
+      "passed": true,
+      "course_count": 7,
+      "cases": [
+        {
+          "id": "01",
+          "passed": true,
+          "source_report_sha256": "178f4dacf755dfb8192b65517b0436167e7a0164ab54abeefdb8d915c8620f96",
+          "attempt": 5,
+          "elapsed_seconds": 8.288,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "11",
+          "passed": true,
+          "source_report_sha256": "178f4dacf755dfb8192b65517b0436167e7a0164ab54abeefdb8d915c8620f96",
+          "attempt": 5,
+          "elapsed_seconds": 11.234,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "22",
+          "passed": true,
+          "source_report_sha256": "178f4dacf755dfb8192b65517b0436167e7a0164ab54abeefdb8d915c8620f96",
+          "attempt": 5,
+          "elapsed_seconds": 5.423,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "23",
+          "passed": true,
+          "source_report_sha256": "178f4dacf755dfb8192b65517b0436167e7a0164ab54abeefdb8d915c8620f96",
+          "attempt": 5,
+          "elapsed_seconds": 12.697,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "24",
+          "passed": true,
+          "source_report_sha256": "178f4dacf755dfb8192b65517b0436167e7a0164ab54abeefdb8d915c8620f96",
+          "attempt": 5,
+          "elapsed_seconds": 8.782,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "25",
+          "passed": true,
+          "source_report_sha256": "178f4dacf755dfb8192b65517b0436167e7a0164ab54abeefdb8d915c8620f96",
+          "attempt": 5,
+          "elapsed_seconds": 9.331,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        },
+        {
+          "id": "26",
+          "passed": true,
+          "source_report_sha256": "178f4dacf755dfb8192b65517b0436167e7a0164ab54abeefdb8d915c8620f96",
+          "attempt": 5,
+          "elapsed_seconds": 10.195,
+          "gui_requested": false,
+          "returncode": 0,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ]
+        }
+      ],
+      "environment": {
+        "os": "Ubuntu 24.04.5 LTS",
+        "simulator": "Gazebo Sim 8.15.0",
+        "ros": "ROS 2 Jazzy",
+        "runtime": "GPU Docker / NVIDIA Ogre2"
+      }
+    }
+  },
+  "smoke_attempts": [
+    {
+      "attempt": 1,
+      "profile": "classic11-noetic",
+      "source_report_sha256": "af397f537c2d323f27d6cb1372cd74abd82edaedd518237a54e59ec408799d45",
+      "ids_requested": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08",
+        "09",
+        "091",
+        "092",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45",
+        "46",
+        "47",
+        "48",
+        "49",
+        "50",
+        "51",
+        "52",
+        "53"
+      ],
+      "ids_observed": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08",
+        "09",
+        "091",
+        "092",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24"
+      ],
+      "complete": false,
+      "source_commit": "d940973c9c1c6623009440cb08dbc0f6a9d4dd12",
+      "passed": null,
+      "elapsed_seconds": 711.686,
+      "failed_cases": [
+        {
+          "id": "04",
+          "passed": false,
+          "source_report_sha256": "af397f537c2d323f27d6cb1372cd74abd82edaedd518237a54e59ec408799d45",
+          "attempt": 1,
+          "elapsed_seconds": 24.509,
+          "gui_requested": false,
+          "returncode": 1,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "verification_fields": [
+            "log",
+            "passed",
+            "returncode"
+          ],
+          "error": null
+        }
+      ]
+    },
+    {
+      "attempt": 2,
+      "profile": "classic11-noetic",
+      "source_report_sha256": "23352b2f01d1c112a47d5f700143eeb76a1cde894b2a8310d0e49e32029389bb",
+      "ids_requested": [
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37"
+      ],
+      "ids_observed": [
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37"
+      ],
+      "complete": true,
+      "source_commit": "d940973c9c1c6623009440cb08dbc0f6a9d4dd12",
+      "passed": true,
+      "elapsed_seconds": 515.401,
+      "failed_cases": []
+    },
+    {
+      "attempt": 3,
+      "profile": "classic11-noetic",
+      "source_report_sha256": "ea69852b995bfcf2d5e4936968df346f0d2b38ff47d86be54c2aa7eea7c364ba",
+      "ids_requested": [
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45",
+        "46",
+        "47",
+        "48",
+        "49",
+        "50",
+        "51",
+        "52",
+        "53"
+      ],
+      "ids_observed": [
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45",
+        "46",
+        "47",
+        "48",
+        "49",
+        "50",
+        "51",
+        "52",
+        "53"
+      ],
+      "complete": true,
+      "source_commit": "d940973c9c1c6623009440cb08dbc0f6a9d4dd12",
+      "passed": false,
+      "elapsed_seconds": 561.532,
+      "failed_cases": [
+        {
+          "id": "38",
+          "passed": false,
+          "source_report_sha256": "ea69852b995bfcf2d5e4936968df346f0d2b38ff47d86be54c2aa7eea7c364ba",
+          "attempt": 3,
+          "elapsed_seconds": 40.936,
+          "gui_requested": false,
+          "returncode": 1,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "error": "RuntimeError: Gazebo 世界就绪超时或已取消：未检测到本课 world_stats 主题。"
+        },
+        {
+          "id": "51",
+          "passed": false,
+          "source_report_sha256": "ea69852b995bfcf2d5e4936968df346f0d2b38ff47d86be54c2aa7eea7c364ba",
+          "attempt": 3,
+          "elapsed_seconds": 42.357,
+          "gui_requested": false,
+          "returncode": 1,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "owned_processes_released": true,
+          "error": "RuntimeError: Gazebo 世界就绪超时或已取消：未检测到本课 world_stats 主题。"
+        }
+      ]
+    },
+    {
+      "attempt": 4,
+      "profile": "classic11-noetic",
+      "source_report_sha256": "54a466a912ccdfc6113bedd489d1317216e63753f26b8a00de41809f6ecdf2ac",
+      "ids_requested": [
+        "04"
+      ],
+      "ids_observed": [
+        "04"
+      ],
+      "complete": true,
+      "source_commit": "d940973c9c1c6623009440cb08dbc0f6a9d4dd12",
+      "passed": true,
+      "elapsed_seconds": 35.176,
+      "failed_cases": []
+    },
+    {
+      "attempt": 5,
+      "profile": "harmonic-jazzy",
+      "source_report_sha256": "178f4dacf755dfb8192b65517b0436167e7a0164ab54abeefdb8d915c8620f96",
+      "ids_requested": [
+        "01",
+        "11",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26"
+      ],
+      "ids_observed": [
+        "01",
+        "11",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26"
+      ],
+      "complete": true,
+      "source_commit": "d940973c9c1c6623009440cb08dbc0f6a9d4dd12",
+      "passed": true,
+      "elapsed_seconds": 65.993,
+      "failed_cases": []
+    },
+    {
+      "attempt": 6,
+      "profile": "classic11-noetic",
+      "source_report_sha256": "6e394859e5fa0036deb59f02bf05478a51ea2ff25a48d28a145ecd52710f1049",
+      "ids_requested": [
+        "38",
+        "51"
+      ],
+      "ids_observed": [
+        "38",
+        "51"
+      ],
+      "complete": true,
+      "source_commit": "595ec1cdb644d431975f32236bf96c8fa23f59b1",
+      "passed": true,
+      "elapsed_seconds": 83.158,
+      "failed_cases": []
+    }
+  ],
+  "desktop_regression": [
+    {
+      "profile": "classic11-noetic",
+      "passed": true,
+      "checks": {
+        "independent_sessions_started": true,
+        "pause_isolation": true,
+        "single_step": true,
+        "reset_models_preserves_time": true,
+        "real_model_verifier": true,
+        "graphical_client_recovery": true,
+        "real_terminal_start": true,
+        "owned_process_cleanup": true
+      },
+      "source_report_sha256": "2c07e29f6c8c8e6f95119169eafdb52c55bd5efad0aea75182f4e205935f7f58",
+      "elapsed_seconds": 31.614
+    },
+    {
+      "profile": "harmonic-jazzy",
+      "passed": true,
+      "checks": {
+        "private_settings_and_live_environment": true,
+        "m01_real_verify_from_qt": true,
+        "m01_qt_pause_and_exact_native_step": true,
+        "same_profile_switch_releases_old_gazebo_and_dds": true,
+        "m26_real_verify_from_qt": true,
+        "cross_profile_switch_releases_m26_and_keeps_classic_readable": true,
+        "edited_private_workspace_survives_switch_and_new_session": true,
+        "profile_scoped_progress_persists": true,
+        "qt_desktop_evidence": true,
+        "active_qt_close_releases_every_owned_session": true
+      },
+      "source_report_sha256": "871308b371ed7c01e8f11844706ecd528dd8757555a4eff22436f015e8a08a2a",
+      "elapsed_seconds": 33.287
+    }
+  ],
+  "original_v2_course_trees": {
+    "source_commit": "a13ee81e4e2b327f26c9ec727aefd4bc3e8eb3e7",
+    "course_count": 39,
+    "unchanged_ids": [
+      "01",
+      "02",
+      "03",
+      "04",
+      "05",
+      "06",
+      "07",
+      "08",
+      "09",
+      "091",
+      "092",
+      "10",
+      "11",
+      "12",
+      "13",
+      "14",
+      "15",
+      "16",
+      "17",
+      "18",
+      "19",
+      "20",
+      "21",
+      "22",
+      "23",
+      "24",
+      "25",
+      "26",
+      "27",
+      "28",
+      "29",
+      "30",
+      "31",
+      "32",
+      "33",
+      "34",
+      "35",
+      "36",
+      "37"
+    ],
+    "method": "Exact Git tree identity per original course, including filenames, modes and contents."
+  },
+  "unit_tests": {
+    "classic11-noetic": {
+      "passed": true,
+      "count": 282,
+      "log_sha256": "84b54783c64a96895981512efec9371fc04f49f14401f249e840f214a6e19474"
+    },
+    "harmonic-jazzy": {
+      "passed": true,
+      "count": 282,
+      "log_sha256": "1acdac1135d2ee158e535213ac2ee0de5a35877c130fdd3bf5b1a0c7cf01c4f2"
+    }
+  }
+}

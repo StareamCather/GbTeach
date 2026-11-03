@@ -1,23 +1,16 @@
 # GazeboTeach
 
-当前源码继续增加附加专项，原课程保持不变：[新增计划](docs/EXPANSION_PLAN.md) · [逐阶段验证](docs/EXPANSION_VALIDATION.md) · [ROS 2 / Harmonic](docs/MODERN_GAZEBO.md) · [FAST-LIO / FAST-LIO2 / Point-LIO / LIO-SAM实现前核查](docs/LIO_IMPLEMENTATION_NOTES.md)。已发布V2安装包保留原39个项目，新专项不自动进入旧发行资源。
+GazeboTeach 是中文桌面教学工作台，通过真实 Gazebo 场景、终端和观测数据学习建模、物理、传感器、ROS 集成与插件开发。
 
-**V2 包含37门主课和2项倒立摆选做，共39个项目**，在本地中文桌面应用中学习、修改并验收真实Gazebo小实验。
+**2.1 共 62 个项目**：Classic 11.15.1／ROS Noetic 有 55 个，包括原 39 个和 16 个附加专项；ROS 2 Jazzy／Gazebo Harmonic 有 7 个独立专项。原课号与原项目保持不变，两个课包中相同课号按配置区分。
 
-[安装运行指南](docs/V2_INSTALL.md) · [完整课表](docs/V2_CURRICULUM.md) · [V2发行资源与验证报告](https://github.com/StareamCather/GazeboTeach/releases/tag/v2.0.0) · [兼容检测](docs/ENVIRONMENT_V2.md) · [手动Docker配置](docs/V2_DOCKER.md)
+[2.1 安装运行指南](docs/V2_1_INSTALL.md) · [专项课表](docs/EXPANSION_PLAN.md) · [逐阶段验证](docs/EXPANSION_VALIDATION.md) · [ROS 2 / Harmonic 环境](docs/MODERN_GAZEBO.md) · [2.1 发行资源](https://github.com/StareamCather/GazeboTeach/releases/tag/v2.1.0)
 
-已验证课程环境为Ubuntu20.04、Gazebo Classic11.15.1与ROS Noetic。启动时显示实际软件、SDK及逐课依赖结果；其他环境可阅读教材，实验按兼容情况开放。Harmonic/Jazzy独立运行器已通过真实诊断，新增专项按课交付；Docker宿主调度仍保留配置接口。
+ikaros 的原生 Ubuntu 20.04 验证 Classic／Noetic，隔离的 Ubuntu 24.04 GPU 容器验证 Jazzy／Harmonic。启动时检测实际软件、SDK 和逐课依赖。没有适配的组合仍可阅读教材，运行能力按课程显示；Docker 自动调度仍只保留配置接口。
 
 ![V2启动环境检测](docs/images/v2-environment.png)
 
-V1保留24门主课及2项选做的历史快照，见[V1指南](docs/V1_INSTALL.md)与[V1发行资源](https://github.com/StareamCather/GazeboTeach/releases/tag/v1.0.0)。
-
-面向聪明初学者的 Gazebo 桌面教学工作台。使用真实 Gazebo 场景、终端和观测数据学习建模、物理、传感器、ROS 集成与插件开发。
-
-首个课程包：**Ubuntu 20.04 / Gazebo Classic 11 / ROS Noetic**，验证设备为 ikaros。
-
-桌面框架与全部39个项目已逐课交付；实际行为、图形检查和后续回归分别留证，详见验证记录与发行验证报告。
-
+历史发行版 [V2.0](https://github.com/StareamCather/GazeboTeach/releases/tag/v2.0.0) 保留原 39 个项目。V1 保留 24 门主课及 2 项选做的历史快照，见[V1指南](docs/V1_INSTALL.md)与[V1发行资源](https://github.com/StareamCather/GazeboTeach/releases/tag/v1.0.0)。
 
 在已验证的 Classic 11.15.1 SDK 环境中，暂停、单步和模型复位复用持久原生连接，逐次检查真实状态并在退出时完成线程清理；详见[控制后端与算法](docs/NATIVE_CONTROL.md)。缺少匹配SDK时会明确报告原有CLI后端。
 
@@ -98,7 +91,7 @@ L35在隔离副本复现SDF解析、插件加载、重力和碰撞四类故障�
 
 另已交付 **L09选做A：单级倒立摆控制（091）**与**选做B：双级倒立摆控制（092）**，在课程树“关节与机构”中进入。两项均通过三个Python填空完成状态误差、给定LQR反馈与双向限幅，提供分层提示及独立只读答案；双杆项目进一步学习相对关节角到六维绝对状态的转换。参考演示与学生代码的函数、真实三回合验收分别记录，默认TODO仍留给学员完成。
 
-本版合计**37门主课与2项选做，共39个项目**。真实物理、图形与桌面证据见[验证记录](docs/VALIDATION_LOG.md)，源码、安装资源和逐项校验见[V2发行报告](https://github.com/StareamCather/GazeboTeach/releases/tag/v2.0.0)。主课01–37保持原编号，091/092不占用主课编号。倒立摆学习近直立局部稳定，完整起摆属于扩展问题；个人填写不会自动被参考代码覆盖。
+原 Classic 基础课包包含 **37 门主课与 2 项选做，共 39 个项目**。真实物理、图形与桌面证据见[验证记录](docs/VALIDATION_LOG.md)，源码、安装资源和逐项校验见[V2发行报告](https://github.com/StareamCather/GazeboTeach/releases/tag/v2.0.0)。主课01–37保持原编号，091/092不占用主课编号。倒立摆学习近直立局部稳定，完整起摆属于扩展问题；个人填写不会自动被参考代码覆盖。
 
 每课均有离线场景、完整教材、可修改练习和真实行为验收。自动检查使用新练习副本；091/092的自动参考验收仅在私有副本中填写，发布模板保留学员填空。
 
