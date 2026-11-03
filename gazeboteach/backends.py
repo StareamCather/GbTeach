@@ -157,6 +157,10 @@ class NativeBackend(ExecutionBackend):
 
     def create_session(self, root, lesson, *, configuration=None, storage=None, notify=None):
         self.validate_configuration(configuration)
+        from .modern import is_modern
+        if is_modern(lesson):
+            from .modern_runtime import ModernLessonSession
+            return ModernLessonSession(root, lesson, storage=storage, notify=notify)
         from .runtime import LessonSession
         return LessonSession(root, lesson, storage=storage, notify=notify)
 

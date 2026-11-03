@@ -1,0 +1,13 @@
+{
+  "id": "98",
+  "title": "现代运行器诊断（不计课程）",
+  "profile": "harmonic-jazzy",
+  "requires_ros": false,
+  "world": "world.sdf",
+  "verify": "verify.py",
+  "verify_timeout": 30,
+  "objectives": [
+    "真实落块与独立统计验证"
+  ],
+  "commands": []
+}

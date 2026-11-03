@@ -80,7 +80,7 @@ class DevelopmentRequirementsTests(unittest.TestCase):
             lesson = next(item for item in lessons if item.id == course)
             self.assertIn("--gui", compatibility(lesson, self.detected, gui=False))
             arguments = SimpleNamespace(smoke=course, profile=None, gui=False, terminals=False)
-            with mock.patch.object(cli, "new_storage") as storage, mock.patch.object(cli, "LessonSession") as session:
+            with mock.patch.object(cli, "new_storage") as storage, mock.patch.object(cli, "get_backend") as session:
                 with self.assertRaisesRegex(RuntimeError, "--gui"):
                     cli.smoke(arguments, self.detected)
                 storage.assert_not_called()
@@ -98,7 +98,9 @@ class DevelopmentRequirementsTests(unittest.TestCase):
     def test_every_actual_prepare_pkg_config_dependency_is_declared(self):
         lessons, errors = load_catalog(ROOT)
         self.assertFalse(errors)
-        self.assertEqual(len(lessons), 39)
+        baseline = {"%02d" % value for value in range(1, 38)} | {"091", "092"}
+        classic = {lesson.id for lesson in lessons if lesson.profile == "classic11-noetic"}
+        self.assertTrue(baseline <= classic, "Preserve every original V2 project while adding profiles/courses")
         for lesson in lessons:
             path = lesson.folder / "prepare.py"
             if not path.exists():

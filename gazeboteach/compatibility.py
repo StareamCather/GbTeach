@@ -7,7 +7,8 @@ STATUSES = ("ready", "unsupported", "missing_dependencies", "incomplete_detectio
 _COLLECTIONS = {"profiles", "ros_installed", "plugins", "ros_packages"}
 _KNOWN_CHECKS = _COLLECTIONS | {"classic_version", "tools", "display", "modern_simulators", "ros_active",
                                  "os", "architecture", "python", "ros_families", "container_hint", "pkg_config",
-                                 "sdk", "qt_moc", "libraries", "native_server", "ros_package_versions", "python_modules"}
+                                 "sdk", "qt_moc", "libraries", "native_server", "ros_package_versions", "python_modules",
+                                 "modern_sim_version", "modern_ros_environment"}
 _MAPPINGS = {"tools", "pkg_config", "sdk", "qt_moc", "libraries", "native_server", "ros_package_versions", "python_modules"}
 
 
@@ -113,6 +114,9 @@ def _known_unsupported(lesson, report, incomplete):
 
 def lesson_compatibility(lesson, detected, *, gui=True, terminals=True):
     """Return one primary, actionable reason; this function never activates ROS."""
+    from .modern import is_modern, modern_compatibility_row
+    if is_modern(lesson):
+        return modern_compatibility_row(lesson, detected, gui=gui, terminals=terminals)
     incomplete = _incomplete_checks(detected)
     fields = _required_fields(lesson, gui, terminals)
     missing = sorted(name for name in fields if name in incomplete or not _valid_field(detected, name))
@@ -158,13 +162,19 @@ def build_compatibility_report(lessons, detected, catalog_errors=(), *, gui=True
     errors = detected.get("detection_errors", [])
     if not isinstance(errors, list):
         errors = [str(errors)]
+    # Keep restored/handed-off snapshots consistent too: a modern course cannot
+    # report incomplete detection while the report header says complete=True.
+    from .modern import modern_detection_failures
+    modern_checks, modern_errors = modern_detection_failures(detected.get('modern'))
+    checks = sorted(set(checks + modern_checks))
+    errors = list(dict.fromkeys(errors + modern_errors))
     missing_fields = sorted({field for row in rows for reason in row["reasons"]
                              for field in reason.get("fields", [])})
     return {"schema_version": 1, "backend": "native", "gui": gui, "terminals": terminals,
             "environment": {name: detected.get(name) for name in
                             ("os", "architecture", "python", "classic_version", "classic_active_executable", "classic_installations", "modern_simulators",
                              "ros_installed", "ros_active", "ros_active_version", "ros_families", "profiles", "display",
-                             "pkg_config", "sdk", "qt_moc", "libraries", "native_server", "ros_package_versions", "control_capability")},
+                             "pkg_config", "sdk", "qt_moc", "libraries", "native_server", "ros_package_versions", "control_capability", "modern")},
             "detection": {"complete": not checks and not missing_fields and not errors,
                           "incomplete_checks": sorted(set(checks + missing_fields)), "errors": list(errors)},
             "catalog_errors": list(catalog_errors), "courses": rows,

@@ -157,10 +157,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.profile_selector.setObjectName("profile_selector")
         profiles = sorted(set(lesson.profile for lesson in self.lessons)) or ["classic11-noetic"]
         for profile in profiles:
-            label = "Classic 11 / ROS Noetic" if profile == "classic11-noetic" else profile
+            label = {"classic11-noetic": "Classic 11 / ROS Noetic",
+                     "harmonic-jazzy": "Gazebo Harmonic / ROS 2 Jazzy"}.get(profile, profile)
             self.profile_selector.addItem(label, profile)
         self.profile_selector.setEnabled(len(profiles) > 1)
-        self.profile_selector.setToolTip("首批交付 Classic 11 / Noetic；其他版本按独立教学包适配。")
+        self.profile_selector.setToolTip("按实际环境选择独立教学包；教材可阅读，实验依版本与本课依赖开放。")
         self.profile_selector.currentIndexChanged.connect(self._profile_changed)
         nav_layout.addWidget(self.profile_selector)
         self.search = QtWidgets.QLineEdit()
@@ -371,8 +372,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.environment = environment
         self.environment_report = build_compatibility_report(self.lessons, environment, self.catalog_errors)
         classic = environment.get("classic_version") or "未检测到 Classic"
+        modern = environment.get("modern", {})
+        simulator = ("Harmonic " + modern.get("sim_version", "8")) if modern.get("sim_major") == 8 else ("Classic " + classic)
         ros = ", ".join(environment.get("ros_installed", [])) or "未检测到 ROS"
-        self.environment_badge.setText("{}\nGazebo {} · ROS {}".format(environment.get("os", ""), classic, ros))
+        self.environment_badge.setText("{}\nGazebo {} · ROS {}".format(environment.get("os", ""), simulator, ros))
         self.environment_view.setPlainText(json.dumps({"detected": environment, "compatibility": self.environment_report,
                                                      "docker": self.docker_probe}, ensure_ascii=False, indent=2))
         self.environment_button.setEnabled(True)
@@ -633,6 +636,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.buttons["start"].setEnabled(not busy and bool(compatible) and not running)
         for name in ("stop", "pause", "step", "reset", "gui", "terminal", "verify"):
             self.buttons[name].setEnabled(not busy and running)
+        if selected and self.current_lesson.profile == "harmonic-jazzy":
+            self.buttons["reset"].setEnabled(False)
+            self.buttons["reset"].setToolTip("Harmonic 不支持保留时钟的 model-only reset；使用重载项目恢复完整初始状态。")
+        else:
+            self.buttons["reset"].setToolTip("执行 Gazebo MODEL reset，保留仿真时钟；插件私有状态或关节内部状态可能需要重载项目。")
         self.buttons["restart"].setEnabled(not busy and bool(compatible))
         self.buttons["records"].setEnabled(not busy)
         self.buttons["reference"].setEnabled(not busy and selected and bool(self.current_lesson.data.get("reference")))

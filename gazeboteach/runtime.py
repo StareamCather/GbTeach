@@ -416,7 +416,8 @@ class LessonSession:
             raise RuntimeError("请先开始实验。")
         if not self.env.get("DISPLAY"):
             raise RuntimeError("当前会话没有图形显示，无法打开终端窗口。")
-        terminal = shutil.which("gnome-terminal") or shutil.which("xterm")
+        terminal = (shutil.which("gnome-terminal", path=self.env.get("PATH")) or
+                    shutil.which("xterm", path=self.env.get("PATH")))
         if not terminal:
             raise RuntimeError("缺少 gnome-terminal 或 xterm。")
         marker = self.session_dir / ("terminal-" + uuid.uuid4().hex + ".pid")

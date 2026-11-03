@@ -119,6 +119,12 @@ class EnvironmentDialog(QtWidgets.QDialog):
         guide.setHtml(render(path.read_text(encoding="utf-8") if path.is_file() else
                              "# V2 安装指南\n\n请阅读发行包内 docs/V2_INSTALL.md。"))
         tabs.addTab(guide, "V2 安装指南")
+        modern_guide = root / "docs/MODERN_GAZEBO.md"
+        if modern_guide.is_file():
+            modern = QtWidgets.QTextBrowser()
+            modern.setOpenExternalLinks(True)
+            modern.setHtml(render(modern_guide.read_text(encoding="utf-8")))
+            tabs.addTab(modern, "ROS 2 / Harmonic 指南")
         self.backends = backend_descriptors()
         buttons = QtWidgets.QDialogButtonBox()
         self.retry_button = buttons.addButton("重新检测", QtWidgets.QDialogButtonBox.ActionRole)

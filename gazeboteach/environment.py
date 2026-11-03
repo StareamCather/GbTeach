@@ -129,7 +129,7 @@ def detect_environment():
     names = ["gazebo", "gzserver", "gzclient", "gz", "ign", "roscore", "roslaunch",
              "rospack", "rosrun", "gnome-terminal", "xterm", "bash", "cmake", "make",
              "g++", "setsid", "gedit", "xdg-open", "python3", "ros2", "pkg-config", "python3-config",
-             "rosparam", "rosservice", "rostopic", "rviz", "xacro"]
+             "rosparam", "rosservice", "rostopic", "rviz", "xacro", "colcon"]
     tools = {name: shutil.which(name) for name in names}
     incomplete, errors = [], []
     # Classic 11.15's version-only path returns 255 on the verified Ubuntu build.
@@ -231,11 +231,22 @@ def detect_environment():
         "incomplete_checks": sorted(set(incomplete)), "detection_errors": errors,
     }
     result.update(capabilities)
+    from .modern import detect_modern, modern_detection_failures
+    result['modern'] = detect_modern(tools, ros, modern)
+    result['profiles'].extend(result['modern']['profiles'])
+    modern_checks, modern_errors = modern_detection_failures(result['modern'])
+    result['incomplete_checks'] = sorted(set(result['incomplete_checks'] + modern_checks))
+    result['detection_errors'] = list(dict.fromkeys(result['detection_errors'] + modern_errors))
+    if not result['course_profile'] and result['profiles']:
+        result['course_profile'] = result['profiles'][0]
     return result
 
 
 def lesson_environment(root, workspace, lesson, gazebo_port, ros_port, session_token=None):
     """Source only this lesson's ROS installation, then isolate every transport."""
+    from .modern import is_modern, modern_lesson_environment
+    if is_modern(lesson):
+        return modern_lesson_environment(root, workspace, lesson, session_token or uuid.uuid4().hex)
     root, workspace = Path(root), Path(workspace)
     environment = noetic_base_environment(os.environ) if lesson.requires_ros else os.environ.copy()
     inherited_package_paths = environment.get("ROS_PACKAGE_PATH", "")

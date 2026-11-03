@@ -1,0 +1,47 @@
+# 附加专项与现代版本验证记录
+
+本记录区分原V2发行快照、后续源码框架与逐门新增课程。原01–37及091/092课程文件保持不变。实施顺序见[计划](EXPANSION_PLAN.md)，LIO源码和数据契约见[实现前核查](LIO_IMPLEMENTATION_NOTES.md)。
+
+## G03：计划与版本适配框架
+
+2026-11-03，计划提交 `5486cb766855f119d48f46bd26d921c3ce13fd7a` 已推送并核对GitHub main。框架采用独立`harmonic-jazzy`配置，不把Classic课程改为ROS2课程。
+
+| 范围 | 实际结果 |
+| --- | --- |
+| Windows单元/界面/打包检查 | 全套195项通过，4项Linux平台检查跳过；随后新增黑屏门禁，现代与界面29项针对性检查通过 |
+| ikaros原生Classic回归 | 全套195项通过；真实GUI和两个PTY的框架集成30.396秒通过，两个私有Master、暂停隔离、重置与owned进程清理通过 |
+| 现代环境 | 隔离Ubuntu24.04.5容器、Python3.12、Qt5.15、Jazzy、Gazebo Sim8.15.0（Harmonic）；宿主仍Ubuntu20.04/Classic/Noetic |
+| 现代真实框架 | 18.127秒，13项检查通过：真实重力落块、暂停、精确单步/十步、继续、真实初始/重开窗口、两个PTY、Transport partition/DDS domain租约不同、停止一个世界另一个继续、无测试owned进程残留 |
+| 单步实际证据 | 迭代4634→4635，仿真4.634→4.635秒；随后十步到4645/4.645秒，保持暂停 |
+| 现代桌面应用 | 独立诊断fixture的环境结果弹窗、中文正文、profile选择及退出通过；该fixture不计正式课程 |
+| 现代CLI工厂 | --smoke-fixture真实Gazebo、GUI与两个终端通过，并完成清理 |
+| 最新针对性回归 | Windows/ikaros均29项通过，覆盖版本、环境污染、子PATH工具、错误探测汇总、精确步数及黑屏拒绝、现代界面复位禁用 |
+
+![Harmonic真实诊断窗口](images/g03-harmonic-diagnostic.png)
+
+截图人工核对了地面/网格、已落地试块、实体树和控制栏；初始与单独重开后画面均存在。像素门禁只是排除黑屏/近空白，不能替代场景内容检查。
+
+![现代桌面应用与中文环境](images/g03-modern-workbench.png)
+
+### 算法与行为变化
+
+检测实际Sim版本及Jazzy包索引 → 清理外层ROS/其它Gazebo的路径和插件配置 → 按课包profile构造对应运行器 → 分配独立partition与DDS domain租约 → 准备个人副本 → 启动gz sim服务端并等待control服务和真实统计 → 启动辅助节点、GUI与终端。控制只发送一次请求，暂停/步进通过实际统计确认；退出只清理本课token对应的进程，最后释放domain租约。完整流程见[现代适配说明](MODERN_GAZEBO.md)。
+
+Harmonic不支持保留时钟的model-only复位，界面禁用该按钮并提示重载；没有用全量reset替代而悄悄倒退时钟。现代运行器与Classic复用存储、真实PTY及所有权清理，终端可执行文件从本课子环境PATH解析。
+
+### 本次发现及修复
+
+- 现代探测失败未汇入总报告：现在逐课与总报告都显示检测未完成并去重错误，不误伤Classic可运行课程。
+- 已激活其它ROS/Gazebo时可能泄漏插件或工具：source Jazzy前清除外来配置，用子环境解析工具，缺失/未检测分别报告。
+- 只有窗口PID和尺寸的检查曾接受全黑截图：新增颜色/亮度/非黑比例门禁和人工核图。纯软件Mesa连到本机NVIDIA X会话时出现`failed to create drawable`；该尝试不计为图形通过。
+- 最终图形测试使用本机现有535.183.01驱动对应用户态库的只读绑定及显卡设备透传，未更换宿主驱动、未配置全局xhost、未修改Docker daemon或默认网络。中文字体在容器中准备后核对。
+
+### 证据与边界
+
+原始机器报告保留在ikaros及Windows工作副本的`.deploy/`：`g03-classic-framework.json`、`g03-gpu-evidence/g03-modern-framework.json`、现代CLI/应用stdout、截图、单元测试输出。固定摘要和输入哈希见[G03验证数据](verification/G03.json)。失败日志也保留，不用旧成功结果覆盖新失败。
+
+本阶段验证的是运行器，不认证任何新增课程；现有附加课草稿尚未逐门交付。DDS domain租约不同已经检查，真实ROS2消息发现/QoS隔离留待相应课程。Humble/Fortress、Ionic、Jetty等组合尚无对应实验适配；Docker宿主调度接口仍预留，当前测试从容器内部运行native后端。
+
+## 后续目标
+
+A38–A53与M01/M11/M22–M26：按计划逐门建立活动目标、真实验收、提交推送后追加记录。目前不能因本地存在草稿就计为完成。

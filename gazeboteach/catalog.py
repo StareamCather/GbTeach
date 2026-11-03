@@ -119,6 +119,9 @@ def load_catalog(root):
 
 def compatibility(lesson, environment, gui=True, terminals=False):
     """A reason means execution is unavailable; reading remains possible."""
+    from .modern import is_modern, modern_compatibility
+    if is_modern(lesson):
+        return modern_compatibility(lesson, environment, gui=gui, terminals=terminals)
     if lesson.profile == "classic11-noetic":
         if not environment.get("classic_version", "").startswith("11."):
             return "本课需要 Gazebo Classic 11，当前未检测到对应模拟器。"

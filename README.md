@@ -1,10 +1,12 @@
 # GazeboTeach
 
+当前源码继续增加附加专项，原课程保持不变：[新增计划](docs/EXPANSION_PLAN.md) · [逐阶段验证](docs/EXPANSION_VALIDATION.md) · [ROS 2 / Harmonic](docs/MODERN_GAZEBO.md) · [FAST-LIO / FAST-LIO2 / Point-LIO / LIO-SAM实现前核查](docs/LIO_IMPLEMENTATION_NOTES.md)。已发布V2安装包保留原39个项目，新专项不自动进入旧发行资源。
+
 **V2 包含37门主课和2项倒立摆选做，共39个项目**，在本地中文桌面应用中学习、修改并验收真实Gazebo小实验。
 
 [安装运行指南](docs/V2_INSTALL.md) · [完整课表](docs/V2_CURRICULUM.md) · [V2发行资源与验证报告](https://github.com/StareamCather/GazeboTeach/releases/tag/v2.0.0) · [兼容检测](docs/ENVIRONMENT_V2.md) · [手动Docker配置](docs/V2_DOCKER.md)
 
-已验证课程环境为Ubuntu20.04、Gazebo Classic11.15.1与ROS Noetic。启动时显示实际软件、SDK及逐课依赖结果；其他环境可阅读教材，实验按兼容情况开放。新版Gazebo/ROS2课程尚未移植，Docker提供配置接口与手动指南。
+已验证课程环境为Ubuntu20.04、Gazebo Classic11.15.1与ROS Noetic。启动时显示实际软件、SDK及逐课依赖结果；其他环境可阅读教材，实验按兼容情况开放。Harmonic/Jazzy独立运行器已通过真实诊断，新增专项按课交付；Docker宿主调度仍保留配置接口。
 
 ![V2启动环境检测](docs/images/v2-environment.png)
 

@@ -49,6 +49,7 @@ class EnvironmentDialogStateTests(unittest.TestCase):
         self.detected = {
             "os": "Ubuntu 20.04 synthetic fixture", "architecture": "x86_64", "python": "3.8.10",
             "classic_version": "11.15.1", "modern_simulators": [], "profiles": ["classic11-noetic"],
+            "modern": {"sim_major": None, "gz": None, "ros_available": False, "packages": [], "error": ""},
             "course_profile": "classic11-noetic", "ros_installed": ["noetic"], "ros_active": "",
             "display": ":7", "tools": {name: "/fixture/bin/" + name for name in tools},
             "plugins": sorted({name for lesson in self.lessons for name in lesson.data.get("requires_plugins", [])}),
@@ -86,7 +87,7 @@ class EnvironmentDialogStateTests(unittest.TestCase):
         self.settings.sync()
         self.temp.cleanup()
 
-    def make_window(self, *, autostart=False):
+    def make_window(self, *, autostart=False, fixture=None):
         self.settings.setValue("autostart", autostart)
         owner = self
 
@@ -102,7 +103,7 @@ class EnvironmentDialogStateTests(unittest.TestCase):
                       mock.patch.object(MainWindow, "run_task", capture_task)):
             patch.start()
             self.patches.append(patch)
-        window = MainWindow(ROOT, storage=Storage(self.root / "data"))
+        window = MainWindow(ROOT, fixture=fixture, storage=Storage(self.root / "data"))
         self.windows.append(window)
         window.timer.stop()
         window.show()
@@ -120,7 +121,8 @@ class EnvironmentDialogStateTests(unittest.TestCase):
         self.assertTrue(window.environment_dialog.isVisible())
         self.assertEqual(window.environment_dialog.table.rowCount(), len(self.lessons))
         self.assertEqual(window.environment_report["course_count"], len(self.lessons))
-        self.assertEqual(window.environment_report["counts"]["ready"], len(self.lessons))
+        classic = [lesson for lesson in self.lessons if lesson.profile == "classic11-noetic"]
+        self.assertEqual(window.environment_report["counts"]["ready"], len(classic))
         self.assertEqual([window.environment_dialog.table.item(row, 0).text()
                           for row in range(len(self.lessons))],
                          [lesson.id for lesson in self.lessons])
@@ -337,6 +339,29 @@ class EnvironmentDialogStateTests(unittest.TestCase):
         text = window.buttons["reset"].toolTip()
         for phrase in ("MODEL reset", "保留仿真时钟", "私有状态", "重载项目"):
             self.assertIn(phrase, text)
+
+    def test_modern_profile_selects_matching_materials_and_disables_unsupported_reset(self):
+        from gazeboteach.catalog import Lesson
+        folder = ROOT / "tests/fixtures/modern_diagnostic"
+        lesson = Lesson(folder, json.loads((folder / "lesson.json").read_text(encoding="utf-8")))
+        self.detected.update(classic_version="", profiles=["harmonic-jazzy"], course_profile="harmonic-jazzy",
+                             ros_installed=["jazzy"], modern_simulators=[{"command": "gz", "versions": "8.10.0"}])
+        self.detected["modern"] = {"sim_major": 8, "sim_version": "8.10.0", "gz": "/fixture/gz",
+                                   "ros_available": True, "packages": [], "error": "", "sim_probe_error": "",
+                                   "tools": dict(self.detected["tools"], ros2="/fixture/ros2")}
+        window = self.make_window(fixture=lesson)
+        self.assertEqual(window.profile_selector.currentData(), "harmonic-jazzy")
+        self.assertEqual(window.environment_report["counts"]["ready"], 1)
+        self.assertTrue(window.select_lesson("98", profile="harmonic-jazzy"))
+        self.acknowledge(window)
+        self.assertTrue(window.buttons["start"].isEnabled())
+        window.session = SimpleNamespace(running=True, paused=False, lesson=lesson, token="fixture",
+                                         state="运行中", workspace=self.root, native_control_diagnosis={})
+        window._refresh_buttons()
+        self.assertFalse(window.buttons["reset"].isEnabled())
+        self.assertIn("不支持", window.buttons["reset"].toolTip())
+        self.assertTrue(window.buttons["step"].isEnabled())
+        window.session = None
 
 
 if __name__ == "__main__":

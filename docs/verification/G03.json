@@ -1,0 +1,372 @@
+{
+  "schema_version": 1,
+  "phase": "G03",
+  "date": "2026-11-03",
+  "scope": "Version-adapter framework; no new lesson acceptance claimed",
+  "planning_commit": "5486cb766855f119d48f46bd26d921c3ce13fd7a",
+  "original_courses_unchanged": true,
+  "source_sha256": {
+    "gazeboteach/__main__.py": "dc370ca6574f6463e010f821cfb522794fecc429f3382b3a8b0552d7c04e7ce2",
+    "gazeboteach/app.py": "31f79bb75f7699a4897de660c8b3886880b3a13386ab280588432b5cd3de53a3",
+    "gazeboteach/backends.py": "dacd1a81510a4d8cb5baa7f6773893a0a00f04fda98d9ea860e3d807e4981418",
+    "gazeboteach/catalog.py": "33f239b72e68efd0d0926e4b06d8fdc12458cfa8de7e4a0d43592a0cf052f412",
+    "gazeboteach/compatibility.py": "6531ecc14cb8885f5341f45a171a27e4488b27a3892d044b948ae4c26f45fd94",
+    "gazeboteach/environment.py": "b73a6e0a8be6eb6fb7380860d252802b21b44587405e22d99f6dc8dc2f9d19b9",
+    "gazeboteach/environment_dialog.py": "f2fac563a9d29aae1fc2f2cf61f83a67787733bbd1edac7abe41b5b3a4a22a86",
+    "gazeboteach/modern.py": "aa4ccf02a9f55d87de8c6e9ff9b88560a8490467dba3106ba387e0b3d5851d91",
+    "gazeboteach/modern_runtime.py": "238375f580234d986dde2ca704664db2e1d308582dc8c65d485f9b5c16920dc9",
+    "gazeboteach/runtime.py": "259799c69821bba65fc6b2b38f530ebb2770ad488fe9ce8ffc4aca17d87861ef",
+    "tests/fixtures/modern_diagnostic/lesson.json": "0e7d1efe840c331421027eeac85a6a0452a0a954387cf4ca8a86a4d435ac999b",
+    "tests/fixtures/modern_diagnostic/lesson.md": "d1d9a3f5b6cb5e2d553db5b96e23e70bfdd733e00672c3a099d622f373b92364",
+    "tests/fixtures/modern_diagnostic/verify.py": "cc67110a5d5d811bf7d62cc22a0f46e9cdb9a81bd4b2743224bdffdaee6f5086",
+    "tests/fixtures/modern_diagnostic/world.sdf": "ad362e763909e37cd90307d016e56d04ad45373d39bbfb86a3c37ab6a8e8df56",
+    "tests/modern_runtime_acceptance.py": "56ace442d049fcee5dcc6f01567a14bf819ee7f96daaba30e0a93c138909e266",
+    "tests/test_environment_dialog.py": "ea25fb04d156c646cb1ab26d2a8126de5bd26fe2aa2e34d1ecdb6a4e380034db",
+    "tests/test_environment_v2.py": "2f798c92014e9a4ea16af335be48f982e5f371feeaf28768755cd844121f67c6",
+    "tests/test_modern.py": "c7fa7dc94c5febf9fb62d9b7e1c7fd0b378f4775ad3b80e2513add3e6f967201"
+  },
+  "unit_tests": {
+    "windows_full": {
+      "count": 195,
+      "skipped": 4,
+      "passed": true
+    },
+    "ikaros_full": {
+      "count": 195,
+      "skipped": 0,
+      "passed": true
+    },
+    "final_modern_and_gui_targeted": {
+      "count": 29,
+      "windows_passed": true,
+      "ikaros_passed": true
+    }
+  },
+  "classic": {
+    "passed": true,
+    "checks": [
+      {
+        "name": "independent_sessions_started",
+        "masters": [
+          "http://127.0.0.1:48943",
+          "http://127.0.0.1:52485"
+        ],
+        "partitions": [
+          "gazeboteach-a34f8d3db2b9473ab3833b1ab13a7cce",
+          "gazeboteach-124903e87b054117a2f467c21ff2c5da"
+        ]
+      },
+      {
+        "name": "pause_isolation",
+        "paused_delta": 0.0,
+        "other_session_delta": 2.401
+      },
+      {
+        "name": "single_step",
+        "steps": 25,
+        "delta_seconds": 0.025000000000000355
+      },
+      {
+        "name": "reset_models_preserves_time",
+        "moved_pose": [
+          4.0,
+          0.0,
+          3.0,
+          0.0,
+          -0.0,
+          0.0
+        ],
+        "reset_pose": [
+          0.0,
+          0.0,
+          2.5,
+          0.0,
+          -0.0,
+          0.0
+        ],
+        "time_before": 11.387,
+        "time_after": 11.388
+      },
+      {
+        "name": "real_model_verifier",
+        "result": {
+          "passed": true,
+          "returncode": 0,
+          "log": "/tmp/gazeboteach-acceptance-idm0qdsp/first/sessions/classic11-noetic-00-20261103-222010-268486/runtime.log"
+        }
+      },
+      {
+        "name": "graphical_client_recovery",
+        "health": {
+          "running": true,
+          "state": "运行中",
+          "error": null,
+          "failed_processes": [],
+          "gui_running": true,
+          "terminal_running": 2,
+          "window_tag": "[GT-00]",
+          "window_role": "gazeboteach-a34f8d3db2b9473ab3833b1ab13a7cce",
+          "auxiliary": []
+        }
+      },
+      {
+        "name": "real_terminal_start",
+        "health": {
+          "running": true,
+          "state": "运行中",
+          "error": null,
+          "failed_processes": [],
+          "gui_running": true,
+          "terminal_running": 2,
+          "window_tag": "[GT-00]",
+          "window_role": "gazeboteach-a34f8d3db2b9473ab3833b1ab13a7cce",
+          "auxiliary": []
+        }
+      },
+      {
+        "name": "owned_process_cleanup",
+        "leftovers": {
+          "a34f8d3db2b9473ab3833b1ab13a7cce": [],
+          "124903e87b054117a2f467c21ff2c5da": []
+        }
+      }
+    ],
+    "graphical_client": true,
+    "real_terminals": true,
+    "elapsed_seconds": 30.396
+  },
+  "modern": {
+    "ok": true,
+    "scope": "G03 modern runner diagnostic, not course acceptance",
+    "data_dir": "/tmp/gazeboteach-modern-framework-q389npx0",
+    "checks": [
+      {
+        "name": "real_server_ready",
+        "passed": true,
+        "stats": {
+          "paused": false,
+          "iterations": 3131,
+          "sim_time": 3.1310000000000002,
+          "sim_sec": 3,
+          "sim_nsec": 131000000
+        },
+        "backend": {
+          "backend": "harmonic-world-control",
+          "reason": "Gazebo Sim WorldControl 服务及实际 WorldStatistics 回读"
+        },
+        "token": "8c9e184238f345e887d10cc980e7b8b4",
+        "session": "/tmp/gazeboteach-modern-framework-q389npx0/first/sessions/harmonic-jazzy-98-20261103-223045-857465"
+      },
+      {
+        "name": "real_gravity_landing",
+        "passed": true
+      },
+      {
+        "name": "one_step_exact",
+        "passed": true,
+        "before": {
+          "paused": true,
+          "iterations": 4634,
+          "sim_time": 4.634,
+          "sim_sec": 4,
+          "sim_nsec": 634000000
+        },
+        "after": {
+          "paused": true,
+          "iterations": 4635,
+          "sim_time": 4.635,
+          "sim_sec": 4,
+          "sim_nsec": 635000000
+        }
+      },
+      {
+        "name": "ten_steps_exact",
+        "passed": true,
+        "after": {
+          "paused": true,
+          "iterations": 4645,
+          "sim_time": 4.645,
+          "sim_sec": 4,
+          "sim_nsec": 645000000
+        }
+      },
+      {
+        "name": "unsupported_model_only_reset_is_explicit",
+        "passed": true,
+        "message": "Gazebo Harmonic 不支持保持时钟的仅模型复位。请使用“重启实验”完整恢复场景；重启会将本课仿真时钟归零。"
+      },
+      {
+        "name": "resume_real_time_progression",
+        "passed": true,
+        "before": {
+          "paused": false,
+          "iterations": 4948,
+          "sim_time": 4.948,
+          "sim_sec": 4,
+          "sim_nsec": 948000000
+        },
+        "after": {
+          "paused": false,
+          "iterations": 5350,
+          "sim_time": 5.35,
+          "sim_sec": 5,
+          "sim_nsec": 350000000
+        }
+      },
+      {
+        "name": "real_owned_gui_window_initial",
+        "passed": true,
+        "window_id": "0x540000e",
+        "pid": 102,
+        "width": 1000,
+        "height": 845,
+        "screenshot": "/tmp/g03-gpu-evidence/g03-modern-gui-initial.png",
+        "properties": "_NET_WM_PID(CARDINAL) = 102\n_NET_WM_NAME(UTF8_STRING) = \"Gazebo Sim\"",
+        "image_metrics": {
+          "nontrivial_pixels": true,
+          "sample_count": 1650,
+          "distinct_sampled_colors": 115,
+          "luma_range": 255,
+          "nonblack_fraction": 0.99879,
+          "non_dominant_fraction": 0.82061
+        },
+        "manual_scene_review_required": true
+      },
+      {
+        "name": "gui_reopen_preserves_server",
+        "passed": true,
+        "old_pid": 102,
+        "new_pid": 458
+      },
+      {
+        "name": "real_owned_gui_window_reopened",
+        "passed": true,
+        "window_id": "0x540000e",
+        "pid": 458,
+        "width": 1000,
+        "height": 845,
+        "screenshot": "/tmp/g03-gpu-evidence/g03-modern-gui-reopened.png",
+        "properties": "_NET_WM_PID(CARDINAL) = 458\n_NET_WM_NAME(UTF8_STRING) = \"Gazebo Sim\"",
+        "image_metrics": {
+          "nontrivial_pixels": true,
+          "sample_count": 1650,
+          "distinct_sampled_colors": 108,
+          "luma_range": 255,
+          "nonblack_fraction": 0.99879,
+          "non_dominant_fraction": 0.81515
+        },
+        "manual_scene_review_required": true
+      },
+      {
+        "name": "real_isolated_log_and_interactive_ptys",
+        "passed": true
+      },
+      {
+        "name": "two_sessions_unique_partitions_and_dds_domains",
+        "passed": true,
+        "domains": [
+          "20",
+          "21"
+        ]
+      },
+      {
+        "name": "stopping_first_preserves_other_real_world",
+        "passed": true,
+        "other_token": "2c038c67249846808707a4a84536a11f"
+      },
+      {
+        "name": "all_test_owned_processes_cleaned",
+        "passed": true
+      }
+    ],
+    "elapsed_seconds": 18.127
+  },
+  "modern_gui_application": {
+    "mode": "gui-check",
+    "ok": true,
+    "screenshot": "/tmp/g03-gpu-evidence/g03-modern-app.png",
+    "qt_version": "5.15.13",
+    "data_dir": "/tmp/gazeboteach-gui-check-cfmucwpb",
+    "display": ":1",
+    "platform": "native",
+    "visible": true,
+    "screenshot_saved": true,
+    "courses": 1,
+    "environment_popup_visible": true,
+    "environment_popup_screenshot": "/tmp/g03-gpu-evidence/g03-modern-app-environment.png",
+    "compatibility_counts": {
+      "ready": 1,
+      "unsupported": 0,
+      "missing_dependencies": 0,
+      "incomplete_detection": 0
+    },
+    "window_title": "GazeboTeach · 项目式仿真教学",
+    "document_characters": 72
+  },
+  "modern_cli": {
+    "mode": "smoke",
+    "lesson": "98",
+    "profile": "harmonic-jazzy",
+    "data_dir": "/tmp/gazeboteach-smoke-lb286zyo",
+    "fresh_data_dir": true,
+    "gui_requested": true,
+    "terminals_requested": true,
+    "workspace": "/tmp/gazeboteach-smoke-lb286zyo/workspaces/harmonic-jazzy/98",
+    "log": "/tmp/gazeboteach-smoke-lb286zyo/sessions/harmonic-jazzy-98-20261103-223423-661274/runtime.log",
+    "session_dir": "/tmp/gazeboteach-smoke-lb286zyo/sessions/harmonic-jazzy-98-20261103-223423-661274",
+    "health": {
+      "running": true,
+      "state": "运行中",
+      "error": null,
+      "failed_processes": [],
+      "gui_running": true,
+      "terminal_running": 2,
+      "window_tag": "[GT-98]",
+      "window_role": "gazeboteach-9234a87e0c7b4ca6bdff8a8d9f2dd42b",
+      "auxiliary": []
+    },
+    "verification": {
+      "passed": true,
+      "returncode": 0,
+      "log": "/tmp/gazeboteach-smoke-lb286zyo/sessions/harmonic-jazzy-98-20261103-223423-661274/runtime.log"
+    },
+    "ok": true,
+    "final_health": {
+      "running": false,
+      "state": "已结束",
+      "error": null,
+      "failed_processes": [
+        {
+          "name": "Gazebo 服务端",
+          "returncode": 0
+        }
+      ],
+      "gui_running": false,
+      "terminal_running": 0,
+      "window_tag": "[GT-98]",
+      "window_role": "gazeboteach-9234a87e0c7b4ca6bdff8a8d9f2dd42b",
+      "auxiliary": []
+    },
+    "elapsed_seconds": 7.502
+  },
+  "manual_scene_review": {
+    "passed": true,
+    "confirmed": [
+      "ground plane and grid",
+      "fallen probe block",
+      "entity tree",
+      "initial and reopened GUI"
+    ],
+    "images": [
+      "images/g03-harmonic-diagnostic.png",
+      "images/g03-modern-workbench.png"
+    ]
+  },
+  "limitations": [
+    "Diagnostic fixture is not a delivered course",
+    "DDS distinct domain leases tested; DDS messaging/QoS acceptance belongs to later ROS2 lessons",
+    "GPU pass-through uses matching host NVIDIA535.183.01 user libraries mounted read-only",
+    "Harmonic model-only reset intentionally unsupported",
+    "Other modern simulator major versions are not adapted"
+  ]
+}

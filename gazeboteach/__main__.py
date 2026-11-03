@@ -11,7 +11,7 @@ from pathlib import Path
 
 from .catalog import Lesson, compatibility, load_catalog
 from .environment import detect_environment
-from .runtime import LessonSession
+from .backends import get_backend
 from .storage import Storage
 
 
@@ -95,7 +95,7 @@ def smoke(arguments, environment, fixture=None):
         raise KeyboardInterrupt("收到结束信号 {}".format(signum))
     old_term = signal.signal(signal.SIGTERM, interrupted)
     try:
-        session = LessonSession(ROOT, lesson, storage=storage,
+        session = get_backend("native").create_session(ROOT, lesson, storage=storage,
                                 notify=lambda message: print(message, file=sys.stderr, flush=True))
         report.update(workspace=str(session.workspace), log=str(session.log_path),
                       session_dir=str(session.session_dir))
