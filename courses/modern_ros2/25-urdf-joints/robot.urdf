@@ -1,0 +1,103 @@
+<robot name="teaching_arm">
+  <link name="world" />
+  <link name="base">
+    <inertial>
+      <mass value="3" />
+      <inertia ixx=".1" iyy=".1" izz=".1" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+    <visual name="pedestal_visual">
+      <origin xyz="0 0 .2" />
+      <geometry>
+        <box size=".5 .5 .4" />
+      </geometry>
+      <material name="blue">
+        <color rgba=".11 .36 .75 1" />
+      </material>
+    </visual>
+    <collision name="pedestal_collision">
+      <origin xyz="0 0 .2" />
+      <geometry>
+        <box size=".5 .5 .4" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="anchor" type="fixed">
+    <parent link="world" />
+    <child link="base" />
+  </joint>
+  <link name="arm">
+    <inertial>
+      <origin xyz=".4 0 0" />
+      <mass value="1" />
+      <inertia ixx=".005" iyy=".06" izz=".06" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+    <visual name="beam_visual">
+      <origin xyz=".4 0 0" />
+      <geometry>
+        <box size=".8 .12 .12" />
+      </geometry>
+      <material name="orange">
+        <color rgba="1 .4 0 1" />
+      </material>
+    </visual>
+    <collision name="beam_collision">
+      <origin xyz=".4 0 0" />
+      <geometry>
+        <box size=".8 .12 .12" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="shoulder" type="revolute">
+    <parent link="base" />
+    <child link="arm" />
+    <origin xyz="0 0 .7" />
+    <axis xyz="0 0 1" />
+    <limit lower="-1.5" upper="1.5" effort="20" velocity="2" />
+    <dynamics damping=".2" />
+  </joint>
+  <link name="tool">
+    <inertial>
+      <mass value=".08" />
+      <inertia ixx=".0002" iyy=".0002" izz=".0002" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+    <visual name="tool_visual">
+      <geometry>
+        <box size=".16 .13 .12" />
+      </geometry>
+      <material name="cyan">
+        <color rgba=".12 .85 .76 1" />
+      </material>
+    </visual>
+  </link>
+  <joint name="tool_mount" type="fixed">
+    <parent link="arm" />
+    <child link="tool" />
+    <origin xyz=".82 .10 .12" rpy="0 0 .25" />
+  </joint>
+  <gazebo>
+    <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher">
+      <topic>/gt/joints</topic>
+      <joint_name>shoulder</joint_name>
+      <update_rate>30</update_rate>
+    </plugin>
+    <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
+      <joint_name>shoulder</joint_name>
+      <topic>/gt/shoulder</topic>
+      <p_gain>12</p_gain>
+      <i_gain>0</i_gain>
+      <d_gain>2</d_gain>
+      <cmd_max>20</cmd_max>
+      <cmd_min>-20</cmd_min>
+    </plugin>
+    <plugin filename="gz-sim-pose-publisher-system" name="gz::sim::systems::PosePublisher">
+      <topic>/gt/arm_link_poses</topic>
+      <publish_model_pose>false</publish_model_pose>
+      <publish_link_pose>true</publish_link_pose>
+      <use_pose_vector_msg>true</use_pose_vector_msg>
+      <update_frequency>30</update_frequency>
+    </plugin>
+  </gazebo>
+  <gazebo reference="tool_mount">
+    <preserveFixedJoint>true</preserveFixedJoint>
+  </gazebo>
+</robot>

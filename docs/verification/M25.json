@@ -1,0 +1,594 @@
+{
+  "headless_smoke": {
+    "mode": "smoke",
+    "lesson": "25",
+    "profile": "harmonic-jazzy",
+    "data_dir": "/tmp/gazeboteach-smoke-0jppqye4",
+    "fresh_data_dir": true,
+    "gui_requested": false,
+    "terminals_requested": false,
+    "workspace": "/tmp/gazeboteach-smoke-0jppqye4/workspaces/harmonic-jazzy/25",
+    "log": "/tmp/gazeboteach-smoke-0jppqye4/sessions/harmonic-jazzy-25-20261104-030401-112361/runtime.log",
+    "session_dir": "/tmp/gazeboteach-smoke-0jppqye4/sessions/harmonic-jazzy-25-20261104-030401-112361",
+    "health": {
+      "running": true,
+      "state": "运行中",
+      "error": null,
+      "failed_processes": [],
+      "gui_running": false,
+      "terminal_running": 0,
+      "window_tag": "[GT-25]",
+      "window_role": "gazeboteach-149e9bb59e40448d9a3b29b0d98992f1",
+      "auxiliary": [
+        {
+          "name": "URDF与关节桥接launch",
+          "running": true,
+          "returncode": null
+        }
+      ]
+    },
+    "verification": {
+      "passed": true,
+      "returncode": 0,
+      "log": "/tmp/gazeboteach-smoke-0jppqye4/sessions/harmonic-jazzy-25-20261104-030401-112361/runtime.log"
+    },
+    "ok": true,
+    "final_health": {
+      "running": false,
+      "state": "已结束",
+      "error": null,
+      "failed_processes": [
+        {
+          "name": "Gazebo 服务端",
+          "returncode": 0
+        },
+        {
+          "name": "URDF与关节桥接launch",
+          "returncode": -15
+        }
+      ],
+      "gui_running": false,
+      "terminal_running": 0,
+      "window_tag": "[GT-25]",
+      "window_role": "gazeboteach-149e9bb59e40448d9a3b29b0d98992f1",
+      "auxiliary": [
+        {
+          "name": "URDF与关节桥接launch",
+          "running": false,
+          "returncode": -15
+        }
+      ]
+    },
+    "elapsed_seconds": 10.564
+  },
+  "desktop": {
+    "ok": true,
+    "lesson": "25",
+    "profile": "harmonic-jazzy",
+    "data_dir": "/tmp/gazeboteach-addon-desktop-1teuvy45",
+    "checks": [
+      {
+        "name": "real_desktop_material_selected",
+        "passed": true,
+        "document_characters": 3032
+      },
+      {
+        "name": "start_button_initialized_real_world_gui_and_ptys",
+        "passed": true,
+        "session": "/tmp/gazeboteach-addon-desktop-1teuvy45/data/sessions/harmonic-jazzy-25-20261104-030501-403146",
+        "token": "bd287f788a5b4c64b7e2faa1118f62fe"
+      },
+      {
+        "name": "real_owned_native_gui_window",
+        "passed": true,
+        "window_id": "0x580000e",
+        "pid": 13804,
+        "width": 1200,
+        "height": 1000,
+        "screenshot": "/tmp/gt-M25-desktop/desktop-gazebo.png",
+        "properties": "_NET_WM_PID(CARDINAL) = 13804\n_NET_WM_NAME(UTF8_STRING) = \"Gazebo Sim\"",
+        "image_metrics": {
+          "nontrivial_pixels": true,
+          "sample_count": 1584,
+          "distinct_sampled_colors": 61,
+          "luma_range": 250,
+          "nonblack_fraction": 0.99937,
+          "non_dominant_fraction": 0.72917
+        },
+        "manual_scene_review_required": true
+      },
+      {
+        "name": "verify_button_checks_real_behavior",
+        "passed": true
+      },
+      {
+        "name": "desktop_exit_cleans_owned_processes",
+        "passed": true
+      }
+    ],
+    "elapsed_seconds": 12.737
+  },
+  "standalone_gui": {
+    "window_id": "0x560000e",
+    "pid": 14175,
+    "width": 1200,
+    "height": 1000,
+    "screenshot": "/tmp/gt-M25-view/arm.png",
+    "properties": "_NET_WM_PID(CARDINAL) = 14175\n_NET_WM_NAME(UTF8_STRING) = \"Gazebo Sim\"",
+    "image_metrics": {
+      "nontrivial_pixels": true,
+      "sample_count": 1584,
+      "distinct_sampled_colors": 61,
+      "luma_range": 250,
+      "nonblack_fraction": 0.99937,
+      "non_dominant_fraction": 0.72917
+    },
+    "manual_scene_review_required": true,
+    "session_dir": "/tmp/gt-m25-view-zn7oqt8y/sessions/harmonic-jazzy-25-20261104-030513-856821",
+    "owned_processes_cleaned": true
+  },
+  "source_sha256": {
+    "courses/modern_ros2/25-urdf-joints/_bootstrap.py": "7874870ac1e2ee63512b7cc354a88da6d58ee6b6b0a565a0bd684d8875359a5f",
+    "courses/modern_ros2/25-urdf-joints/bridge.yaml": "dccb22d415bb252d7b0e1ba80a5187c785625c04809133649bd73ba7179c0f47",
+    "courses/modern_ros2/25-urdf-joints/lab.py": "db80b320415dbb724cedbdfd88e50d879207a99e9a462bbb7b485ad4750ec3fe",
+    "courses/modern_ros2/25-urdf-joints/lesson.json": "e9a6a110a0e6a26fa6254464d67c4cd1be1444e8c382145388087d8f4b70a40c",
+    "courses/modern_ros2/25-urdf-joints/lesson.md": "f66be43e6124c9a21018f939728a4c37e994190f779ad7d5ef9b101064249680",
+    "courses/modern_ros2/25-urdf-joints/reference.md": "1f9e06f3df8270a078915e3fd39a9d4fbf6b80cd6fc6f14e5f2170ef0904589d",
+    "courses/modern_ros2/25-urdf-joints/robot.launch.py": "52265eb43aa0ac46c8d03d45eca263e15740e6747320becb65ef311bb7ecc674",
+    "courses/modern_ros2/25-urdf-joints/robot.urdf": "957d9dc21ffcac4784e762262b37084e152bbe6af2150e19474209cbdcc9fb30",
+    "courses/modern_ros2/25-urdf-joints/spawn.py": "336ddbe0bde1a20ef56421314e41413c405ec1e27f8cc57172a4cfd130892212",
+    "courses/modern_ros2/25-urdf-joints/verify.py": "042cb190dcb7e962def1a0870fd783ae96ea2e099635d5702e09518418b6083f",
+    "courses/modern_ros2/25-urdf-joints/world.sdf": "297fa725656537cb1151ac3787653d4be1226d01a2c75a1dad14363d3282bf13",
+    "courses/modern_ros2/_support/common.py": "2e8a4cb02f1132ceb6b3caa037e52d9703a06ed3113e29fb281b47fe0524f8c3"
+  },
+  "desktop_experiment": [
+    {
+      "passed": true,
+      "robot_description_sha256": "957d9dc21ffcac4784e762262b37084e152bbe6af2150e19474209cbdcc9fb30",
+      "stages": [
+        {
+          "target_rad": 0.65,
+          "joint_stamp_ns": 5339000000,
+          "ros_joint_rad": 0.6455276708919556,
+          "ros_velocity_rad_s": -0.018644416237531564,
+          "native_joint_rad": 0.6449665719200617,
+          "native_velocity_rad_s": 0.00040712538244469315,
+          "native_arm_xyz": [
+            0.0,
+            0.0,
+            0.7
+          ],
+          "native_arm_yaw_rad": 0.6454142207475314,
+          "tf_arm_xyz": [
+            0.0,
+            0.0,
+            0.7
+          ],
+          "tf_arm_yaw_rad": 0.645527670891956,
+          "native_tool_xyz": [
+            0.5949046099508155,
+            0.5731391672702781,
+            0.82
+          ],
+          "native_tool_yaw_rad": 0.8954142207475316,
+          "tf_tool_xyz": [
+            0.5948395834011636,
+            0.5732066555956326,
+            0.82
+          ],
+          "tf_tool_yaw_rad": 0.895527670891956
+        },
+        {
+          "target_rad": -0.45,
+          "joint_stamp_ns": 6801000000,
+          "ros_joint_rad": -0.4459036711027206,
+          "ros_velocity_rad_s": 0.024960149517877343,
+          "native_joint_rad": -0.4450035221411889,
+          "native_velocity_rad_s": -0.0037689787810436864,
+          "native_arm_xyz": [
+            0.0,
+            0.0,
+            0.7
+          ],
+          "native_arm_yaw_rad": -0.4461039387706007,
+          "tf_arm_xyz": [
+            0.0,
+            0.0,
+            0.7
+          ],
+          "tf_arm_yaw_rad": -0.4459036711027207,
+          "native_tool_xyz": [
+            0.7828960358801009,
+            -0.26357882502815655,
+            0.82
+          ],
+          "native_tool_yaw_rad": -0.19610393877060064,
+          "tf_tool_xyz": [
+            0.7829488064964794,
+            -0.26342203098021016,
+            0.82
+          ],
+          "tf_tool_yaw_rad": -0.19590367110272075
+        },
+        {
+          "target_rad": 0.0,
+          "joint_stamp_ns": 8093000000,
+          "ros_joint_rad": -0.0024903693242377687,
+          "ros_velocity_rad_s": -0.025247185840405823,
+          "native_joint_rad": -0.003552751516530018,
+          "native_velocity_rad_s": -0.007362059172268927,
+          "native_arm_xyz": [
+            0.0,
+            0.0,
+            0.7
+          ],
+          "native_arm_yaw_rad": -0.0036226944668627968,
+          "tf_arm_xyz": [
+            0.0,
+            0.0,
+            0.7
+          ],
+          "tf_arm_yaw_rad": -0.00249036932423777,
+          "native_tool_xyz": [
+            0.8203568878549405,
+            0.097028740839797,
+            0.82
+          ],
+          "native_tool_yaw_rad": 0.24637730553313733,
+          "tf_tool_xyz": [
+            0.8202464938811772,
+            0.0979575891681491,
+            0.82
+          ],
+          "tf_tool_yaw_rad": 0.24750963067576232
+        }
+      ],
+      "neutral_hold_rad": -0.001524597138748743,
+      "neutral_hold_velocity_rad_s": 0.011338792886948425,
+      "joint_state_messages": 127
+    }
+  ],
+  "desktop_runtime_sha256": "f7531a43fc452dd5eab62fbe9785814cfd98854e5cdc2cab2c558a999e5bdd36",
+  "smoke_experiment": [
+    {
+      "passed": true,
+      "robot_description_sha256": "957d9dc21ffcac4784e762262b37084e152bbe6af2150e19474209cbdcc9fb30",
+      "stages": [
+        {
+          "target_rad": 0.65,
+          "joint_stamp_ns": 4175000000,
+          "ros_joint_rad": 0.6459178487827194,
+          "ros_velocity_rad_s": -0.025177007031609695,
+          "native_joint_rad": 0.6449940771160126,
+          "native_velocity_rad_s": -0.0037936862009616146,
+          "native_arm_xyz": [
+            0.0,
+            0.0,
+            0.7
+          ],
+          "native_arm_yaw_rad": 0.6452274642132467,
+          "tf_arm_xyz": [
+            0.0,
+            0.0,
+            0.7
+          ],
+          "tf_arm_yaw_rad": 0.6459178487827199,
+          "native_tool_xyz": [
+            0.5950116370601932,
+            0.5730280549527648,
+            0.82
+          ],
+          "native_tool_yaw_rad": 0.8952274642132467,
+          "tf_tool_xyz": [
+            0.5946158855641587,
+            0.5734387052115957,
+            0.82
+          ],
+          "tf_tool_yaw_rad": 0.8959178487827195
+        },
+        {
+          "target_rad": -0.45,
+          "joint_stamp_ns": 5637000000,
+          "ros_joint_rad": -0.4459003214052936,
+          "ros_velocity_rad_s": 0.024908830592806103,
+          "native_joint_rad": -0.44499156631742603,
+          "native_velocity_rad_s": 0.0036178836205648956,
+          "native_arm_xyz": [
+            0.0,
+            0.0,
+            0.7
+          ],
+          "native_arm_yaw_rad": -0.4452340355755863,
+          "tf_arm_xyz": [
+            0.0,
+            0.0,
+            0.7
+          ],
+          "tf_arm_yaw_rad": -0.44590032140529334,
+          "native_tool_xyz": [
+            0.7831250276921587,
+            -0.2628976816218723,
+            0.82
+          ],
+          "native_tool_yaw_rad": -0.19523403557558625,
+          "tf_tool_xyz": [
+            0.7829496888761862,
+            -0.26341940833712946,
+            0.82
+          ],
+          "tf_tool_yaw_rad": -0.19590032140529337
+        },
+        {
+          "target_rad": 0.0,
+          "joint_stamp_ns": 6963000000,
+          "ros_joint_rad": -0.002659944811825911,
+          "ros_velocity_rad_s": -0.02313873419568022,
+          "native_joint_rad": -0.0036015679387206598,
+          "native_velocity_rad_s": -0.005909357629635298,
+          "native_arm_xyz": [
+            0.0,
+            0.0,
+            0.7
+          ],
+          "native_arm_yaw_rad": -0.00359408088880169,
+          "tf_arm_xyz": [
+            0.0,
+            0.0,
+            0.7
+          ],
+          "tf_arm_yaw_rad": -0.002659944811825912,
+          "native_tool_xyz": [
+            0.8203541111796625,
+            0.0970522141459219,
+            0.82
+          ],
+          "native_tool_yaw_rad": 0.2464059191111984,
+          "tf_tool_xyz": [
+            0.8202630932936028,
+            0.09781849406124668,
+            0.82
+          ],
+          "tf_tool_yaw_rad": 0.24734005518817415
+        }
+      ],
+      "neutral_hold_rad": -0.0014478482504300782,
+      "neutral_hold_velocity_rad_s": 0.011175343922132918,
+      "joint_state_messages": 128
+    }
+  ],
+  "smoke_runtime_sha256": "92e04c11ebd5504ddfe90dab2a3987c5aa176d68c27d2ee70e773ddcc37156c8",
+  "repeat_experiment": [
+    {
+      "passed": true,
+      "robot_description_sha256": "957d9dc21ffcac4784e762262b37084e152bbe6af2150e19474209cbdcc9fb30",
+      "stages": [
+        {
+          "target_rad": 0.65,
+          "joint_stamp_ns": 2597000000,
+          "ros_joint_rad": 0.645968584307626,
+          "ros_velocity_rad_s": -0.02594198120103518,
+          "native_joint_rad": 0.6450019151250169,
+          "native_velocity_rad_s": -0.004296802819786982,
+          "native_arm_xyz": [
+            0.0,
+            0.0,
+            0.7
+          ],
+          "native_arm_yaw_rad": 0.6452092552756423,
+          "tf_arm_xyz": [
+            0.0,
+            0.0,
+            0.7
+          ],
+          "tf_arm_yaw_rad": 0.6459685843076257,
+          "native_tool_xyz": [
+            0.5950220711936481,
+            0.5730172203279942,
+            0.82
+          ],
+          "native_tool_yaw_rad": 0.8952092552756423,
+          "tf_tool_xyz": [
+            0.5945867910851623,
+            0.573468872622612,
+            0.82
+          ],
+          "tf_tool_yaw_rad": 0.8959685843076258
+        },
+        {
+          "target_rad": -0.45,
+          "joint_stamp_ns": 4059000000,
+          "ros_joint_rad": -0.44587526361980906,
+          "ros_velocity_rad_s": 0.02452249523489055,
+          "native_joint_rad": -0.44498812512940344,
+          "native_velocity_rad_s": 0.0033650486660120656,
+          "native_arm_xyz": [
+            0.0,
+            0.0,
+            0.7
+          ],
+          "native_arm_yaw_rad": -0.44524364172171704,
+          "tf_arm_xyz": [
+            0.0,
+            0.0,
+            0.7
+          ],
+          "tf_arm_yaw_rad": -0.44587526361980906,
+          "native_tool_xyz": [
+            0.7831225022224791,
+            -0.262905204423197,
+            0.82
+          ],
+          "native_tool_yaw_rad": -0.1952436417217169,
+          "tf_tool_xyz": [
+            0.7829562893374078,
+            -0.26339978926908303,
+            0.82
+          ],
+          "tf_tool_yaw_rad": -0.195875263619809
+        },
+        {
+          "target_rad": 0.0,
+          "joint_stamp_ns": 5283000000,
+          "ros_joint_rad": -0.0025180229828108344,
+          "ros_velocity_rad_s": -0.024792244513301333,
+          "native_joint_rad": -0.0036784895720408796,
+          "native_velocity_rad_s": -0.0006395434998898385,
+          "native_arm_xyz": [
+            0.0,
+            0.0,
+            0.7
+          ],
+          "native_arm_yaw_rad": -0.003087727146746624,
+          "tf_arm_xyz": [
+            0.0,
+            0.0,
+            0.7
+          ],
+          "tf_arm_yaw_rad": -0.002518022982810835,
+          "native_tool_xyz": [
+            0.8203048632629752,
+            0.09746759106036955,
+            0.82
+          ],
+          "native_tool_yaw_rad": 0.24691227285325354,
+          "tf_tool_xyz": [
+            0.8202492024532709,
+            0.09793490631420915,
+            0.82
+          ],
+          "tf_tool_yaw_rad": 0.24748197701718924
+        }
+      ],
+      "neutral_hold_rad": -0.0015068400514136424,
+      "neutral_hold_velocity_rad_s": 0.011284982454743697,
+      "joint_state_messages": 121
+    },
+    {
+      "passed": true,
+      "robot_description_sha256": "957d9dc21ffcac4784e762262b37084e152bbe6af2150e19474209cbdcc9fb30",
+      "stages": [
+        {
+          "target_rad": 0.65,
+          "joint_stamp_ns": 8173000000,
+          "ros_joint_rad": 0.6459429903486112,
+          "ros_velocity_rad_s": -0.025557985659200436,
+          "native_joint_rad": 0.6449976744500049,
+          "native_velocity_rad_s": 0.0034708000113115914,
+          "native_arm_xyz": [
+            0.0,
+            0.0,
+            0.7
+          ],
+          "native_arm_yaw_rad": 0.6455972441663392,
+          "tf_arm_xyz": [
+            0.0,
+            0.0,
+            0.7
+          ],
+          "tf_arm_yaw_rad": 0.6459429903486112,
+          "native_tool_xyz": [
+            0.5947997020976249,
+            0.5732480391458629,
+            0.82
+          ],
+          "native_tool_yaw_rad": 0.8955972441663393,
+          "tf_tool_xyz": [
+            0.5946014682292405,
+            0.5734536546048263,
+            0.82
+          ],
+          "tf_tool_yaw_rad": 0.8959429903486115
+        },
+        {
+          "target_rad": -0.45,
+          "joint_stamp_ns": 9669000000,
+          "ros_joint_rad": -0.44588178190859357,
+          "ros_velocity_rad_s": 0.0246233816330563,
+          "native_joint_rad": -0.44498900066826735,
+          "native_velocity_rad_s": 0.003431017214958224,
+          "native_arm_xyz": [
+            0.0,
+            0.0,
+            0.7
+          ],
+          "native_arm_yaw_rad": -0.44524111490334445,
+          "tf_arm_xyz": [
+            0.0,
+            0.0,
+            0.7
+          ],
+          "tf_arm_yaw_rad": -0.44588178190859357,
+          "native_tool_xyz": [
+            0.7831231665336799,
+            -0.26290322561403107,
+            0.82
+          ],
+          "native_tool_yaw_rad": -0.19524111490334436,
+          "tf_tool_xyz": [
+            0.7829545724048825,
+            -0.26340489279868695,
+            0.82
+          ],
+          "tf_tool_yaw_rad": -0.19588178190859357
+        },
+        {
+          "target_rad": 0.0,
+          "joint_stamp_ns": 10893000000,
+          "ros_joint_rad": -0.0025426544947051116,
+          "ros_velocity_rad_s": -0.024480660895414594,
+          "native_joint_rad": -0.00356192944103854,
+          "native_velocity_rad_s": -0.006854711840690209,
+          "native_arm_xyz": [
+            0.0,
+            0.0,
+            0.7
+          ],
+          "native_arm_yaw_rad": -0.003605498310454854,
+          "tf_arm_xyz": [
+            0.0,
+            0.0,
+            0.7
+          ],
+          "tf_arm_yaw_rad": -0.002542654494705112,
+          "native_tool_xyz": [
+            0.8203552192122441,
+            0.09704284781080412,
+            0.82
+          ],
+          "native_tool_yaw_rad": 0.24639450168954527,
+          "tf_tool_xyz": [
+            0.8202516144892533,
+            0.0979147023065156,
+            0.82
+          ],
+          "tf_tool_yaw_rad": 0.24745734550529486
+        }
+      ],
+      "neutral_hold_rad": -0.0014954408807353447,
+      "neutral_hold_velocity_rad_s": 0.011259939887940983,
+      "joint_state_messages": 123
+    }
+  ],
+  "repeat_runtime_sha256": "cdb558e91432050cfcb0305632eee1b68f940a2b76e446355cb52ea2efc2b5c7",
+  "repeat": {
+    "ok": true,
+    "session_dir": "/tmp/gt-modern-repeat-kmqxrb1_/sessions/harmonic-jazzy-25-20261104-030446-195046",
+    "runtime_log": "/tmp/gt-modern-repeat-kmqxrb1_/sessions/harmonic-jazzy-25-20261104-030446-195046/runtime.log",
+    "elapsed_seconds": 14.41,
+    "token": "7b9896f3f4b54e49973cd5266f672ed1"
+  },
+  "converted_sdf": {
+    "sha256": "33516ffc697374af749a4f9e2465ce67e263de6c50eed93d80b7c21d43344def",
+    "links": [
+      "arm",
+      "base",
+      "tool"
+    ],
+    "joint_types": {
+      "anchor": "fixed",
+      "shoulder": "revolute",
+      "tool_mount": "fixed"
+    }
+  },
+  "desktop_max_tool_position_delta_m": 0.0009353855069038435
+}

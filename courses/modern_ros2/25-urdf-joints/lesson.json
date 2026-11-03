@@ -1,0 +1,60 @@
+{
+  "id": "25",
+  "title": "ROS 2 URDF：关节状态与机器人TF",
+  "module": "现代Gazebo与ROS 2",
+  "order": 25,
+  "profile": "harmonic-jazzy",
+  "requires_ros": true,
+  "requires_ros_packages": [
+    "rclpy",
+    "robot_state_publisher",
+    "sensor_msgs",
+    "tf2_ros",
+    "ros_gz_bridge",
+    "std_msgs",
+    "launch",
+    "launch_ros",
+    "rosgraph_msgs",
+    "rcl_interfaces"
+  ],
+  "world": "world.sdf",
+  "verify": "verify.py",
+  "reference": "reference.md",
+  "verify_timeout": 100,
+  "objectives": [
+    "用同一个 URDF 转换 Gazebo 模型并启动 robot_state_publisher",
+    "桥接实际肩关节角度与速度，并按原始时间戳查询 URDF 的 TF 链",
+    "独立读取 Gazebo 的 arm 与 tool 位姿，对照正负角度和中位停车"
+  ],
+  "commands": [
+    {
+      "title": "验证原生关节、URDF TF 和停车",
+      "command": "python3 lab.py"
+    },
+    {
+      "title": "查看实际关节状态",
+      "command": "ros2 topic echo /joint_states --once --no-daemon"
+    },
+    {
+      "title": "查看 launch 参数",
+      "command": "ros2 launch ./robot.launch.py --show-args"
+    },
+    {
+      "title": "查看原生连杆位姿",
+      "command": "gz topic -e -t /gt/arm_link_poses -n 1"
+    },
+    {
+      "title": "查看转换后的 SDF",
+      "command": "less build/robot.converted.sdf"
+    }
+  ],
+  "after_start": [
+    "python3 spawn.py"
+  ],
+  "startup": [
+    {
+      "name": "URDF与关节桥接launch",
+      "command": "ros2 launch ./robot.launch.py"
+    }
+  ]
+}

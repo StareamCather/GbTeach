@@ -282,6 +282,14 @@ ROS 时钟单向由 ros_gz 桥入，两个实际纳秒消息夹住独立读取�
 
 ![M24 实际 TF 载体场景](images/m24-tf.png)
 
+## M25：同源 URDF、实际关节与带时刻的 TF
+
+2026-11-04，Gazebo Harmonic 真转换并加载个人 URDF 的 SDF；生成文件独立核对 base、arm、tool、revolute shoulder 和保留的 fixed tool_mount。实际 ROS 2 launch 将相同 robot_description 交给 robot_state_publisher，并启动速度命令／关节状态和时钟桥。测试在 +0.65、−0.45、0 rad 三个目标等待原生关节稳定，再按关节消息的时刻查询 TF，独立原生工具位置和 TF 的最大差约 0.94 mm。正负角到达工具的不同侧，最后回到中位并检查停稳。
+
+SDF 有效，命令行 10.564 秒、同会话两次 14.410 秒、桌面 12.737 秒；真实模型、终端、验收和进程清理通过。[验证记录](verification/M25.json) 附各时刻的原生位姿与 TF，转换文件和日志在两端 `.deploy/addons/M25`。
+
+![M25 从 URDF 生成的实际机械臂](images/m25-arm.png)
+
 ## 后续目标
 
-M25–M26：按计划逐门建立活动目标、真实验收、提交推送后追加记录。目前不能因本地存在草稿就计为完成。
+M26：按计划逐门建立活动目标、真实验收、提交推送后追加记录。目前不能因本地存在草稿就计为完成。
