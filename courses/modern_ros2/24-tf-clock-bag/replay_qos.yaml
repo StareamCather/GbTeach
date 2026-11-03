@@ -1,0 +1,15 @@
+/clock:
+  reliability: reliable
+  durability: volatile
+  history: keep_last
+  depth: 100
+/tf:
+  reliability: reliable
+  durability: volatile
+  history: keep_last
+  depth: 100
+/tf_static:
+  reliability: reliable
+  durability: transient_local
+  history: keep_last
+  depth: 10

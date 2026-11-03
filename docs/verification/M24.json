@@ -1,0 +1,616 @@
+{
+  "headless_smoke": {
+    "mode": "smoke",
+    "lesson": "24",
+    "profile": "harmonic-jazzy",
+    "data_dir": "/tmp/gazeboteach-smoke-engl66oq",
+    "fresh_data_dir": true,
+    "gui_requested": false,
+    "terminals_requested": false,
+    "workspace": "/tmp/gazeboteach-smoke-engl66oq/workspaces/harmonic-jazzy/24",
+    "log": "/tmp/gazeboteach-smoke-engl66oq/sessions/harmonic-jazzy-24-20261104-025905-141324/runtime.log",
+    "session_dir": "/tmp/gazeboteach-smoke-engl66oq/sessions/harmonic-jazzy-24-20261104-025905-141324",
+    "health": {
+      "running": true,
+      "state": "运行中",
+      "error": null,
+      "failed_processes": [],
+      "gui_running": false,
+      "terminal_running": 0,
+      "window_tag": "[GT-24]",
+      "window_role": "gazeboteach-158b3195c527417f912681d6fe947eff",
+      "auxiliary": [
+        {
+          "name": "实际 TF 和仿真时钟桥",
+          "running": true,
+          "returncode": null
+        }
+      ]
+    },
+    "verification": {
+      "passed": true,
+      "returncode": 0,
+      "log": "/tmp/gazeboteach-smoke-engl66oq/sessions/harmonic-jazzy-24-20261104-025905-141324/runtime.log"
+    },
+    "ok": true,
+    "final_health": {
+      "running": false,
+      "state": "已结束",
+      "error": null,
+      "failed_processes": [
+        {
+          "name": "Gazebo 服务端",
+          "returncode": 0
+        },
+        {
+          "name": "实际 TF 和仿真时钟桥",
+          "returncode": -15
+        }
+      ],
+      "gui_running": false,
+      "terminal_running": 0,
+      "window_tag": "[GT-24]",
+      "window_role": "gazeboteach-158b3195c527417f912681d6fe947eff",
+      "auxiliary": [
+        {
+          "name": "实际 TF 和仿真时钟桥",
+          "running": false,
+          "returncode": -15
+        }
+      ]
+    },
+    "elapsed_seconds": 10.309
+  },
+  "desktop": {
+    "ok": true,
+    "lesson": "24",
+    "profile": "harmonic-jazzy",
+    "data_dir": "/tmp/gazeboteach-addon-desktop-g05motnb",
+    "checks": [
+      {
+        "name": "real_desktop_material_selected",
+        "passed": true,
+        "document_characters": 2604
+      },
+      {
+        "name": "start_button_initialized_real_world_gui_and_ptys",
+        "passed": true,
+        "session": "/tmp/gazeboteach-addon-desktop-g05motnb/data/sessions/harmonic-jazzy-24-20261104-025957-303761",
+        "token": "b314bc801fa347c09df930f572d18821"
+      },
+      {
+        "name": "real_owned_native_gui_window",
+        "passed": true,
+        "window_id": "0x560000e",
+        "pid": 12445,
+        "width": 1200,
+        "height": 1000,
+        "screenshot": "/tmp/gt-M24-desktop/desktop-gazebo.png",
+        "properties": "_NET_WM_PID(CARDINAL) = 12445\n_NET_WM_NAME(UTF8_STRING) = \"Gazebo Sim\"",
+        "image_metrics": {
+          "nontrivial_pixels": true,
+          "sample_count": 1584,
+          "distinct_sampled_colors": 67,
+          "luma_range": 250,
+          "nonblack_fraction": 0.99937,
+          "non_dominant_fraction": 0.74874
+        },
+        "manual_scene_review_required": true
+      },
+      {
+        "name": "verify_button_checks_real_behavior",
+        "passed": true
+      },
+      {
+        "name": "desktop_exit_cleans_owned_processes",
+        "passed": true
+      }
+    ],
+    "elapsed_seconds": 12.161
+  },
+  "standalone_gui": {
+    "window_id": "0x560000e",
+    "pid": 12838,
+    "width": 1200,
+    "height": 1000,
+    "screenshot": "/tmp/gt-M24-view/tf.png",
+    "properties": "_NET_WM_PID(CARDINAL) = 12838\n_NET_WM_NAME(UTF8_STRING) = \"Gazebo Sim\"",
+    "image_metrics": {
+      "nontrivial_pixels": true,
+      "sample_count": 1584,
+      "distinct_sampled_colors": 66,
+      "luma_range": 250,
+      "nonblack_fraction": 0.99937,
+      "non_dominant_fraction": 0.73674
+    },
+    "manual_scene_review_required": true,
+    "session_dir": "/tmp/gt-m24-view-irlufoy4/sessions/harmonic-jazzy-24-20261104-030009-144613",
+    "owned_processes_cleaned": true
+  },
+  "source_sha256": {
+    "courses/modern_ros2/24-tf-clock-bag/_bootstrap.py": "7874870ac1e2ee63512b7cc354a88da6d58ee6b6b0a565a0bd684d8875359a5f",
+    "courses/modern_ros2/24-tf-clock-bag/bridge.yaml": "0cece83eb1e6d9746b21a02a7b0e3768ae69951e9b4dbacb49e3f83c8c339977",
+    "courses/modern_ros2/24-tf-clock-bag/lab.py": "25250816b7cc514aa9d020ecf2e0cb058345d48628d93f1381822e1b15b5f548",
+    "courses/modern_ros2/24-tf-clock-bag/lesson.json": "fa4c951d59edb47330955b3694c7c1e916ed76dce15160c6d4bb62c501198403",
+    "courses/modern_ros2/24-tf-clock-bag/lesson.md": "b4660c32253c5a33565733cda922bf956139caf47f51e1560eb32862a2296d25",
+    "courses/modern_ros2/24-tf-clock-bag/reference.md": "91582e1002c80a61a557b9dd052a6d88bca0c39c754f60a99fcc8b9c9ef63300",
+    "courses/modern_ros2/24-tf-clock-bag/replay_qos.yaml": "355e5c52ec2092964dadbf9109cf1a3b553fec009680e0f3a83a591193c9aa3d",
+    "courses/modern_ros2/24-tf-clock-bag/verify.py": "042cb190dcb7e962def1a0870fd783ae96ea2e099635d5702e09518418b6083f",
+    "courses/modern_ros2/24-tf-clock-bag/world.sdf": "01bd1a19c685ba5d909e3e4429fd6215fea3ee6b8b557b718e1f39489fef2422",
+    "courses/modern_ros2/_support/common.py": "2e8a4cb02f1132ceb6b3caa037e52d9703a06ed3113e29fb281b47fe0524f8c3"
+  },
+  "desktop_experiment": [
+    {
+      "passed": true,
+      "clock": {
+        "paused_stats": {
+          "sim_ns": 4074000000,
+          "iterations": 4074,
+          "paused": true,
+          "stepping": false
+        },
+        "step_stats": {
+          "sim_ns": 4094000000,
+          "iterations": 4094,
+          "paused": true,
+          "stepping": false
+        },
+        "actual_step_count": 20,
+        "ros_step_delta_ns": 20000000
+      },
+      "live_tf": [
+        {
+          "stamp_ns": 4420000000,
+          "native_rig_xyz": [
+            -0.65,
+            -0.55,
+            0.65
+          ],
+          "native_rig_yaw_rad": 0.0,
+          "sensor_world_xyz": [
+            -0.2,
+            -0.35000000000000003,
+            0.8
+          ],
+          "sensor_world_yaw_rad": -0.35000000000000014
+        },
+        {
+          "stamp_ns": 4794000000,
+          "native_rig_xyz": [
+            0.65,
+            0.34999999999999987,
+            0.65
+          ],
+          "native_rig_yaw_rad": 1.5707963267948963,
+          "sensor_world_xyz": [
+            0.45000000000000007,
+            0.7999999999999999,
+            0.8
+          ],
+          "sensor_world_yaw_rad": 1.2207963267948962
+        }
+      ],
+      "bag": "recordings/m24-b2a87e39",
+      "bag_counts": {
+        "/clock": 13,
+        "/tf": 24,
+        "/tf_static": 1
+      },
+      "bag_stamp_spans_ns": {
+        "/clock": 705000000,
+        "/tf": 850000000,
+        "/tf_static": 0
+      },
+      "bag_cdr_sha256": {
+        "/clock": "34a4b3f0e3c3738ca95d117e393ddb72fd7a6cf5df9edfc60bfaec55bafcda8b",
+        "/tf": "647dc2064d0a56b2e2f3a8b0958c6bff66e210b3717ba4a14d5ebdc8b779eb47",
+        "/tf_static": "9a9f6d2b3046fc97e1a67914725538f2db018857ba0ca3774729d15768d6e361"
+      },
+      "replay": {
+        "namespace": "/gt/m24/replay_b2a87e39",
+        "received_counts": {
+          "/clock": 13,
+          "/tf": 24,
+          "/tf_static": 1
+        },
+        "live_clock_before_ns": 5244000000,
+        "live_clock_after_ns": 6633000000,
+        "live_clock_publishers_unchanged": true,
+        "historical_tf": [
+          {
+            "stamp_ns": 4420000000,
+            "native_rig_xyz": [
+              -0.65,
+              -0.55,
+              0.65
+            ],
+            "native_rig_yaw_rad": 0.0,
+            "sensor_world_xyz": [
+              -0.2,
+              -0.35000000000000003,
+              0.8
+            ],
+            "sensor_world_yaw_rad": -0.35000000000000014
+          },
+          {
+            "stamp_ns": 4794000000,
+            "native_rig_xyz": [
+              0.65,
+              0.34999999999999987,
+              0.65
+            ],
+            "native_rig_yaw_rad": 1.5707963267948963,
+            "sensor_world_xyz": [
+              0.45000000000000007,
+              0.7999999999999999,
+              0.8
+            ],
+            "sensor_world_yaw_rad": 1.2207963267948962
+          }
+        ],
+        "player_log": "recordings/m24-b2a87e39-player.log"
+      }
+    }
+  ],
+  "desktop_runtime_sha256": "3166ab9d1559934165ff0b09ebec47c0d586d34cbabdaceac64d0846d051daa6",
+  "smoke_experiment": [
+    {
+      "passed": true,
+      "clock": {
+        "paused_stats": {
+          "sim_ns": 2881000000,
+          "iterations": 2881,
+          "paused": true,
+          "stepping": false
+        },
+        "step_stats": {
+          "sim_ns": 2901000000,
+          "iterations": 2901,
+          "paused": true,
+          "stepping": false
+        },
+        "actual_step_count": 20,
+        "ros_step_delta_ns": 20000000
+      },
+      "live_tf": [
+        {
+          "stamp_ns": 3230000000,
+          "native_rig_xyz": [
+            -0.65,
+            -0.55,
+            0.65
+          ],
+          "native_rig_yaw_rad": 0.0,
+          "sensor_world_xyz": [
+            -0.2,
+            -0.35000000000000003,
+            0.8
+          ],
+          "sensor_world_yaw_rad": -0.35000000000000014
+        },
+        {
+          "stamp_ns": 3570000000,
+          "native_rig_xyz": [
+            0.65,
+            0.34999999999999987,
+            0.65
+          ],
+          "native_rig_yaw_rad": 1.5707963267948963,
+          "sensor_world_xyz": [
+            0.45000000000000007,
+            0.7999999999999999,
+            0.8
+          ],
+          "sensor_world_yaw_rad": 1.2207963267948962
+        }
+      ],
+      "bag": "recordings/m24-2f65a3d2",
+      "bag_counts": {
+        "/clock": 14,
+        "/tf": 25,
+        "/tf_static": 1
+      },
+      "bag_stamp_spans_ns": {
+        "/clock": 734000000,
+        "/tf": 884000000,
+        "/tf_static": 0
+      },
+      "bag_cdr_sha256": {
+        "/clock": "d440b53067fe4a1e911d2676aa07b4c0aa75c002cfae9eed710098377e192258",
+        "/tf": "bb943722d02ab2269a822870c6853d1a28fdad1e2bfecfdc7e806847b7842858",
+        "/tf_static": "41b3a447852e5a3c94a1d3cdda46dd7f1975336b841b73cebd5070a3fe7b1b07"
+      },
+      "replay": {
+        "namespace": "/gt/m24/replay_2f65a3d2",
+        "received_counts": {
+          "/clock": 14,
+          "/tf": 25,
+          "/tf_static": 1
+        },
+        "live_clock_before_ns": 4046000000,
+        "live_clock_after_ns": 5771000000,
+        "live_clock_publishers_unchanged": true,
+        "historical_tf": [
+          {
+            "stamp_ns": 3230000000,
+            "native_rig_xyz": [
+              -0.65,
+              -0.55,
+              0.65
+            ],
+            "native_rig_yaw_rad": 0.0,
+            "sensor_world_xyz": [
+              -0.2,
+              -0.35000000000000003,
+              0.8
+            ],
+            "sensor_world_yaw_rad": -0.35000000000000014
+          },
+          {
+            "stamp_ns": 3570000000,
+            "native_rig_xyz": [
+              0.65,
+              0.34999999999999987,
+              0.65
+            ],
+            "native_rig_yaw_rad": 1.5707963267948963,
+            "sensor_world_xyz": [
+              0.45000000000000007,
+              0.7999999999999999,
+              0.8
+            ],
+            "sensor_world_yaw_rad": 1.2207963267948962
+          }
+        ],
+        "player_log": "recordings/m24-2f65a3d2-player.log"
+      }
+    }
+  ],
+  "smoke_runtime_sha256": "fcbfb7d5c4c4c1e8049e6948dbd59ff9e0124ff7727c70da01188fded7f0bf5e",
+  "repeat_experiment": [
+    {
+      "passed": true,
+      "clock": {
+        "paused_stats": {
+          "sim_ns": 1319000000,
+          "iterations": 1319,
+          "paused": true,
+          "stepping": false
+        },
+        "step_stats": {
+          "sim_ns": 1339000000,
+          "iterations": 1339,
+          "paused": true,
+          "stepping": false
+        },
+        "actual_step_count": 20,
+        "ros_step_delta_ns": 20000000
+      },
+      "live_tf": [
+        {
+          "stamp_ns": 1666000000,
+          "native_rig_xyz": [
+            -0.65,
+            -0.55,
+            0.65
+          ],
+          "native_rig_yaw_rad": 0.0,
+          "sensor_world_xyz": [
+            -0.2,
+            -0.35000000000000003,
+            0.8
+          ],
+          "sensor_world_yaw_rad": -0.35000000000000014
+        },
+        {
+          "stamp_ns": 2040000000,
+          "native_rig_xyz": [
+            0.65,
+            0.34999999999999987,
+            0.65
+          ],
+          "native_rig_yaw_rad": 1.5707963267948963,
+          "sensor_world_xyz": [
+            0.45000000000000007,
+            0.7999999999999999,
+            0.8
+          ],
+          "sensor_world_yaw_rad": 1.2207963267948962
+        }
+      ],
+      "bag": "recordings/m24-ee4d9b17",
+      "bag_counts": {
+        "/clock": 14,
+        "/tf": 23,
+        "/tf_static": 1
+      },
+      "bag_stamp_spans_ns": {
+        "/clock": 702000000,
+        "/tf": 816000000,
+        "/tf_static": 0
+      },
+      "bag_cdr_sha256": {
+        "/clock": "db7397edef978e6b5560df8be692058900f0f409430be2915a8e70001c93b706",
+        "/tf": "6e33f2b6f3355f11d3ec6b188d3454db74ca02e3b8c5c472e2ed42f016e0e74e",
+        "/tf_static": "134cd116ea5d0c3822434d158bc8a3c1d4e630129dd09a9b063abfcf6c4587ee"
+      },
+      "replay": {
+        "namespace": "/gt/m24/replay_ee4d9b17",
+        "received_counts": {
+          "/clock": 14,
+          "/tf": 23,
+          "/tf_static": 1
+        },
+        "live_clock_before_ns": 2450000000,
+        "live_clock_after_ns": 3814000000,
+        "live_clock_publishers_unchanged": true,
+        "historical_tf": [
+          {
+            "stamp_ns": 1666000000,
+            "native_rig_xyz": [
+              -0.65,
+              -0.55,
+              0.65
+            ],
+            "native_rig_yaw_rad": 0.0,
+            "sensor_world_xyz": [
+              -0.2,
+              -0.35000000000000003,
+              0.8
+            ],
+            "sensor_world_yaw_rad": -0.35000000000000014
+          },
+          {
+            "stamp_ns": 2040000000,
+            "native_rig_xyz": [
+              0.65,
+              0.34999999999999987,
+              0.65
+            ],
+            "native_rig_yaw_rad": 1.5707963267948963,
+            "sensor_world_xyz": [
+              0.45000000000000007,
+              0.7999999999999999,
+              0.8
+            ],
+            "sensor_world_yaw_rad": 1.2207963267948962
+          }
+        ],
+        "player_log": "recordings/m24-ee4d9b17-player.log"
+      }
+    },
+    {
+      "passed": true,
+      "clock": {
+        "paused_stats": {
+          "sim_ns": 4833000000,
+          "iterations": 4833,
+          "paused": true,
+          "stepping": false
+        },
+        "step_stats": {
+          "sim_ns": 4853000000,
+          "iterations": 4853,
+          "paused": true,
+          "stepping": false
+        },
+        "actual_step_count": 20,
+        "ros_step_delta_ns": 20000000
+      },
+      "live_tf": [
+        {
+          "stamp_ns": 5202000000,
+          "native_rig_xyz": [
+            -0.6499999999999999,
+            -0.55,
+            0.65
+          ],
+          "native_rig_yaw_rad": 0.0,
+          "sensor_world_xyz": [
+            -0.1999999999999999,
+            -0.35000000000000003,
+            0.8
+          ],
+          "sensor_world_yaw_rad": -0.35000000000000014
+        },
+        {
+          "stamp_ns": 5542000000,
+          "native_rig_xyz": [
+            0.65,
+            0.34999999999999987,
+            0.65
+          ],
+          "native_rig_yaw_rad": 1.5707963267948963,
+          "sensor_world_xyz": [
+            0.45000000000000007,
+            0.7999999999999999,
+            0.8
+          ],
+          "sensor_world_yaw_rad": 1.2207963267948962
+        }
+      ],
+      "bag": "recordings/m24-7af3539f",
+      "bag_counts": {
+        "/clock": 14,
+        "/tf": 24,
+        "/tf_static": 1
+      },
+      "bag_stamp_spans_ns": {
+        "/clock": 703000000,
+        "/tf": 816000000,
+        "/tf_static": 0
+      },
+      "bag_cdr_sha256": {
+        "/clock": "9e6d39084b65a1357d4b463299eec92d8078ccac8383e17ff39dd95fa975727a",
+        "/tf": "3e3c750938fe21d0a5f8dc34522431b2f46d2cb91586cc34562fdf3906ac6e9d",
+        "/tf_static": "12c9ae298b765042ce86698acc3eadfa36b73e7dcd413d606a2aa236388337f0"
+      },
+      "replay": {
+        "namespace": "/gt/m24/replay_7af3539f",
+        "received_counts": {
+          "/clock": 14,
+          "/tf": 24,
+          "/tf_static": 1
+        },
+        "live_clock_before_ns": 5962000000,
+        "live_clock_after_ns": 7324000000,
+        "live_clock_publishers_unchanged": true,
+        "historical_tf": [
+          {
+            "stamp_ns": 5202000000,
+            "native_rig_xyz": [
+              -0.6499999999999999,
+              -0.55,
+              0.65
+            ],
+            "native_rig_yaw_rad": 0.0,
+            "sensor_world_xyz": [
+              -0.1999999999999999,
+              -0.35000000000000003,
+              0.8
+            ],
+            "sensor_world_yaw_rad": -0.35000000000000014
+          },
+          {
+            "stamp_ns": 5542000000,
+            "native_rig_xyz": [
+              0.65,
+              0.34999999999999987,
+              0.65
+            ],
+            "native_rig_yaw_rad": 1.5707963267948963,
+            "sensor_world_xyz": [
+              0.45000000000000007,
+              0.7999999999999999,
+              0.8
+            ],
+            "sensor_world_yaw_rad": 1.2207963267948962
+          }
+        ],
+        "player_log": "recordings/m24-7af3539f-player.log"
+      }
+    }
+  ],
+  "repeat_runtime_sha256": "33c29ac0243ab83180dffc528084024c6fadabc699e8de569f706949913edd8e",
+  "repeat": {
+    "ok": true,
+    "session_dir": "/tmp/gt-modern-repeat-if56ga7d/sessions/harmonic-jazzy-24-20261104-025943-211440",
+    "runtime_log": "/tmp/gt-modern-repeat-if56ga7d/sessions/harmonic-jazzy-24-20261104-025943-211440/runtime.log",
+    "elapsed_seconds": 13.252,
+    "token": "b62999f9469649659717c049a5051507"
+  },
+  "raw_bag_sha256": {
+    "bags/smoke/m24-2f65a3d2/m24-2f65a3d2_0.db3": "222d92bff8a036cbaf019a5eb1609fee6f50a2a5a57ce3864fecb91e6ccf9f4f",
+    "bags/smoke/m24-2f65a3d2/metadata.yaml": "24d4f3a4606b1a0982afc7956d1619f05194327e4a6d6d82f1c64da71061f733",
+    "bags/smoke/m24-2f65a3d2/player.log": "2b4ade1c9e9cc7b82925ff57e61ae3d6b0087b4c6914e032c554bbb0c9263a41",
+    "bags/desktop/m24-b2a87e39/m24-b2a87e39_0.db3": "47a25a99938755b2d89e0faa3cc1f93e1f6d8457545673b0a4cfa0c454af60ba",
+    "bags/desktop/m24-b2a87e39/metadata.yaml": "0852fcab43f6cf57b84c88a794186ae4efbc5fcf11d2eb3f46a61a735007ea30",
+    "bags/desktop/m24-b2a87e39/player.log": "70cf472932cd405a85679b838cf79d1ae6e90d7a326eb73a834499ad46305ba5",
+    "bags/repeat/m24-7af3539f/m24-7af3539f_0.db3": "12b1ed258b107ff8c9619ce1f945d6d369fbaee844f2ff23d240aa7070fdae8b",
+    "bags/repeat/m24-7af3539f/metadata.yaml": "91709a879491d4229be6536436832067efc42153d949237ff2883745dd4251dc",
+    "bags/repeat/m24-7af3539f/player.log": "ab531fb1d887053b42da899abb3855c5e0e42c7ae5e5859fc67dd3517a4bc22b",
+    "bags/repeat/m24-ee4d9b17/m24-ee4d9b17_0.db3": "91e040d87019cdec93c2dce8a57f6614270658a62edab2ec7e095439f7974eed",
+    "bags/repeat/m24-ee4d9b17/metadata.yaml": "b1c82c110ecfbddc5630985f5a76a657329424a1636721215a03134dce1769d0",
+    "bags/repeat/m24-ee4d9b17/player.log": "2a46dec15f576b273414115312c1ba28c22e64a8eb0fd9b881a6e4d7e977f1e9"
+  }
+}

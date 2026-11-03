@@ -1,0 +1,49 @@
+{
+  "id": "24",
+  "title": "ROS 2 TF、仿真时钟与rosbag2",
+  "module": "现代Gazebo与ROS 2",
+  "order": 24,
+  "profile": "harmonic-jazzy",
+  "requires_ros": true,
+  "requires_ros_packages": [
+    "rclpy",
+    "tf2_ros",
+    "geometry_msgs",
+    "rosgraph_msgs",
+    "ros_gz_bridge",
+    "rosbag2_py",
+    "tf2_msgs",
+    "rosbag2_interfaces",
+    "ros2bag",
+    "rosbag2_storage_sqlite3"
+  ],
+  "world": "world.sdf",
+  "verify": "verify.py",
+  "reference": "reference.md",
+  "verify_timeout": 100,
+  "objectives": [
+    "用 Gazebo 原生时间戳查询 world → rig → sensor 的实际 TF 树",
+    "用 WorldStatistics 对照 ROS 2 仿真时钟的暂停及 20 个物理步",
+    "原样录制并读取 /clock、/tf、/tf_static，再隔离回放并核对实际接收内容"
+  ],
+  "commands": [
+    {
+      "title": "采集时钟和 TF，随后隔离回放",
+      "command": "python3 lab.py"
+    },
+    {
+      "title": "查看实际 ROS 2 仿真时钟",
+      "command": "ros2 topic echo /clock --once --no-daemon"
+    },
+    {
+      "title": "查看原生 Gazebo 位姿",
+      "command": "gz topic -e -t /gt/m24/rig_pose -n 1"
+    }
+  ],
+  "startup": [
+    {
+      "name": "实际 TF 和仿真时钟桥",
+      "command": "ros2 run ros_gz_bridge parameter_bridge --ros-args -p config_file:=\"$(pwd)/bridge.yaml\""
+    }
+  ]
+}
