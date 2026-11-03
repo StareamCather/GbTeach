@@ -1,0 +1,1165 @@
+{
+  "phase": "A41",
+  "date": "2026-11-03",
+  "passed": true,
+  "acceptance": {
+    "lesson": "41",
+    "ok": true,
+    "data_dir": "/tmp/gazeboteach-a41-yc2hok30",
+    "checks": [
+      {
+        "name": "baseline",
+        "passed": true,
+        "verification": {
+          "passed": true,
+          "checks": {
+            "fresh_actual_updates": true,
+            "four_actual_models": true,
+            "actual_mass_area_switches_match_parameters": true,
+            "bounded_equation_matches_physics": true,
+            "calm_stays_still": true,
+            "wind_causes_motion": true,
+            "larger_area_moves_further": true,
+            "larger_mass_moves_less": true
+          },
+          "parameters": {
+            "density_kg_m3": 1.225,
+            "drag_coefficient": 1.1,
+            "base_wind_m_s": 4.0,
+            "shear_per_s": 0.0,
+            "gust_m_s": 0.0,
+            "gust_period_s": 2.0,
+            "area_m2": 0.1,
+            "mass_kg": 0.5
+          },
+          "actual": {
+            "sequence": 55,
+            "session_token": "de321ae23e6348fcabb18443aae05bcf",
+            "sim_time_s": 2.7110000000000003,
+            "current": {
+              "cycle": 0,
+              "elapsed_s": 2.7100000000000004,
+              "carts": [
+                {
+                  "name": "cart_calm",
+                  "model_id": 9,
+                  "mass_kg": 0.5,
+                  "area_m2": 0.1,
+                  "wind_on": false,
+                  "y_m": 2.1,
+                  "displacement_m": 0,
+                  "velocity_m_s": 0,
+                  "wind_m_s": 0,
+                  "force_n": 0
+                },
+                {
+                  "name": "cart_nominal",
+                  "model_id": 16,
+                  "mass_kg": 0.5,
+                  "area_m2": 0.1,
+                  "wind_on": true,
+                  "y_m": 0.7,
+                  "displacement_m": 4.15978437885331,
+                  "velocity_m_s": 2.3747603736442553,
+                  "wind_m_s": 4,
+                  "force_n": 0.17796458392731024
+                },
+                {
+                  "name": "cart_wide",
+                  "model_id": 23,
+                  "mass_kg": 0.5,
+                  "area_m2": 0.2,
+                  "wind_on": true,
+                  "y_m": -0.7,
+                  "displacement_m": 5.772785030589384,
+                  "velocity_m_s": 2.980334180671505,
+                  "wind_m_s": 4,
+                  "force_n": 0.1401020521236482
+                },
+                {
+                  "name": "cart_heavy",
+                  "model_id": 30,
+                  "mass_kg": 1,
+                  "area_m2": 0.1,
+                  "wind_on": true,
+                  "y_m": -2.1,
+                  "displacement_m": 2.7029228111863883,
+                  "velocity_m_s": 1.6885197239733822,
+                  "wind_m_s": 4,
+                  "force_n": 0.3599806543527486
+                }
+              ]
+            },
+            "sample_at_one_second": {
+              "cycle": 0,
+              "elapsed_s": 1.0010000000000001,
+              "carts": [
+                {
+                  "name": "cart_calm",
+                  "model_id": 9,
+                  "mass_kg": 0.5,
+                  "area_m2": 0.1,
+                  "wind_on": false,
+                  "y_m": 2.1,
+                  "displacement_m": 0,
+                  "velocity_m_s": 0,
+                  "wind_m_s": 0,
+                  "force_n": 0
+                },
+                {
+                  "name": "cart_nominal",
+                  "model_id": 16,
+                  "mass_kg": 0.5,
+                  "area_m2": 0.1,
+                  "wind_on": true,
+                  "y_m": 0.7,
+                  "displacement_m": 0.802881560998677,
+                  "velocity_m_s": 1.402212291979484,
+                  "wind_m_s": 4,
+                  "force_n": 0.45468025325412514
+                },
+                {
+                  "name": "cart_wide",
+                  "model_id": 23,
+                  "mass_kg": 0.5,
+                  "area_m2": 0.2,
+                  "wind_on": true,
+                  "y_m": -0.7,
+                  "displacement_m": 1.2898456301978565,
+                  "velocity_m_s": 2.0768007744268173,
+                  "wind_m_s": 4,
+                  "force_n": 0.4983991864528028
+                },
+                {
+                  "name": "cart_heavy",
+                  "model_id": 30,
+                  "mass_kg": 1,
+                  "area_m2": 0.1,
+                  "wind_on": true,
+                  "y_m": -2.1,
+                  "displacement_m": 0.4596558246340501,
+                  "velocity_m_s": 0.8499816871272906,
+                  "wind_m_s": 4,
+                  "force_n": 0.6685362106503274
+                }
+              ]
+            }
+          },
+          "comparison": [
+            {
+              "name": "cart_calm",
+              "predicted_displacement_m": 0.0,
+              "actual_displacement_m": 0,
+              "predicted_velocity_m_s": 0.0,
+              "actual_velocity_m_s": 0,
+              "pass_dynamics": true
+            },
+            {
+              "name": "cart_nominal",
+              "predicted_displacement_m": 0.8028815609986749,
+              "actual_displacement_m": 0.802881560998677,
+              "predicted_velocity_m_s": 1.4022122919794833,
+              "actual_velocity_m_s": 1.402212291979484,
+              "pass_dynamics": true
+            },
+            {
+              "name": "cart_wide",
+              "predicted_displacement_m": 1.2898456301978574,
+              "actual_displacement_m": 1.2898456301978565,
+              "predicted_velocity_m_s": 2.0768007744268164,
+              "actual_velocity_m_s": 2.0768007744268173,
+              "pass_dynamics": true
+            },
+            {
+              "name": "cart_heavy",
+              "predicted_displacement_m": 0.4596558246340577,
+              "actual_displacement_m": 0.4596558246340501,
+              "predicted_velocity_m_s": 0.8499816871272902,
+              "actual_velocity_m_s": 0.8499816871272906,
+              "pass_dynamics": true
+            }
+          ],
+          "model_scope": "scalar longitudinal drag in prescribed uniform/shear/gust field; no fluid solver, propeller wake or lift"
+        }
+      },
+      {
+        "name": "no_wind",
+        "passed": true,
+        "verification": {
+          "passed": true,
+          "checks": {
+            "fresh_actual_updates": true,
+            "four_actual_models": true,
+            "actual_mass_area_switches_match_parameters": true,
+            "bounded_equation_matches_physics": true,
+            "calm_stays_still": true,
+            "zero_field_stays_still": true
+          },
+          "parameters": {
+            "density_kg_m3": 1.225,
+            "drag_coefficient": 1.1,
+            "base_wind_m_s": 0,
+            "shear_per_s": 0.0,
+            "gust_m_s": 0.0,
+            "gust_period_s": 2.0,
+            "area_m2": 0.1,
+            "mass_kg": 0.5
+          },
+          "actual": {
+            "sequence": 52,
+            "session_token": "28cd28be354e46f9a3ee2c5880377670",
+            "sim_time_s": 2.561,
+            "current": {
+              "cycle": 0,
+              "elapsed_s": 2.56,
+              "carts": [
+                {
+                  "name": "cart_calm",
+                  "model_id": 9,
+                  "mass_kg": 0.5,
+                  "area_m2": 0.1,
+                  "wind_on": false,
+                  "y_m": 2.1,
+                  "displacement_m": 0,
+                  "velocity_m_s": 0,
+                  "wind_m_s": 0,
+                  "force_n": 0
+                },
+                {
+                  "name": "cart_nominal",
+                  "model_id": 16,
+                  "mass_kg": 0.5,
+                  "area_m2": 0.1,
+                  "wind_on": true,
+                  "y_m": 0.7,
+                  "displacement_m": 0,
+                  "velocity_m_s": 0,
+                  "wind_m_s": 0,
+                  "force_n": 0
+                },
+                {
+                  "name": "cart_wide",
+                  "model_id": 23,
+                  "mass_kg": 0.5,
+                  "area_m2": 0.2,
+                  "wind_on": true,
+                  "y_m": -0.7,
+                  "displacement_m": 0,
+                  "velocity_m_s": 0,
+                  "wind_m_s": 0,
+                  "force_n": 0
+                },
+                {
+                  "name": "cart_heavy",
+                  "model_id": 30,
+                  "mass_kg": 1,
+                  "area_m2": 0.1,
+                  "wind_on": true,
+                  "y_m": -2.1,
+                  "displacement_m": 0,
+                  "velocity_m_s": 0,
+                  "wind_m_s": 0,
+                  "force_n": 0
+                }
+              ]
+            },
+            "sample_at_one_second": {
+              "cycle": 0,
+              "elapsed_s": 1.0010000000000001,
+              "carts": [
+                {
+                  "name": "cart_calm",
+                  "model_id": 9,
+                  "mass_kg": 0.5,
+                  "area_m2": 0.1,
+                  "wind_on": false,
+                  "y_m": 2.1,
+                  "displacement_m": 0,
+                  "velocity_m_s": 0,
+                  "wind_m_s": 0,
+                  "force_n": 0
+                },
+                {
+                  "name": "cart_nominal",
+                  "model_id": 16,
+                  "mass_kg": 0.5,
+                  "area_m2": 0.1,
+                  "wind_on": true,
+                  "y_m": 0.7,
+                  "displacement_m": 0,
+                  "velocity_m_s": 0,
+                  "wind_m_s": 0,
+                  "force_n": 0
+                },
+                {
+                  "name": "cart_wide",
+                  "model_id": 23,
+                  "mass_kg": 0.5,
+                  "area_m2": 0.2,
+                  "wind_on": true,
+                  "y_m": -0.7,
+                  "displacement_m": 0,
+                  "velocity_m_s": 0,
+                  "wind_m_s": 0,
+                  "force_n": 0
+                },
+                {
+                  "name": "cart_heavy",
+                  "model_id": 30,
+                  "mass_kg": 1,
+                  "area_m2": 0.1,
+                  "wind_on": true,
+                  "y_m": -2.1,
+                  "displacement_m": 0,
+                  "velocity_m_s": 0,
+                  "wind_m_s": 0,
+                  "force_n": 0
+                }
+              ]
+            }
+          },
+          "comparison": [
+            {
+              "name": "cart_calm",
+              "predicted_displacement_m": 0.0,
+              "actual_displacement_m": 0,
+              "predicted_velocity_m_s": 0.0,
+              "actual_velocity_m_s": 0,
+              "pass_dynamics": true
+            },
+            {
+              "name": "cart_nominal",
+              "predicted_displacement_m": 0.0,
+              "actual_displacement_m": 0,
+              "predicted_velocity_m_s": 0.0,
+              "actual_velocity_m_s": 0,
+              "pass_dynamics": true
+            },
+            {
+              "name": "cart_wide",
+              "predicted_displacement_m": 0.0,
+              "actual_displacement_m": 0,
+              "predicted_velocity_m_s": 0.0,
+              "actual_velocity_m_s": 0,
+              "pass_dynamics": true
+            },
+            {
+              "name": "cart_heavy",
+              "predicted_displacement_m": 0.0,
+              "actual_displacement_m": 0,
+              "predicted_velocity_m_s": 0.0,
+              "actual_velocity_m_s": 0,
+              "pass_dynamics": true
+            }
+          ],
+          "model_scope": "scalar longitudinal drag in prescribed uniform/shear/gust field; no fluid solver, propeller wake or lift"
+        }
+      },
+      {
+        "name": "area_only",
+        "passed": true,
+        "verification": {
+          "passed": true,
+          "checks": {
+            "fresh_actual_updates": true,
+            "four_actual_models": true,
+            "actual_mass_area_switches_match_parameters": true,
+            "bounded_equation_matches_physics": true,
+            "calm_stays_still": true,
+            "wind_causes_motion": true,
+            "larger_area_moves_further": true,
+            "larger_mass_moves_less": true
+          },
+          "parameters": {
+            "density_kg_m3": 1.225,
+            "drag_coefficient": 1.1,
+            "base_wind_m_s": 4.0,
+            "shear_per_s": 0.0,
+            "gust_m_s": 0.0,
+            "gust_period_s": 2.0,
+            "area_m2": 0.15,
+            "mass_kg": 0.5
+          },
+          "actual": {
+            "sequence": 48,
+            "session_token": "c852477494a74ec59f2c33cf0fa82ada",
+            "sim_time_s": 2.361,
+            "current": {
+              "cycle": 0,
+              "elapsed_s": 2.3600000000000003,
+              "carts": [
+                {
+                  "name": "cart_calm",
+                  "model_id": 9,
+                  "mass_kg": 0.5,
+                  "area_m2": 0.15,
+                  "wind_on": false,
+                  "y_m": 2.1,
+                  "displacement_m": 0,
+                  "velocity_m_s": 0,
+                  "wind_m_s": 0,
+                  "force_n": 0
+                },
+                {
+                  "name": "cart_nominal",
+                  "model_id": 16,
+                  "mass_kg": 0.5,
+                  "area_m2": 0.15,
+                  "wind_on": true,
+                  "y_m": 0.7,
+                  "displacement_m": 4.161152019467265,
+                  "velocity_m_s": 2.624920876652751,
+                  "wind_m_s": 4,
+                  "force_n": 0.19109327980422589
+                },
+                {
+                  "name": "cart_wide",
+                  "model_id": 23,
+                  "mass_kg": 0.5,
+                  "area_m2": 0.3,
+                  "wind_on": true,
+                  "y_m": -0.7,
+                  "displacement_m": 5.5548445267568685,
+                  "velocity_m_s": 3.16989435339378,
+                  "wind_m_s": 4,
+                  "force_n": 0.1392793620976272
+                },
+                {
+                  "name": "cart_heavy",
+                  "model_id": 30,
+                  "mass_kg": 1,
+                  "area_m2": 0.15,
+                  "wind_on": true,
+                  "y_m": -2.1,
+                  "displacement_m": 2.8130472138712745,
+                  "velocity_m_s": 1.9532322792058516,
+                  "wind_m_s": 4,
+                  "force_n": 0.4233768970228025
+                }
+              ]
+            },
+            "sample_at_one_second": {
+              "cycle": 0,
+              "elapsed_s": 1.0010000000000001,
+              "carts": [
+                {
+                  "name": "cart_calm",
+                  "model_id": 9,
+                  "mass_kg": 0.5,
+                  "area_m2": 0.15,
+                  "wind_on": false,
+                  "y_m": 2.1,
+                  "displacement_m": 0,
+                  "velocity_m_s": 0,
+                  "wind_m_s": 0,
+                  "force_n": 0
+                },
+                {
+                  "name": "cart_nominal",
+                  "model_id": 16,
+                  "mass_kg": 0.5,
+                  "area_m2": 0.15,
+                  "wind_on": true,
+                  "y_m": 0.7,
+                  "displacement_m": 1.0718187588601176,
+                  "velocity_m_s": 1.7897966872287239,
+                  "wind_m_s": 4,
+                  "force_n": 0.49369017948003424
+                },
+                {
+                  "name": "cart_wide",
+                  "model_id": 23,
+                  "mass_kg": 0.5,
+                  "area_m2": 0.3,
+                  "wind_on": true,
+                  "y_m": -0.7,
+                  "displacement_m": 1.6249249735309768,
+                  "velocity_m_s": 2.473384627331064,
+                  "wind_m_s": 4,
+                  "force_n": 0.4710633275179699
+                },
+                {
+                  "name": "cart_heavy",
+                  "model_id": 30,
+                  "mass_kg": 1,
+                  "area_m2": 0.15,
+                  "wind_on": true,
+                  "y_m": -2.1,
+                  "displacement_m": 0.6425724078650594,
+                  "velocity_m_s": 1.1526027133319652,
+                  "wind_m_s": 4,
+                  "force_n": 0.8193815315773311
+                }
+              ]
+            }
+          },
+          "comparison": [
+            {
+              "name": "cart_calm",
+              "predicted_displacement_m": 0.0,
+              "actual_displacement_m": 0,
+              "predicted_velocity_m_s": 0.0,
+              "actual_velocity_m_s": 0,
+              "pass_dynamics": true
+            },
+            {
+              "name": "cart_nominal",
+              "predicted_displacement_m": 1.0718187588601211,
+              "actual_displacement_m": 1.0718187588601176,
+              "predicted_velocity_m_s": 1.7897966872287234,
+              "actual_velocity_m_s": 1.7897966872287239,
+              "pass_dynamics": true
+            },
+            {
+              "name": "cart_wide",
+              "predicted_displacement_m": 1.6249249735309763,
+              "actual_displacement_m": 1.6249249735309768,
+              "predicted_velocity_m_s": 2.4733846273310633,
+              "actual_velocity_m_s": 2.473384627331064,
+              "pass_dynamics": true
+            },
+            {
+              "name": "cart_heavy",
+              "predicted_displacement_m": 0.6425724078650565,
+              "actual_displacement_m": 0.6425724078650594,
+              "predicted_velocity_m_s": 1.1526027133319647,
+              "actual_velocity_m_s": 1.1526027133319652,
+              "pass_dynamics": true
+            }
+          ],
+          "model_scope": "scalar longitudinal drag in prescribed uniform/shear/gust field; no fluid solver, propeller wake or lift"
+        }
+      },
+      {
+        "name": "mass_only",
+        "passed": true,
+        "verification": {
+          "passed": true,
+          "checks": {
+            "fresh_actual_updates": true,
+            "four_actual_models": true,
+            "actual_mass_area_switches_match_parameters": true,
+            "bounded_equation_matches_physics": true,
+            "calm_stays_still": true,
+            "wind_causes_motion": true,
+            "larger_area_moves_further": true,
+            "larger_mass_moves_less": true
+          },
+          "parameters": {
+            "density_kg_m3": 1.225,
+            "drag_coefficient": 1.1,
+            "base_wind_m_s": 4.0,
+            "shear_per_s": 0.0,
+            "gust_m_s": 0.0,
+            "gust_period_s": 2.0,
+            "area_m2": 0.1,
+            "mass_kg": 0.75
+          },
+          "actual": {
+            "sequence": 52,
+            "session_token": "2204d8e70e6e416e9f9db01988f6f4ec",
+            "sim_time_s": 2.561,
+            "current": {
+              "cycle": 0,
+              "elapsed_s": 2.56,
+              "carts": [
+                {
+                  "name": "cart_calm",
+                  "model_id": 9,
+                  "mass_kg": 0.75,
+                  "area_m2": 0.1,
+                  "wind_on": false,
+                  "y_m": 2.1,
+                  "displacement_m": 0,
+                  "velocity_m_s": 0,
+                  "wind_m_s": 0,
+                  "force_n": 0
+                },
+                {
+                  "name": "cart_nominal",
+                  "model_id": 16,
+                  "mass_kg": 0.75,
+                  "area_m2": 0.1,
+                  "wind_on": true,
+                  "y_m": 0.7,
+                  "displacement_m": 2.9806296536972456,
+                  "velocity_m_s": 1.9168053188760397,
+                  "wind_m_s": 4,
+                  "force_n": 0.2923872928538304
+                },
+                {
+                  "name": "cart_wide",
+                  "model_id": 23,
+                  "mass_kg": 0.75,
+                  "area_m2": 0.2,
+                  "wind_on": true,
+                  "y_m": -0.7,
+                  "displacement_m": 4.433165545691617,
+                  "velocity_m_s": 2.591815619730321,
+                  "wind_m_s": 4,
+                  "force_n": 0.2672069927805837
+                },
+                {
+                  "name": "cart_heavy",
+                  "model_id": 30,
+                  "mass_kg": 1.5,
+                  "area_m2": 0.1,
+                  "wind_on": true,
+                  "y_m": -2.1,
+                  "displacement_m": 1.8163658956858937,
+                  "velocity_m_s": 1.2603014933823091,
+                  "wind_m_s": 4,
+                  "force_n": 0.5057132402451209
+                }
+              ]
+            },
+            "sample_at_one_second": {
+              "cycle": 0,
+              "elapsed_s": 1.0010000000000001,
+              "carts": [
+                {
+                  "name": "cart_calm",
+                  "model_id": 9,
+                  "mass_kg": 0.75,
+                  "area_m2": 0.1,
+                  "wind_on": false,
+                  "y_m": 2.1,
+                  "displacement_m": 0,
+                  "velocity_m_s": 0,
+                  "wind_m_s": 0,
+                  "force_n": 0
+                },
+                {
+                  "name": "cart_nominal",
+                  "model_id": 16,
+                  "mass_kg": 0.75,
+                  "area_m2": 0.1,
+                  "wind_on": true,
+                  "y_m": 0.7,
+                  "displacement_m": 0.584364046413155,
+                  "velocity_m_s": 1.0583976918927596,
+                  "wind_m_s": 4,
+                  "force_n": 0.5829975013692918
+                },
+                {
+                  "name": "cart_wide",
+                  "model_id": 23,
+                  "mass_kg": 0.75,
+                  "area_m2": 0.2,
+                  "wind_on": true,
+                  "y_m": -0.7,
+                  "displacement_m": 0.9887367659875017,
+                  "velocity_m_s": 1.6741144787704298,
+                  "wind_m_s": 4,
+                  "force_n": 0.7289629309473558
+                },
+                {
+                  "name": "cart_heavy",
+                  "model_id": 30,
+                  "mass_kg": 1.5,
+                  "area_m2": 0.1,
+                  "wind_on": true,
+                  "y_m": -2.1,
+                  "displacement_m": 0.3223308367989772,
+                  "velocity_m_s": 0.6098133907742945,
+                  "wind_m_s": 4,
+                  "force_n": 0.7743654834070252
+                }
+              ]
+            }
+          },
+          "comparison": [
+            {
+              "name": "cart_calm",
+              "predicted_displacement_m": 0.0,
+              "actual_displacement_m": 0,
+              "predicted_velocity_m_s": 0.0,
+              "actual_velocity_m_s": 0,
+              "pass_dynamics": true
+            },
+            {
+              "name": "cart_nominal",
+              "predicted_displacement_m": 0.5843640464131588,
+              "actual_displacement_m": 0.584364046413155,
+              "predicted_velocity_m_s": 1.0583976918927591,
+              "actual_velocity_m_s": 1.0583976918927596,
+              "pass_dynamics": true
+            },
+            {
+              "name": "cart_wide",
+              "predicted_displacement_m": 0.9887367659875042,
+              "actual_displacement_m": 0.9887367659875017,
+              "predicted_velocity_m_s": 1.6741144787704294,
+              "actual_velocity_m_s": 1.6741144787704298,
+              "pass_dynamics": true
+            },
+            {
+              "name": "cart_heavy",
+              "predicted_displacement_m": 0.3223308367989744,
+              "actual_displacement_m": 0.3223308367989772,
+              "predicted_velocity_m_s": 0.6098133907742942,
+              "actual_velocity_m_s": 0.6098133907742945,
+              "pass_dynamics": true
+            }
+          ],
+          "model_scope": "scalar longitudinal drag in prescribed uniform/shear/gust field; no fluid solver, propeller wake or lift"
+        }
+      },
+      {
+        "name": "shear_only",
+        "passed": true,
+        "verification": {
+          "passed": true,
+          "checks": {
+            "fresh_actual_updates": true,
+            "four_actual_models": true,
+            "actual_mass_area_switches_match_parameters": true,
+            "bounded_equation_matches_physics": true,
+            "calm_stays_still": true,
+            "wind_causes_motion": true
+          },
+          "parameters": {
+            "density_kg_m3": 1.225,
+            "drag_coefficient": 1.1,
+            "base_wind_m_s": 4.0,
+            "shear_per_s": 0.2,
+            "gust_m_s": 0.0,
+            "gust_period_s": 2.0,
+            "area_m2": 0.1,
+            "mass_kg": 0.5
+          },
+          "actual": {
+            "sequence": 52,
+            "session_token": "87e8f8052dd641a49d22a67cd61a23ea",
+            "sim_time_s": 2.561,
+            "current": {
+              "cycle": 0,
+              "elapsed_s": 2.56,
+              "carts": [
+                {
+                  "name": "cart_calm",
+                  "model_id": 9,
+                  "mass_kg": 0.5,
+                  "area_m2": 0.1,
+                  "wind_on": false,
+                  "y_m": 2.1,
+                  "displacement_m": 0,
+                  "velocity_m_s": 0,
+                  "wind_m_s": 0,
+                  "force_n": 0
+                },
+                {
+                  "name": "cart_nominal",
+                  "model_id": 16,
+                  "mass_kg": 0.5,
+                  "area_m2": 0.1,
+                  "wind_on": true,
+                  "y_m": 0.7,
+                  "displacement_m": 4.017065517986517,
+                  "velocity_m_s": 2.435334879422448,
+                  "wind_m_s": 4.14,
+                  "force_n": 0.19578387880200915
+                },
+                {
+                  "name": "cart_wide",
+                  "model_id": 23,
+                  "mass_kg": 0.5,
+                  "area_m2": 0.2,
+                  "wind_on": true,
+                  "y_m": -0.7,
+                  "displacement_m": 5.06697484655521,
+                  "velocity_m_s": 2.8066337843486977,
+                  "wind_m_s": 3.86,
+                  "force_n": 0.1495159567811298
+                },
+                {
+                  "name": "cart_heavy",
+                  "model_id": 30,
+                  "mass_kg": 1,
+                  "area_m2": 0.1,
+                  "wind_on": true,
+                  "y_m": -2.1,
+                  "displacement_m": 2.028592583143153,
+                  "velocity_m_s": 1.3668370670343075,
+                  "wind_m_s": 3.58,
+                  "force_n": 0.3300088250591166
+                }
+              ]
+            },
+            "sample_at_one_second": {
+              "cycle": 0,
+              "elapsed_s": 1.0010000000000001,
+              "carts": [
+                {
+                  "name": "cart_calm",
+                  "model_id": 9,
+                  "mass_kg": 0.5,
+                  "area_m2": 0.1,
+                  "wind_on": false,
+                  "y_m": 2.1,
+                  "displacement_m": 0,
+                  "velocity_m_s": 0,
+                  "wind_m_s": 0,
+                  "force_n": 0
+                },
+                {
+                  "name": "cart_nominal",
+                  "model_id": 16,
+                  "mass_kg": 0.5,
+                  "area_m2": 0.1,
+                  "wind_on": true,
+                  "y_m": 0.7,
+                  "displacement_m": 0.8526129856782831,
+                  "velocity_m_s": 1.4838902273914298,
+                  "wind_m_s": 4.14,
+                  "force_n": 0.4753251759893872
+                },
+                {
+                  "name": "cart_wide",
+                  "model_id": 23,
+                  "mass_kg": 0.5,
+                  "area_m2": 0.2,
+                  "wind_on": true,
+                  "y_m": -0.7,
+                  "displacement_m": 1.217628491991398,
+                  "velocity_m_s": 1.9697456719313602,
+                  "wind_m_s": 3.86,
+                  "force_n": 0.4814700269894048
+                },
+                {
+                  "name": "cart_heavy",
+                  "model_id": 30,
+                  "mass_kg": 1,
+                  "area_m2": 0.1,
+                  "wind_on": true,
+                  "y_m": -2.1,
+                  "displacement_m": 0.37398253199245834,
+                  "velocity_m_s": 0.6963819025995415,
+                  "wind_m_s": 3.58,
+                  "force_n": 0.5602401932202854
+                }
+              ]
+            }
+          },
+          "comparison": [
+            {
+              "name": "cart_calm",
+              "predicted_displacement_m": 0.0,
+              "actual_displacement_m": 0,
+              "predicted_velocity_m_s": 0.0,
+              "actual_velocity_m_s": 0,
+              "pass_dynamics": true
+            },
+            {
+              "name": "cart_nominal",
+              "predicted_displacement_m": 0.8526129856782844,
+              "actual_displacement_m": 0.8526129856782831,
+              "predicted_velocity_m_s": 1.4838902273914294,
+              "actual_velocity_m_s": 1.4838902273914298,
+              "pass_dynamics": true
+            },
+            {
+              "name": "cart_wide",
+              "predicted_displacement_m": 1.2176284919913969,
+              "actual_displacement_m": 1.217628491991398,
+              "predicted_velocity_m_s": 1.9697456719313597,
+              "actual_velocity_m_s": 1.9697456719313602,
+              "pass_dynamics": true
+            },
+            {
+              "name": "cart_heavy",
+              "predicted_displacement_m": 0.37398253199245435,
+              "actual_displacement_m": 0.37398253199245834,
+              "predicted_velocity_m_s": 0.6963819025995412,
+              "actual_velocity_m_s": 0.6963819025995415,
+              "pass_dynamics": true
+            }
+          ],
+          "model_scope": "scalar longitudinal drag in prescribed uniform/shear/gust field; no fluid solver, propeller wake or lift"
+        }
+      },
+      {
+        "name": "gust_only",
+        "passed": true,
+        "verification": {
+          "passed": true,
+          "checks": {
+            "fresh_actual_updates": true,
+            "four_actual_models": true,
+            "actual_mass_area_switches_match_parameters": true,
+            "bounded_equation_matches_physics": true,
+            "calm_stays_still": true,
+            "wind_causes_motion": true
+          },
+          "parameters": {
+            "density_kg_m3": 1.225,
+            "drag_coefficient": 1.1,
+            "base_wind_m_s": 4.0,
+            "shear_per_s": 0.0,
+            "gust_m_s": 0.6,
+            "gust_period_s": 2.0,
+            "area_m2": 0.1,
+            "mass_kg": 0.5
+          },
+          "actual": {
+            "sequence": 52,
+            "session_token": "16162d293efa47a8b295409ff55dae18",
+            "sim_time_s": 2.561,
+            "current": {
+              "cycle": 0,
+              "elapsed_s": 2.56,
+              "carts": [
+                {
+                  "name": "cart_calm",
+                  "model_id": 9,
+                  "mass_kg": 0.5,
+                  "area_m2": 0.1,
+                  "wind_on": false,
+                  "y_m": 2.1,
+                  "displacement_m": 0,
+                  "velocity_m_s": 0,
+                  "wind_m_s": 0,
+                  "force_n": 0
+                },
+                {
+                  "name": "cart_nominal",
+                  "model_id": 16,
+                  "mass_kg": 0.5,
+                  "area_m2": 0.1,
+                  "wind_on": true,
+                  "y_m": 0.7,
+                  "displacement_m": 4.047248192848819,
+                  "velocity_m_s": 2.412788004847725,
+                  "wind_m_s": 4.5893723504372135,
+                  "force_n": 0.3191903704822194
+                },
+                {
+                  "name": "cart_wide",
+                  "model_id": 23,
+                  "mass_kg": 0.5,
+                  "area_m2": 0.2,
+                  "wind_on": true,
+                  "y_m": -0.7,
+                  "displacement_m": 5.651092569720438,
+                  "velocity_m_s": 3.0549339807424776,
+                  "wind_m_s": 4.5893723504372135,
+                  "force_n": 0.3172690246252464
+                },
+                {
+                  "name": "cart_heavy",
+                  "model_id": 30,
+                  "mass_kg": 1,
+                  "area_m2": 0.1,
+                  "wind_on": true,
+                  "y_m": -2.1,
+                  "displacement_m": 2.6177255155615007,
+                  "velocity_m_s": 1.7043140543647486,
+                  "wind_m_s": 4.5893723504372135,
+                  "force_n": 0.5607999474207505
+                }
+              ]
+            },
+            "sample_at_one_second": {
+              "cycle": 0,
+              "elapsed_s": 1.0010000000000001,
+              "carts": [
+                {
+                  "name": "cart_calm",
+                  "model_id": 9,
+                  "mass_kg": 0.5,
+                  "area_m2": 0.1,
+                  "wind_on": false,
+                  "y_m": 2.1,
+                  "displacement_m": 0,
+                  "velocity_m_s": 0,
+                  "wind_m_s": 0,
+                  "force_n": 0
+                },
+                {
+                  "name": "cart_nominal",
+                  "model_id": 16,
+                  "mass_kg": 0.5,
+                  "area_m2": 0.1,
+                  "wind_on": true,
+                  "y_m": 0.7,
+                  "displacement_m": 0.9425616198585733,
+                  "velocity_m_s": 1.6312778543975508,
+                  "wind_m_s": 3.998115047508472,
+                  "force_n": 0.3774292453744533
+                },
+                {
+                  "name": "cart_wide",
+                  "model_id": 23,
+                  "mass_kg": 0.5,
+                  "area_m2": 0.2,
+                  "wind_on": true,
+                  "y_m": -0.7,
+                  "displacement_m": 1.495266625978076,
+                  "velocity_m_s": 2.379821661332568,
+                  "wind_m_s": 3.998115047508472,
+                  "force_n": 0.3528932019340558
+                },
+                {
+                  "name": "cart_heavy",
+                  "model_id": 30,
+                  "mass_kg": 1,
+                  "area_m2": 0.1,
+                  "wind_on": true,
+                  "y_m": -2.1,
+                  "displacement_m": 0.5448477838391437,
+                  "velocity_m_s": 1.0014751277058567,
+                  "wind_m_s": 3.998115047508472,
+                  "force_n": 0.6050174482533179
+                }
+              ]
+            }
+          },
+          "comparison": [
+            {
+              "name": "cart_calm",
+              "predicted_displacement_m": 0.0,
+              "actual_displacement_m": 0,
+              "predicted_velocity_m_s": 0.0,
+              "actual_velocity_m_s": 0,
+              "pass_dynamics": true
+            },
+            {
+              "name": "cart_nominal",
+              "predicted_displacement_m": 0.9425616198585659,
+              "actual_displacement_m": 0.9425616198585733,
+              "predicted_velocity_m_s": 1.6312778543975506,
+              "actual_velocity_m_s": 1.6312778543975508,
+              "pass_dynamics": true
+            },
+            {
+              "name": "cart_wide",
+              "predicted_displacement_m": 1.4952666259780782,
+              "actual_displacement_m": 1.495266625978076,
+              "predicted_velocity_m_s": 2.3798216613325676,
+              "actual_velocity_m_s": 2.379821661332568,
+              "pass_dynamics": true
+            },
+            {
+              "name": "cart_heavy",
+              "predicted_displacement_m": 0.5448477838391491,
+              "actual_displacement_m": 0.5448477838391437,
+              "predicted_velocity_m_s": 1.0014751277058562,
+              "actual_velocity_m_s": 1.0014751277058567,
+              "pass_dynamics": true
+            }
+          ],
+          "model_scope": "scalar longitudinal drag in prescribed uniform/shear/gust field; no fluid solver, propeller wake or lift"
+        }
+      },
+      {
+        "name": "causal_parameter_response",
+        "passed": true,
+        "nominal_displacement_m": {
+          "baseline": 0.802881560998677,
+          "no_wind": 0,
+          "area_only": 1.0718187588601176,
+          "mass_only": 0.584364046413155,
+          "shear_only": 0.8526129856782831,
+          "gust_only": 0.9425616198585733
+        }
+      }
+    ],
+    "elapsed_seconds": 40.28
+  },
+  "desktop": {
+    "ok": true,
+    "lesson": "41",
+    "profile": "classic11-noetic",
+    "data_dir": "/tmp/gazeboteach-addon-desktop-ud_n9fku",
+    "checks": [
+      {
+        "name": "real_desktop_material_selected",
+        "passed": true,
+        "document_characters": 3584
+      },
+      {
+        "name": "start_button_initialized_real_world_gui_and_ptys",
+        "passed": true,
+        "session": "/tmp/gazeboteach-addon-desktop-ud_n9fku/data/sessions/classic11-noetic-41-20261103-232614-060291",
+        "token": "6a536c81e97b4ad8b08371eb1b7e5f13"
+      },
+      {
+        "name": "real_owned_native_gui_window",
+        "passed": true,
+        "window_id": "0x5e00012",
+        "pid": 95844,
+        "width": 2488,
+        "height": 1376,
+        "screenshot": "/home/ikaros/GazeboTeach/.deploy/addons/A41/desktop-gazebo.png",
+        "properties": "_NET_WM_PID(CARDINAL) = 95844\n_NET_WM_NAME(UTF8_STRING) = \"Gazebo\"",
+        "image_metrics": {
+          "nontrivial_pixels": true,
+          "sample_count": 1568,
+          "distinct_sampled_colors": 92,
+          "luma_range": 237,
+          "nonblack_fraction": 1.0,
+          "non_dominant_fraction": 0.78954
+        },
+        "manual_scene_review_required": true
+      },
+      {
+        "name": "verify_button_checks_real_behavior",
+        "passed": true
+      },
+      {
+        "name": "desktop_exit_cleans_owned_processes",
+        "passed": true
+      }
+    ],
+    "elapsed_seconds": 12.636
+  },
+  "latest_visual_only_revision": {
+    "passed": true,
+    "scope": "camera/material colors and legend only; native force algorithm unchanged; baseline verification rerun",
+    "capture": {
+      "window_id": "0x5c00012",
+      "pid": 96432,
+      "width": 2488,
+      "height": 1376,
+      "screenshot": "/home/ikaros/GazeboTeach/.deploy/addons/A41/wind-scene.png",
+      "properties": "_NET_WM_PID(CARDINAL) = 96432\n_NET_WM_NAME(UTF8_STRING) = \"Gazebo\"",
+      "image_metrics": {
+        "nontrivial_pixels": true,
+        "sample_count": 1568,
+        "distinct_sampled_colors": 45,
+        "luma_range": 179,
+        "nonblack_fraction": 1.0,
+        "non_dominant_fraction": 0.58482
+      },
+      "manual_scene_review_required": true
+    }
+  },
+  "manual_scene_review": {
+    "passed": true,
+    "image": "images/a41-wind.png",
+    "observed": [
+      "allfourrigs visible",
+      "gray/blue/green/red bodies withyellowairflow plates",
+      "fourmeasurementtracks"
+    ],
+    "model_limits": [
+      "prescribed scalarwind",
+      "noCFD",
+      "nogravity orwheelcontact",
+      "20Nforceclamp",
+      "four-second owned-model-reset cycles"
+    ]
+  },
+  "source_sha256": {
+    "courses/classic11_noetic/41-wind-tunnel/lab.py": "dcb8bcbcca93be24793cf983c6aca08ee8ebc00dddaec6e1e8378586fa3edb36",
+    "courses/classic11_noetic/41-wind-tunnel/lesson.json": "85957c5905677d55cce3075808bfafae896163e07f0ed597fb5faca07fb90a11",
+    "courses/classic11_noetic/41-wind-tunnel/lesson.md": "8d58cba0098dd7262d8cc6153c3d7123bd7937b16474676557044c172a11c9a3",
+    "courses/classic11_noetic/41-wind-tunnel/native/wind.cc": "fdb39904ae411f8362f391b57e8d827a99795adbb46e590d4a4c809e6df7b0a8",
+    "courses/classic11_noetic/41-wind-tunnel/parameters.json": "cc6ccc26b0b5683d6c8eb2264971e4a8bcf6c4a4d36aece0d52c107dad6198ff",
+    "courses/classic11_noetic/41-wind-tunnel/prepare.py": "bb841aa71788f74c0e529f48608d7cd685da6fd9ebd5efbd0e03b7e268a8f7f1",
+    "courses/classic11_noetic/41-wind-tunnel/reference.md": "2589e9f5963c8aca93ff45041f2ac2ae336be31c3aa3697ee49007415bc4b7ec",
+    "courses/classic11_noetic/41-wind-tunnel/scene.py": "e373114b1f89dddf641abb36830f3cdb7fa23f001b61c31526c46beb33cbc5cc",
+    "courses/classic11_noetic/41-wind-tunnel/verify.py": "184c5f2f4916343eb598ca02c37e5c826ce2867fd2e0b0b6d8f286152ef97732",
+    "courses/classic11_noetic/41-wind-tunnel/world.sdf": "537416c2b93ac2bd0f30c31151aaf002c412a9f6a4afa8ab59e6eb368c9db50c"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "density_kg_m3": 1.225,
+  "drag_coefficient": 1.1,
+  "base_wind_m_s": 4.0,
+  "shear_per_s": 0.0,
+  "gust_m_s": 0.0,
+  "gust_period_s": 2.0,
+  "area_m2": 0.1,
+  "mass_kg": 0.5
+}

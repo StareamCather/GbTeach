@@ -1,0 +1,48 @@
+{
+  "id": "41",
+  "title": "风场实验室：相对风速、阻力与阵风扰动",
+  "module": "附加专项·精细场景",
+  "summary": "四条真实刚体测量线，比较无风、面积、质量与空间/时间变化的规定风场。",
+  "order": 41,
+  "profile": "classic11-noetic",
+  "requires_ros": false,
+  "requires_tools": [
+    "g++",
+    "pkg-config"
+  ],
+  "requires_pkg_config": {
+    "gazebo": "11.15.1"
+  },
+  "requires_native_server": true,
+  "world": "world.sdf",
+  "prepare": [
+    "python3 prepare.py"
+  ],
+  "prepare_timeout": 150,
+  "verify": "verify.py",
+  "verify_timeout": 35,
+  "reference": "reference.md",
+  "objectives": [
+    "以风速减去物体世界速度计算相对风速与有方向的二次阻力",
+    "比较迎风面积、质量、速度剪切与正弦阵风",
+    "用实际刚体位移和速度检验独立数值预测，辨认规定风场与CFD的边界"
+  ],
+  "commands": [
+    {
+      "title": "查看当前风场参数",
+      "command": "python3 lab.py inspect"
+    },
+    {
+      "title": "读取真实力和速度测量",
+      "command": "python3 lab.py evidence"
+    },
+    {
+      "title": "比较真实物理与独立数值预测",
+      "command": "python3 verify.py"
+    },
+    {
+      "title": "编辑规定风场，重启实验后生效",
+      "command": "gedit --new-window parameters.json"
+    }
+  ]
+}

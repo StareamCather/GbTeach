@@ -56,6 +56,10 @@ def main():
                 assert session.health()['gui_running']
                 assert session.health()['terminal_running']==2
                 passed('start_button_initialized_real_world_gui_and_ptys',session=str(session.session_dir),token=session.token)
+                phase[0]='capturing'
+                from tests.modern_runtime_acceptance import capture_owned_gui
+                captured=capture_owned_gui(session,target.with_name(target.stem+'-gazebo.png'))
+                passed('real_owned_native_gui_window',**captured)
                 assert window.grab().save(str(target.with_suffix('.png')),'PNG')
                 window.buttons['verify'].click();phase[0]='verifying'
             elif phase[0]=='verifying' and not window.busy:
