@@ -1,0 +1,71 @@
+{
+  "id": "23",
+  "title": "ROS 2服务、动作、参数与取消",
+  "module": "现代Gazebo与ROS 2",
+  "order": 23,
+  "profile": "harmonic-jazzy",
+  "requires_ros": true,
+  "requires_ros_packages": [
+    "rclpy",
+    "rcl_interfaces",
+    "action_msgs",
+    "ament_cmake",
+    "rosidl_default_generators",
+    "rosidl_default_runtime",
+    "ros_gz_bridge",
+    "std_msgs",
+    "sensor_msgs",
+    "service_msgs"
+  ],
+  "world": "world.sdf",
+  "verify": "verify.py",
+  "reference": "reference.md",
+  "verify_timeout": 100,
+  "objectives": [
+    "用类型化服务读取实际 Gazebo 导轨关节的状态",
+    "用动作目标驱动导轨、读取实时反馈并验证取消后的实际停车",
+    "修改控制增益，比较同一动作中增益变化前后的实际控制指令",
+    "验证非法动作目标、非法参数范围和参数类型被拒绝"
+  ],
+  "commands": [
+    {
+      "title": "验收服务、动作取消、参数和真实运动",
+      "command": ". ros_ws/install/local_setup.bash && python3 lab.py"
+    },
+    {
+      "title": "读取一次真实导轨状态",
+      "command": ". ros_ws/install/local_setup.bash && ros2 service call /gt/rail/state gazeboteach_rail_interfaces/srv/ReadRail '{}'"
+    },
+    {
+      "title": "查看动作类型和接口字段",
+      "command": ". ros_ws/install/local_setup.bash && ros2 interface show gazeboteach_rail_interfaces/action/MoveRail"
+    },
+    {
+      "title": "查看参数描述",
+      "command": "ros2 param describe /control_contract gain"
+    }
+  ],
+  "startup": [
+    {
+      "name": "导轨关节桥",
+      "command": "ros2 run ros_gz_bridge parameter_bridge --ros-args -p config_file:=\"$(pwd)/bridge.yaml\""
+    },
+    {
+      "name": "导轨服务、动作与参数节点",
+      "command": ". ros_ws/install/local_setup.bash && exec python3 server.py"
+    }
+  ],
+  "requires_tools": [
+    "colcon",
+    "cmake",
+    "g++"
+  ],
+  "prepare": [
+    "bash build.sh"
+  ],
+  "prepare_timeout": 120,
+  "after_startup": [
+    ". ros_ws/install/local_setup.bash && python3 lab.py --ready"
+  ],
+  "after_startup_timeout": 25
+}

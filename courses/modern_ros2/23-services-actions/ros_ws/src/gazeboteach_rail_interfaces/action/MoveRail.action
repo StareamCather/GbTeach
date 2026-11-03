@@ -1,0 +1,13 @@
+# Position along the prismatic rail in metres.
+float64 target_m
+---
+float64 final_position_m
+float64 final_velocity_m_s
+string detail
+---
+float64 position_m
+float64 velocity_m_s
+float64 remaining_m
+float64 command_m_s
+float64 gain
+float64 sim_time_s

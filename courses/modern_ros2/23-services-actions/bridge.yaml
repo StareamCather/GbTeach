@@ -1,0 +1,9 @@
+- topic_name: /gt/rail/velocity_command
+  ros_type_name: std_msgs/msg/Float64
+  gz_type_name: gz.msgs.Double
+  direction: ROS_TO_GZ
+- topic_name: /gt/rail/joints
+  ros_type_name: sensor_msgs/msg/JointState
+  gz_type_name: gz.msgs.Model
+  direction: GZ_TO_ROS
+  qos_profile: SENSOR_DATA

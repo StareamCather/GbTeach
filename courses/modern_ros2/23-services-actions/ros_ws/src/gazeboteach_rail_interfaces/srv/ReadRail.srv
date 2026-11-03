@@ -1,0 +1,7 @@
+---
+bool fresh
+bool command_matched
+bool active
+float64 position_m
+float64 velocity_m_s
+float64 sim_time_s
