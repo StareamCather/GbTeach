@@ -129,7 +129,7 @@ def detect_environment():
     names = ["gazebo", "gzserver", "gzclient", "gz", "ign", "roscore", "roslaunch",
              "rospack", "rosrun", "gnome-terminal", "xterm", "bash", "cmake", "make",
              "g++", "setsid", "gedit", "xdg-open", "python3", "ros2", "pkg-config", "python3-config",
-             "rosparam", "rosservice", "rostopic", "rviz", "xacro", "colcon"]
+             "rosparam", "rosservice", "rostopic", "rosnode", "rosmsg", "rviz", "xacro", "colcon"]
     tools = {name: shutil.which(name) for name in names}
     incomplete, errors = [], []
     # Classic 11.15's version-only path returns 255 on the verified Ubuntu build.
