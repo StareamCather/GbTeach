@@ -1,0 +1,20 @@
+material GT/Glass
+{
+ technique
+ {
+  pass
+  {
+   scene_blend alpha_blend
+   depth_write off
+   depth_check on
+   lighting off
+   cull_hardware none
+   cull_software none
+   texture_unit
+   {
+    colour_op_ex source1 src_manual src_current 1 0 0
+    alpha_op_ex source1 src_manual src_current 0.45
+   }
+  }
+ }
+}

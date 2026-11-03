@@ -1,0 +1,18 @@
+material GT/Checker
+{
+ technique
+ {
+  pass
+  {
+   lighting off
+   cull_hardware none
+   cull_software none
+   texture_unit
+   {
+    texture checker.png
+    tex_address_mode wrap
+    filtering bilinear
+   }
+  }
+ }
+}

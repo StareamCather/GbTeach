@@ -1,0 +1,1 @@
+<sdf version="1.6"><model name="texture_cards"><static>true</static><link name="panel"><visual name="card"><geometry><mesh><uri>model://texture_cards/meshes/left.dae</uri></mesh></geometry></visual></link></model></sdf>

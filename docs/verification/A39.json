@@ -1,0 +1,378 @@
+{
+  "phase": "A39",
+  "date": "2026-11-03",
+  "passed": true,
+  "acceptance": {
+    "lesson": "39",
+    "ok": true,
+    "data_dir": "/tmp/gazeboteach-a39-llpdu_n3",
+    "checks": [
+      {
+        "name": "baseline",
+        "passed": true,
+        "verification": {
+          "passed": true,
+          "checks": {
+            "actual_frame_advances": true,
+            "both_cards_have_contrast": true,
+            "left_uv_matches_current_repeat": true,
+            "right_uv_matches_current_repeat": true,
+            "higher_uv_has_more_boundaries": true,
+            "transparent_red_and_blue_mix": true,
+            "glass_is_purple_not_white": true,
+            "glass_mix_tracks_current_alpha": true
+          },
+          "actual": {
+            "sequence": 10,
+            "sim_time_s": 0.667,
+            "width": 640,
+            "height": 360,
+            "format": "R8G8B8",
+            "fnv64": "18265660549754093417"
+          },
+          "uv_boundary_counts": {
+            "left": 3,
+            "right": 13
+          },
+          "uv_boundary_predictions": {
+            "left": {
+              "observed": 3,
+              "expected_boundary_density_count": 3.064573984007633,
+              "edge_tolerance": 2.0,
+              "minimum": 1.064573984007633,
+              "maximum": 5.064573984007633
+            },
+            "right": {
+              "observed": 13,
+              "expected_boundary_density_count": 12.258295936030532,
+              "edge_tolerance": 2.0,
+              "minimum": 10.258295936030532,
+              "maximum": 14.258295936030532
+            }
+          },
+          "projected_card_width_px": 168.3757686036386,
+          "glass_red_share": 0.45098039215686275,
+          "mean_rgb": {
+            "left": [
+              130.0,
+              132.5,
+              119.9959375
+            ],
+            "right": [
+              129.99979166666665,
+              132.47375,
+              119.97416666666666
+            ],
+            "glass": [
+              115.0,
+              7.0,
+              140.0
+            ]
+          },
+          "parameters": {
+            "uv_repeat_left": 1,
+            "uv_repeat_right": 4,
+            "glass_alpha": 0.45
+          },
+          "image_path": "/tmp/gazeboteach-a39-llpdu_n3/sessions/classic11-noetic-39-20261103-230219-685226/camera.ppm",
+          "visual_review": "manual: UV seams, oblique filtering, alpha sorting and aliasing"
+        }
+      },
+      {
+        "name": "right_repeat_only",
+        "passed": true,
+        "verification": {
+          "passed": true,
+          "checks": {
+            "actual_frame_advances": true,
+            "both_cards_have_contrast": true,
+            "left_uv_matches_current_repeat": true,
+            "right_uv_matches_current_repeat": true,
+            "higher_uv_has_more_boundaries": true,
+            "transparent_red_and_blue_mix": true,
+            "glass_is_purple_not_white": true,
+            "glass_mix_tracks_current_alpha": true
+          },
+          "actual": {
+            "sequence": 10,
+            "sim_time_s": 0.667,
+            "width": 640,
+            "height": 360,
+            "format": "R8G8B8",
+            "fnv64": "1620602991055637155"
+          },
+          "uv_boundary_counts": {
+            "left": 3,
+            "right": 9
+          },
+          "uv_boundary_predictions": {
+            "left": {
+              "observed": 3,
+              "expected_boundary_density_count": 3.064573984007633,
+              "edge_tolerance": 2.0,
+              "minimum": 1.064573984007633,
+              "maximum": 5.064573984007633
+            },
+            "right": {
+              "observed": 9,
+              "expected_boundary_density_count": 9.193721952022898,
+              "edge_tolerance": 2.0,
+              "minimum": 7.193721952022898,
+              "maximum": 11.193721952022898
+            }
+          },
+          "projected_card_width_px": 168.3757686036386,
+          "glass_red_share": 0.45098039215686275,
+          "mean_rgb": {
+            "left": [
+              130.0,
+              132.5,
+              119.9959375
+            ],
+            "right": [
+              130.0,
+              132.5,
+              120.0
+            ],
+            "glass": [
+              115.0,
+              7.0,
+              140.0
+            ]
+          },
+          "parameters": {
+            "uv_repeat_left": 1,
+            "uv_repeat_right": 3,
+            "glass_alpha": 0.45
+          },
+          "image_path": "/tmp/gazeboteach-a39-llpdu_n3/sessions/classic11-noetic-39-20261103-230225-500592/camera.ppm",
+          "visual_review": "manual: UV seams, oblique filtering, alpha sorting and aliasing"
+        }
+      },
+      {
+        "name": "legal_corner",
+        "passed": true,
+        "verification": {
+          "passed": true,
+          "checks": {
+            "actual_frame_advances": true,
+            "both_cards_have_contrast": true,
+            "left_uv_matches_current_repeat": true,
+            "right_uv_matches_current_repeat": true,
+            "higher_uv_has_more_boundaries": true,
+            "transparent_red_and_blue_mix": true,
+            "glass_is_purple_not_white": true,
+            "glass_mix_tracks_current_alpha": true
+          },
+          "actual": {
+            "sequence": 10,
+            "sim_time_s": 0.667,
+            "width": 640,
+            "height": 360,
+            "format": "R8G8B8",
+            "fnv64": "1091440872227368151"
+          },
+          "uv_boundary_counts": {
+            "left": 7,
+            "right": 9
+          },
+          "uv_boundary_predictions": {
+            "left": {
+              "observed": 7,
+              "expected_boundary_density_count": 6.129147968015266,
+              "edge_tolerance": 2.0,
+              "minimum": 4.129147968015266,
+              "maximum": 8.129147968015266
+            },
+            "right": {
+              "observed": 9,
+              "expected_boundary_density_count": 9.193721952022898,
+              "edge_tolerance": 2.0,
+              "minimum": 7.193721952022898,
+              "maximum": 11.193721952022898
+            }
+          },
+          "projected_card_width_px": 168.3757686036386,
+          "glass_red_share": 0.45098039215686275,
+          "mean_rgb": {
+            "left": [
+              130.0,
+              132.48791666666668,
+              119.98416666666667
+            ],
+            "right": [
+              130.0,
+              132.5,
+              120.0
+            ],
+            "glass": [
+              115.0,
+              7.0,
+              140.0
+            ]
+          },
+          "parameters": {
+            "uv_repeat_left": 2,
+            "uv_repeat_right": 3,
+            "glass_alpha": 0.45
+          },
+          "image_path": "/tmp/gazeboteach-a39-llpdu_n3/sessions/classic11-noetic-39-20261103-230231-418695/camera.ppm",
+          "visual_review": "manual: UV seams, oblique filtering, alpha sorting and aliasing"
+        }
+      },
+      {
+        "name": "opacity_only",
+        "passed": true,
+        "verification": {
+          "passed": true,
+          "checks": {
+            "actual_frame_advances": true,
+            "both_cards_have_contrast": true,
+            "left_uv_matches_current_repeat": true,
+            "right_uv_matches_current_repeat": true,
+            "higher_uv_has_more_boundaries": true,
+            "transparent_red_and_blue_mix": true,
+            "glass_is_purple_not_white": true,
+            "glass_mix_tracks_current_alpha": true
+          },
+          "actual": {
+            "sequence": 10,
+            "sim_time_s": 0.667,
+            "width": 640,
+            "height": 360,
+            "format": "R8G8B8",
+            "fnv64": "15133274562752409638"
+          },
+          "uv_boundary_counts": {
+            "left": 7,
+            "right": 9
+          },
+          "uv_boundary_predictions": {
+            "left": {
+              "observed": 7,
+              "expected_boundary_density_count": 6.129147968015266,
+              "edge_tolerance": 2.0,
+              "minimum": 4.129147968015266,
+              "maximum": 8.129147968015266
+            },
+            "right": {
+              "observed": 9,
+              "expected_boundary_density_count": 9.193721952022898,
+              "edge_tolerance": 2.0,
+              "minimum": 7.193721952022898,
+              "maximum": 11.193721952022898
+            }
+          },
+          "projected_card_width_px": 168.3757686036386,
+          "glass_red_share": 0.6980392156862745,
+          "mean_rgb": {
+            "left": [
+              130.0,
+              132.48791666666668,
+              119.98416666666667
+            ],
+            "right": [
+              130.0,
+              132.5,
+              120.0
+            ],
+            "glass": [
+              178.0,
+              4.0,
+              77.0
+            ]
+          },
+          "parameters": {
+            "uv_repeat_left": 2,
+            "uv_repeat_right": 3,
+            "glass_alpha": 0.7
+          },
+          "image_path": "/tmp/gazeboteach-a39-llpdu_n3/sessions/classic11-noetic-39-20261103-230237-378126/camera.ppm",
+          "visual_review": "manual: UV seams, oblique filtering, alpha sorting and aliasing"
+        }
+      },
+      {
+        "name": "actual_opacity_response",
+        "passed": true,
+        "before_rgb": [
+          115.0,
+          7.0,
+          140.0
+        ],
+        "after_rgb": [
+          178.0,
+          4.0,
+          77.0
+        ]
+      }
+    ],
+    "elapsed_seconds": 23.635
+  },
+  "desktop": {
+    "ok": true,
+    "lesson": "39",
+    "profile": "classic11-noetic",
+    "data_dir": "/tmp/gazeboteach-addon-desktop-_3oafs_r",
+    "checks": [
+      {
+        "name": "real_desktop_material_selected",
+        "passed": true,
+        "document_characters": 3311
+      },
+      {
+        "name": "start_button_initialized_real_world_gui_and_ptys",
+        "passed": true,
+        "session": "/tmp/gazeboteach-addon-desktop-_3oafs_r/data/sessions/classic11-noetic-39-20261103-230319-360768",
+        "token": "20f854ed642b4c23bf64b30841b3f19d"
+      },
+      {
+        "name": "verify_button_checks_real_behavior",
+        "passed": true
+      },
+      {
+        "name": "desktop_exit_cleans_owned_processes",
+        "passed": true
+      }
+    ],
+    "elapsed_seconds": 12.636
+  },
+  "manual_scene_review": {
+    "passed": true,
+    "image": "images/a39-uv-material.png",
+    "observed": [
+      "real yellow-blue checkerboards at distinct UV frequencies",
+      "purple single-plane alpha blend over blue",
+      "red contribution increases withopacity"
+    ],
+    "learner_visual_tasks": [
+      "obliquefiltering",
+      "UVseams",
+      "alpha sorting withmultipleobjects"
+    ]
+  },
+  "fixed_observed_failures": [
+    "MissingOGREtransitivecflags",
+    "White opaque material initially false-passed permissiveRGBtest; now purple/color-share and independent opacity-response checks required"
+  ],
+  "source_sha256": {
+    "courses/classic11_noetic/39-texture-workshop/lab.py": "dcb8bcbcca93be24793cf983c6aca08ee8ebc00dddaec6e1e8378586fa3edb36",
+    "courses/classic11_noetic/39-texture-workshop/lesson.json": "75c3ae836f532b333be4e5bbcecaa484faa31cc1fbc12e99e5c0339fd45a9029",
+    "courses/classic11_noetic/39-texture-workshop/lesson.md": "fe61615069e693cd130f73dcd24e883a0cf5966fa2c3f7138fcdfad311682554",
+    "courses/classic11_noetic/39-texture-workshop/models/texture_cards/materials/scripts/cards.material": "051d38b2b21454de26b93f8de562a2eb6c902e0227bae5172ccfb25c5dcbad9d",
+    "courses/classic11_noetic/39-texture-workshop/models/texture_cards/materials/scripts/glass.material": "f1c01c333c1e6642729a33284a22ceb13cb9fc23a4e1e06b5d7322c04f0d9200",
+    "courses/classic11_noetic/39-texture-workshop/models/texture_cards/materials/textures/checker.png": "5ae07e33b056fb94d38301c475d15d95daeaa2ce2cbf54d9828a5b50f107e341",
+    "courses/classic11_noetic/39-texture-workshop/models/texture_cards/meshes/glass.dae": "e30113693ce9ead0a79b46820c22d646890b7e3845834ca6666ccd82c523766a",
+    "courses/classic11_noetic/39-texture-workshop/models/texture_cards/meshes/left.dae": "e30113693ce9ead0a79b46820c22d646890b7e3845834ca6666ccd82c523766a",
+    "courses/classic11_noetic/39-texture-workshop/models/texture_cards/meshes/right.dae": "d73f6fe7fe99dc47a93ed5af353e2477fa971ed7c902dc0f60aa0ae3144a1fd2",
+    "courses/classic11_noetic/39-texture-workshop/models/texture_cards/model.config": "10cbacd57e140cc85a02d0b7ef08d9354445ca4723614abc81118f6a9e753faa",
+    "courses/classic11_noetic/39-texture-workshop/models/texture_cards/model.sdf": "48c70f5cfd06f46f07c7c55a6a5e71352b930d9ff85cbaccb89dca433ec253e8",
+    "courses/classic11_noetic/39-texture-workshop/native/camera.cc": "b965c3454b4ea7f14fa1eef33330bf78e7903a43b921efef736a04da66b99dd7",
+    "courses/classic11_noetic/39-texture-workshop/parameters.json": "c502de996a7e4488b02ee4ed640e025aa2782a0953495233741df72aab6f03a1",
+    "courses/classic11_noetic/39-texture-workshop/prepare.py": "fc470a5718117cb48c07d42edf85370ed01ee0e2217f5fbfa0938afe6e3f6fd6",
+    "courses/classic11_noetic/39-texture-workshop/reference.md": "830d8c63dae45024b5ee8a263521b20f8afe97c8a2ec229790729884bc653868",
+    "courses/classic11_noetic/39-texture-workshop/scene.py": "aa21c50b10fbc2862549ee4a02efddd5b0be02e4b7d9aaa7e4901e92d5bbdec6",
+    "courses/classic11_noetic/39-texture-workshop/texture_builder.py": "8cf465e20b6d2c2655db6a7728ddd85500719b1c4ff81c2c2e31a78c5f4f783e",
+    "courses/classic11_noetic/39-texture-workshop/verify.py": "2dfde40ae90f49eb2993682b6d0e523aadd4f59eaf0d05b871900a3b12e174cd",
+    "courses/classic11_noetic/39-texture-workshop/world.sdf": "03430a7d64f84c4255008a4e552a6863b022c400fe1c3515473158acf7a8156c"
+  }
+}

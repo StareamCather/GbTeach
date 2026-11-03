@@ -1,0 +1,61 @@
+{
+  "id": "39",
+  "title": "贴图工坊：UV、平铺、透明与纹理分辨率",
+  "module": "附加专项·精细场景",
+  "summary": "离线棋盘纹理经过UV和OGRE材质到达真实相机；用像素跃迁判断平铺尺度。",
+  "order": 39,
+  "profile": "classic11-noetic",
+  "requires_ros": false,
+  "requires_tools": [
+    "g++",
+    "pkg-config"
+  ],
+  "requires_pkg_config": {
+    "gazebo": "11.15.1",
+    "OGRE": "",
+    "OGRE-Paging": "",
+    "OGRE-Terrain": "",
+    "OGRE-RTShaderSystem": ""
+  },
+  "requires_native_server": true,
+  "world": "world.sdf",
+  "prepare": [
+    "python3 prepare.py"
+  ],
+  "prepare_timeout": 150,
+  "verify": "verify.py",
+  "verify_timeout": 35,
+  "reference": "reference.md",
+  "objectives": [
+    "追踪纹理像素→UV→mesh→OGRE材质→相机的完整链路",
+    "比较一倍与四倍平铺、透明叠层与深度写入",
+    "读取实际渲染图像，量化频率、颜色与纹理失效"
+  ],
+  "commands": [
+    {
+      "title": "查看当前模型与资源清单",
+      "command": "python3 lab.py inspect"
+    },
+    {
+      "title": "查看真实相机帧路径与测量",
+      "command": "python3 lab.py image"
+    },
+    {
+      "title": "根据个人脚本离线重建PNG，重启后显示",
+      "command": "python3 texture_builder.py"
+    },
+    {
+      "title": "运行真实行为验收",
+      "command": "python3 verify.py"
+    },
+    {
+      "title": "用系统编辑器修改练习输入",
+      "command": "gedit --new-window parameters.json"
+    },
+    {
+      "title": "查看算法参考与实验建议",
+      "command": "gedit --new-window reference.md"
+    }
+  ],
+  "needs_display": true
+}
