@@ -1,0 +1,101 @@
+{
+  "id": "43",
+  "title": "ROS 1 服务与 Action：闭环到位、反馈、取消与失败",
+  "module": "附加专项·ROS 1工程",
+  "profile": "classic11-noetic",
+  "order": 43,
+  "summary": "本课把一个短请求和一个持续任务放在同一真实滑轨上比较。先修第09、10、22课。",
+  "requires_ros": true,
+  "requires_plugins": [
+    "libgazebo_ros_api_plugin.so"
+  ],
+  "requires_ros_packages": [
+    "rospy",
+    "roslaunch",
+    "std_msgs",
+    "sensor_msgs",
+    "std_srvs",
+    "gazebo_msgs",
+    "actionlib",
+    "actionlib_msgs",
+    "message_generation",
+    "message_runtime"
+  ],
+  "requires_tools": [
+    "roslaunch",
+    "rosparam",
+    "rospack",
+    "rostopic",
+    "rosnode",
+    "rosmsg",
+    "rossrv",
+    "rosservice",
+    "catkin_make",
+    "cmake",
+    "make",
+    "g++"
+  ],
+  "ros_package_paths": [
+    "ros_ws/src"
+  ],
+  "world": "world.sdf",
+  "prepare": [
+    "python3 prepare.py"
+  ],
+  "startup": [
+    {
+      "name": "ROS1专项仪器",
+      "command": "roslaunch gazeboteach_workshop43 lab.launch"
+    }
+  ],
+  "after_startup": [
+    "python3 lab.py ready"
+  ],
+  "after_startup_timeout": 25,
+  "verify": "verify.py",
+  "verify_timeout": 90,
+  "reference": "reference.md",
+  "objectives": [
+    "闭环到位、反馈、取消与失败",
+    "追溯Gazebo真实关节与ROS消息来源",
+    "比较预测、运行读回与故障证据"
+  ],
+  "commands": [
+    {
+      "title": "查看真实关节与时钟",
+      "command": "python3 lab.py state"
+    },
+    {
+      "title": "施加有限力脉冲",
+      "command": "python3 lab.py pulse"
+    },
+    {
+      "title": "Action闭环到达.35m",
+      "command": "python3 lab.py action --target .35 --timeout 8"
+    },
+    {
+      "title": "取消自己的反向Action",
+      "command": "python3 lab.py action --target -.7 --timeout 8 --cancel-after .5"
+    },
+    {
+      "title": "执行本课真实验收",
+      "command": "python3 verify.py"
+    },
+    {
+      "title": "查看ROS图",
+      "command": "rostopic list"
+    },
+    {
+      "title": "编辑独立填空练习",
+      "command": "gedit --new-window student.py"
+    },
+    {
+      "title": "独立检查个人PD填空",
+      "command": "python3 lab.py student-check"
+    }
+  ],
+  "ros_python_paths": [
+    "ros_ws/devel/lib/python3/dist-packages"
+  ],
+  "prepare_timeout": 150
+}

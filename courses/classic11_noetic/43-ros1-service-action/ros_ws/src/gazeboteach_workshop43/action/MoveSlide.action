@@ -1,0 +1,12 @@
+# A position task with a WALL-clock timeout, not a time-parameterized trajectory.
+float64 target_m
+float64 timeout_wall_s
+---
+bool reached
+float64 final_position_m
+string message
+---
+float64 x_m
+float64 v_m_s
+float64 error_m
+float64 elapsed_wall_s

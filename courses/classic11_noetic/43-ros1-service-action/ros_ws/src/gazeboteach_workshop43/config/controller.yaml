@@ -1,0 +1,3 @@
+# Change mode and restart the experiment to load a different personal controller.
+controller_mode: reference_demo
+pulse_force: 2.0
