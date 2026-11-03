@@ -1,0 +1,62 @@
+{
+  "id": "52",
+  "title": "Point-LIO：逐点时间、状态更新与高频输出",
+  "module": "附加专项·激光惯性里程计",
+  "order": 52,
+  "profile": "classic11-noetic",
+  "requires_ros": true,
+  "requires_tools": [
+    "g++",
+    "pkg-config",
+    "catkin_make",
+    "rosbag"
+  ],
+  "requires_plugins": [
+    "libgazebo_ros_imu_sensor.so"
+  ],
+  "requires_ros_packages": [
+    "gazebo_plugins",
+    "pcl_ros",
+    "pcl_conversions",
+    "eigen_conversions"
+  ],
+  "requires_python_modules": [
+    "numpy"
+  ],
+  "requires_pkg_config": {
+    "gazebo": "11.15.1"
+  },
+  "requires_native_server": true,
+  "graceful_server_shutdown": true,
+  "world": "world.sdf",
+  "prepare": [
+    "python3 prepare.py",
+    "python3 build_point_lio.py --download"
+  ],
+  "prepare_timeout": 980,
+  "after_startup": [
+    "python3 native_ready.py"
+  ],
+  "verify": "verify.py",
+  "verify_timeout": 160,
+  "reference": "reference.md",
+  "objectives": [
+    "按真实点时间分组，区分点数和采样时刻数",
+    "理解逐点预测更新与 IMU 输入／观测配置",
+    "用同一录包比较逐帧和高频里程计输出、时间与误差"
+  ],
+  "commands": [
+    {
+      "title": "实采并比较扫描级与高频里程计",
+      "command": "python3 adapter.py run"
+    },
+    {
+      "title": "编辑采样时刻与输出率练习",
+      "command": "gedit --new-window learner.py"
+    },
+    {
+      "title": "检查个人练习",
+      "command": "python3 student_check.py"
+    }
+  ]
+}

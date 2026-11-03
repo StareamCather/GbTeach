@@ -1,0 +1,828 @@
+{
+  "headless_smoke": {
+    "mode": "smoke",
+    "lesson": "52",
+    "profile": "classic11-noetic",
+    "data_dir": "/tmp/gazeboteach-smoke-0rjnch70",
+    "fresh_data_dir": true,
+    "gui_requested": false,
+    "terminals_requested": false,
+    "workspace": "/tmp/gazeboteach-smoke-0rjnch70/workspaces/classic11-noetic/52",
+    "log": "/tmp/gazeboteach-smoke-0rjnch70/sessions/classic11-noetic-52-20261104-020919-596931/runtime.log",
+    "session_dir": "/tmp/gazeboteach-smoke-0rjnch70/sessions/classic11-noetic-52-20261104-020919-596931",
+    "health": {
+      "running": true,
+      "state": "运行中",
+      "error": null,
+      "failed_processes": [],
+      "gui_running": false,
+      "terminal_running": 0,
+      "window_tag": "[GT-52]",
+      "window_role": "gazeboteach-d8c2313851624c77bcbe0deb7565e9e4",
+      "auxiliary": []
+    },
+    "verification": {
+      "passed": true,
+      "returncode": 0,
+      "log": "/tmp/gazeboteach-smoke-0rjnch70/sessions/classic11-noetic-52-20261104-020919-596931/runtime.log"
+    },
+    "ok": true,
+    "final_health": {
+      "running": false,
+      "state": "已结束",
+      "error": null,
+      "failed_processes": [
+        {
+          "name": "ROS Master",
+          "returncode": 0
+        },
+        {
+          "name": "Gazebo 服务端",
+          "returncode": 0
+        }
+      ],
+      "gui_running": false,
+      "terminal_running": 0,
+      "window_tag": "[GT-52]",
+      "window_role": "gazeboteach-d8c2313851624c77bcbe0deb7565e9e4",
+      "auxiliary": []
+    },
+    "elapsed_seconds": 91.838
+  },
+  "headless_experiment": {
+    "schema": 1,
+    "passed": true,
+    "request_id": "e43b208ea12144539f6c4d600edb2d4b",
+    "run_directory": "/tmp/gazeboteach-smoke-0rjnch70/workspaces/classic11-noetic/52/results/run-e43b208ea12144539f6c4d600edb2d4b",
+    "algorithm": "Point-LIO",
+    "upstream_commit": "1510c3bbf1743f254d83d0b22fbabb5b2d729f6b",
+    "build_receipt": {
+      "workspace": "/home/ikaros/.cache/gazeboteach/a52-point-lio/e93d4b7ffb305511f525e379426a10b87520b908b8722f4ccda6af42be7c5371/ws",
+      "setup_bash": "/home/ikaros/.cache/gazeboteach/a52-point-lio/e93d4b7ffb305511f525e379426a10b87520b908b8722f4ccda6af42be7c5371/ws/devel/setup.bash",
+      "python_path": "/home/ikaros/.cache/gazeboteach/a52-point-lio/e93d4b7ffb305511f525e379426a10b87520b908b8722f4ccda6af42be7c5371/ws/devel/lib/python3/dist-packages",
+      "laser_mapping": "/home/ikaros/.cache/gazeboteach/a52-point-lio/e93d4b7ffb305511f525e379426a10b87520b908b8722f4ccda6af42be7c5371/ws/devel/lib/point_lio/pointlio_mapping",
+      "algorithm_commit": "1510c3bbf1743f254d83d0b22fbabb5b2d729f6b",
+      "livox_message_commit": "3d240d5666129e1a3052e78ee8487a04b08fdda3",
+      "archive_sha256": {
+        "point-lio.tar.gz": "a8b3a427a4942e20db719220e1755eb24ba5fdbc3cee17d98846bee7479d28f2",
+        "livox-ros-driver.tar.gz": "e953ffe14cdb45ea4989807924c5c7360f2ecde63e93b40272159928beae0f7b"
+      },
+      "patches": {
+        "generated-targets": "Order the mapper after generated Livox message headers.",
+        "timed-velodyne-input-guards": "Check finite point fields, ring bounds, and a positive measured end offset before accepting Velodyne scans.",
+        "working-buffer-bounds": "Reject scans outside the fixed solver array bound and resize indexed work vectors before writing.",
+        "runtime-log-directory": "Use run-relative debug/PCD paths and guard unavailable optional debug files.",
+        "scan-diagnostics": "Count time groups, successful native lidar updates, odometry calls and active IMU saturation masks per processed scan."
+      },
+      "laser_mapping_sha256": "6036c77a6c4621975632b20cc1d4d199aab6aad5567b22ec89a1ea26f2e0ca34",
+      "build_key": "e93d4b7ffb305511f525e379426a10b87520b908b8722f4ccda6af42be7c5371"
+    },
+    "build_receipt_sha256": "4458da3a114abaa78377ee91612f43368c05b4c2722ff242d9c8a98540899b0d",
+    "modes": {
+      "scan": {
+        "mode": "scan",
+        "publish_odometry_without_downsample": false,
+        "topics": {
+          "odometry": "/gt_a52_scan_e43b208ea1/odometry",
+          "registered": "/gt_a52_scan_e43b208ea1/registered",
+          "initial_map": "/gt_a52_scan_e43b208ea1/initial_map"
+        },
+        "cloud_artifacts": {
+          "registered": {
+            "path": "/tmp/gazeboteach-smoke-0rjnch70/workspaces/classic11-noetic/52/results/run-e43b208ea12144539f6c4d600edb2d4b/scan/registered.pcd",
+            "sha256": "41bd03a1e0ae1756aca6d50ed999741794e4084fcefe103de89ba231513067be",
+            "format": "PCD v0.7 ASCII XYZ",
+            "point_count": 3200,
+            "original_point_count": 3200,
+            "frame_id": "camera_init",
+            "stamp_ns": 20149500000,
+            "topic": "/gt_a52_scan_e43b208ea1/registered",
+            "publisher": "/gt_a52_scan_e43b208ea1/laserMapping"
+          },
+          "initial_map": {
+            "path": "/tmp/gazeboteach-smoke-0rjnch70/workspaces/classic11-noetic/52/results/run-e43b208ea12144539f6c4d600edb2d4b/scan/initial-map.pcd",
+            "sha256": "fd58bd318004fec624bd6306a5dd75123f2201fe5342100c6d3fcd49ca8d9657",
+            "format": "PCD v0.7 ASCII XYZ",
+            "point_count": 3182,
+            "original_point_count": 3182,
+            "frame_id": "camera_init",
+            "stamp_ns": 6349500000,
+            "topic": "/gt_a52_scan_e43b208ea1/initial_map",
+            "publisher": "/gt_a52_scan_e43b208ea1/laserMapping"
+          }
+        },
+        "registered_messages": 138,
+        "metrics": {
+          "alignment": "first_matched_pose_SE3_no_scale_fit",
+          "anchor_stamp_ns": 6449500000,
+          "alignment_rotation_xyzw": [
+            7.143670119953692e-06,
+            -3.996581090234546e-05,
+            1.3790674162054205e-05,
+            0.9999999990807596
+          ],
+          "alignment_translation_m": [
+            -0.00012096828577535681,
+            -0.0009242825497623975,
+            -1.1996673269886204
+          ],
+          "matched": 137,
+          "unmatched": 1,
+          "position_rmse_m": 0.008503407375792641,
+          "orientation_rmse_rad": 0.004455447608977711,
+          "final_position_error_m": 0.015573628917961492,
+          "truth_path_length_m": 6.310212656441866,
+          "estimate_path_length_m": 6.3198889615848355,
+          "truth_max_displacement_m": 5.803500525543972,
+          "estimate_max_displacement_m": 5.807481104825382
+        },
+        "frequency": {
+          "mapper_publish_calls": 138,
+          "received_messages": 138,
+          "unobserved_publish_calls": 0,
+          "received_fraction_of_publish_calls": 1.0,
+          "missing_header_sequence_numbers_between_received_messages": 0,
+          "distinct_header_times": 138,
+          "duplicate_header_times": 0,
+          "first_header_ns": 6449500000,
+          "last_header_ns": 20149500000,
+          "header_unique_hz": 10.0,
+          "receipt_average_hz": 5.00015304008557,
+          "unique_header_gaps": {
+            "median_ms": 100.0,
+            "p95_ms": 100.0
+          },
+          "wall_receipt_gaps": {
+            "median_ms": 200.009156,
+            "p95_ms": 210.2077396
+          },
+          "drop_scope": "Unobserved mapper publish calls may reflect transport/subscriber loss or late delivery. The difference alone does not identify where."
+        },
+        "processed_scans": 138,
+        "filter_time_groups": 27600,
+        "successful_lidar_updates": 27600,
+        "imu_saturated_axes": 0,
+        "input_bag_sha256": "4f724a02214d8fd201bd149520b85e1f418e9f975d6fe5d4b969acc5fbf135d1"
+      },
+      "point": {
+        "mode": "point",
+        "publish_odometry_without_downsample": true,
+        "topics": {
+          "odometry": "/gt_a52_point_e43b208ea1/odometry",
+          "registered": "/gt_a52_point_e43b208ea1/registered",
+          "initial_map": "/gt_a52_point_e43b208ea1/initial_map"
+        },
+        "cloud_artifacts": {
+          "registered": {
+            "path": "/tmp/gazeboteach-smoke-0rjnch70/workspaces/classic11-noetic/52/results/run-e43b208ea12144539f6c4d600edb2d4b/point/registered.pcd",
+            "sha256": "41bd03a1e0ae1756aca6d50ed999741794e4084fcefe103de89ba231513067be",
+            "format": "PCD v0.7 ASCII XYZ",
+            "point_count": 3200,
+            "original_point_count": 3200,
+            "frame_id": "camera_init",
+            "stamp_ns": 20149500000,
+            "topic": "/gt_a52_point_e43b208ea1/registered",
+            "publisher": "/gt_a52_point_e43b208ea1/laserMapping"
+          },
+          "initial_map": {
+            "path": "/tmp/gazeboteach-smoke-0rjnch70/workspaces/classic11-noetic/52/results/run-e43b208ea12144539f6c4d600edb2d4b/point/initial-map.pcd",
+            "sha256": "fd58bd318004fec624bd6306a5dd75123f2201fe5342100c6d3fcd49ca8d9657",
+            "format": "PCD v0.7 ASCII XYZ",
+            "point_count": 3182,
+            "original_point_count": 3182,
+            "frame_id": "camera_init",
+            "stamp_ns": 6349500000,
+            "topic": "/gt_a52_point_e43b208ea1/initial_map",
+            "publisher": "/gt_a52_point_e43b208ea1/laserMapping"
+          }
+        },
+        "registered_messages": 138,
+        "metrics": {
+          "alignment": "first_matched_pose_SE3_no_scale_fit",
+          "anchor_stamp_ns": 6350000000,
+          "alignment_rotation_xyzw": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "alignment_translation_m": [
+            1.0183664334423987e-06,
+            -9.859749248290292e-13,
+            -1.2000000554117851
+          ],
+          "matched": 27581,
+          "unmatched": 19,
+          "position_rmse_m": 0.00865772648766896,
+          "orientation_rmse_rad": 0.0040197341070548455,
+          "final_position_error_m": 0.01531060033648295,
+          "truth_path_length_m": 6.366979820047727,
+          "estimate_path_length_m": 7.883255785426375,
+          "truth_max_displacement_m": 5.859404950257034,
+          "estimate_max_displacement_m": 5.862799371042682
+        },
+        "frequency": {
+          "mapper_publish_calls": 27600,
+          "received_messages": 27600,
+          "unobserved_publish_calls": 0,
+          "received_fraction_of_publish_calls": 1.0,
+          "missing_header_sequence_numbers_between_received_messages": 0,
+          "distinct_header_times": 27600,
+          "duplicate_header_times": 0,
+          "first_header_ns": 6350000000,
+          "last_header_ns": 20149500000,
+          "header_unique_hz": 2000.0,
+          "receipt_average_hz": 1005.5161035891275,
+          "unique_header_gaps": {
+            "median_ms": 0.5,
+            "p95_ms": 0.5
+          },
+          "wall_receipt_gaps": {
+            "median_ms": 0.003746,
+            "p95_ms": 0.14685809999999994
+          },
+          "drop_scope": "Unobserved mapper publish calls may reflect transport/subscriber loss or late delivery. The difference alone does not identify where."
+        },
+        "processed_scans": 138,
+        "filter_time_groups": 27600,
+        "successful_lidar_updates": 27600,
+        "imu_saturated_axes": 0,
+        "input_bag_sha256": "4f724a02214d8fd201bd149520b85e1f418e9f975d6fe5d4b969acc5fbf135d1"
+      }
+    },
+    "inputs": {
+      "lidar": "/gt_lio/replay_points",
+      "imu": "/gt_lio/replay_imu",
+      "truth_published": false,
+      "velodyne_point_layout": [
+        [
+          "x",
+          0,
+          7
+        ],
+        [
+          "y",
+          4,
+          7
+        ],
+        [
+          "z",
+          8,
+          7
+        ],
+        [
+          "intensity",
+          12,
+          7
+        ],
+        [
+          "time",
+          16,
+          7
+        ],
+        [
+          "ring",
+          20,
+          4
+        ]
+      ],
+      "timestamp_unit": "seconds",
+      "scan_bag_record_time": "last acquired raw ray time",
+      "extrinsic_T_IL_m": [
+        0.04165,
+        0.02326,
+        -0.0284
+      ],
+      "extrinsic_R_IL": "identity",
+      "truth_frame": "IMU link pose in Gazebo world",
+      "imu_role": "observation",
+      "imu_dt_s": 0.005,
+      "acc_norm_m_s2": 9.81,
+      "saturation_per_axis": {
+        "acc_m_s2": 30.0,
+        "gyro_rad_s": 35.0
+      },
+      "space_down_sample": false,
+      "point_filter_num": 1
+    },
+    "capture": {
+      "native_records": "/tmp/gazeboteach-smoke-0rjnch70/workspaces/classic11-noetic/52/results/run-e43b208ea12144539f6c4d600edb2d4b/native.jsonl",
+      "sha256": "95796af6ce0a984298fbc7dafb3191601347cbfb00ba5c29714501a089ade3e2",
+      "scans": 140,
+      "truth_samples": 1400,
+      "points": 447199,
+      "distinct_native_column_times": 28000,
+      "first_scan_ns": 6150000000,
+      "last_scan_end_ns": 20149500000
+    },
+    "imu": {
+      "topic": "/gt_lio/imu",
+      "publishers": [
+        "/gazebo"
+      ],
+      "frames": [
+        "sensor_body"
+      ],
+      "count": 2860,
+      "median_dt_ns": 5000000.0,
+      "largest_dt_ns": 5000000,
+      "first_ns": 6050000000,
+      "last_ns": 20345000000,
+      "median_accel_norm_m_s2": 9.812000338581457
+    },
+    "bag": {
+      "path": "/tmp/gazeboteach-smoke-0rjnch70/workspaces/classic11-noetic/52/results/run-e43b208ea12144539f6c4d600edb2d4b/sensors.bag",
+      "sha256": "4f724a02214d8fd201bd149520b85e1f418e9f975d6fe5d4b969acc5fbf135d1",
+      "published_clock": false,
+      "topics": [
+        "/gt_lio/replay_points",
+        "/gt_lio/replay_imu"
+      ],
+      "replay_rate": 0.5
+    },
+    "same_input_filter_comparison": {
+      "paired_raw_scans": 138,
+      "same_successful_lidar_update_count_scans": 138,
+      "scan_update_count": 27600,
+      "point_update_count": 27600
+    },
+    "same_timestamp_pose_comparison": {
+      "matched_scan_ends": 138,
+      "unmatched_scan_ends": 0,
+      "tolerance_ns": 1000,
+      "position_difference_rmse_m": 0.0
+    },
+    "elapsed_wall_s": 81.0014911219987
+  },
+  "desktop": {
+    "ok": true,
+    "lesson": "52",
+    "profile": "classic11-noetic",
+    "data_dir": "/tmp/gazeboteach-addon-desktop-7r2cvce1",
+    "checks": [
+      {
+        "name": "real_desktop_material_selected",
+        "passed": true,
+        "document_characters": 3458
+      },
+      {
+        "name": "start_button_initialized_real_world_gui_and_ptys",
+        "passed": true,
+        "session": "/tmp/gazeboteach-addon-desktop-7r2cvce1/data/sessions/classic11-noetic-52-20261104-021044-965430",
+        "token": "4ffc72ec2fe2453bb8ccfaddae764751"
+      },
+      {
+        "name": "real_owned_native_gui_window",
+        "passed": true,
+        "window_id": "0x5e00012",
+        "pid": 254408,
+        "width": 2488,
+        "height": 1376,
+        "screenshot": "/home/ikaros/GazeboTeach/.deploy/addons/A52/desktop-gazebo.png",
+        "properties": "_NET_WM_PID(CARDINAL) = 254408\n_NET_WM_NAME(UTF8_STRING) = \"Gazebo\"",
+        "image_metrics": {
+          "nontrivial_pixels": true,
+          "sample_count": 1568,
+          "distinct_sampled_colors": 116,
+          "luma_range": 231,
+          "nonblack_fraction": 1.0,
+          "non_dominant_fraction": 0.81059
+        },
+        "manual_scene_review_required": true
+      },
+      {
+        "name": "verify_button_checks_real_behavior",
+        "passed": true
+      },
+      {
+        "name": "desktop_exit_cleans_owned_processes",
+        "passed": true
+      }
+    ],
+    "elapsed_seconds": 96.762
+  },
+  "desktop_experiment": {
+    "schema": 1,
+    "passed": true,
+    "request_id": "ed5a4c8e831c49478e606fd33cba786b",
+    "run_directory": "/tmp/gazeboteach-addon-desktop-7r2cvce1/data/workspaces/classic11-noetic/52/results/run-ed5a4c8e831c49478e606fd33cba786b",
+    "algorithm": "Point-LIO",
+    "upstream_commit": "1510c3bbf1743f254d83d0b22fbabb5b2d729f6b",
+    "build_receipt": {
+      "workspace": "/home/ikaros/.cache/gazeboteach/a52-point-lio/e93d4b7ffb305511f525e379426a10b87520b908b8722f4ccda6af42be7c5371/ws",
+      "setup_bash": "/home/ikaros/.cache/gazeboteach/a52-point-lio/e93d4b7ffb305511f525e379426a10b87520b908b8722f4ccda6af42be7c5371/ws/devel/setup.bash",
+      "python_path": "/home/ikaros/.cache/gazeboteach/a52-point-lio/e93d4b7ffb305511f525e379426a10b87520b908b8722f4ccda6af42be7c5371/ws/devel/lib/python3/dist-packages",
+      "laser_mapping": "/home/ikaros/.cache/gazeboteach/a52-point-lio/e93d4b7ffb305511f525e379426a10b87520b908b8722f4ccda6af42be7c5371/ws/devel/lib/point_lio/pointlio_mapping",
+      "algorithm_commit": "1510c3bbf1743f254d83d0b22fbabb5b2d729f6b",
+      "livox_message_commit": "3d240d5666129e1a3052e78ee8487a04b08fdda3",
+      "archive_sha256": {
+        "point-lio.tar.gz": "a8b3a427a4942e20db719220e1755eb24ba5fdbc3cee17d98846bee7479d28f2",
+        "livox-ros-driver.tar.gz": "e953ffe14cdb45ea4989807924c5c7360f2ecde63e93b40272159928beae0f7b"
+      },
+      "patches": {
+        "generated-targets": "Order the mapper after generated Livox message headers.",
+        "timed-velodyne-input-guards": "Check finite point fields, ring bounds, and a positive measured end offset before accepting Velodyne scans.",
+        "working-buffer-bounds": "Reject scans outside the fixed solver array bound and resize indexed work vectors before writing.",
+        "runtime-log-directory": "Use run-relative debug/PCD paths and guard unavailable optional debug files.",
+        "scan-diagnostics": "Count time groups, successful native lidar updates, odometry calls and active IMU saturation masks per processed scan."
+      },
+      "laser_mapping_sha256": "6036c77a6c4621975632b20cc1d4d199aab6aad5567b22ec89a1ea26f2e0ca34",
+      "build_key": "e93d4b7ffb305511f525e379426a10b87520b908b8722f4ccda6af42be7c5371"
+    },
+    "build_receipt_sha256": "4458da3a114abaa78377ee91612f43368c05b4c2722ff242d9c8a98540899b0d",
+    "modes": {
+      "scan": {
+        "mode": "scan",
+        "publish_odometry_without_downsample": false,
+        "topics": {
+          "odometry": "/gt_a52_scan_ed5a4c8e83/odometry",
+          "registered": "/gt_a52_scan_ed5a4c8e83/registered",
+          "initial_map": "/gt_a52_scan_ed5a4c8e83/initial_map"
+        },
+        "cloud_artifacts": {
+          "registered": {
+            "path": "/tmp/gazeboteach-addon-desktop-7r2cvce1/data/workspaces/classic11-noetic/52/results/run-ed5a4c8e831c49478e606fd33cba786b/scan/registered.pcd",
+            "sha256": "c0adae4f2e06c90921d7c8b6f121e7aee85ac161878e8f2b8d2632d42cbd09c0",
+            "format": "PCD v0.7 ASCII XYZ",
+            "point_count": 3200,
+            "original_point_count": 3200,
+            "frame_id": "camera_init",
+            "stamp_ns": 21729500000,
+            "topic": "/gt_a52_scan_ed5a4c8e83/registered",
+            "publisher": "/gt_a52_scan_ed5a4c8e83/laserMapping"
+          },
+          "initial_map": {
+            "path": "/tmp/gazeboteach-addon-desktop-7r2cvce1/data/workspaces/classic11-noetic/52/results/run-ed5a4c8e831c49478e606fd33cba786b/scan/initial-map.pcd",
+            "sha256": "fd58bd318004fec624bd6306a5dd75123f2201fe5342100c6d3fcd49ca8d9657",
+            "format": "PCD v0.7 ASCII XYZ",
+            "point_count": 3182,
+            "original_point_count": 3182,
+            "frame_id": "camera_init",
+            "stamp_ns": 7929500000,
+            "topic": "/gt_a52_scan_ed5a4c8e83/initial_map",
+            "publisher": "/gt_a52_scan_ed5a4c8e83/laserMapping"
+          }
+        },
+        "registered_messages": 138,
+        "metrics": {
+          "alignment": "first_matched_pose_SE3_no_scale_fit",
+          "anchor_stamp_ns": 8029500000,
+          "alignment_rotation_xyzw": [
+            9.09316480246517e-07,
+            -4.397760138825966e-05,
+            2.0089957476722677e-06,
+            0.9999999990305538
+          ],
+          "alignment_translation_m": [
+            -6.578059229852285e-05,
+            -0.0009363660440067122,
+            -1.1996932050539246
+          ],
+          "matched": 137,
+          "unmatched": 1,
+          "position_rmse_m": 0.008897227079264238,
+          "orientation_rmse_rad": 0.004529638815778857,
+          "final_position_error_m": 0.015424811781986007,
+          "truth_path_length_m": 6.310212656441866,
+          "estimate_path_length_m": 6.319799498814515,
+          "truth_max_displacement_m": 5.803500525543972,
+          "estimate_max_displacement_m": 5.80852593675401
+        },
+        "frequency": {
+          "mapper_publish_calls": 138,
+          "received_messages": 138,
+          "unobserved_publish_calls": 0,
+          "received_fraction_of_publish_calls": 1.0,
+          "missing_header_sequence_numbers_between_received_messages": 0,
+          "distinct_header_times": 138,
+          "duplicate_header_times": 0,
+          "first_header_ns": 8029500000,
+          "last_header_ns": 21729500000,
+          "header_unique_hz": 10.0,
+          "receipt_average_hz": 4.999852115140539,
+          "unique_header_gaps": {
+            "median_ms": 100.0,
+            "p95_ms": 100.0
+          },
+          "wall_receipt_gaps": {
+            "median_ms": 200.179878,
+            "p95_ms": 205.6460908
+          },
+          "drop_scope": "Unobserved mapper publish calls may reflect transport/subscriber loss or late delivery. The difference alone does not identify where."
+        },
+        "processed_scans": 138,
+        "filter_time_groups": 27600,
+        "successful_lidar_updates": 27600,
+        "imu_saturated_axes": 0,
+        "input_bag_sha256": "ca0e53a5cd992c60e9c562a8356591b96e5db6a355fcb64a1f49a156a8c97ee4"
+      },
+      "point": {
+        "mode": "point",
+        "publish_odometry_without_downsample": true,
+        "topics": {
+          "odometry": "/gt_a52_point_ed5a4c8e83/odometry",
+          "registered": "/gt_a52_point_ed5a4c8e83/registered",
+          "initial_map": "/gt_a52_point_ed5a4c8e83/initial_map"
+        },
+        "cloud_artifacts": {
+          "registered": {
+            "path": "/tmp/gazeboteach-addon-desktop-7r2cvce1/data/workspaces/classic11-noetic/52/results/run-ed5a4c8e831c49478e606fd33cba786b/point/registered.pcd",
+            "sha256": "c0adae4f2e06c90921d7c8b6f121e7aee85ac161878e8f2b8d2632d42cbd09c0",
+            "format": "PCD v0.7 ASCII XYZ",
+            "point_count": 3200,
+            "original_point_count": 3200,
+            "frame_id": "camera_init",
+            "stamp_ns": 21729500000,
+            "topic": "/gt_a52_point_ed5a4c8e83/registered",
+            "publisher": "/gt_a52_point_ed5a4c8e83/laserMapping"
+          },
+          "initial_map": {
+            "path": "/tmp/gazeboteach-addon-desktop-7r2cvce1/data/workspaces/classic11-noetic/52/results/run-ed5a4c8e831c49478e606fd33cba786b/point/initial-map.pcd",
+            "sha256": "fd58bd318004fec624bd6306a5dd75123f2201fe5342100c6d3fcd49ca8d9657",
+            "format": "PCD v0.7 ASCII XYZ",
+            "point_count": 3182,
+            "original_point_count": 3182,
+            "frame_id": "camera_init",
+            "stamp_ns": 7929500000,
+            "topic": "/gt_a52_point_ed5a4c8e83/initial_map",
+            "publisher": "/gt_a52_point_ed5a4c8e83/laserMapping"
+          }
+        },
+        "registered_messages": 138,
+        "metrics": {
+          "alignment": "first_matched_pose_SE3_no_scale_fit",
+          "anchor_stamp_ns": 7930000000,
+          "alignment_rotation_xyzw": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "alignment_translation_m": [
+            1.0183664334423987e-06,
+            -9.859749248290292e-13,
+            -1.2000000554117851
+          ],
+          "matched": 27581,
+          "unmatched": 19,
+          "position_rmse_m": 0.009151255591717937,
+          "orientation_rmse_rad": 0.004095160099001089,
+          "final_position_error_m": 0.015790675801912436,
+          "truth_path_length_m": 6.366979820047727,
+          "estimate_path_length_m": 7.9041557276657155,
+          "truth_max_displacement_m": 5.859404950257034,
+          "estimate_max_displacement_m": 5.86250912215108
+        },
+        "frequency": {
+          "mapper_publish_calls": 27600,
+          "received_messages": 27600,
+          "unobserved_publish_calls": 0,
+          "received_fraction_of_publish_calls": 1.0,
+          "missing_header_sequence_numbers_between_received_messages": 0,
+          "distinct_header_times": 27600,
+          "duplicate_header_times": 0,
+          "first_header_ns": 7930000000,
+          "last_header_ns": 21729500000,
+          "header_unique_hz": 2000.0,
+          "receipt_average_hz": 1004.9783758255942,
+          "unique_header_gaps": {
+            "median_ms": 0.5,
+            "p95_ms": 0.5
+          },
+          "wall_receipt_gaps": {
+            "median_ms": 0.003897,
+            "p95_ms": 0.1685928
+          },
+          "drop_scope": "Unobserved mapper publish calls may reflect transport/subscriber loss or late delivery. The difference alone does not identify where."
+        },
+        "processed_scans": 138,
+        "filter_time_groups": 27600,
+        "successful_lidar_updates": 27600,
+        "imu_saturated_axes": 0,
+        "input_bag_sha256": "ca0e53a5cd992c60e9c562a8356591b96e5db6a355fcb64a1f49a156a8c97ee4"
+      }
+    },
+    "inputs": {
+      "lidar": "/gt_lio/replay_points",
+      "imu": "/gt_lio/replay_imu",
+      "truth_published": false,
+      "velodyne_point_layout": [
+        [
+          "x",
+          0,
+          7
+        ],
+        [
+          "y",
+          4,
+          7
+        ],
+        [
+          "z",
+          8,
+          7
+        ],
+        [
+          "intensity",
+          12,
+          7
+        ],
+        [
+          "time",
+          16,
+          7
+        ],
+        [
+          "ring",
+          20,
+          4
+        ]
+      ],
+      "timestamp_unit": "seconds",
+      "scan_bag_record_time": "last acquired raw ray time",
+      "extrinsic_T_IL_m": [
+        0.04165,
+        0.02326,
+        -0.0284
+      ],
+      "extrinsic_R_IL": "identity",
+      "truth_frame": "IMU link pose in Gazebo world",
+      "imu_role": "observation",
+      "imu_dt_s": 0.005,
+      "acc_norm_m_s2": 9.81,
+      "saturation_per_axis": {
+        "acc_m_s2": 30.0,
+        "gyro_rad_s": 35.0
+      },
+      "space_down_sample": false,
+      "point_filter_num": 1
+    },
+    "capture": {
+      "native_records": "/tmp/gazeboteach-addon-desktop-7r2cvce1/data/workspaces/classic11-noetic/52/results/run-ed5a4c8e831c49478e606fd33cba786b/native.jsonl",
+      "sha256": "23856c396abcea9e14ecb3c431a90dace123653a772c55f847f6798a22faf500",
+      "scans": 140,
+      "truth_samples": 1400,
+      "points": 447199,
+      "distinct_native_column_times": 28000,
+      "first_scan_ns": 7730000000,
+      "last_scan_end_ns": 21729500000
+    },
+    "imu": {
+      "topic": "/gt_lio/imu",
+      "publishers": [
+        "/gazebo"
+      ],
+      "frames": [
+        "sensor_body"
+      ],
+      "count": 2860,
+      "median_dt_ns": 5000000.0,
+      "largest_dt_ns": 5500000,
+      "first_ns": 7631000000,
+      "last_ns": 21926500000,
+      "median_accel_norm_m_s2": 9.812004566530002
+    },
+    "bag": {
+      "path": "/tmp/gazeboteach-addon-desktop-7r2cvce1/data/workspaces/classic11-noetic/52/results/run-ed5a4c8e831c49478e606fd33cba786b/sensors.bag",
+      "sha256": "ca0e53a5cd992c60e9c562a8356591b96e5db6a355fcb64a1f49a156a8c97ee4",
+      "published_clock": false,
+      "topics": [
+        "/gt_lio/replay_points",
+        "/gt_lio/replay_imu"
+      ],
+      "replay_rate": 0.5
+    },
+    "same_input_filter_comparison": {
+      "paired_raw_scans": 138,
+      "same_successful_lidar_update_count_scans": 138,
+      "scan_update_count": 27600,
+      "point_update_count": 27600
+    },
+    "same_timestamp_pose_comparison": {
+      "matched_scan_ends": 138,
+      "unmatched_scan_ends": 0,
+      "tolerance_ns": 1000,
+      "position_difference_rmse_m": 0.0
+    },
+    "elapsed_wall_s": 80.92121602200496
+  },
+  "standalone_gui": {
+    "window_id": "0x6000012",
+    "pid": 252899,
+    "width": 2488,
+    "height": 1376,
+    "screenshot": "/home/ikaros/GazeboTeach/.deploy/addons/A52/rolling-scene.png",
+    "properties": "_NET_WM_PID(CARDINAL) = 252899\n_NET_WM_NAME(UTF8_STRING) = \"Gazebo\"",
+    "image_metrics": {
+      "nontrivial_pixels": true,
+      "sample_count": 1568,
+      "distinct_sampled_colors": 42,
+      "luma_range": 171,
+      "nonblack_fraction": 1.0,
+      "non_dominant_fraction": 0.62436
+    },
+    "manual_scene_review_required": true
+  },
+  "independent_bag_wire": {
+    "run-e43b208ea12144539f6c4d600edb2d4b": {
+      "counts": {
+        "/gt_lio/replay_points": 140,
+        "/gt_lio/replay_imu": 2860
+      },
+      "time_field_unit": "s",
+      "ring_datatype": "uint16",
+      "first_scan": [
+        6150000000,
+        6249500000
+      ],
+      "last_scan": [
+        20050000000,
+        20149500000
+      ],
+      "first_imu_ns": 6050000000,
+      "last_imu_ns": 20345000000,
+      "sha256": "4f724a02214d8fd201bd149520b85e1f418e9f975d6fe5d4b969acc5fbf135d1"
+    },
+    "run-ed5a4c8e831c49478e606fd33cba786b": {
+      "counts": {
+        "/gt_lio/replay_points": 140,
+        "/gt_lio/replay_imu": 2860
+      },
+      "time_field_unit": "s",
+      "ring_datatype": "uint16",
+      "first_scan": [
+        7730000000,
+        7829500000
+      ],
+      "last_scan": [
+        21630000000,
+        21729500000
+      ],
+      "first_imu_ns": 7631000000,
+      "last_imu_ns": 21926500000,
+      "sha256": "ca0e53a5cd992c60e9c562a8356591b96e5db6a355fcb64a1f49a156a8c97ee4"
+    }
+  },
+  "raw_artifact_sha256": {
+    ".deploy/addons/A52/artifacts/run-e43b208ea12144539f6c4d600edb2d4b/native.jsonl": "95796af6ce0a984298fbc7dafb3191601347cbfb00ba5c29714501a089ade3e2",
+    ".deploy/addons/A52/artifacts/run-e43b208ea12144539f6c4d600edb2d4b/scan-end-comparison.json": "1f784895f667f3c31756628f4605f4c4c4cb8c8c682ede1b0ebf36d6fa3c6a7e",
+    ".deploy/addons/A52/artifacts/run-e43b208ea12144539f6c4d600edb2d4b/paired-filter-counts.json": "addfc468c9f003cec334cbed75bd8497f087ca623955783528e1359b2dba8615",
+    ".deploy/addons/A52/artifacts/run-e43b208ea12144539f6c4d600edb2d4b/capture-done.json": "fd1cd5c3159a6a14853e32b42158b84a5e156c82533aff98547a35383a5ee748",
+    ".deploy/addons/A52/artifacts/run-e43b208ea12144539f6c4d600edb2d4b/report.json": "e92f481f93a3b4a4fe715ef8a654a2cf1e531707ce1464ef845bb2afbb6db222",
+    ".deploy/addons/A52/artifacts/run-e43b208ea12144539f6c4d600edb2d4b/sensors.bag": "4f724a02214d8fd201bd149520b85e1f418e9f975d6fe5d4b969acc5fbf135d1",
+    ".deploy/addons/A52/artifacts/run-e43b208ea12144539f6c4d600edb2d4b/point/initial-map.pcd": "fd58bd318004fec624bd6306a5dd75123f2201fe5342100c6d3fcd49ca8d9657",
+    ".deploy/addons/A52/artifacts/run-e43b208ea12144539f6c4d600edb2d4b/point/native-scan-diagnostics.json": "b337eb77233e2ae58ebef50fa07ae156238ed2aef5211cb66500b5b1c2e5b63f",
+    ".deploy/addons/A52/artifacts/run-e43b208ea12144539f6c4d600edb2d4b/point/estimator.log": "78f4ec80790be186519ab92cd6f42c2aacc3b5161e48f24cca16e322bb20ce72",
+    ".deploy/addons/A52/artifacts/run-e43b208ea12144539f6c4d600edb2d4b/point/odometry.json": "afd37ca04ecb88c2ea42a2412c0b09c7d8ce2fc47a9bcd6670e273e8c4605f5a",
+    ".deploy/addons/A52/artifacts/run-e43b208ea12144539f6c4d600edb2d4b/point/trajectory-comparison.json": "4f5c3bb383b53c1ace503666f06926ec7ca0ea854e30eca06c28d91a7c89acfd",
+    ".deploy/addons/A52/artifacts/run-e43b208ea12144539f6c4d600edb2d4b/point/registered.pcd": "41bd03a1e0ae1756aca6d50ed999741794e4084fcefe103de89ba231513067be",
+    ".deploy/addons/A52/artifacts/run-e43b208ea12144539f6c4d600edb2d4b/point/replay.log": "e9739720a64fba1c99c3724bdf90193d94365ae3f941be482951a250269547ce",
+    ".deploy/addons/A52/artifacts/run-e43b208ea12144539f6c4d600edb2d4b/point/report.json": "1c877afc8fc24d8972a68e548e3b4c65b5b577173eab1313b897e6d23b28d137",
+    ".deploy/addons/A52/artifacts/run-e43b208ea12144539f6c4d600edb2d4b/scan/initial-map.pcd": "fd58bd318004fec624bd6306a5dd75123f2201fe5342100c6d3fcd49ca8d9657",
+    ".deploy/addons/A52/artifacts/run-e43b208ea12144539f6c4d600edb2d4b/scan/native-scan-diagnostics.json": "76d2f61c999b5ddb5455344dd3fb916b95df86463f53c91102abc4549732f685",
+    ".deploy/addons/A52/artifacts/run-e43b208ea12144539f6c4d600edb2d4b/scan/estimator.log": "3bc010865358481097bf035e767a12134fdd51a080985ca0bb0bd63c109a3a1c",
+    ".deploy/addons/A52/artifacts/run-e43b208ea12144539f6c4d600edb2d4b/scan/odometry.json": "96883d561d9f591244827f7cf15eb4cf0318b7c3d3a60b6513d2dbc22490e04e",
+    ".deploy/addons/A52/artifacts/run-e43b208ea12144539f6c4d600edb2d4b/scan/trajectory-comparison.json": "6bc62cf1dd4f3b507757d38e050d1a871090ff0af24b895a09510f540b7b3be8",
+    ".deploy/addons/A52/artifacts/run-e43b208ea12144539f6c4d600edb2d4b/scan/registered.pcd": "41bd03a1e0ae1756aca6d50ed999741794e4084fcefe103de89ba231513067be",
+    ".deploy/addons/A52/artifacts/run-e43b208ea12144539f6c4d600edb2d4b/scan/replay.log": "5b2b70e29c86b335557c788cb064bfe2158b3258ed5388268b164aacea178b09",
+    ".deploy/addons/A52/artifacts/run-e43b208ea12144539f6c4d600edb2d4b/scan/report.json": "6b9eb8cb869aa294d16191a7555da87da52ea9267052beb843018625cdbcfe9c",
+    ".deploy/addons/A52/artifacts/run-ed5a4c8e831c49478e606fd33cba786b/native.jsonl": "23856c396abcea9e14ecb3c431a90dace123653a772c55f847f6798a22faf500",
+    ".deploy/addons/A52/artifacts/run-ed5a4c8e831c49478e606fd33cba786b/scan-end-comparison.json": "49acdaf7f66bddd0c10efe381388e6cdfd5065ffba154c545bb636c1ce333f28",
+    ".deploy/addons/A52/artifacts/run-ed5a4c8e831c49478e606fd33cba786b/paired-filter-counts.json": "a3b01cb2f59568a6cae9691a4954503a381c814a2c575d5a3fc7aae154584698",
+    ".deploy/addons/A52/artifacts/run-ed5a4c8e831c49478e606fd33cba786b/capture-done.json": "4c3b8cc0934ad0a8072fd37ad49dd83d0b87228ba0da626eb172d2f438657ea8",
+    ".deploy/addons/A52/artifacts/run-ed5a4c8e831c49478e606fd33cba786b/report.json": "88dd95027d141be5201d8fb039c30dd14b91941b1f4136586f5021f60e60d046",
+    ".deploy/addons/A52/artifacts/run-ed5a4c8e831c49478e606fd33cba786b/sensors.bag": "ca0e53a5cd992c60e9c562a8356591b96e5db6a355fcb64a1f49a156a8c97ee4",
+    ".deploy/addons/A52/artifacts/run-ed5a4c8e831c49478e606fd33cba786b/point/initial-map.pcd": "fd58bd318004fec624bd6306a5dd75123f2201fe5342100c6d3fcd49ca8d9657",
+    ".deploy/addons/A52/artifacts/run-ed5a4c8e831c49478e606fd33cba786b/point/native-scan-diagnostics.json": "ffd0f2674f316ae1a73bcd8aeab38c52b4b1dece7cab57ece523b57b6a9b2f3d",
+    ".deploy/addons/A52/artifacts/run-ed5a4c8e831c49478e606fd33cba786b/point/estimator.log": "36602c1f3586e10ac2b1415ef7e4656f2f767bea974ab3d88f5b5597a97263df",
+    ".deploy/addons/A52/artifacts/run-ed5a4c8e831c49478e606fd33cba786b/point/odometry.json": "2ed79e9ee0c34741297d49d868e35428d3f4c10a5fbeda80554ae4618b33be46",
+    ".deploy/addons/A52/artifacts/run-ed5a4c8e831c49478e606fd33cba786b/point/trajectory-comparison.json": "796c0faa58b64a033929f4f2c61f1cbd9adaf322311125870ecc47b16ca0ed75",
+    ".deploy/addons/A52/artifacts/run-ed5a4c8e831c49478e606fd33cba786b/point/registered.pcd": "c0adae4f2e06c90921d7c8b6f121e7aee85ac161878e8f2b8d2632d42cbd09c0",
+    ".deploy/addons/A52/artifacts/run-ed5a4c8e831c49478e606fd33cba786b/point/replay.log": "35fe6216bf51bb0655431f0cd11a6c44588d3c3bba69511639c723f809a81d15",
+    ".deploy/addons/A52/artifacts/run-ed5a4c8e831c49478e606fd33cba786b/point/report.json": "10f632a63828f627e05d72a553c8f082d864d5eca50248cb85f7905c42e40e77",
+    ".deploy/addons/A52/artifacts/run-ed5a4c8e831c49478e606fd33cba786b/scan/initial-map.pcd": "fd58bd318004fec624bd6306a5dd75123f2201fe5342100c6d3fcd49ca8d9657",
+    ".deploy/addons/A52/artifacts/run-ed5a4c8e831c49478e606fd33cba786b/scan/native-scan-diagnostics.json": "1fa9714de0a8b541366b6f1678c282feab489337b38076fbb520452beac226e4",
+    ".deploy/addons/A52/artifacts/run-ed5a4c8e831c49478e606fd33cba786b/scan/estimator.log": "b517602bfac9290fbe723ce314365441eb2900a2fd0d52261734accd13e06d9e",
+    ".deploy/addons/A52/artifacts/run-ed5a4c8e831c49478e606fd33cba786b/scan/odometry.json": "1d61af91e874ba61121be48ad9b10274f077e669b90cf998ae6e5867f603a998",
+    ".deploy/addons/A52/artifacts/run-ed5a4c8e831c49478e606fd33cba786b/scan/trajectory-comparison.json": "df50a9d56ea4cc61aa1f2e79d9579b98bba78f5611fc7134d93869eaad11a690",
+    ".deploy/addons/A52/artifacts/run-ed5a4c8e831c49478e606fd33cba786b/scan/registered.pcd": "c0adae4f2e06c90921d7c8b6f121e7aee85ac161878e8f2b8d2632d42cbd09c0",
+    ".deploy/addons/A52/artifacts/run-ed5a4c8e831c49478e606fd33cba786b/scan/replay.log": "ea07c456d17cefe4be2231d54130037fb16dcb5b9fc4275b2e10c8610f4d91a8",
+    ".deploy/addons/A52/artifacts/run-ed5a4c8e831c49478e606fd33cba786b/scan/report.json": "720b734e3524f08a099766f400c261fad87845cae13fd00bcf9a89b853fba122"
+  },
+  "source_sha256": {
+    "courses/classic11_noetic/52-point-lio/adapter.py": "dae5fab1d10ab753b031bd966e696aa4dee5d1440f69fefe30ece138f149be28",
+    "courses/classic11_noetic/52-point-lio/audit.py": "4f959ee7816492de2fe57c3824918d51b368209ac7f2d4ad12497b9e7d1091cc",
+    "courses/classic11_noetic/52-point-lio/build_point_lio.py": "140a9159e2dd5aabdd4dbaa0176b9319c4bbc49397a9bf59937aecb86b4959f6",
+    "courses/classic11_noetic/52-point-lio/learner.py": "57b1f17c1bfc660cae750a9c2671ae93c075994f20094750af2e7d0bac5d4f0c",
+    "courses/classic11_noetic/52-point-lio/lesson.json": "57d2e4a58286039b28883dc01a0b08175ee9c4b91219cedf05acba7abddb4752",
+    "courses/classic11_noetic/52-point-lio/lesson.md": "4227c939db81387149357a2b6f10b74c0c2399a94511532e3724b046840c603e",
+    "courses/classic11_noetic/52-point-lio/mapping.launch": "a2a5c78f96992664f5701915b51e1e8e4da7feb0945da331e1164ff94af58247",
+    "courses/classic11_noetic/52-point-lio/native_ready.py": "08e5e40f7fe13860cb01e03f35429ac21cb41bac175a48e14e4385220aa1491a",
+    "courses/classic11_noetic/52-point-lio/prepare.py": "b71e0dd8f5e5c314f8eab522bce3d9470f5819f289c8381d4715197a8bf2892a",
+    "courses/classic11_noetic/52-point-lio/reference.md": "5d99e86409fd091e5bfd970d994480c59e6657012745a028478c4841935ccfbf",
+    "courses/classic11_noetic/52-point-lio/rolling_lidar.cc": "d1173c09933401814f1a87922547ee6344060fd81ae45fa1c30d2ca1387de270",
+    "courses/classic11_noetic/52-point-lio/student_check.py": "419e3ae12d4e72e71049858e7e18a440ab456781d69d972ba6426988c889bb84",
+    "courses/classic11_noetic/52-point-lio/verify.py": "4a7cb2e620beac4db4ed566b828b88a759b2fde92a6d6bdeb1f83c459873acec",
+    "courses/classic11_noetic/52-point-lio/world.sdf": "631bd7ee794d995d4a4fbf3e736a1faa2dbb7a711c3b5130cbd45cb07da44c2c"
+  }
+}

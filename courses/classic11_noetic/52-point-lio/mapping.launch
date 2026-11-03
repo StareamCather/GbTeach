@@ -1,0 +1,67 @@
+<launch>
+  <arg name="mode_namespace"/>
+  <arg name="high_bandwidth" default="false"/>
+  <group ns="$(arg mode_namespace)">
+    <node pkg="point_lio" type="pointlio_mapping" name="laserMapping" output="screen" required="true">
+      <rosparam>
+        common:
+          lid_topic: /gt_lio/replay_points
+          imu_topic: /gt_lio/replay_imu
+          con_frame: false
+          cut_frame: false
+          time_lag_imu_to_lidar: 0.0
+        preprocess:
+          lidar_type: 2
+          scan_line: 16
+          scan_rate: 10
+          timestamp_unit: 0
+          blind: 0.35
+        mapping:
+          imu_en: true
+          start_in_aggressive_motion: false
+          extrinsic_est_en: false
+          imu_time_inte: 0.005
+          satu_acc: 30.0
+          satu_gyro: 35.0
+          acc_norm: 9.81
+          lidar_meas_cov: 0.01
+          acc_cov_output: 500.0
+          gyr_cov_output: 1000.0
+          b_acc_cov: 0.0001
+          b_gyr_cov: 0.0001
+          imu_meas_acc_cov: 0.1
+          imu_meas_omg_cov: 0.1
+          plane_thr: 0.1
+          match_s: 81.0
+          fov_degree: 180.0
+          det_range: 30.0
+          gravity_align: true
+          gravity: [0.0, 0.0, -9.81]
+          gravity_init: [0.0, 0.0, -9.81]
+          extrinsic_T: [0.04165, 0.02326, -0.0284]
+          extrinsic_R: [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0]
+        publish:
+          path_en: true
+          scan_publish_en: true
+          scan_bodyframe_pub_en: false
+        pcd_save:
+          pcd_save_en: false
+        use_imu_as_input: false
+        prop_at_freq_of_imu: true
+        check_satu: true
+        init_map_size: 10
+        point_filter_num: 1
+        space_down_sample: false
+        filter_size_surf: 0.2
+        filter_size_map: 0.2
+        cube_side_length: 100.0
+        runtime_pos_log_enable: false
+      </rosparam>
+      <param name="odometry/publish_odometry_without_downsample" value="$(arg high_bandwidth)" type="bool"/>
+      <remap from="/aft_mapped_to_init" to="/$(arg mode_namespace)/odometry"/>
+      <remap from="/cloud_registered" to="/$(arg mode_namespace)/registered"/>
+      <remap from="/Laser_map" to="/$(arg mode_namespace)/initial_map"/>
+      <remap from="/path" to="/$(arg mode_namespace)/path"/>
+    </node>
+  </group>
+</launch>
