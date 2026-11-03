@@ -122,7 +122,8 @@ class CatalogTests(unittest.TestCase):
     def test_gz_or_ign_tools_alone_do_not_imply_simulator(self):
         def output(arguments, timeout=4, accepted_codes=(0,), env=None):
             return "The command provides tools. Available commands: topic, log, sdf."
-        with mock.patch("gazeboteach.environment.shutil.which", side_effect=lambda name: "/tools/" + name if name in ("gz", "ign") else None), \
+        with mock.patch("gazeboteach.environment.Path.glob", return_value=[]), \
+                mock.patch("gazeboteach.environment.shutil.which", side_effect=lambda name, **_: "/tools/" + name if name in ("gz", "ign") else None), \
                 mock.patch("gazeboteach.environment._output", side_effect=output):
             report = detect_environment()
         self.assertFalse(report["classic_version"])
@@ -133,11 +134,12 @@ class CatalogTests(unittest.TestCase):
 class EnvironmentProbeTests(unittest.TestCase):
     def _probe_legacy_version(self, returncode):
         version = "Gazebo multi-robot simulator, version 11.15.1\nCopyright Open Robotics\n"
-        def which(name):
+        def which(name, **_):
             return "/fixture/" + name if name in ("gazebo", "gzserver", "gzclient") else None
         def execute(arguments, **options):
             return subprocess.CompletedProcess(arguments, returncode, stdout=version)
-        with mock.patch("gazeboteach.environment.shutil.which", side_effect=which), \
+        with mock.patch("gazeboteach.environment.Path.glob", return_value=[]), \
+                mock.patch("gazeboteach.environment.shutil.which", side_effect=which), \
                 mock.patch("gazeboteach.environment.subprocess.run", side_effect=execute):
             return detect_environment()
 
