@@ -150,6 +150,20 @@ ROS1实机已运行教材中的`rosrun tf tf_echo world probe`并捕获实际变
 
 2026-11-04，在只读工具快照增加`rosbag`，沿用已安装未激活Noetic时的实际bin发现。课程据这个快照检查真实录制/回放命令，不把已安装命令误判成未完成检测；主进程环境与实验隔离保持。工具发现/namespace两项单测在Windows和ikaros通过，实机命令路径和`--help`也分别确认。此框架修复独立提交，不表示A46课程已经交付。
 
+## A46：ROS1真实rosbag与诊断专项
+
+2026-11-04，最终独立验收52.028秒、最终桌面入口26.416秒通过。三轮分别录得41–43条真实state、47–48条diagnostics、2336–2426条Clock；真实位移记录范围约0.04–0.43m。真实1倍/2倍播放器逐话题完整数量、序列化载荷、原stamp与顺序核对通过，首末匹配state墙钟跨度比为2.00011–2.00012。独有bag文件在重复验收、回放和重入后保持原SHA，没有覆盖个人文件或旧记录。
+
+流程是observer真实关节查询→JointState→独立monitor接收并按monotonic新鲜度发布DiagnosticArray→真正rosbag record订阅三topic并录制→墙钟窗口结束后SIGINT优先关闭整个owned recorder组→实际Bag读回审计→两次真正rosbag play隔离回放→原消息全量比较与倍速计时。停发observer状态后monitor实际经历OK→WARN→ERROR，恢复真实新消息才回OK；finally恢复原emit参数并读回确认。
+
+真实首次回放发现Noetic内部时钟广告队列复用问题：state43/diagnostics48齐全，2431条Clock少了序号位置1和2。官方Player即使没有--clock也创建相对clock发布者（queue1），它与历史Clock输出重映到同名时，后续queue10000不会扩展既有Publication。仅给player加独立`__ns:=<replayPrefix>/player_internal`，保留三个原绝对topic映射，将内部clock与历史recorded_clock分开；同一个原bag在两rate下全部2431条Clock恢复，载荷/原stamp/顺序全部一致，跨度2.36097/1.18047秒。未增加keep-alive或放宽完整性判据。
+
+每次回放核对实际Master中实时/clock发布者、接收Clock无倒退、原生世界继续推进。录下的/clock真实消息进入私有recorded_clock，不进入实时/clock；源内部管理时钟也单独命名。暂停仿真后新录制约.869墙钟秒明确失败，未接受空/未闭合bag，录制器及C++子进程无残留；随后恢复并重新进入验收通过。
+
+![真实录制对象](images/a46-bag-diagnostics.png)
+
+9项子进程、CLI隔离、健康判定与未知clear不重发单测在Windows和ikaros通过。真实桌面教材、Gazebo/2PTY、验收与退出清理通过；终端只输出指标摘要，完整高频数据仍写个人验证文件。完整原始验收报告、同bag对照、4份原始bag和相关进程日志已在两端`.deploy/addons/A46`归档并校验SHA；[公开验证数据](verification/A46.json)对高频Clock逐条列表仅采用数量、顺序摘要和首末样本表示，明示原始文件路径/SHA，不改变实际验收的数据或判据。
+
 ## 后续目标
 
-A46–A53与M01/M11/M22–M26：按计划逐门建立活动目标、真实验收、提交推送后追加记录。目前不能因本地存在草稿就计为完成。
+A47–A53与M01/M11/M22–M26：按计划逐门建立活动目标、真实验收、提交推送后追加记录。目前不能因本地存在草稿就计为完成。

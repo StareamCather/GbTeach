@@ -1,0 +1,84 @@
+{
+  "id": "46",
+  "title": "ROS 1 数据专项：rosbag、隔离回放与diagnostics",
+  "module": "附加专项·ROS 1工程",
+  "profile": "classic11-noetic",
+  "order": 46,
+  "summary": "第32课录的是Gazebo世界状态，本课录的是ROS消息。二者都能回放，但保存对象与可回答的问题不同。先修21、22、32、35课。",
+  "requires_ros": true,
+  "requires_plugins": [
+    "libgazebo_ros_api_plugin.so"
+  ],
+  "requires_ros_packages": [
+    "rospy",
+    "roslaunch",
+    "std_msgs",
+    "sensor_msgs",
+    "std_srvs",
+    "gazebo_msgs",
+    "diagnostic_msgs",
+    "rosgraph_msgs",
+    "rosgraph",
+    "rosbag"
+  ],
+  "requires_tools": [
+    "roslaunch",
+    "rosparam",
+    "rospack",
+    "rostopic",
+    "rosnode",
+    "rosservice",
+    "rosbag"
+  ],
+  "ros_package_paths": [
+    "ros_ws/src"
+  ],
+  "world": "world.sdf",
+  "prepare": [
+    "python3 prepare.py"
+  ],
+  "startup": [
+    {
+      "name": "ROS1专项仪器",
+      "command": "roslaunch gazeboteach_workshop46 lab.launch"
+    }
+  ],
+  "after_startup": [
+    "python3 lab.py ready"
+  ],
+  "after_startup_timeout": 25,
+  "verify": "verify.py",
+  "verify_timeout": 120,
+  "reference": "reference.md",
+  "objectives": [
+    "rosbag、隔离回放与diagnostics",
+    "追溯Gazebo真实关节与ROS消息来源",
+    "比较预测、运行读回与故障证据"
+  ],
+  "commands": [
+    {
+      "title": "查看真实关节与时钟",
+      "command": "python3 lab.py state"
+    },
+    {
+      "title": "施加有限力脉冲",
+      "command": "python3 lab.py pulse"
+    },
+    {
+      "title": "执行本课真实验收",
+      "command": "python3 verify.py"
+    },
+    {
+      "title": "查看ROS图",
+      "command": "rostopic list"
+    },
+    {
+      "title": "编辑独立填空练习",
+      "command": "gedit --new-window student.py"
+    },
+    {
+      "title": "独立检查白名单与诊断判定填空",
+      "command": "python3 lab.py student-check"
+    }
+  ]
+}

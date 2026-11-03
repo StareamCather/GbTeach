@@ -1,0 +1,13 @@
+<?xml version="1.0"?><sdf version="1.6"><world name="ros1_workshop">
+<physics name="ode" type="ode"><max_step_size>0.001</max_step_size><real_time_update_rate>1000</real_time_update_rate></physics>
+<scene><ambient>0.5 0.5 0.5 1</ambient><background>0.1 0.12 0.18 1</background></scene>
+<light name="sun" type="directional"><pose>0 0 6 0 0 0</pose><direction>-0.5 0.2 -1</direction><diffuse>0.8 0.8 0.8 1</diffuse></light>
+<gui><camera name="overview"><pose>2 -3 2 0 .35 2.1</pose></camera></gui>
+<model name="floor"><static>true</static><link name="floor"><visual name="floor"><geometry><box><size>6 3 .1</size></box></geometry><material><ambient>.25 .3 .35 1</ambient><diffuse>.25 .3 .35 1</diffuse></material></visual></link></model>
+<model name="rail"><static>true</static><pose>0 0 .55 0 0 0</pose><link name="rail"><visual name="rail"><geometry><box><size>2.5 .08 .08</size></box></geometry><material><ambient>.8 .7 .2 1</ambient><diffuse>.8 .7 .2 1</diffuse></material></visual></link></model>
+<model name="workshop"><pose>0 0 .7 0 0 0</pose><allow_auto_disable>false</allow_auto_disable>
+<link name="body"><gravity>false</gravity><inertial><mass>1</mass><inertia><ixx>.0067</ixx><iyy>.0067</iyy><izz>.0067</izz></inertia></inertial>
+<collision name="box"><geometry><box><size>.2 .2 .2</size></box></geometry></collision>
+<visual name="box"><geometry><box><size>.2 .2 .2</size></box></geometry><material><ambient>.1 .6 .9 1</ambient><diffuse>.1 .6 .9 1</diffuse></material></visual></link>
+<joint name="slide" type="prismatic"><parent>world</parent><child>body</child><axis><xyz>1 0 0</xyz><limit><lower>-1.2</lower><upper>1.2</upper><effort>20</effort><velocity>4</velocity></limit><dynamics><damping>.8</damping></dynamics></axis></joint>
+</model></world></sdf>
