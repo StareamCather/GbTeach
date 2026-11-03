@@ -1,0 +1,6 @@
+# Simulator-time publication delay; original observation stamp is retained.
+delay_sim_s: 0.03
+# Deliberate shadow timestamp perturbation, not a native sampling time.
+offset_sim_s: 0.012
+# Noetic ApproximateTimeSynchronizer uses a strict stamp difference < slop.
+slop_s: 0.02

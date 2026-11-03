@@ -1,0 +1,88 @@
+{
+  "id": "45",
+  "title": "ROS 1 TF与同步专项：组合变换、采样时间与消息配对",
+  "module": "附加专项·ROS 1工程",
+  "profile": "classic11-noetic",
+  "order": 45,
+  "summary": "在第24课基础上，用滑块→相机安装关系把“坐标变换”和“时间配对”放在同一实验中。先修03、21、24课。",
+  "requires_ros": true,
+  "requires_plugins": [
+    "libgazebo_ros_api_plugin.so"
+  ],
+  "requires_ros_packages": [
+    "rospy",
+    "roslaunch",
+    "geometry_msgs",
+    "std_msgs",
+    "std_srvs",
+    "gazebo_msgs",
+    "tf2_ros",
+    "tf2_msgs",
+    "message_filters",
+    "tf"
+  ],
+  "requires_tools": [
+    "roslaunch",
+    "rosparam",
+    "rospack",
+    "rostopic",
+    "rosnode",
+    "rosservice",
+    "rosrun"
+  ],
+  "ros_package_paths": [
+    "ros_ws/src"
+  ],
+  "world": "world.sdf",
+  "prepare": [
+    "python3 prepare.py"
+  ],
+  "startup": [
+    {
+      "name": "ROS1专项仪器",
+      "command": "roslaunch gazeboteach_workshop45 lab.launch"
+    }
+  ],
+  "after_startup": [
+    "python3 lab.py ready"
+  ],
+  "after_startup_timeout": 25,
+  "verify": "verify.py",
+  "verify_timeout": 90,
+  "reference": "reference.md",
+  "objectives": [
+    "组合变换、采样时间与消息配对",
+    "追溯Gazebo真实关节与ROS消息来源",
+    "比较预测、运行读回与故障证据"
+  ],
+  "commands": [
+    {
+      "title": "查看真实TF组合、参数与probe姿态",
+      "command": "python3 lab.py state"
+    },
+    {
+      "title": "施加有限力脉冲",
+      "command": "python3 lab.py pulse"
+    },
+    {
+      "title": "执行本课真实验收",
+      "command": "python3 verify.py"
+    },
+    {
+      "title": "查看ROS图",
+      "command": "rostopic list"
+    },
+    {
+      "title": "编辑独立填空练习",
+      "command": "gedit --new-window student.py"
+    },
+    {
+      "title": "独立检查R*p+t与时间差填空",
+      "command": "python3 lab.py student-check"
+    },
+    {
+      "title": "查看真实TF组合变化",
+      "command": "rosrun tf tf_echo world probe"
+    }
+  ]
+}

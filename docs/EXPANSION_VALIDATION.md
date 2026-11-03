@@ -132,6 +132,20 @@ UV接缝、斜视滤波闪烁及多物体透明排序仍是学员视觉练习；
 
 本课为离线source-only ROS包，无需消息编译或公共原型拷贝；私有节点入口固定个人工作根目录，所有耗时RPC有调用者墙钟边界。默认参考实验不执行或给学员独立参数校验填空打分。桌面选课、真实Gazebo与两个PTY、验收按钮、退出及owned进程清理均通过；独立无覆盖场景已核对。最终源码SHA与数据见[A44验证记录](verification/A44.json)。
 
+## A45：ROS1 TF与时间同步附加专项
+
+2026-11-04，独立真实验收36.855秒，最终教材桌面检查17.408秒通过。默认两次、重新进入，以及真实probe挂载z=.10/yaw=.3并将slop降为.004的变体均运行。每轮baseline Exact有10对；默认offset Exact为0、Approx为9–10对，12ms注入偏差遇到4ms容差时为明确的expected_mismatch、Approx为0。独立source ID映射全部完整，本次未映射对数均为0。
+
+几何流程为本次个人SDF安装pose→同条TFMessage发布两个静态关系→实际关节q广播动态cart→TF监听器Time(0)取得最新共同时间→组合probe位姿和非零局部点R*p+t→独立GetLinkState交叉核对。运动后原点误差8.63–10.12mm、旋转误差约1e-7rad，非零点误差与原点量级一致；变体的真实安装高度/偏航也随加载SDF改变。保持异步查询的.04m/.03rad容差，不声称原子同刻读取。
+
+同步流程从同一次真实关节查询拆出Pose/Twist教学通道，软件延迟companion但保留原stamp；影子通道明确注入12ms偏差。源观察完成后至少相隔.06仿真秒，结合offset/slop限制防邻帧借配；ATS采用严格小于slop。rospy会覆盖各Publisher的Header.seq，因此保留原始序号，并用publication_trace中的独立source_observation_seq及三路实际发布后seq/stamp关联同源数据，不强求跨话题原始seq相等。
+
+延迟验收逐项核对实际Publisher.publish调用的仿真时刻，本次观察stamp至companion发布调用为.030–.053仿真秒（配置.03）；同源接收monotonic差的中位数约.050–.052墙钟秒。两种证据分开记录，不把主机到达差当作仿真偏差、真实网络时延或独立传感器采样偏移。正反配对保留原始stamp、接收记录、发布源迹和关联计数。
+
+![真实TF探针与安装关系](images/a45-tf-probe.png)
+
+ROS1实机已运行教材中的`rosrun tf tf_echo world probe`并捕获实际变换输出；未使用此机不存在的tf2_echo命令。TF只做即时lookup与单调墙钟轮询，Buffer关闭debug Master探测；零ROS时钟不生成动态TF/同步样本，暂停不重复stamp。13项几何/时间/来源/延迟/未知clear不重发单测在Windows和ikaros通过。最终桌面选课、Gazebo/2PTY、验收、退出与个人修改持久化通过，测试进程全部清理。完整最终源码SHA和数据见[A45验证记录](verification/A45.json)。
+
 ## 后续目标
 
-A45–A53与M01/M11/M22–M26：按计划逐门建立活动目标、真实验收、提交推送后追加记录。目前不能因本地存在草稿就计为完成。
+A46–A53与M01/M11/M22–M26：按计划逐门建立活动目标、真实验收、提交推送后追加记录。目前不能因本地存在草稿就计为完成。

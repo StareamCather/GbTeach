@@ -1,0 +1,3713 @@
+{
+  "phase": "A45",
+  "date": "2026-11-04",
+  "passed": true,
+  "acceptance": {
+    "lesson": "45",
+    "ok": true,
+    "data_dir": "/tmp/gazeboteach-a45-27mqr_du",
+    "checks": [
+      {
+        "name": "actual_rosrun_tf_echo_world_probe",
+        "passed": true,
+        "output": "Failure at 4.062000000\nException thrown:Could not find a connection between 'world' and 'probe' because they are not part of the same tree.Tf has two or more unconnected trees.\nThe current list of frames is:\nFrame rail exists with parent world.\nFrame probe exists with parent cart.\n\nFailure at 4.062000000\nException thrown:Could not find a connection between 'world' and 'probe' because they are not part of the same tree.Tf has two or more unconnected trees.\nThe current list of frames is:\nFrame rail exists with parent world.\nFrame probe exists with parent cart.\n\nAt time 5.056\n- Translation: [0.100, 0.150, 0.750]\n- Rotation: in Quaternion [0.000, 0.000, 0.707, 0.707]\n            in RPY (radian) [0.000, -0.000, 1.571]\n            in RPY (degree) [0.000, -0.000, 90.000]\nAt time 6.039\n- Translation: [0.100, 0.150, 0.750]\n- Rotation: in Quaternion [0.000, 0.000, 0.707, 0.707]\n            in RPY (radian) [0.000, -0.000, 1.571]\n            in RPY (degree) [0.000, -0.000, 90.000]\n"
+      },
+      {
+        "name": "default_repeated_native_tf_and_sync_1",
+        "passed": true,
+        "verification": {
+          "passed": true,
+          "assignment_pass": false,
+          "lesson": 45,
+          "namespace": "/workshop45",
+          "trusted_verifier_sha256": "5514bba35bf8c4e77eb98a9c8f6021ea15514301e5de1a21a34cd324f8596e5f",
+          "checks": {
+            "reset": {
+              "before_native_world_s": 7.085,
+              "after_native_world_s": 7.098,
+              "actual_joint": {
+                "position_m": 0.0,
+                "velocity_m_s": 0.0,
+                "receipt_clock_before_s": 7.091,
+                "receipt_clock_after_s": 7.094,
+                "host_monotonic_before_ns": 35449991369814,
+                "host_monotonic_after_ns": 35449994692193,
+                "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+              }
+            },
+            "physical_tf_motion": {
+              "before": {
+                "tf": {
+                  "position": [
+                    0.1,
+                    0.15,
+                    0.75
+                  ],
+                  "orientation_xyzw": [
+                    0.0,
+                    0.0,
+                    0.7071067811865475,
+                    0.7071067811865476
+                  ],
+                  "stamp_s": 7.101,
+                  "parent": "world",
+                  "child": "probe",
+                  "time_semantics": "lookup Time(0) returns the latest common time of this chain, not necessarily the current simulator time"
+                },
+                "independent_native_link": {
+                  "position": [
+                    0.1,
+                    0.15,
+                    0.75
+                  ],
+                  "orientation_xyzw": [
+                    0.0,
+                    0.0,
+                    0.7071067811865475,
+                    0.7071067811865476
+                  ],
+                  "native_world_time_bracket_s": [
+                    7.113,
+                    7.122
+                  ],
+                  "source": "GetLinkState workshop::probe relative to world; no native acquisition stamp"
+                },
+                "position_error_m": 0.0,
+                "orientation_error_rad": 0.0,
+                "local_point": [
+                  0.2,
+                  0,
+                  0
+                ],
+                "tf_transformed_point": [
+                  0.10000000000000005,
+                  0.35,
+                  0.75
+                ],
+                "native_transformed_point": [
+                  0.10000000000000005,
+                  0.35,
+                  0.75
+                ],
+                "point_error_m": 0.0,
+                "comparison_scope": "Asynchronous latest-common-time TF versus independent GetLinkState bracket, with explicit tolerances; no atomic snapshot claim"
+              },
+              "after": {
+                "tf": {
+                  "position": [
+                    0.14180149645102516,
+                    0.15,
+                    0.75
+                  ],
+                  "orientation_xyzw": [
+                    0.0,
+                    0.0,
+                    0.7071067811865475,
+                    0.7071067811865476
+                  ],
+                  "stamp_s": 7.353,
+                  "parent": "world",
+                  "child": "probe",
+                  "time_semantics": "lookup Time(0) returns the latest common time of this chain, not necessarily the current simulator time"
+                },
+                "independent_native_link": {
+                  "position": [
+                    0.15043291987117316,
+                    0.14999996727402562,
+                    0.749999999995121
+                  ],
+                  "orientation_xyzw": [
+                    -1.3044458671878461e-08,
+                    -8.763476671291862e-09,
+                    0.7071068181794316,
+                    0.7071067441936616
+                  ],
+                  "native_world_time_bracket_s": [
+                    7.372,
+                    7.381
+                  ],
+                  "source": "GetLinkState workshop::probe relative to world; no native acquisition stamp"
+                },
+                "position_error_m": 0.008631423420210038,
+                "orientation_error_rad": 1.032382731180714e-07,
+                "local_point": [
+                  0.2,
+                  0,
+                  0
+                ],
+                "tf_transformed_point": [
+                  0.14180149645102522,
+                  0.35,
+                  0.75
+                ],
+                "native_transformed_point": [
+                  0.15043289894483725,
+                  0.3499999672740246,
+                  0.7499999987842761
+                ],
+                "point_error_m": 0.008631402493874155,
+                "comparison_scope": "Asynchronous latest-common-time TF versus independent GetLinkState bracket, with explicit tolerances; no atomic snapshot claim"
+              },
+              "pulse": {
+                "scheduled_once": true,
+                "force_N": 2,
+                "duration_sim_s": 0.2,
+                "before_joint": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 7.128,
+                  "receipt_clock_after_s": 7.133,
+                  "host_monotonic_before_ns": 35450028504526,
+                  "host_monotonic_after_ns": 35450033543102,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                }
+              },
+              "independent_joint_after": {
+                "position_m": 0.046856432599384094,
+                "velocity_m_s": 0.3592101208974817,
+                "receipt_clock_before_s": 7.364,
+                "receipt_clock_after_s": 7.368,
+                "host_monotonic_before_ns": 35450264058787,
+                "host_monotonic_after_ns": 35450268152176,
+                "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+              }
+            },
+            "timestamp_matching": {
+              "raw": {
+                "pose": [
+                  {
+                    "seq": 1,
+                    "stamp_ns": 7129000000,
+                    "publisher_seq": 1,
+                    "receipt_monotonic_ns": 35450030566090,
+                    "frame": "rail",
+                    "actual_joint_position_m": 0.0,
+                    "source_observation_seq": 55
+                  },
+                  {
+                    "seq": 2,
+                    "stamp_ns": 7204000000,
+                    "publisher_seq": 2,
+                    "receipt_monotonic_ns": 35450105313703,
+                    "frame": "rail",
+                    "actual_joint_position_m": 0.0038057740922504218,
+                    "source_observation_seq": 56
+                  },
+                  {
+                    "seq": 3,
+                    "stamp_ns": 7278000000,
+                    "publisher_seq": 3,
+                    "receipt_monotonic_ns": 35450179573027,
+                    "frame": "rail",
+                    "actual_joint_position_m": 0.017807075271174533,
+                    "source_observation_seq": 57
+                  },
+                  {
+                    "seq": 4,
+                    "stamp_ns": 7353000000,
+                    "publisher_seq": 4,
+                    "receipt_monotonic_ns": 35450253853637,
+                    "frame": "rail",
+                    "actual_joint_position_m": 0.041801496451025155,
+                    "source_observation_seq": 58
+                  },
+                  {
+                    "seq": 5,
+                    "stamp_ns": 7428000000,
+                    "publisher_seq": 5,
+                    "receipt_monotonic_ns": 35450329113762,
+                    "frame": "rail",
+                    "actual_joint_position_m": 0.06823864184479082,
+                    "source_observation_seq": 59
+                  },
+                  {
+                    "seq": 6,
+                    "stamp_ns": 7505000000,
+                    "publisher_seq": 6,
+                    "receipt_monotonic_ns": 35450405923721,
+                    "frame": "rail",
+                    "actual_joint_position_m": 0.09347267344121417,
+                    "source_observation_seq": 60
+                  },
+                  {
+                    "seq": 7,
+                    "stamp_ns": 7583000000,
+                    "publisher_seq": 7,
+                    "receipt_monotonic_ns": 35450484330234,
+                    "frame": "rail",
+                    "actual_joint_position_m": 0.11783804244866562,
+                    "source_observation_seq": 61
+                  },
+                  {
+                    "seq": 8,
+                    "stamp_ns": 7661000000,
+                    "publisher_seq": 8,
+                    "receipt_monotonic_ns": 35450562092338,
+                    "frame": "rail",
+                    "actual_joint_position_m": 0.14074306385317822,
+                    "source_observation_seq": 62
+                  },
+                  {
+                    "seq": 9,
+                    "stamp_ns": 7738000000,
+                    "publisher_seq": 9,
+                    "receipt_monotonic_ns": 35450638909632,
+                    "frame": "rail",
+                    "actual_joint_position_m": 0.16200754734625977,
+                    "source_observation_seq": 63
+                  },
+                  {
+                    "seq": 10,
+                    "stamp_ns": 7813000000,
+                    "publisher_seq": 10,
+                    "receipt_monotonic_ns": 35450714303388,
+                    "frame": "rail",
+                    "actual_joint_position_m": 0.18176131193987383,
+                    "source_observation_seq": 64
+                  }
+                ],
+                "companion": [
+                  {
+                    "seq": 1,
+                    "stamp_ns": 7051000000,
+                    "publisher_seq": 1,
+                    "receipt_monotonic_ns": 35450002560472,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.0,
+                    "source_observation_seq": 54
+                  },
+                  {
+                    "seq": 2,
+                    "stamp_ns": 7129000000,
+                    "publisher_seq": 2,
+                    "receipt_monotonic_ns": 35450080790749,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.0,
+                    "source_observation_seq": 55
+                  },
+                  {
+                    "seq": 3,
+                    "stamp_ns": 7204000000,
+                    "publisher_seq": 3,
+                    "receipt_monotonic_ns": 35450154929485,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.11985273568019816,
+                    "source_observation_seq": 56
+                  },
+                  {
+                    "seq": 4,
+                    "stamp_ns": 7278000000,
+                    "publisher_seq": 4,
+                    "receipt_monotonic_ns": 35450228850654,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.2554046174181292,
+                    "source_observation_seq": 57
+                  },
+                  {
+                    "seq": 5,
+                    "stamp_ns": 7353000000,
+                    "publisher_seq": 5,
+                    "receipt_monotonic_ns": 35450304435082,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.36321720708912036,
+                    "source_observation_seq": 58
+                  },
+                  {
+                    "seq": 6,
+                    "stamp_ns": 7428000000,
+                    "publisher_seq": 6,
+                    "receipt_monotonic_ns": 35450379448226,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.3422602918218238,
+                    "source_observation_seq": 59
+                  },
+                  {
+                    "seq": 7,
+                    "stamp_ns": 7505000000,
+                    "publisher_seq": 7,
+                    "receipt_monotonic_ns": 35450457991862,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.3222570959477541,
+                    "source_observation_seq": 60
+                  },
+                  {
+                    "seq": 8,
+                    "stamp_ns": 7583000000,
+                    "publisher_seq": 8,
+                    "receipt_monotonic_ns": 35450535731160,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.30294249507085275,
+                    "source_observation_seq": 61
+                  },
+                  {
+                    "seq": 9,
+                    "stamp_ns": 7661000000,
+                    "publisher_seq": 9,
+                    "receipt_monotonic_ns": 35450612834534,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.2847855220995116,
+                    "source_observation_seq": 62
+                  },
+                  {
+                    "seq": 10,
+                    "stamp_ns": 7738000000,
+                    "publisher_seq": 10,
+                    "receipt_monotonic_ns": 35450689437673,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.26792901516966666,
+                    "source_observation_seq": 63
+                  },
+                  {
+                    "seq": 11,
+                    "stamp_ns": 7813000000,
+                    "publisher_seq": 11,
+                    "receipt_monotonic_ns": 35450763924444,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.25227006582950895,
+                    "source_observation_seq": 64
+                  }
+                ],
+                "companion_offset": [
+                  {
+                    "seq": 1,
+                    "stamp_ns": 7063000000,
+                    "publisher_seq": 1,
+                    "receipt_monotonic_ns": 35450002846858,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.0,
+                    "source_observation_seq": 54
+                  },
+                  {
+                    "seq": 2,
+                    "stamp_ns": 7141000000,
+                    "publisher_seq": 2,
+                    "receipt_monotonic_ns": 35450080482142,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.0,
+                    "source_observation_seq": 55
+                  },
+                  {
+                    "seq": 3,
+                    "stamp_ns": 7216000000,
+                    "publisher_seq": 3,
+                    "receipt_monotonic_ns": 35450155142641,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.11985273568019816,
+                    "source_observation_seq": 56
+                  },
+                  {
+                    "seq": 4,
+                    "stamp_ns": 7290000000,
+                    "publisher_seq": 4,
+                    "receipt_monotonic_ns": 35450229163376,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.2554046174181292,
+                    "source_observation_seq": 57
+                  },
+                  {
+                    "seq": 5,
+                    "stamp_ns": 7365000000,
+                    "publisher_seq": 5,
+                    "receipt_monotonic_ns": 35450304102709,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.36321720708912036,
+                    "source_observation_seq": 58
+                  },
+                  {
+                    "seq": 6,
+                    "stamp_ns": 7440000000,
+                    "publisher_seq": 6,
+                    "receipt_monotonic_ns": 35450379901422,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.3422602918218238,
+                    "source_observation_seq": 59
+                  },
+                  {
+                    "seq": 7,
+                    "stamp_ns": 7517000000,
+                    "publisher_seq": 7,
+                    "receipt_monotonic_ns": 35450457724643,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.3222570959477541,
+                    "source_observation_seq": 60
+                  },
+                  {
+                    "seq": 8,
+                    "stamp_ns": 7595000000,
+                    "publisher_seq": 8,
+                    "receipt_monotonic_ns": 35450535984772,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.30294249507085275,
+                    "source_observation_seq": 61
+                  },
+                  {
+                    "seq": 9,
+                    "stamp_ns": 7673000000,
+                    "publisher_seq": 9,
+                    "receipt_monotonic_ns": 35450613459143,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.2847855220995116,
+                    "source_observation_seq": 62
+                  },
+                  {
+                    "seq": 10,
+                    "stamp_ns": 7750000000,
+                    "publisher_seq": 10,
+                    "receipt_monotonic_ns": 35450689676214,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.26792901516966666,
+                    "source_observation_seq": 63
+                  }
+                ]
+              },
+              "pairs": {
+                "baseline_exact": [
+                  {
+                    "pose_seq": 1,
+                    "companion_seq": 2,
+                    "pose_stamp_ns": 7129000000,
+                    "companion_stamp_ns": 7129000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35450080847341,
+                    "pose_source_observation_seq": 55,
+                    "companion_source_observation_seq": 55
+                  },
+                  {
+                    "pose_seq": 2,
+                    "companion_seq": 3,
+                    "pose_stamp_ns": 7204000000,
+                    "companion_stamp_ns": 7204000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35450154988815,
+                    "pose_source_observation_seq": 56,
+                    "companion_source_observation_seq": 56
+                  },
+                  {
+                    "pose_seq": 3,
+                    "companion_seq": 4,
+                    "pose_stamp_ns": 7278000000,
+                    "companion_stamp_ns": 7278000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35450228902771,
+                    "pose_source_observation_seq": 57,
+                    "companion_source_observation_seq": 57
+                  },
+                  {
+                    "pose_seq": 4,
+                    "companion_seq": 5,
+                    "pose_stamp_ns": 7353000000,
+                    "companion_stamp_ns": 7353000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35450304495416,
+                    "pose_source_observation_seq": 58,
+                    "companion_source_observation_seq": 58
+                  },
+                  {
+                    "pose_seq": 5,
+                    "companion_seq": 6,
+                    "pose_stamp_ns": 7428000000,
+                    "companion_stamp_ns": 7428000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35450379514019,
+                    "pose_source_observation_seq": 59,
+                    "companion_source_observation_seq": 59
+                  },
+                  {
+                    "pose_seq": 6,
+                    "companion_seq": 7,
+                    "pose_stamp_ns": 7505000000,
+                    "companion_stamp_ns": 7505000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35450458046354,
+                    "pose_source_observation_seq": 60,
+                    "companion_source_observation_seq": 60
+                  },
+                  {
+                    "pose_seq": 7,
+                    "companion_seq": 8,
+                    "pose_stamp_ns": 7583000000,
+                    "companion_stamp_ns": 7583000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35450535782213,
+                    "pose_source_observation_seq": 61,
+                    "companion_source_observation_seq": 61
+                  },
+                  {
+                    "pose_seq": 8,
+                    "companion_seq": 9,
+                    "pose_stamp_ns": 7661000000,
+                    "companion_stamp_ns": 7661000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35450612887139,
+                    "pose_source_observation_seq": 62,
+                    "companion_source_observation_seq": 62
+                  },
+                  {
+                    "pose_seq": 9,
+                    "companion_seq": 10,
+                    "pose_stamp_ns": 7738000000,
+                    "companion_stamp_ns": 7738000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35450689497490,
+                    "pose_source_observation_seq": 63,
+                    "companion_source_observation_seq": 63
+                  },
+                  {
+                    "pose_seq": 10,
+                    "companion_seq": 11,
+                    "pose_stamp_ns": 7813000000,
+                    "companion_stamp_ns": 7813000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35450763981133,
+                    "pose_source_observation_seq": 64,
+                    "companion_source_observation_seq": 64
+                  }
+                ],
+                "offset_exact": [],
+                "offset_approx": [
+                  {
+                    "pose_seq": 1,
+                    "companion_seq": 2,
+                    "pose_stamp_ns": 7129000000,
+                    "companion_stamp_ns": 7141000000,
+                    "stamp_delta_s": 0.012,
+                    "callback_receipt_monotonic_ns": 35450080633971,
+                    "pose_source_observation_seq": 55,
+                    "companion_source_observation_seq": 55
+                  },
+                  {
+                    "pose_seq": 2,
+                    "companion_seq": 3,
+                    "pose_stamp_ns": 7204000000,
+                    "companion_stamp_ns": 7216000000,
+                    "stamp_delta_s": 0.012,
+                    "callback_receipt_monotonic_ns": 35450155286836,
+                    "pose_source_observation_seq": 56,
+                    "companion_source_observation_seq": 56
+                  },
+                  {
+                    "pose_seq": 3,
+                    "companion_seq": 4,
+                    "pose_stamp_ns": 7278000000,
+                    "companion_stamp_ns": 7290000000,
+                    "stamp_delta_s": 0.012,
+                    "callback_receipt_monotonic_ns": 35450229323567,
+                    "pose_source_observation_seq": 57,
+                    "companion_source_observation_seq": 57
+                  },
+                  {
+                    "pose_seq": 4,
+                    "companion_seq": 5,
+                    "pose_stamp_ns": 7353000000,
+                    "companion_stamp_ns": 7365000000,
+                    "stamp_delta_s": 0.012,
+                    "callback_receipt_monotonic_ns": 35450304232087,
+                    "pose_source_observation_seq": 58,
+                    "companion_source_observation_seq": 58
+                  },
+                  {
+                    "pose_seq": 5,
+                    "companion_seq": 6,
+                    "pose_stamp_ns": 7428000000,
+                    "companion_stamp_ns": 7440000000,
+                    "stamp_delta_s": 0.012,
+                    "callback_receipt_monotonic_ns": 35450380027437,
+                    "pose_source_observation_seq": 59,
+                    "companion_source_observation_seq": 59
+                  },
+                  {
+                    "pose_seq": 6,
+                    "companion_seq": 7,
+                    "pose_stamp_ns": 7505000000,
+                    "companion_stamp_ns": 7517000000,
+                    "stamp_delta_s": 0.012,
+                    "callback_receipt_monotonic_ns": 35450457855251,
+                    "pose_source_observation_seq": 60,
+                    "companion_source_observation_seq": 60
+                  },
+                  {
+                    "pose_seq": 7,
+                    "companion_seq": 8,
+                    "pose_stamp_ns": 7583000000,
+                    "companion_stamp_ns": 7595000000,
+                    "stamp_delta_s": 0.012,
+                    "callback_receipt_monotonic_ns": 35450536164462,
+                    "pose_source_observation_seq": 61,
+                    "companion_source_observation_seq": 61
+                  },
+                  {
+                    "pose_seq": 8,
+                    "companion_seq": 9,
+                    "pose_stamp_ns": 7661000000,
+                    "companion_stamp_ns": 7673000000,
+                    "stamp_delta_s": 0.012,
+                    "callback_receipt_monotonic_ns": 35450613608788,
+                    "pose_source_observation_seq": 62,
+                    "companion_source_observation_seq": 62
+                  },
+                  {
+                    "pose_seq": 9,
+                    "companion_seq": 10,
+                    "pose_stamp_ns": 7738000000,
+                    "companion_stamp_ns": 7750000000,
+                    "stamp_delta_s": 0.012,
+                    "callback_receipt_monotonic_ns": 35450689830476,
+                    "pose_source_observation_seq": 63,
+                    "companion_source_observation_seq": 63
+                  }
+                ]
+              },
+              "injected_stamp_deltas_s": [
+                0.012,
+                0.012,
+                0.012,
+                0.012,
+                0.012,
+                0.012,
+                0.012,
+                0.012,
+                0.012
+              ],
+              "companion_receive_wall_lags_s": [
+                0.050224659,
+                0.049615782,
+                0.049277627,
+                0.050581445,
+                0.050334464,
+                0.052068141,
+                0.051400926,
+                0.050742196,
+                0.050528041
+              ],
+              "sample_origin": "One observation-node clock read after one real joint query, shared by two teaching channels; not independent native sensor stamps",
+              "shadow_origin": "Deliberate added offset_sim_s, not a physical sampling timestamp or clock correction",
+              "publication_delay_evidence": {
+                "source_publication_traces": [
+                  {
+                    "source_observation_seq": 55,
+                    "query_stamp_ns": 7129000000,
+                    "pose_publisher_seq": 1,
+                    "pose_stamp_ns": 7129000000,
+                    "companion_publisher_seq": 2,
+                    "companion_stamp_ns": 7129000000,
+                    "shadow_publisher_seq": 2,
+                    "shadow_stamp_ns": 7141000000,
+                    "pose_publish_call_sim_ns": 7129000000,
+                    "companion_publish_call_sim_ns": 7179000000,
+                    "shadow_publish_call_sim_ns": 7179000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.05
+                  },
+                  {
+                    "source_observation_seq": 56,
+                    "query_stamp_ns": 7204000000,
+                    "pose_publisher_seq": 2,
+                    "pose_stamp_ns": 7204000000,
+                    "companion_publisher_seq": 3,
+                    "companion_stamp_ns": 7204000000,
+                    "shadow_publisher_seq": 3,
+                    "shadow_stamp_ns": 7216000000,
+                    "pose_publish_call_sim_ns": 7204000000,
+                    "companion_publish_call_sim_ns": 7254000000,
+                    "shadow_publish_call_sim_ns": 7254000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.05
+                  },
+                  {
+                    "source_observation_seq": 57,
+                    "query_stamp_ns": 7278000000,
+                    "pose_publisher_seq": 3,
+                    "pose_stamp_ns": 7278000000,
+                    "companion_publisher_seq": 4,
+                    "companion_stamp_ns": 7278000000,
+                    "shadow_publisher_seq": 4,
+                    "shadow_stamp_ns": 7290000000,
+                    "pose_publish_call_sim_ns": 7278000000,
+                    "companion_publish_call_sim_ns": 7328000000,
+                    "shadow_publish_call_sim_ns": 7328000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.05
+                  },
+                  {
+                    "source_observation_seq": 58,
+                    "query_stamp_ns": 7353000000,
+                    "pose_publisher_seq": 4,
+                    "pose_stamp_ns": 7353000000,
+                    "companion_publisher_seq": 5,
+                    "companion_stamp_ns": 7353000000,
+                    "shadow_publisher_seq": 5,
+                    "shadow_stamp_ns": 7365000000,
+                    "pose_publish_call_sim_ns": 7353000000,
+                    "companion_publish_call_sim_ns": 7403000000,
+                    "shadow_publish_call_sim_ns": 7403000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.05
+                  },
+                  {
+                    "source_observation_seq": 59,
+                    "query_stamp_ns": 7428000000,
+                    "pose_publisher_seq": 5,
+                    "pose_stamp_ns": 7428000000,
+                    "companion_publisher_seq": 6,
+                    "companion_stamp_ns": 7428000000,
+                    "shadow_publisher_seq": 6,
+                    "shadow_stamp_ns": 7440000000,
+                    "pose_publish_call_sim_ns": 7428000000,
+                    "companion_publish_call_sim_ns": 7478000000,
+                    "shadow_publish_call_sim_ns": 7478000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.05
+                  },
+                  {
+                    "source_observation_seq": 60,
+                    "query_stamp_ns": 7505000000,
+                    "pose_publisher_seq": 6,
+                    "pose_stamp_ns": 7505000000,
+                    "companion_publisher_seq": 7,
+                    "companion_stamp_ns": 7505000000,
+                    "shadow_publisher_seq": 7,
+                    "shadow_stamp_ns": 7517000000,
+                    "pose_publish_call_sim_ns": 7505000000,
+                    "companion_publish_call_sim_ns": 7556000000,
+                    "shadow_publish_call_sim_ns": 7556000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.051
+                  },
+                  {
+                    "source_observation_seq": 61,
+                    "query_stamp_ns": 7583000000,
+                    "pose_publisher_seq": 7,
+                    "pose_stamp_ns": 7583000000,
+                    "companion_publisher_seq": 8,
+                    "companion_stamp_ns": 7583000000,
+                    "shadow_publisher_seq": 8,
+                    "shadow_stamp_ns": 7595000000,
+                    "pose_publish_call_sim_ns": 7583000000,
+                    "companion_publish_call_sim_ns": 7635000000,
+                    "shadow_publish_call_sim_ns": 7635000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.052
+                  },
+                  {
+                    "source_observation_seq": 62,
+                    "query_stamp_ns": 7661000000,
+                    "pose_publisher_seq": 8,
+                    "pose_stamp_ns": 7661000000,
+                    "companion_publisher_seq": 9,
+                    "companion_stamp_ns": 7661000000,
+                    "shadow_publisher_seq": 9,
+                    "shadow_stamp_ns": 7673000000,
+                    "pose_publish_call_sim_ns": 7661000000,
+                    "companion_publish_call_sim_ns": 7712000000,
+                    "shadow_publish_call_sim_ns": 7712000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.051
+                  },
+                  {
+                    "source_observation_seq": 63,
+                    "query_stamp_ns": 7738000000,
+                    "pose_publisher_seq": 9,
+                    "pose_stamp_ns": 7738000000,
+                    "companion_publisher_seq": 10,
+                    "companion_stamp_ns": 7738000000,
+                    "shadow_publisher_seq": 10,
+                    "shadow_stamp_ns": 7750000000,
+                    "pose_publish_call_sim_ns": 7738000000,
+                    "companion_publish_call_sim_ns": 7788000000,
+                    "shadow_publish_call_sim_ns": 7788000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.05
+                  },
+                  {
+                    "source_observation_seq": 64,
+                    "query_stamp_ns": 7813000000,
+                    "pose_publisher_seq": 10,
+                    "pose_stamp_ns": 7813000000,
+                    "companion_publisher_seq": 11,
+                    "companion_stamp_ns": 7813000000,
+                    "shadow_publisher_seq": 11,
+                    "shadow_stamp_ns": 7825000000,
+                    "pose_publish_call_sim_ns": 7813000000,
+                    "companion_publish_call_sim_ns": 7863000000,
+                    "shadow_publish_call_sim_ns": 7863000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.05
+                  }
+                ],
+                "same_sequence_receive_wall_lags_s": [
+                  0.050224659,
+                  0.049615782,
+                  0.049277627,
+                  0.050581445,
+                  0.050334464,
+                  0.052068141,
+                  0.051400926,
+                  0.050742196,
+                  0.050528041,
+                  0.049621056
+                ],
+                "median_receive_wall_lag_s": 0.0504312525,
+                "scope": "Simulator-time publish-call delay and monotonic wall receipt lag are separate measurements; neither is a native independent-sensor sampling offset"
+              },
+              "delay_note": "Receive wall lag includes the controlled simulated-time publication delay and transport/callback scheduling; it is not an independent sensor sampling offset"
+            }
+          },
+          "configuration": {
+            "delay_sim_s": 0.03,
+            "offset_sim_s": 0.012,
+            "slop_s": 0.02,
+            "sync_period_sim_s": 0.06
+          },
+          "mount": {
+            "rail_pose": [
+              0.0,
+              0.0,
+              0.7,
+              0,
+              0,
+              0
+            ],
+            "probe_pose_relative_body": [
+              0.1,
+              0.15,
+              0.05,
+              0.0,
+              0.0,
+              1.5707963267948966
+            ],
+            "probe_link": "workshop::probe",
+            "local_point": [
+              0.2,
+              0,
+              0
+            ],
+            "world_sha256": "19f4b7dd618f1cfabd47c17790287e94430b89f06a4c185e9f9f6e2f85cddeea"
+          },
+          "match_statistics": {
+            "baseline_exact": 10,
+            "offset_exact": 0,
+            "offset_approx": 9,
+            "expected_offset_exact": false,
+            "expected_offset_approx": true,
+            "offset_approx_outcome": "expected_match",
+            "same_transaction_seq_verified": true,
+            "same_transaction_identity": "Independent source_observation_seq mapped through (topic kind, raw stamp, per-Publisher Header.seq); raw Header.seq need not agree across topics",
+            "source_identity_pair_counts": {
+              "baseline_exact": {
+                "source_verified": 10,
+                "unmapped_capture_boundary_pairs": 0
+              },
+              "offset_exact": {
+                "source_verified": 0,
+                "unmapped_capture_boundary_pairs": 0
+              },
+              "offset_approx": {
+                "source_verified": 9,
+                "unmapped_capture_boundary_pairs": 0
+              }
+            },
+            "strict_slop": true
+          },
+          "elapsed_wall_s": 0.8704405080061406
+        }
+      },
+      {
+        "name": "default_repeated_native_tf_and_sync_2",
+        "passed": true,
+        "verification": {
+          "passed": true,
+          "assignment_pass": false,
+          "lesson": 45,
+          "namespace": "/workshop45",
+          "trusted_verifier_sha256": "5514bba35bf8c4e77eb98a9c8f6021ea15514301e5de1a21a34cd324f8596e5f",
+          "checks": {
+            "reset": {
+              "before_native_world_s": 8.837,
+              "after_native_world_s": 8.858,
+              "actual_joint": {
+                "position_m": -5.653332606499497e-12,
+                "velocity_m_s": -3.518554104526875e-10,
+                "receipt_clock_before_s": 8.846,
+                "receipt_clock_after_s": 8.852,
+                "host_monotonic_before_ns": 35451747966629,
+                "host_monotonic_after_ns": 35451753369667,
+                "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+              }
+            },
+            "physical_tf_motion": {
+              "before": {
+                "tf": {
+                  "position": [
+                    0.09999999999306187,
+                    0.15,
+                    0.75
+                  ],
+                  "orientation_xyzw": [
+                    0.0,
+                    0.0,
+                    0.7071067811865475,
+                    0.7071067811865476
+                  ],
+                  "stamp_s": 8.877,
+                  "parent": "world",
+                  "child": "probe",
+                  "time_semantics": "lookup Time(0) returns the latest common time of this chain, not necessarily the current simulator time"
+                },
+                "independent_native_link": {
+                  "position": [
+                    0.09999999999306622,
+                    0.14999999999932717,
+                    0.7499999999999779
+                  ],
+                  "orientation_xyzw": [
+                    -2.6159198258227947e-13,
+                    -2.0292929880661468e-13,
+                    0.707106781187303,
+                    0.7071067811857922
+                  ],
+                  "native_world_time_bracket_s": [
+                    8.884,
+                    8.893
+                  ],
+                  "source": "GetLinkState workshop::probe relative to world; no native acquisition stamp"
+                },
+                "position_error_m": 6.731995650284224e-13,
+                "orientation_error_rad": 0.0,
+                "local_point": [
+                  0.2,
+                  0,
+                  0
+                ],
+                "tf_transformed_point": [
+                  0.09999999999306192,
+                  0.35,
+                  0.75
+                ],
+                "native_transformed_point": [
+                  0.09999999999263887,
+                  0.34999999999932724,
+                  0.7499999999999614
+                ],
+                "point_error_m": 7.956400312181134e-13,
+                "comparison_scope": "Asynchronous latest-common-time TF versus independent GetLinkState bracket, with explicit tolerances; no atomic snapshot claim"
+              },
+              "after": {
+                "tf": {
+                  "position": [
+                    0.1546874685106583,
+                    0.15,
+                    0.75
+                  ],
+                  "orientation_xyzw": [
+                    0.0,
+                    0.0,
+                    0.7071067811865475,
+                    0.7071067811865476
+                  ],
+                  "stamp_s": 9.162,
+                  "parent": "world",
+                  "child": "probe",
+                  "time_semantics": "lookup Time(0) returns the latest common time of this chain, not necessarily the current simulator time"
+                },
+                "independent_native_link": {
+                  "position": [
+                    0.1648038017936127,
+                    0.14999996825274042,
+                    0.7499999999936937
+                  ],
+                  "orientation_xyzw": [
+                    -1.2654660053802589e-08,
+                    -8.50438487921912e-09,
+                    0.707106817075389,
+                    0.707106745297704
+                  ],
+                  "native_world_time_bracket_s": [
+                    9.186,
+                    9.196
+                  ],
+                  "source": "GetLinkState workshop::probe relative to world; no native acquisition stamp"
+                },
+                "position_error_m": 0.01011633328300423,
+                "orientation_error_rad": 1.032382731180714e-07,
+                "local_point": [
+                  0.2,
+                  0,
+                  0
+                ],
+                "tf_transformed_point": [
+                  0.15468746851065834,
+                  0.35,
+                  0.75
+                ],
+                "native_transformed_point": [
+                  0.16480378149181757,
+                  0.3499999682527394,
+                  0.7499999988198183
+                ],
+                "point_error_m": 0.01011631298120911,
+                "comparison_scope": "Asynchronous latest-common-time TF versus independent GetLinkState bracket, with explicit tolerances; no atomic snapshot claim"
+              },
+              "pulse": {
+                "scheduled_once": true,
+                "force_N": 2,
+                "duration_sim_s": 0.2,
+                "before_joint": {
+                  "position_m": -6.815139518213107e-12,
+                  "velocity_m_s": 4.35748262358292e-12,
+                  "receipt_clock_before_s": 8.898,
+                  "receipt_clock_after_s": 8.906,
+                  "host_monotonic_before_ns": 35451800360272,
+                  "host_monotonic_after_ns": 35451807516396,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                }
+              },
+              "independent_joint_after": {
+                "position_m": 0.06134164068277845,
+                "velocity_m_s": 0.3477275935739893,
+                "receipt_clock_before_s": 9.176,
+                "receipt_clock_after_s": 9.181,
+                "host_monotonic_before_ns": 35452077916645,
+                "host_monotonic_after_ns": 35452083108806,
+                "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+              }
+            },
+            "timestamp_matching": {
+              "raw": {
+                "pose": [
+                  {
+                    "seq": 12,
+                    "stamp_ns": 8852000000,
+                    "publisher_seq": 12,
+                    "receipt_monotonic_ns": 35451754632562,
+                    "frame": "rail",
+                    "actual_joint_position_m": -5.653332606499497e-12,
+                    "source_observation_seq": 79
+                  },
+                  {
+                    "seq": 13,
+                    "stamp_ns": 8930000000,
+                    "publisher_seq": 13,
+                    "receipt_monotonic_ns": 35451832138905,
+                    "frame": "rail",
+                    "actual_joint_position_m": 0.00023674751412320564,
+                    "source_observation_seq": 80
+                  },
+                  {
+                    "seq": 14,
+                    "stamp_ns": 9006000000,
+                    "publisher_seq": 14,
+                    "receipt_monotonic_ns": 35451908793877,
+                    "frame": "rail",
+                    "actual_joint_position_m": 0.00809556333242028,
+                    "source_observation_seq": 81
+                  },
+                  {
+                    "seq": 15,
+                    "stamp_ns": 9085000000,
+                    "publisher_seq": 15,
+                    "receipt_monotonic_ns": 35451987502517,
+                    "frame": "rail",
+                    "actual_joint_position_m": 0.02753952238725291,
+                    "source_observation_seq": 82
+                  },
+                  {
+                    "seq": 16,
+                    "stamp_ns": 9162000000,
+                    "publisher_seq": 16,
+                    "receipt_monotonic_ns": 35452064551106,
+                    "frame": "rail",
+                    "actual_joint_position_m": 0.05468746851065829,
+                    "source_observation_seq": 83
+                  },
+                  {
+                    "seq": 17,
+                    "stamp_ns": 9239000000,
+                    "publisher_seq": 17,
+                    "receipt_monotonic_ns": 35452141362465,
+                    "frame": "rail",
+                    "actual_joint_position_m": 0.08104559836794943,
+                    "source_observation_seq": 84
+                  },
+                  {
+                    "seq": 18,
+                    "stamp_ns": 9315000000,
+                    "publisher_seq": 18,
+                    "receipt_monotonic_ns": 35452217257521,
+                    "frame": "rail",
+                    "actual_joint_position_m": 0.10553113513154778,
+                    "source_observation_seq": 85
+                  },
+                  {
+                    "seq": 19,
+                    "stamp_ns": 9389000000,
+                    "publisher_seq": 19,
+                    "receipt_monotonic_ns": 35452291770619,
+                    "frame": "rail",
+                    "actual_joint_position_m": 0.12799655049526404,
+                    "source_observation_seq": 86
+                  },
+                  {
+                    "seq": 20,
+                    "stamp_ns": 9464000000,
+                    "publisher_seq": 20,
+                    "receipt_monotonic_ns": 35452367102047,
+                    "frame": "rail",
+                    "actual_joint_position_m": 0.1494604121224937,
+                    "source_observation_seq": 87
+                  },
+                  {
+                    "seq": 21,
+                    "stamp_ns": 9538000000,
+                    "publisher_seq": 21,
+                    "receipt_monotonic_ns": 35452440875486,
+                    "frame": "rail",
+                    "actual_joint_position_m": 0.1694240091118707,
+                    "source_observation_seq": 88
+                  }
+                ],
+                "companion": [
+                  {
+                    "seq": 13,
+                    "stamp_ns": 8773000000,
+                    "publisher_seq": 13,
+                    "receipt_monotonic_ns": 35451727392558,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.11789599739719703,
+                    "source_observation_seq": 78
+                  },
+                  {
+                    "seq": 14,
+                    "stamp_ns": 8852000000,
+                    "publisher_seq": 14,
+                    "receipt_monotonic_ns": 35451807029449,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": -3.518554104526875e-10,
+                    "source_observation_seq": 79
+                  },
+                  {
+                    "seq": 15,
+                    "stamp_ns": 8930000000,
+                    "publisher_seq": 15,
+                    "receipt_monotonic_ns": 35451882805234,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.029538843712460273,
+                    "source_observation_seq": 80
+                  },
+                  {
+                    "seq": 16,
+                    "stamp_ns": 9006000000,
+                    "publisher_seq": 16,
+                    "receipt_monotonic_ns": 35451960111373,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.17392345367866915,
+                    "source_observation_seq": 81
+                  },
+                  {
+                    "seq": 17,
+                    "stamp_ns": 9085000000,
+                    "publisher_seq": 17,
+                    "receipt_monotonic_ns": 35452038845828,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.3150697405879853,
+                    "source_observation_seq": 82
+                  },
+                  {
+                    "seq": 18,
+                    "stamp_ns": 9162000000,
+                    "publisher_seq": 18,
+                    "receipt_monotonic_ns": 35452115928339,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.3530024030648175,
+                    "source_observation_seq": 83
+                  },
+                  {
+                    "seq": 19,
+                    "stamp_ns": 9239000000,
+                    "publisher_seq": 19,
+                    "receipt_monotonic_ns": 35452192574278,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.33210812652350985,
+                    "source_observation_seq": 84
+                  },
+                  {
+                    "seq": 20,
+                    "stamp_ns": 9315000000,
+                    "publisher_seq": 20,
+                    "receipt_monotonic_ns": 35452266773686,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.31269826781375776,
+                    "source_observation_seq": 85
+                  },
+                  {
+                    "seq": 21,
+                    "stamp_ns": 9389000000,
+                    "publisher_seq": 21,
+                    "receipt_monotonic_ns": 35452341760571,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.2948897736698237,
+                    "source_observation_seq": 86
+                  },
+                  {
+                    "seq": 22,
+                    "stamp_ns": 9464000000,
+                    "publisher_seq": 22,
+                    "receipt_monotonic_ns": 35452415990850,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.277875218278514,
+                    "source_observation_seq": 87
+                  },
+                  {
+                    "seq": 23,
+                    "stamp_ns": 9538000000,
+                    "publisher_seq": 23,
+                    "receipt_monotonic_ns": 35452489513607,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.2620499333095401,
+                    "source_observation_seq": 88
+                  }
+                ],
+                "companion_offset": [
+                  {
+                    "seq": 13,
+                    "stamp_ns": 8785000000,
+                    "publisher_seq": 13,
+                    "receipt_monotonic_ns": 35451727897521,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.11789599739719703,
+                    "source_observation_seq": 78
+                  },
+                  {
+                    "seq": 14,
+                    "stamp_ns": 8864000000,
+                    "publisher_seq": 14,
+                    "receipt_monotonic_ns": 35451806605515,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": -3.518554104526875e-10,
+                    "source_observation_seq": 79
+                  },
+                  {
+                    "seq": 15,
+                    "stamp_ns": 8942000000,
+                    "publisher_seq": 15,
+                    "receipt_monotonic_ns": 35451883017899,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.029538843712460273,
+                    "source_observation_seq": 80
+                  },
+                  {
+                    "seq": 16,
+                    "stamp_ns": 9018000000,
+                    "publisher_seq": 16,
+                    "receipt_monotonic_ns": 35451960268321,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.17392345367866915,
+                    "source_observation_seq": 81
+                  },
+                  {
+                    "seq": 17,
+                    "stamp_ns": 9097000000,
+                    "publisher_seq": 17,
+                    "receipt_monotonic_ns": 35452038999832,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.3150697405879853,
+                    "source_observation_seq": 82
+                  },
+                  {
+                    "seq": 18,
+                    "stamp_ns": 9174000000,
+                    "publisher_seq": 18,
+                    "receipt_monotonic_ns": 35452115402365,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.3530024030648175,
+                    "source_observation_seq": 83
+                  },
+                  {
+                    "seq": 19,
+                    "stamp_ns": 9251000000,
+                    "publisher_seq": 19,
+                    "receipt_monotonic_ns": 35452192109000,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.33210812652350985,
+                    "source_observation_seq": 84
+                  },
+                  {
+                    "seq": 20,
+                    "stamp_ns": 9327000000,
+                    "publisher_seq": 20,
+                    "receipt_monotonic_ns": 35452266931441,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.31269826781375776,
+                    "source_observation_seq": 85
+                  },
+                  {
+                    "seq": 21,
+                    "stamp_ns": 9401000000,
+                    "publisher_seq": 21,
+                    "receipt_monotonic_ns": 35452342032689,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.2948897736698237,
+                    "source_observation_seq": 86
+                  },
+                  {
+                    "seq": 22,
+                    "stamp_ns": 9476000000,
+                    "publisher_seq": 22,
+                    "receipt_monotonic_ns": 35452416226978,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.277875218278514,
+                    "source_observation_seq": 87
+                  },
+                  {
+                    "seq": 23,
+                    "stamp_ns": 9550000000,
+                    "publisher_seq": 23,
+                    "receipt_monotonic_ns": 35452489694731,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.2620499333095401,
+                    "source_observation_seq": 88
+                  }
+                ]
+              },
+              "pairs": {
+                "baseline_exact": [
+                  {
+                    "pose_seq": 12,
+                    "companion_seq": 14,
+                    "pose_stamp_ns": 8852000000,
+                    "companion_stamp_ns": 8852000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35451807085235,
+                    "pose_source_observation_seq": 79,
+                    "companion_source_observation_seq": 79
+                  },
+                  {
+                    "pose_seq": 13,
+                    "companion_seq": 15,
+                    "pose_stamp_ns": 8930000000,
+                    "companion_stamp_ns": 8930000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35451882860408,
+                    "pose_source_observation_seq": 80,
+                    "companion_source_observation_seq": 80
+                  },
+                  {
+                    "pose_seq": 14,
+                    "companion_seq": 16,
+                    "pose_stamp_ns": 9006000000,
+                    "companion_stamp_ns": 9006000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35451960163528,
+                    "pose_source_observation_seq": 81,
+                    "companion_source_observation_seq": 81
+                  },
+                  {
+                    "pose_seq": 15,
+                    "companion_seq": 17,
+                    "pose_stamp_ns": 9085000000,
+                    "companion_stamp_ns": 9085000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35452038896776,
+                    "pose_source_observation_seq": 82,
+                    "companion_source_observation_seq": 82
+                  },
+                  {
+                    "pose_seq": 16,
+                    "companion_seq": 18,
+                    "pose_stamp_ns": 9162000000,
+                    "companion_stamp_ns": 9162000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35452115984086,
+                    "pose_source_observation_seq": 83,
+                    "companion_source_observation_seq": 83
+                  },
+                  {
+                    "pose_seq": 17,
+                    "companion_seq": 19,
+                    "pose_stamp_ns": 9239000000,
+                    "companion_stamp_ns": 9239000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35452192647233,
+                    "pose_source_observation_seq": 84,
+                    "companion_source_observation_seq": 84
+                  },
+                  {
+                    "pose_seq": 18,
+                    "companion_seq": 20,
+                    "pose_stamp_ns": 9315000000,
+                    "companion_stamp_ns": 9315000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35452266825412,
+                    "pose_source_observation_seq": 85,
+                    "companion_source_observation_seq": 85
+                  },
+                  {
+                    "pose_seq": 19,
+                    "companion_seq": 21,
+                    "pose_stamp_ns": 9389000000,
+                    "companion_stamp_ns": 9389000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35452341810592,
+                    "pose_source_observation_seq": 86,
+                    "companion_source_observation_seq": 86
+                  },
+                  {
+                    "pose_seq": 20,
+                    "companion_seq": 22,
+                    "pose_stamp_ns": 9464000000,
+                    "companion_stamp_ns": 9464000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35452416083386,
+                    "pose_source_observation_seq": 87,
+                    "companion_source_observation_seq": 87
+                  },
+                  {
+                    "pose_seq": 21,
+                    "companion_seq": 23,
+                    "pose_stamp_ns": 9538000000,
+                    "companion_stamp_ns": 9538000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35452489567374,
+                    "pose_source_observation_seq": 88,
+                    "companion_source_observation_seq": 88
+                  }
+                ],
+                "offset_exact": [],
+                "offset_approx": [
+                  {
+                    "pose_seq": 12,
+                    "companion_seq": 14,
+                    "pose_stamp_ns": 8852000000,
+                    "companion_stamp_ns": 8864000000,
+                    "stamp_delta_s": 0.012,
+                    "callback_receipt_monotonic_ns": 35451806745618,
+                    "pose_source_observation_seq": 79,
+                    "companion_source_observation_seq": 79
+                  },
+                  {
+                    "pose_seq": 13,
+                    "companion_seq": 15,
+                    "pose_stamp_ns": 8930000000,
+                    "companion_stamp_ns": 8942000000,
+                    "stamp_delta_s": 0.012,
+                    "callback_receipt_monotonic_ns": 35451883157654,
+                    "pose_source_observation_seq": 80,
+                    "companion_source_observation_seq": 80
+                  },
+                  {
+                    "pose_seq": 14,
+                    "companion_seq": 16,
+                    "pose_stamp_ns": 9006000000,
+                    "companion_stamp_ns": 9018000000,
+                    "stamp_delta_s": 0.012,
+                    "callback_receipt_monotonic_ns": 35451960383617,
+                    "pose_source_observation_seq": 81,
+                    "companion_source_observation_seq": 81
+                  },
+                  {
+                    "pose_seq": 15,
+                    "companion_seq": 17,
+                    "pose_stamp_ns": 9085000000,
+                    "companion_stamp_ns": 9097000000,
+                    "stamp_delta_s": 0.012,
+                    "callback_receipt_monotonic_ns": 35452039115529,
+                    "pose_source_observation_seq": 82,
+                    "companion_source_observation_seq": 82
+                  },
+                  {
+                    "pose_seq": 16,
+                    "companion_seq": 18,
+                    "pose_stamp_ns": 9162000000,
+                    "companion_stamp_ns": 9174000000,
+                    "stamp_delta_s": 0.012,
+                    "callback_receipt_monotonic_ns": 35452115534998,
+                    "pose_source_observation_seq": 83,
+                    "companion_source_observation_seq": 83
+                  },
+                  {
+                    "pose_seq": 17,
+                    "companion_seq": 19,
+                    "pose_stamp_ns": 9239000000,
+                    "companion_stamp_ns": 9251000000,
+                    "stamp_delta_s": 0.012,
+                    "callback_receipt_monotonic_ns": 35452192213879,
+                    "pose_source_observation_seq": 84,
+                    "companion_source_observation_seq": 84
+                  },
+                  {
+                    "pose_seq": 18,
+                    "companion_seq": 20,
+                    "pose_stamp_ns": 9315000000,
+                    "companion_stamp_ns": 9327000000,
+                    "stamp_delta_s": 0.012,
+                    "callback_receipt_monotonic_ns": 35452267068751,
+                    "pose_source_observation_seq": 85,
+                    "companion_source_observation_seq": 85
+                  },
+                  {
+                    "pose_seq": 19,
+                    "companion_seq": 21,
+                    "pose_stamp_ns": 9389000000,
+                    "companion_stamp_ns": 9401000000,
+                    "stamp_delta_s": 0.012,
+                    "callback_receipt_monotonic_ns": 35452342178314,
+                    "pose_source_observation_seq": 86,
+                    "companion_source_observation_seq": 86
+                  },
+                  {
+                    "pose_seq": 20,
+                    "companion_seq": 22,
+                    "pose_stamp_ns": 9464000000,
+                    "companion_stamp_ns": 9476000000,
+                    "stamp_delta_s": 0.012,
+                    "callback_receipt_monotonic_ns": 35452416371094,
+                    "pose_source_observation_seq": 87,
+                    "companion_source_observation_seq": 87
+                  },
+                  {
+                    "pose_seq": 21,
+                    "companion_seq": 23,
+                    "pose_stamp_ns": 9538000000,
+                    "companion_stamp_ns": 9550000000,
+                    "stamp_delta_s": 0.012,
+                    "callback_receipt_monotonic_ns": 35452489832594,
+                    "pose_source_observation_seq": 88,
+                    "companion_source_observation_seq": 88
+                  }
+                ]
+              },
+              "injected_stamp_deltas_s": [
+                0.012,
+                0.012,
+                0.012,
+                0.012,
+                0.012,
+                0.012,
+                0.012,
+                0.012,
+                0.012,
+                0.012
+              ],
+              "companion_receive_wall_lags_s": [
+                0.052396887,
+                0.050666329,
+                0.051317496,
+                0.051343311,
+                0.051377233,
+                0.051211813,
+                0.049516165,
+                0.049989952,
+                0.048888803,
+                0.048638121
+              ],
+              "sample_origin": "One observation-node clock read after one real joint query, shared by two teaching channels; not independent native sensor stamps",
+              "shadow_origin": "Deliberate added offset_sim_s, not a physical sampling timestamp or clock correction",
+              "publication_delay_evidence": {
+                "source_publication_traces": [
+                  {
+                    "source_observation_seq": 79,
+                    "query_stamp_ns": 8852000000,
+                    "pose_publisher_seq": 12,
+                    "pose_stamp_ns": 8852000000,
+                    "companion_publisher_seq": 14,
+                    "companion_stamp_ns": 8852000000,
+                    "shadow_publisher_seq": 14,
+                    "shadow_stamp_ns": 8864000000,
+                    "pose_publish_call_sim_ns": 8852000000,
+                    "companion_publish_call_sim_ns": 8905000000,
+                    "shadow_publish_call_sim_ns": 8905000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.053
+                  },
+                  {
+                    "source_observation_seq": 80,
+                    "query_stamp_ns": 8930000000,
+                    "pose_publisher_seq": 13,
+                    "pose_stamp_ns": 8930000000,
+                    "companion_publisher_seq": 15,
+                    "companion_stamp_ns": 8930000000,
+                    "shadow_publisher_seq": 15,
+                    "shadow_stamp_ns": 8942000000,
+                    "pose_publish_call_sim_ns": 8930000000,
+                    "companion_publish_call_sim_ns": 8981000000,
+                    "shadow_publish_call_sim_ns": 8981000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.051
+                  },
+                  {
+                    "source_observation_seq": 81,
+                    "query_stamp_ns": 9006000000,
+                    "pose_publisher_seq": 14,
+                    "pose_stamp_ns": 9006000000,
+                    "companion_publisher_seq": 16,
+                    "companion_stamp_ns": 9006000000,
+                    "shadow_publisher_seq": 16,
+                    "shadow_stamp_ns": 9018000000,
+                    "pose_publish_call_sim_ns": 9006000000,
+                    "companion_publish_call_sim_ns": 9058000000,
+                    "shadow_publish_call_sim_ns": 9058000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.052
+                  },
+                  {
+                    "source_observation_seq": 82,
+                    "query_stamp_ns": 9085000000,
+                    "pose_publisher_seq": 15,
+                    "pose_stamp_ns": 9085000000,
+                    "companion_publisher_seq": 17,
+                    "companion_stamp_ns": 9085000000,
+                    "shadow_publisher_seq": 17,
+                    "shadow_stamp_ns": 9097000000,
+                    "pose_publish_call_sim_ns": 9085000000,
+                    "companion_publish_call_sim_ns": 9137000000,
+                    "shadow_publish_call_sim_ns": 9137000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.052
+                  },
+                  {
+                    "source_observation_seq": 83,
+                    "query_stamp_ns": 9162000000,
+                    "pose_publisher_seq": 16,
+                    "pose_stamp_ns": 9162000000,
+                    "companion_publisher_seq": 18,
+                    "companion_stamp_ns": 9162000000,
+                    "shadow_publisher_seq": 18,
+                    "shadow_stamp_ns": 9174000000,
+                    "pose_publish_call_sim_ns": 9162000000,
+                    "companion_publish_call_sim_ns": 9213000000,
+                    "shadow_publish_call_sim_ns": 9213000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.051
+                  },
+                  {
+                    "source_observation_seq": 84,
+                    "query_stamp_ns": 9239000000,
+                    "pose_publisher_seq": 17,
+                    "pose_stamp_ns": 9239000000,
+                    "companion_publisher_seq": 19,
+                    "companion_stamp_ns": 9239000000,
+                    "shadow_publisher_seq": 19,
+                    "shadow_stamp_ns": 9251000000,
+                    "pose_publish_call_sim_ns": 9239000000,
+                    "companion_publish_call_sim_ns": 9290000000,
+                    "shadow_publish_call_sim_ns": 9290000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.051
+                  },
+                  {
+                    "source_observation_seq": 85,
+                    "query_stamp_ns": 9315000000,
+                    "pose_publisher_seq": 18,
+                    "pose_stamp_ns": 9315000000,
+                    "companion_publisher_seq": 20,
+                    "companion_stamp_ns": 9315000000,
+                    "shadow_publisher_seq": 20,
+                    "shadow_stamp_ns": 9327000000,
+                    "pose_publish_call_sim_ns": 9315000000,
+                    "companion_publish_call_sim_ns": 9365000000,
+                    "shadow_publish_call_sim_ns": 9365000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.05
+                  },
+                  {
+                    "source_observation_seq": 86,
+                    "query_stamp_ns": 9389000000,
+                    "pose_publisher_seq": 19,
+                    "pose_stamp_ns": 9389000000,
+                    "companion_publisher_seq": 21,
+                    "companion_stamp_ns": 9389000000,
+                    "shadow_publisher_seq": 21,
+                    "shadow_stamp_ns": 9401000000,
+                    "pose_publish_call_sim_ns": 9389000000,
+                    "companion_publish_call_sim_ns": 9440000000,
+                    "shadow_publish_call_sim_ns": 9440000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.051
+                  },
+                  {
+                    "source_observation_seq": 87,
+                    "query_stamp_ns": 9464000000,
+                    "pose_publisher_seq": 20,
+                    "pose_stamp_ns": 9464000000,
+                    "companion_publisher_seq": 22,
+                    "companion_stamp_ns": 9464000000,
+                    "shadow_publisher_seq": 22,
+                    "shadow_stamp_ns": 9476000000,
+                    "pose_publish_call_sim_ns": 9464000000,
+                    "companion_publish_call_sim_ns": 9514000000,
+                    "shadow_publish_call_sim_ns": 9514000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.05
+                  },
+                  {
+                    "source_observation_seq": 88,
+                    "query_stamp_ns": 9538000000,
+                    "pose_publisher_seq": 21,
+                    "pose_stamp_ns": 9538000000,
+                    "companion_publisher_seq": 23,
+                    "companion_stamp_ns": 9538000000,
+                    "shadow_publisher_seq": 23,
+                    "shadow_stamp_ns": 9550000000,
+                    "pose_publish_call_sim_ns": 9538000000,
+                    "companion_publish_call_sim_ns": 9587000000,
+                    "shadow_publish_call_sim_ns": 9587000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.049
+                  }
+                ],
+                "same_sequence_receive_wall_lags_s": [
+                  0.052396887,
+                  0.050666329,
+                  0.051317496,
+                  0.051343311,
+                  0.051377233,
+                  0.051211813,
+                  0.049516165,
+                  0.049989952,
+                  0.048888803,
+                  0.048638121
+                ],
+                "median_receive_wall_lag_s": 0.050939071,
+                "scope": "Simulator-time publish-call delay and monotonic wall receipt lag are separate measurements; neither is a native independent-sensor sampling offset"
+              },
+              "delay_note": "Receive wall lag includes the controlled simulated-time publication delay and transport/callback scheduling; it is not an independent sensor sampling offset"
+            }
+          },
+          "configuration": {
+            "delay_sim_s": 0.03,
+            "offset_sim_s": 0.012,
+            "slop_s": 0.02,
+            "sync_period_sim_s": 0.06
+          },
+          "mount": {
+            "rail_pose": [
+              0.0,
+              0.0,
+              0.7,
+              0,
+              0,
+              0
+            ],
+            "probe_pose_relative_body": [
+              0.1,
+              0.15,
+              0.05,
+              0.0,
+              0.0,
+              1.5707963267948966
+            ],
+            "probe_link": "workshop::probe",
+            "local_point": [
+              0.2,
+              0,
+              0
+            ],
+            "world_sha256": "19f4b7dd618f1cfabd47c17790287e94430b89f06a4c185e9f9f6e2f85cddeea"
+          },
+          "match_statistics": {
+            "baseline_exact": 10,
+            "offset_exact": 0,
+            "offset_approx": 10,
+            "expected_offset_exact": false,
+            "expected_offset_approx": true,
+            "offset_approx_outcome": "expected_match",
+            "same_transaction_seq_verified": true,
+            "same_transaction_identity": "Independent source_observation_seq mapped through (topic kind, raw stamp, per-Publisher Header.seq); raw Header.seq need not agree across topics",
+            "source_identity_pair_counts": {
+              "baseline_exact": {
+                "source_verified": 10,
+                "unmapped_capture_boundary_pairs": 0
+              },
+              "offset_exact": {
+                "source_verified": 0,
+                "unmapped_capture_boundary_pairs": 0
+              },
+              "offset_approx": {
+                "source_verified": 10,
+                "unmapped_capture_boundary_pairs": 0
+              }
+            },
+            "strict_slop": true
+          },
+          "elapsed_wall_s": 0.8559031170007074
+        }
+      },
+      {
+        "name": "reentry_preserves_instrument_and_student",
+        "passed": true,
+        "verification": {
+          "passed": true,
+          "assignment_pass": false,
+          "lesson": 45,
+          "namespace": "/workshop45",
+          "trusted_verifier_sha256": "5514bba35bf8c4e77eb98a9c8f6021ea15514301e5de1a21a34cd324f8596e5f",
+          "checks": {
+            "reset": {
+              "before_native_world_s": 3.987,
+              "after_native_world_s": 3.997,
+              "actual_joint": {
+                "position_m": 0.0,
+                "velocity_m_s": 0.0,
+                "receipt_clock_before_s": 3.991,
+                "receipt_clock_after_s": 3.9939999999999998,
+                "host_monotonic_before_ns": 35462347338419,
+                "host_monotonic_after_ns": 35462349805826,
+                "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+              }
+            },
+            "physical_tf_motion": {
+              "before": {
+                "tf": {
+                  "position": [
+                    0.1,
+                    0.15,
+                    0.75
+                  ],
+                  "orientation_xyzw": [
+                    0.0,
+                    0.0,
+                    0.7071067811865475,
+                    0.7071067811865476
+                  ],
+                  "stamp_s": 4.014,
+                  "parent": "world",
+                  "child": "probe",
+                  "time_semantics": "lookup Time(0) returns the latest common time of this chain, not necessarily the current simulator time"
+                },
+                "independent_native_link": {
+                  "position": [
+                    0.1,
+                    0.15,
+                    0.75
+                  ],
+                  "orientation_xyzw": [
+                    0.0,
+                    0.0,
+                    0.7071067811865475,
+                    0.7071067811865476
+                  ],
+                  "native_world_time_bracket_s": [
+                    4.022,
+                    4.031
+                  ],
+                  "source": "GetLinkState workshop::probe relative to world; no native acquisition stamp"
+                },
+                "position_error_m": 0.0,
+                "orientation_error_rad": 0.0,
+                "local_point": [
+                  0.2,
+                  0,
+                  0
+                ],
+                "tf_transformed_point": [
+                  0.10000000000000005,
+                  0.35,
+                  0.75
+                ],
+                "native_transformed_point": [
+                  0.10000000000000005,
+                  0.35,
+                  0.75
+                ],
+                "point_error_m": 0.0,
+                "comparison_scope": "Asynchronous latest-common-time TF versus independent GetLinkState bracket, with explicit tolerances; no atomic snapshot claim"
+              },
+              "after": {
+                "tf": {
+                  "position": [
+                    0.1630761516000377,
+                    0.15,
+                    0.75
+                  ],
+                  "orientation_xyzw": [
+                    0.0,
+                    0.0,
+                    0.7071067811865475,
+                    0.7071067811865476
+                  ],
+                  "stamp_s": 4.323,
+                  "parent": "world",
+                  "child": "probe",
+                  "time_semantics": "lookup Time(0) returns the latest common time of this chain, not necessarily the current simulator time"
+                },
+                "independent_native_link": {
+                  "position": [
+                    0.1723246788548089,
+                    0.14999996880247835,
+                    0.7499999999941248
+                  ],
+                  "orientation_xyzw": [
+                    -1.2435970498726837e-08,
+                    -8.3574183405476e-09,
+                    0.7071068164551819,
+                    0.7071067459179112
+                  ],
+                  "native_world_time_bracket_s": [
+                    4.344,
+                    4.355
+                  ],
+                  "source": "GetLinkState workshop::probe relative to world; no native acquisition stamp"
+                },
+                "position_error_m": 0.00924852725482383,
+                "orientation_error_rad": 1.032382731180714e-07,
+                "local_point": [
+                  0.2,
+                  0,
+                  0
+                ],
+                "tf_transformed_point": [
+                  0.16307615160003774,
+                  0.35,
+                  0.75
+                ],
+                "native_transformed_point": [
+                  0.17232465890385593,
+                  0.34999996880247736,
+                  0.7499999988405358
+                ],
+                "point_error_m": 0.009248507303870874,
+                "comparison_scope": "Asynchronous latest-common-time TF versus independent GetLinkState bracket, with explicit tolerances; no atomic snapshot claim"
+              },
+              "pulse": {
+                "scheduled_once": true,
+                "force_N": 2,
+                "duration_sim_s": 0.2,
+                "before_joint": {
+                  "position_m": 0.0,
+                  "velocity_m_s": 0.0,
+                  "receipt_clock_before_s": 4.035,
+                  "receipt_clock_after_s": 4.043,
+                  "host_monotonic_before_ns": 35462391026084,
+                  "host_monotonic_after_ns": 35462398900439,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                }
+              },
+              "independent_joint_after": {
+                "position_m": 0.06858063103935182,
+                "velocity_m_s": 0.34198919456098853,
+                "receipt_clock_before_s": 4.333,
+                "receipt_clock_after_s": 4.339,
+                "host_monotonic_before_ns": 35462689682609,
+                "host_monotonic_after_ns": 35462695954402,
+                "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+              }
+            },
+            "timestamp_matching": {
+              "raw": {
+                "pose": [
+                  {
+                    "seq": 1,
+                    "stamp_ns": 4014000000,
+                    "publisher_seq": 1,
+                    "receipt_monotonic_ns": 35462371308332,
+                    "frame": "rail",
+                    "actual_joint_position_m": 0.0,
+                    "source_observation_seq": 14
+                  },
+                  {
+                    "seq": 2,
+                    "stamp_ns": 4093000000,
+                    "publisher_seq": 2,
+                    "receipt_monotonic_ns": 35462450209333,
+                    "frame": "rail",
+                    "actual_joint_position_m": 0.0016870824903082995,
+                    "source_observation_seq": 15
+                  },
+                  {
+                    "seq": 3,
+                    "stamp_ns": 4168000000,
+                    "publisher_seq": 3,
+                    "receipt_monotonic_ns": 35462525117707,
+                    "frame": "rail",
+                    "actual_joint_position_m": 0.013038664558468522,
+                    "source_observation_seq": 16
+                  },
+                  {
+                    "seq": 4,
+                    "stamp_ns": 4243000000,
+                    "publisher_seq": 4,
+                    "receipt_monotonic_ns": 35462600266491,
+                    "frame": "rail",
+                    "actual_joint_position_m": 0.03455366116860483,
+                    "source_observation_seq": 17
+                  },
+                  {
+                    "seq": 5,
+                    "stamp_ns": 4323000000,
+                    "publisher_seq": 5,
+                    "receipt_monotonic_ns": 35462680561479,
+                    "frame": "rail",
+                    "actual_joint_position_m": 0.06307615160003767,
+                    "source_observation_seq": 18
+                  },
+                  {
+                    "seq": 6,
+                    "stamp_ns": 4401000000,
+                    "publisher_seq": 6,
+                    "receipt_monotonic_ns": 35462758159677,
+                    "frame": "rail",
+                    "actual_joint_position_m": 0.08893775377725406,
+                    "source_observation_seq": 19
+                  },
+                  {
+                    "seq": 7,
+                    "stamp_ns": 4479000000,
+                    "publisher_seq": 7,
+                    "receipt_monotonic_ns": 35462836661108,
+                    "frame": "rail",
+                    "actual_joint_position_m": 0.11388100417660225,
+                    "source_observation_seq": 20
+                  },
+                  {
+                    "seq": 8,
+                    "stamp_ns": 4557000000,
+                    "publisher_seq": 8,
+                    "receipt_monotonic_ns": 35462914145925,
+                    "frame": "rail",
+                    "actual_joint_position_m": 0.13702319216593362,
+                    "source_observation_seq": 21
+                  },
+                  {
+                    "seq": 9,
+                    "stamp_ns": 4634000000,
+                    "publisher_seq": 9,
+                    "receipt_monotonic_ns": 35462991116231,
+                    "frame": "rail",
+                    "actual_joint_position_m": 0.15850785554179814,
+                    "source_observation_seq": 22
+                  },
+                  {
+                    "seq": 10,
+                    "stamp_ns": 4711000000,
+                    "publisher_seq": 10,
+                    "receipt_monotonic_ns": 35463068405230,
+                    "frame": "rail",
+                    "actual_joint_position_m": 0.17872083777878073,
+                    "source_observation_seq": 23
+                  }
+                ],
+                "companion": [
+                  {
+                    "seq": 1,
+                    "stamp_ns": 3938000000,
+                    "publisher_seq": 1,
+                    "receipt_monotonic_ns": 35462345935395,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.0,
+                    "source_observation_seq": 13
+                  },
+                  {
+                    "seq": 2,
+                    "stamp_ns": 4014000000,
+                    "publisher_seq": 2,
+                    "receipt_monotonic_ns": 35462400454143,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.0,
+                    "source_observation_seq": 14
+                  },
+                  {
+                    "seq": 3,
+                    "stamp_ns": 4093000000,
+                    "publisher_seq": 3,
+                    "receipt_monotonic_ns": 35462500540070,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.07991511507058646,
+                    "source_observation_seq": 15
+                  },
+                  {
+                    "seq": 4,
+                    "stamp_ns": 4168000000,
+                    "publisher_seq": 4,
+                    "receipt_monotonic_ns": 35462575231503,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.2195492156860713,
+                    "source_observation_seq": 16
+                  },
+                  {
+                    "seq": 5,
+                    "stamp_ns": 4243000000,
+                    "publisher_seq": 5,
+                    "receipt_monotonic_ns": 35462653195478,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.35112670548505137,
+                    "source_observation_seq": 17
+                  },
+                  {
+                    "seq": 6,
+                    "stamp_ns": 4323000000,
+                    "publisher_seq": 6,
+                    "receipt_monotonic_ns": 35462732643545,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.3463526344651009,
+                    "source_observation_seq": 18
+                  },
+                  {
+                    "seq": 7,
+                    "stamp_ns": 4401000000,
+                    "publisher_seq": 7,
+                    "receipt_monotonic_ns": 35462811096612,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.325851958939216,
+                    "source_observation_seq": 19
+                  },
+                  {
+                    "seq": 8,
+                    "stamp_ns": 4479000000,
+                    "publisher_seq": 8,
+                    "receipt_monotonic_ns": 35462888817520,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.3060792673830698,
+                    "source_observation_seq": 20
+                  },
+                  {
+                    "seq": 9,
+                    "stamp_ns": 4557000000,
+                    "publisher_seq": 9,
+                    "receipt_monotonic_ns": 35462965211753,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.28773429077732005,
+                    "source_observation_seq": 21
+                  },
+                  {
+                    "seq": 10,
+                    "stamp_ns": 4634000000,
+                    "publisher_seq": 10,
+                    "receipt_monotonic_ns": 35463042877192,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.27070324569228515,
+                    "source_observation_seq": 22
+                  },
+                  {
+                    "seq": 11,
+                    "stamp_ns": 4711000000,
+                    "publisher_seq": 11,
+                    "receipt_monotonic_ns": 35463121635524,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.2546802712682235,
+                    "source_observation_seq": 23
+                  }
+                ],
+                "companion_offset": [
+                  {
+                    "seq": 1,
+                    "stamp_ns": 3950000000,
+                    "publisher_seq": 1,
+                    "receipt_monotonic_ns": 35462345812073,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.0,
+                    "source_observation_seq": 13
+                  },
+                  {
+                    "seq": 2,
+                    "stamp_ns": 4026000000,
+                    "publisher_seq": 2,
+                    "receipt_monotonic_ns": 35462401175448,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.0,
+                    "source_observation_seq": 14
+                  },
+                  {
+                    "seq": 3,
+                    "stamp_ns": 4105000000,
+                    "publisher_seq": 3,
+                    "receipt_monotonic_ns": 35462499884324,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.07991511507058646,
+                    "source_observation_seq": 15
+                  },
+                  {
+                    "seq": 4,
+                    "stamp_ns": 4180000000,
+                    "publisher_seq": 4,
+                    "receipt_monotonic_ns": 35462574564474,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.2195492156860713,
+                    "source_observation_seq": 16
+                  },
+                  {
+                    "seq": 5,
+                    "stamp_ns": 4255000000,
+                    "publisher_seq": 5,
+                    "receipt_monotonic_ns": 35462653992198,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.35112670548505137,
+                    "source_observation_seq": 17
+                  },
+                  {
+                    "seq": 6,
+                    "stamp_ns": 4335000000,
+                    "publisher_seq": 6,
+                    "receipt_monotonic_ns": 35462732132258,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.3463526344651009,
+                    "source_observation_seq": 18
+                  },
+                  {
+                    "seq": 7,
+                    "stamp_ns": 4413000000,
+                    "publisher_seq": 7,
+                    "receipt_monotonic_ns": 35462810527799,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.325851958939216,
+                    "source_observation_seq": 19
+                  },
+                  {
+                    "seq": 8,
+                    "stamp_ns": 4491000000,
+                    "publisher_seq": 8,
+                    "receipt_monotonic_ns": 35462889161220,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.3060792673830698,
+                    "source_observation_seq": 20
+                  },
+                  {
+                    "seq": 9,
+                    "stamp_ns": 4569000000,
+                    "publisher_seq": 9,
+                    "receipt_monotonic_ns": 35462965475649,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.28773429077732005,
+                    "source_observation_seq": 21
+                  },
+                  {
+                    "seq": 10,
+                    "stamp_ns": 4646000000,
+                    "publisher_seq": 10,
+                    "receipt_monotonic_ns": 35463042251772,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.27070324569228515,
+                    "source_observation_seq": 22
+                  },
+                  {
+                    "seq": 11,
+                    "stamp_ns": 4723000000,
+                    "publisher_seq": 11,
+                    "receipt_monotonic_ns": 35463121206119,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": 0.2546802712682235,
+                    "source_observation_seq": 23
+                  }
+                ]
+              },
+              "pairs": {
+                "baseline_exact": [
+                  {
+                    "pose_seq": 1,
+                    "companion_seq": 2,
+                    "pose_stamp_ns": 4014000000,
+                    "companion_stamp_ns": 4014000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35462400527747,
+                    "pose_source_observation_seq": 14,
+                    "companion_source_observation_seq": 14
+                  },
+                  {
+                    "pose_seq": 2,
+                    "companion_seq": 3,
+                    "pose_stamp_ns": 4093000000,
+                    "companion_stamp_ns": 4093000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35462500613407,
+                    "pose_source_observation_seq": 15,
+                    "companion_source_observation_seq": 15
+                  },
+                  {
+                    "pose_seq": 3,
+                    "companion_seq": 4,
+                    "pose_stamp_ns": 4168000000,
+                    "companion_stamp_ns": 4168000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35462575299354,
+                    "pose_source_observation_seq": 16,
+                    "companion_source_observation_seq": 16
+                  },
+                  {
+                    "pose_seq": 4,
+                    "companion_seq": 5,
+                    "pose_stamp_ns": 4243000000,
+                    "companion_stamp_ns": 4243000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35462653266425,
+                    "pose_source_observation_seq": 17,
+                    "companion_source_observation_seq": 17
+                  },
+                  {
+                    "pose_seq": 5,
+                    "companion_seq": 6,
+                    "pose_stamp_ns": 4323000000,
+                    "companion_stamp_ns": 4323000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35462732712586,
+                    "pose_source_observation_seq": 18,
+                    "companion_source_observation_seq": 18
+                  },
+                  {
+                    "pose_seq": 6,
+                    "companion_seq": 7,
+                    "pose_stamp_ns": 4401000000,
+                    "companion_stamp_ns": 4401000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35462811164491,
+                    "pose_source_observation_seq": 19,
+                    "companion_source_observation_seq": 19
+                  },
+                  {
+                    "pose_seq": 7,
+                    "companion_seq": 8,
+                    "pose_stamp_ns": 4479000000,
+                    "companion_stamp_ns": 4479000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35462888887511,
+                    "pose_source_observation_seq": 20,
+                    "companion_source_observation_seq": 20
+                  },
+                  {
+                    "pose_seq": 8,
+                    "companion_seq": 9,
+                    "pose_stamp_ns": 4557000000,
+                    "companion_stamp_ns": 4557000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35462965283239,
+                    "pose_source_observation_seq": 21,
+                    "companion_source_observation_seq": 21
+                  },
+                  {
+                    "pose_seq": 9,
+                    "companion_seq": 10,
+                    "pose_stamp_ns": 4634000000,
+                    "companion_stamp_ns": 4634000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35463042947069,
+                    "pose_source_observation_seq": 22,
+                    "companion_source_observation_seq": 22
+                  },
+                  {
+                    "pose_seq": 10,
+                    "companion_seq": 11,
+                    "pose_stamp_ns": 4711000000,
+                    "companion_stamp_ns": 4711000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35463121703531,
+                    "pose_source_observation_seq": 23,
+                    "companion_source_observation_seq": 23
+                  }
+                ],
+                "offset_exact": [],
+                "offset_approx": [
+                  {
+                    "pose_seq": 1,
+                    "companion_seq": 2,
+                    "pose_stamp_ns": 4014000000,
+                    "companion_stamp_ns": 4026000000,
+                    "stamp_delta_s": 0.012,
+                    "callback_receipt_monotonic_ns": 35462401325231,
+                    "pose_source_observation_seq": 14,
+                    "companion_source_observation_seq": 14
+                  },
+                  {
+                    "pose_seq": 2,
+                    "companion_seq": 3,
+                    "pose_stamp_ns": 4093000000,
+                    "companion_stamp_ns": 4105000000,
+                    "stamp_delta_s": 0.012,
+                    "callback_receipt_monotonic_ns": 35462500061009,
+                    "pose_source_observation_seq": 15,
+                    "companion_source_observation_seq": 15
+                  },
+                  {
+                    "pose_seq": 3,
+                    "companion_seq": 4,
+                    "pose_stamp_ns": 4168000000,
+                    "companion_stamp_ns": 4180000000,
+                    "stamp_delta_s": 0.012,
+                    "callback_receipt_monotonic_ns": 35462574711519,
+                    "pose_source_observation_seq": 16,
+                    "companion_source_observation_seq": 16
+                  },
+                  {
+                    "pose_seq": 4,
+                    "companion_seq": 5,
+                    "pose_stamp_ns": 4243000000,
+                    "companion_stamp_ns": 4255000000,
+                    "stamp_delta_s": 0.012,
+                    "callback_receipt_monotonic_ns": 35462654146765,
+                    "pose_source_observation_seq": 17,
+                    "companion_source_observation_seq": 17
+                  },
+                  {
+                    "pose_seq": 5,
+                    "companion_seq": 6,
+                    "pose_stamp_ns": 4323000000,
+                    "companion_stamp_ns": 4335000000,
+                    "stamp_delta_s": 0.012,
+                    "callback_receipt_monotonic_ns": 35462732283364,
+                    "pose_source_observation_seq": 18,
+                    "companion_source_observation_seq": 18
+                  },
+                  {
+                    "pose_seq": 6,
+                    "companion_seq": 7,
+                    "pose_stamp_ns": 4401000000,
+                    "companion_stamp_ns": 4413000000,
+                    "stamp_delta_s": 0.012,
+                    "callback_receipt_monotonic_ns": 35462810679655,
+                    "pose_source_observation_seq": 19,
+                    "companion_source_observation_seq": 19
+                  },
+                  {
+                    "pose_seq": 7,
+                    "companion_seq": 8,
+                    "pose_stamp_ns": 4479000000,
+                    "companion_stamp_ns": 4491000000,
+                    "stamp_delta_s": 0.012,
+                    "callback_receipt_monotonic_ns": 35462889321513,
+                    "pose_source_observation_seq": 20,
+                    "companion_source_observation_seq": 20
+                  },
+                  {
+                    "pose_seq": 8,
+                    "companion_seq": 9,
+                    "pose_stamp_ns": 4557000000,
+                    "companion_stamp_ns": 4569000000,
+                    "stamp_delta_s": 0.012,
+                    "callback_receipt_monotonic_ns": 35462965624291,
+                    "pose_source_observation_seq": 21,
+                    "companion_source_observation_seq": 21
+                  },
+                  {
+                    "pose_seq": 9,
+                    "companion_seq": 10,
+                    "pose_stamp_ns": 4634000000,
+                    "companion_stamp_ns": 4646000000,
+                    "stamp_delta_s": 0.012,
+                    "callback_receipt_monotonic_ns": 35463042403023,
+                    "pose_source_observation_seq": 22,
+                    "companion_source_observation_seq": 22
+                  },
+                  {
+                    "pose_seq": 10,
+                    "companion_seq": 11,
+                    "pose_stamp_ns": 4711000000,
+                    "companion_stamp_ns": 4723000000,
+                    "stamp_delta_s": 0.012,
+                    "callback_receipt_monotonic_ns": 35463121358944,
+                    "pose_source_observation_seq": 23,
+                    "companion_source_observation_seq": 23
+                  }
+                ]
+              },
+              "injected_stamp_deltas_s": [
+                0.012,
+                0.012,
+                0.012,
+                0.012,
+                0.012,
+                0.012,
+                0.012,
+                0.012,
+                0.012,
+                0.012
+              ],
+              "companion_receive_wall_lags_s": [
+                0.029145811,
+                0.050330737,
+                0.050113796,
+                0.052928987,
+                0.052082066,
+                0.052936935,
+                0.052156412,
+                0.051065828,
+                0.051760961,
+                0.053230294
+              ],
+              "sample_origin": "One observation-node clock read after one real joint query, shared by two teaching channels; not independent native sensor stamps",
+              "shadow_origin": "Deliberate added offset_sim_s, not a physical sampling timestamp or clock correction",
+              "publication_delay_evidence": {
+                "source_publication_traces": [
+                  {
+                    "source_observation_seq": 14,
+                    "query_stamp_ns": 4014000000,
+                    "pose_publisher_seq": 1,
+                    "pose_stamp_ns": 4014000000,
+                    "companion_publisher_seq": 2,
+                    "companion_stamp_ns": 4014000000,
+                    "shadow_publisher_seq": 2,
+                    "shadow_stamp_ns": 4026000000,
+                    "pose_publish_call_sim_ns": 4015000000,
+                    "companion_publish_call_sim_ns": 4044000000,
+                    "shadow_publish_call_sim_ns": 4044000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.03
+                  },
+                  {
+                    "source_observation_seq": 15,
+                    "query_stamp_ns": 4093000000,
+                    "pose_publisher_seq": 2,
+                    "pose_stamp_ns": 4093000000,
+                    "companion_publisher_seq": 3,
+                    "companion_stamp_ns": 4093000000,
+                    "shadow_publisher_seq": 3,
+                    "shadow_stamp_ns": 4105000000,
+                    "pose_publish_call_sim_ns": 4093000000,
+                    "companion_publish_call_sim_ns": 4143000000,
+                    "shadow_publish_call_sim_ns": 4143000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.05
+                  },
+                  {
+                    "source_observation_seq": 16,
+                    "query_stamp_ns": 4168000000,
+                    "pose_publisher_seq": 3,
+                    "pose_stamp_ns": 4168000000,
+                    "companion_publisher_seq": 4,
+                    "companion_stamp_ns": 4168000000,
+                    "shadow_publisher_seq": 4,
+                    "shadow_stamp_ns": 4180000000,
+                    "pose_publish_call_sim_ns": 4168000000,
+                    "companion_publish_call_sim_ns": 4218000000,
+                    "shadow_publish_call_sim_ns": 4218000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.05
+                  },
+                  {
+                    "source_observation_seq": 17,
+                    "query_stamp_ns": 4243000000,
+                    "pose_publisher_seq": 4,
+                    "pose_stamp_ns": 4243000000,
+                    "companion_publisher_seq": 5,
+                    "companion_stamp_ns": 4243000000,
+                    "shadow_publisher_seq": 5,
+                    "shadow_stamp_ns": 4255000000,
+                    "pose_publish_call_sim_ns": 4243000000,
+                    "companion_publish_call_sim_ns": 4296000000,
+                    "shadow_publish_call_sim_ns": 4296000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.053
+                  },
+                  {
+                    "source_observation_seq": 18,
+                    "query_stamp_ns": 4323000000,
+                    "pose_publisher_seq": 5,
+                    "pose_stamp_ns": 4323000000,
+                    "companion_publisher_seq": 6,
+                    "companion_stamp_ns": 4323000000,
+                    "shadow_publisher_seq": 6,
+                    "shadow_stamp_ns": 4335000000,
+                    "pose_publish_call_sim_ns": 4323000000,
+                    "companion_publish_call_sim_ns": 4375000000,
+                    "shadow_publish_call_sim_ns": 4375000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.052
+                  },
+                  {
+                    "source_observation_seq": 19,
+                    "query_stamp_ns": 4401000000,
+                    "pose_publisher_seq": 6,
+                    "pose_stamp_ns": 4401000000,
+                    "companion_publisher_seq": 7,
+                    "companion_stamp_ns": 4401000000,
+                    "shadow_publisher_seq": 7,
+                    "shadow_stamp_ns": 4413000000,
+                    "pose_publish_call_sim_ns": 4401000000,
+                    "companion_publish_call_sim_ns": 4453000000,
+                    "shadow_publish_call_sim_ns": 4453000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.052
+                  },
+                  {
+                    "source_observation_seq": 20,
+                    "query_stamp_ns": 4479000000,
+                    "pose_publisher_seq": 7,
+                    "pose_stamp_ns": 4479000000,
+                    "companion_publisher_seq": 8,
+                    "companion_stamp_ns": 4479000000,
+                    "shadow_publisher_seq": 8,
+                    "shadow_stamp_ns": 4491000000,
+                    "pose_publish_call_sim_ns": 4480000000,
+                    "companion_publish_call_sim_ns": 4531000000,
+                    "shadow_publish_call_sim_ns": 4531000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.052
+                  },
+                  {
+                    "source_observation_seq": 21,
+                    "query_stamp_ns": 4557000000,
+                    "pose_publisher_seq": 8,
+                    "pose_stamp_ns": 4557000000,
+                    "companion_publisher_seq": 9,
+                    "companion_stamp_ns": 4557000000,
+                    "shadow_publisher_seq": 9,
+                    "shadow_stamp_ns": 4569000000,
+                    "pose_publish_call_sim_ns": 4557000000,
+                    "companion_publish_call_sim_ns": 4608000000,
+                    "shadow_publish_call_sim_ns": 4608000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.051
+                  },
+                  {
+                    "source_observation_seq": 22,
+                    "query_stamp_ns": 4634000000,
+                    "pose_publisher_seq": 9,
+                    "pose_stamp_ns": 4634000000,
+                    "companion_publisher_seq": 10,
+                    "companion_stamp_ns": 4634000000,
+                    "shadow_publisher_seq": 10,
+                    "shadow_stamp_ns": 4646000000,
+                    "pose_publish_call_sim_ns": 4634000000,
+                    "companion_publish_call_sim_ns": 4685000000,
+                    "shadow_publish_call_sim_ns": 4685000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.051
+                  },
+                  {
+                    "source_observation_seq": 23,
+                    "query_stamp_ns": 4711000000,
+                    "pose_publisher_seq": 10,
+                    "pose_stamp_ns": 4711000000,
+                    "companion_publisher_seq": 11,
+                    "companion_stamp_ns": 4711000000,
+                    "shadow_publisher_seq": 11,
+                    "shadow_stamp_ns": 4723000000,
+                    "pose_publish_call_sim_ns": 4711000000,
+                    "companion_publish_call_sim_ns": 4764000000,
+                    "shadow_publish_call_sim_ns": 4764000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.053
+                  }
+                ],
+                "same_sequence_receive_wall_lags_s": [
+                  0.029145811,
+                  0.050330737,
+                  0.050113796,
+                  0.052928987,
+                  0.052082066,
+                  0.052936935,
+                  0.052156412,
+                  0.051065828,
+                  0.051760961,
+                  0.053230294
+                ],
+                "median_receive_wall_lag_s": 0.0519215135,
+                "scope": "Simulator-time publish-call delay and monotonic wall receipt lag are separate measurements; neither is a native independent-sensor sampling offset"
+              },
+              "delay_note": "Receive wall lag includes the controlled simulated-time publication delay and transport/callback scheduling; it is not an independent sensor sampling offset"
+            }
+          },
+          "configuration": {
+            "delay_sim_s": 0.03,
+            "offset_sim_s": 0.012,
+            "slop_s": 0.02,
+            "sync_period_sim_s": 0.06
+          },
+          "mount": {
+            "rail_pose": [
+              0.0,
+              0.0,
+              0.7,
+              0,
+              0,
+              0
+            ],
+            "probe_pose_relative_body": [
+              0.1,
+              0.15,
+              0.05,
+              0.0,
+              0.0,
+              1.5707963267948966
+            ],
+            "probe_link": "workshop::probe",
+            "local_point": [
+              0.2,
+              0,
+              0
+            ],
+            "world_sha256": "19f4b7dd618f1cfabd47c17790287e94430b89f06a4c185e9f9f6e2f85cddeea"
+          },
+          "match_statistics": {
+            "baseline_exact": 10,
+            "offset_exact": 0,
+            "offset_approx": 10,
+            "expected_offset_exact": false,
+            "expected_offset_approx": true,
+            "offset_approx_outcome": "expected_match",
+            "same_transaction_seq_verified": true,
+            "same_transaction_identity": "Independent source_observation_seq mapped through (topic kind, raw stamp, per-Publisher Header.seq); raw Header.seq need not agree across topics",
+            "source_identity_pair_counts": {
+              "baseline_exact": {
+                "source_verified": 10,
+                "unmapped_capture_boundary_pairs": 0
+              },
+              "offset_exact": {
+                "source_verified": 0,
+                "unmapped_capture_boundary_pairs": 0
+              },
+              "offset_approx": {
+                "source_verified": 10,
+                "unmapped_capture_boundary_pairs": 0
+              }
+            },
+            "strict_slop": true
+          },
+          "elapsed_wall_s": 0.8794402879939298
+        }
+      },
+      {
+        "name": "changed_native_probe_mount_and_expected_bad_slop",
+        "passed": true,
+        "verification": {
+          "passed": true,
+          "assignment_pass": false,
+          "lesson": 45,
+          "namespace": "/workshop45",
+          "trusted_verifier_sha256": "5514bba35bf8c4e77eb98a9c8f6021ea15514301e5de1a21a34cd324f8596e5f",
+          "checks": {
+            "reset": {
+              "before_native_world_s": 4.007,
+              "after_native_world_s": 4.016,
+              "actual_joint": {
+                "position_m": 1.1287055425278755e-22,
+                "velocity_m_s": 1.0404139245516677e-20,
+                "receipt_clock_before_s": 4.011,
+                "receipt_clock_after_s": 4.013,
+                "host_monotonic_before_ns": 35473108993442,
+                "host_monotonic_after_ns": 35473111482938,
+                "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+              }
+            },
+            "physical_tf_motion": {
+              "before": {
+                "tf": {
+                  "position": [
+                    0.1,
+                    0.15,
+                    0.7999999999999999
+                  ],
+                  "orientation_xyzw": [
+                    0.0,
+                    0.0,
+                    0.14943813247359922,
+                    0.9887710779360422
+                  ],
+                  "stamp_s": 4.035,
+                  "parent": "world",
+                  "child": "probe",
+                  "time_semantics": "lookup Time(0) returns the latest common time of this chain, not necessarily the current simulator time"
+                },
+                "independent_native_link": {
+                  "position": [
+                    0.10000000000000003,
+                    0.15,
+                    0.7999999999999999
+                  ],
+                  "orientation_xyzw": [
+                    3.9029086040486185e-24,
+                    1.6998142961184936e-23,
+                    0.14943813247359924,
+                    0.9887710779360424
+                  ],
+                  "native_world_time_bracket_s": [
+                    4.041,
+                    4.05
+                  ],
+                  "source": "GetLinkState workshop::probe relative to world; no native acquisition stamp"
+                },
+                "position_error_m": 2.7755575615628914e-17,
+                "orientation_error_rad": 0.0,
+                "local_point": [
+                  0.2,
+                  0,
+                  0
+                ],
+                "tf_transformed_point": [
+                  0.2910672978251212,
+                  0.20910404133226793,
+                  0.7999999999999999
+                ],
+                "native_transformed_point": [
+                  0.29106729782512125,
+                  0.20910404133226793,
+                  0.7999999999999999
+                ],
+                "point_error_m": 5.551115123125783e-17,
+                "comparison_scope": "Asynchronous latest-common-time TF versus independent GetLinkState bracket, with explicit tolerances; no atomic snapshot claim"
+              },
+              "after": {
+                "tf": {
+                  "position": [
+                    0.043551709621260294,
+                    0.15,
+                    0.7999999999999999
+                  ],
+                  "orientation_xyzw": [
+                    0.0,
+                    0.0,
+                    0.14943813247359922,
+                    0.9887710779360422
+                  ],
+                  "stamp_s": 4.323,
+                  "parent": "world",
+                  "child": "probe",
+                  "time_semantics": "lookup Time(0) returns the latest common time of this chain, not necessarily the current simulator time"
+                },
+                "independent_native_link": {
+                  "position": [
+                    0.03416286219956056,
+                    0.15000007998158352,
+                    0.8000000242441349
+                  ],
+                  "orientation_xyzw": [
+                    4.46100931646937e-09,
+                    6.191838016033876e-08,
+                    0.14943804546908762,
+                    0.9887710910854823
+                  ],
+                  "native_world_time_bracket_s": [
+                    4.343,
+                    4.354
+                  ],
+                  "source": "GetLinkState workshop::probe relative to world; no native acquisition stamp"
+                },
+                "position_error_m": 0.009388847422071711,
+                "orientation_error_rad": 2.1490760299348777e-07,
+                "local_point": [
+                  0.2,
+                  0,
+                  0
+                ],
+                "tf_transformed_point": [
+                  0.2346190074463815,
+                  0.20910404133226793,
+                  0.7999999999999999
+                ],
+                "native_transformed_point": [
+                  0.2252301704261106,
+                  0.2091040876888443,
+                  0.8000000000215509
+                ],
+                "point_error_m": 0.009388837020385348,
+                "comparison_scope": "Asynchronous latest-common-time TF versus independent GetLinkState bracket, with explicit tolerances; no atomic snapshot claim"
+              },
+              "pulse": {
+                "scheduled_once": true,
+                "force_N": -2,
+                "duration_sim_s": 0.2,
+                "before_joint": {
+                  "position_m": 1.5317227023057146e-22,
+                  "velocity_m_s": -4.7048456524517585e-23,
+                  "receipt_clock_before_s": 4.053,
+                  "receipt_clock_after_s": 4.061,
+                  "host_monotonic_before_ns": 35473151503219,
+                  "host_monotonic_after_ns": 35473159191097,
+                  "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+                }
+              },
+              "independent_joint_after": {
+                "position_m": -0.06168909237131345,
+                "velocity_m_s": -0.34745216636089077,
+                "receipt_clock_before_s": 4.331,
+                "receipt_clock_after_s": 4.337,
+                "host_monotonic_before_ns": 35473429780477,
+                "host_monotonic_after_ns": 35473435977681,
+                "time_basis": "Local clock readbacks bracket the actual GetJointProperties call; no native acquisition stamp or atomic sample claim"
+              }
+            },
+            "timestamp_matching": {
+              "raw": {
+                "pose": [
+                  {
+                    "seq": 1,
+                    "stamp_ns": 4010000000,
+                    "publisher_seq": 1,
+                    "receipt_monotonic_ns": 35473109351968,
+                    "frame": "rail",
+                    "actual_joint_position_m": -2.0815711801511644e-17,
+                    "source_observation_seq": 14
+                  },
+                  {
+                    "seq": 2,
+                    "stamp_ns": 4087000000,
+                    "publisher_seq": 2,
+                    "receipt_monotonic_ns": 35473186365441,
+                    "frame": "rail",
+                    "actual_joint_position_m": -0.0003016958409481044,
+                    "source_observation_seq": 15
+                  },
+                  {
+                    "seq": 3,
+                    "stamp_ns": 4165000000,
+                    "publisher_seq": 3,
+                    "receipt_monotonic_ns": 35473264494123,
+                    "frame": "rail",
+                    "actual_joint_position_m": -0.008809668530917683,
+                    "source_observation_seq": 16
+                  },
+                  {
+                    "seq": 4,
+                    "stamp_ns": 4244000000,
+                    "publisher_seq": 4,
+                    "receipt_monotonic_ns": 35473342977779,
+                    "frame": "rail",
+                    "actual_joint_position_m": -0.028817095429786256,
+                    "source_observation_seq": 17
+                  },
+                  {
+                    "seq": 5,
+                    "stamp_ns": 4323000000,
+                    "publisher_seq": 5,
+                    "receipt_monotonic_ns": 35473421844299,
+                    "frame": "rail",
+                    "actual_joint_position_m": -0.05644829037873971,
+                    "source_observation_seq": 18
+                  },
+                  {
+                    "seq": 6,
+                    "stamp_ns": 4400000000,
+                    "publisher_seq": 6,
+                    "receipt_monotonic_ns": 35473499678991,
+                    "frame": "rail",
+                    "actual_joint_position_m": -0.08303272979748937,
+                    "source_observation_seq": 19
+                  },
+                  {
+                    "seq": 7,
+                    "stamp_ns": 4478000000,
+                    "publisher_seq": 7,
+                    "receipt_monotonic_ns": 35473577143600,
+                    "frame": "rail",
+                    "actual_joint_position_m": -0.1080238207883689,
+                    "source_observation_seq": 20
+                  },
+                  {
+                    "seq": 8,
+                    "stamp_ns": 4555000000,
+                    "publisher_seq": 8,
+                    "receipt_monotonic_ns": 35473654489218,
+                    "frame": "rail",
+                    "actual_joint_position_m": -0.13122496225186278,
+                    "source_observation_seq": 21
+                  },
+                  {
+                    "seq": 9,
+                    "stamp_ns": 4632000000,
+                    "publisher_seq": 9,
+                    "receipt_monotonic_ns": 35473731091589,
+                    "frame": "rail",
+                    "actual_joint_position_m": -0.15305282392500918,
+                    "source_observation_seq": 22
+                  },
+                  {
+                    "seq": 10,
+                    "stamp_ns": 4709000000,
+                    "publisher_seq": 10,
+                    "receipt_monotonic_ns": 35473807843586,
+                    "frame": "rail",
+                    "actual_joint_position_m": -0.17332994192781434,
+                    "source_observation_seq": 23
+                  }
+                ],
+                "companion": [
+                  {
+                    "seq": 1,
+                    "stamp_ns": 3935000000,
+                    "publisher_seq": 1,
+                    "receipt_monotonic_ns": 35473086377764,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": -9.290209347788969e-18,
+                    "source_observation_seq": 13
+                  },
+                  {
+                    "seq": 2,
+                    "stamp_ns": 4010000000,
+                    "publisher_seq": 2,
+                    "receipt_monotonic_ns": 35473161231899,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": -9.290200793370754e-18,
+                    "source_observation_seq": 14
+                  },
+                  {
+                    "seq": 3,
+                    "stamp_ns": 4087000000,
+                    "publisher_seq": 3,
+                    "receipt_monotonic_ns": 35473238597325,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": -0.03345090106777083,
+                    "source_observation_seq": 15
+                  },
+                  {
+                    "seq": 4,
+                    "stamp_ns": 4165000000,
+                    "publisher_seq": 4,
+                    "receipt_monotonic_ns": 35473316670529,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": -0.18128444700436236,
+                    "source_observation_seq": 16
+                  },
+                  {
+                    "seq": 5,
+                    "stamp_ns": 4244000000,
+                    "publisher_seq": 5,
+                    "receipt_monotonic_ns": 35473395365556,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": -0.32198406903891497,
+                    "source_observation_seq": 17
+                  },
+                  {
+                    "seq": 6,
+                    "stamp_ns": 4323000000,
+                    "publisher_seq": 6,
+                    "receipt_monotonic_ns": 35473473235242,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": -0.3516065872816612,
+                    "source_observation_seq": 18
+                  },
+                  {
+                    "seq": 7,
+                    "stamp_ns": 4400000000,
+                    "publisher_seq": 7,
+                    "receipt_monotonic_ns": 35473550917805,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": -0.3305329135368637,
+                    "source_observation_seq": 19
+                  },
+                  {
+                    "seq": 8,
+                    "stamp_ns": 4478000000,
+                    "publisher_seq": 8,
+                    "receipt_monotonic_ns": 35473629017927,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": -0.31072229839273463,
+                    "source_observation_seq": 20
+                  },
+                  {
+                    "seq": 9,
+                    "stamp_ns": 4555000000,
+                    "publisher_seq": 9,
+                    "receipt_monotonic_ns": 35473706462845,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": -0.2923305889389328,
+                    "source_observation_seq": 21
+                  },
+                  {
+                    "seq": 10,
+                    "stamp_ns": 4632000000,
+                    "publisher_seq": 10,
+                    "receipt_monotonic_ns": 35473781957338,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": -0.27502748811857225,
+                    "source_observation_seq": 22
+                  },
+                  {
+                    "seq": 11,
+                    "stamp_ns": 4709000000,
+                    "publisher_seq": 11,
+                    "receipt_monotonic_ns": 35473858685306,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": -0.25895367280845766,
+                    "source_observation_seq": 23
+                  }
+                ],
+                "companion_offset": [
+                  {
+                    "seq": 1,
+                    "stamp_ns": 3947000000,
+                    "publisher_seq": 1,
+                    "receipt_monotonic_ns": 35473086545438,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": -9.290209347788969e-18,
+                    "source_observation_seq": 13
+                  },
+                  {
+                    "seq": 2,
+                    "stamp_ns": 4022000000,
+                    "publisher_seq": 2,
+                    "receipt_monotonic_ns": 35473161034447,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": -9.290200793370754e-18,
+                    "source_observation_seq": 14
+                  },
+                  {
+                    "seq": 3,
+                    "stamp_ns": 4099000000,
+                    "publisher_seq": 3,
+                    "receipt_monotonic_ns": 35473238819910,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": -0.03345090106777083,
+                    "source_observation_seq": 15
+                  },
+                  {
+                    "seq": 4,
+                    "stamp_ns": 4177000000,
+                    "publisher_seq": 4,
+                    "receipt_monotonic_ns": 35473317142233,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": -0.18128444700436236,
+                    "source_observation_seq": 16
+                  },
+                  {
+                    "seq": 5,
+                    "stamp_ns": 4256000000,
+                    "publisher_seq": 5,
+                    "receipt_monotonic_ns": 35473395629957,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": -0.32198406903891497,
+                    "source_observation_seq": 17
+                  },
+                  {
+                    "seq": 6,
+                    "stamp_ns": 4335000000,
+                    "publisher_seq": 6,
+                    "receipt_monotonic_ns": 35473472878568,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": -0.3516065872816612,
+                    "source_observation_seq": 18
+                  },
+                  {
+                    "seq": 7,
+                    "stamp_ns": 4412000000,
+                    "publisher_seq": 7,
+                    "receipt_monotonic_ns": 35473551212701,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": -0.3305329135368637,
+                    "source_observation_seq": 19
+                  },
+                  {
+                    "seq": 8,
+                    "stamp_ns": 4490000000,
+                    "publisher_seq": 8,
+                    "receipt_monotonic_ns": 35473629669069,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": -0.31072229839273463,
+                    "source_observation_seq": 20
+                  },
+                  {
+                    "seq": 9,
+                    "stamp_ns": 4567000000,
+                    "publisher_seq": 9,
+                    "receipt_monotonic_ns": 35473706164347,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": -0.2923305889389328,
+                    "source_observation_seq": 21
+                  },
+                  {
+                    "seq": 10,
+                    "stamp_ns": 4644000000,
+                    "publisher_seq": 10,
+                    "receipt_monotonic_ns": 35473781680477,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": -0.27502748811857225,
+                    "source_observation_seq": 22
+                  },
+                  {
+                    "seq": 11,
+                    "stamp_ns": 4721000000,
+                    "publisher_seq": 11,
+                    "receipt_monotonic_ns": 35473858976424,
+                    "frame": "rail",
+                    "actual_joint_velocity_m_s": -0.25895367280845766,
+                    "source_observation_seq": 23
+                  }
+                ]
+              },
+              "pairs": {
+                "baseline_exact": [
+                  {
+                    "pose_seq": 1,
+                    "companion_seq": 2,
+                    "pose_stamp_ns": 4010000000,
+                    "companion_stamp_ns": 4010000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35473161297130,
+                    "pose_source_observation_seq": 14,
+                    "companion_source_observation_seq": 14
+                  },
+                  {
+                    "pose_seq": 2,
+                    "companion_seq": 3,
+                    "pose_stamp_ns": 4087000000,
+                    "companion_stamp_ns": 4087000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35473238653503,
+                    "pose_source_observation_seq": 15,
+                    "companion_source_observation_seq": 15
+                  },
+                  {
+                    "pose_seq": 3,
+                    "companion_seq": 4,
+                    "pose_stamp_ns": 4165000000,
+                    "companion_stamp_ns": 4165000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35473316706602,
+                    "pose_source_observation_seq": 16,
+                    "companion_source_observation_seq": 16
+                  },
+                  {
+                    "pose_seq": 4,
+                    "companion_seq": 5,
+                    "pose_stamp_ns": 4244000000,
+                    "companion_stamp_ns": 4244000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35473395411715,
+                    "pose_source_observation_seq": 17,
+                    "companion_source_observation_seq": 17
+                  },
+                  {
+                    "pose_seq": 5,
+                    "companion_seq": 6,
+                    "pose_stamp_ns": 4323000000,
+                    "companion_stamp_ns": 4323000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35473473291126,
+                    "pose_source_observation_seq": 18,
+                    "companion_source_observation_seq": 18
+                  },
+                  {
+                    "pose_seq": 6,
+                    "companion_seq": 7,
+                    "pose_stamp_ns": 4400000000,
+                    "companion_stamp_ns": 4400000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35473550981361,
+                    "pose_source_observation_seq": 19,
+                    "companion_source_observation_seq": 19
+                  },
+                  {
+                    "pose_seq": 7,
+                    "companion_seq": 8,
+                    "pose_stamp_ns": 4478000000,
+                    "companion_stamp_ns": 4478000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35473629082713,
+                    "pose_source_observation_seq": 20,
+                    "companion_source_observation_seq": 20
+                  },
+                  {
+                    "pose_seq": 8,
+                    "companion_seq": 9,
+                    "pose_stamp_ns": 4555000000,
+                    "companion_stamp_ns": 4555000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35473706540096,
+                    "pose_source_observation_seq": 21,
+                    "companion_source_observation_seq": 21
+                  },
+                  {
+                    "pose_seq": 9,
+                    "companion_seq": 10,
+                    "pose_stamp_ns": 4632000000,
+                    "companion_stamp_ns": 4632000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35473782015548,
+                    "pose_source_observation_seq": 22,
+                    "companion_source_observation_seq": 22
+                  },
+                  {
+                    "pose_seq": 10,
+                    "companion_seq": 11,
+                    "pose_stamp_ns": 4709000000,
+                    "companion_stamp_ns": 4709000000,
+                    "stamp_delta_s": 0.0,
+                    "callback_receipt_monotonic_ns": 35473858740502,
+                    "pose_source_observation_seq": 23,
+                    "companion_source_observation_seq": 23
+                  }
+                ],
+                "offset_exact": [],
+                "offset_approx": []
+              },
+              "injected_stamp_deltas_s": [
+                0.012,
+                0.012,
+                0.012,
+                0.012,
+                0.012,
+                0.012,
+                0.012,
+                0.012,
+                0.012,
+                0.012
+              ],
+              "companion_receive_wall_lags_s": [
+                0.051879931,
+                0.052231884,
+                0.052176406,
+                0.052387777,
+                0.051390943,
+                0.051238814,
+                0.051874327,
+                0.051973627,
+                0.050865749,
+                0.05084172
+              ],
+              "sample_origin": "One observation-node clock read after one real joint query, shared by two teaching channels; not independent native sensor stamps",
+              "shadow_origin": "Deliberate added offset_sim_s, not a physical sampling timestamp or clock correction",
+              "publication_delay_evidence": {
+                "source_publication_traces": [
+                  {
+                    "source_observation_seq": 14,
+                    "query_stamp_ns": 4010000000,
+                    "pose_publisher_seq": 1,
+                    "pose_stamp_ns": 4010000000,
+                    "companion_publisher_seq": 2,
+                    "companion_stamp_ns": 4010000000,
+                    "shadow_publisher_seq": 2,
+                    "shadow_stamp_ns": 4022000000,
+                    "pose_publish_call_sim_ns": 4010000000,
+                    "companion_publish_call_sim_ns": 4062000000,
+                    "shadow_publish_call_sim_ns": 4062000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.052
+                  },
+                  {
+                    "source_observation_seq": 15,
+                    "query_stamp_ns": 4087000000,
+                    "pose_publisher_seq": 2,
+                    "pose_stamp_ns": 4087000000,
+                    "companion_publisher_seq": 3,
+                    "companion_stamp_ns": 4087000000,
+                    "shadow_publisher_seq": 3,
+                    "shadow_stamp_ns": 4099000000,
+                    "pose_publish_call_sim_ns": 4087000000,
+                    "companion_publish_call_sim_ns": 4139000000,
+                    "shadow_publish_call_sim_ns": 4139000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.052
+                  },
+                  {
+                    "source_observation_seq": 16,
+                    "query_stamp_ns": 4165000000,
+                    "pose_publisher_seq": 3,
+                    "pose_stamp_ns": 4165000000,
+                    "companion_publisher_seq": 4,
+                    "companion_stamp_ns": 4165000000,
+                    "shadow_publisher_seq": 4,
+                    "shadow_stamp_ns": 4177000000,
+                    "pose_publish_call_sim_ns": 4165000000,
+                    "companion_publish_call_sim_ns": 4218000000,
+                    "shadow_publish_call_sim_ns": 4218000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.053
+                  },
+                  {
+                    "source_observation_seq": 17,
+                    "query_stamp_ns": 4244000000,
+                    "pose_publisher_seq": 4,
+                    "pose_stamp_ns": 4244000000,
+                    "companion_publisher_seq": 5,
+                    "companion_stamp_ns": 4244000000,
+                    "shadow_publisher_seq": 5,
+                    "shadow_stamp_ns": 4256000000,
+                    "pose_publish_call_sim_ns": 4244000000,
+                    "companion_publish_call_sim_ns": 4296000000,
+                    "shadow_publish_call_sim_ns": 4296000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.052
+                  },
+                  {
+                    "source_observation_seq": 18,
+                    "query_stamp_ns": 4323000000,
+                    "pose_publisher_seq": 5,
+                    "pose_stamp_ns": 4323000000,
+                    "companion_publisher_seq": 6,
+                    "companion_stamp_ns": 4323000000,
+                    "shadow_publisher_seq": 6,
+                    "shadow_stamp_ns": 4335000000,
+                    "pose_publish_call_sim_ns": 4323000000,
+                    "companion_publish_call_sim_ns": 4374000000,
+                    "shadow_publish_call_sim_ns": 4374000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.051
+                  },
+                  {
+                    "source_observation_seq": 19,
+                    "query_stamp_ns": 4400000000,
+                    "pose_publisher_seq": 6,
+                    "pose_stamp_ns": 4400000000,
+                    "companion_publisher_seq": 7,
+                    "companion_stamp_ns": 4400000000,
+                    "shadow_publisher_seq": 7,
+                    "shadow_stamp_ns": 4412000000,
+                    "pose_publish_call_sim_ns": 4400000000,
+                    "companion_publish_call_sim_ns": 4452000000,
+                    "shadow_publish_call_sim_ns": 4452000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.052
+                  },
+                  {
+                    "source_observation_seq": 20,
+                    "query_stamp_ns": 4478000000,
+                    "pose_publisher_seq": 7,
+                    "pose_stamp_ns": 4478000000,
+                    "companion_publisher_seq": 8,
+                    "companion_stamp_ns": 4478000000,
+                    "shadow_publisher_seq": 8,
+                    "shadow_stamp_ns": 4490000000,
+                    "pose_publish_call_sim_ns": 4478000000,
+                    "companion_publish_call_sim_ns": 4530000000,
+                    "shadow_publish_call_sim_ns": 4530000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.052
+                  },
+                  {
+                    "source_observation_seq": 21,
+                    "query_stamp_ns": 4555000000,
+                    "pose_publisher_seq": 8,
+                    "pose_stamp_ns": 4555000000,
+                    "companion_publisher_seq": 9,
+                    "companion_stamp_ns": 4555000000,
+                    "shadow_publisher_seq": 9,
+                    "shadow_stamp_ns": 4567000000,
+                    "pose_publish_call_sim_ns": 4555000000,
+                    "companion_publish_call_sim_ns": 4607000000,
+                    "shadow_publish_call_sim_ns": 4607000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.052
+                  },
+                  {
+                    "source_observation_seq": 22,
+                    "query_stamp_ns": 4632000000,
+                    "pose_publisher_seq": 9,
+                    "pose_stamp_ns": 4632000000,
+                    "companion_publisher_seq": 10,
+                    "companion_stamp_ns": 4632000000,
+                    "shadow_publisher_seq": 10,
+                    "shadow_stamp_ns": 4644000000,
+                    "pose_publish_call_sim_ns": 4632000000,
+                    "companion_publish_call_sim_ns": 4683000000,
+                    "shadow_publish_call_sim_ns": 4683000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.051
+                  },
+                  {
+                    "source_observation_seq": 23,
+                    "query_stamp_ns": 4709000000,
+                    "pose_publisher_seq": 10,
+                    "pose_stamp_ns": 4709000000,
+                    "companion_publisher_seq": 11,
+                    "companion_stamp_ns": 4709000000,
+                    "shadow_publisher_seq": 11,
+                    "shadow_stamp_ns": 4721000000,
+                    "pose_publish_call_sim_ns": 4709000000,
+                    "companion_publish_call_sim_ns": 4760000000,
+                    "shadow_publish_call_sim_ns": 4760000000,
+                    "requested_delay_sim_s": 0.03,
+                    "scope": "Source-node simulator time at Publisher.publish call sites; not wire transmission or subscriber receipt time",
+                    "actual_source_stamp_to_companion_publish_sim_s": 0.051
+                  }
+                ],
+                "same_sequence_receive_wall_lags_s": [
+                  0.051879931,
+                  0.052231884,
+                  0.052176406,
+                  0.052387777,
+                  0.051390943,
+                  0.051238814,
+                  0.051874327,
+                  0.051973627,
+                  0.050865749,
+                  0.05084172
+                ],
+                "median_receive_wall_lag_s": 0.051877128999999994,
+                "scope": "Simulator-time publish-call delay and monotonic wall receipt lag are separate measurements; neither is a native independent-sensor sampling offset"
+              },
+              "delay_note": "Receive wall lag includes the controlled simulated-time publication delay and transport/callback scheduling; it is not an independent sensor sampling offset"
+            }
+          },
+          "configuration": {
+            "delay_sim_s": 0.03,
+            "offset_sim_s": 0.012,
+            "slop_s": 0.004,
+            "sync_period_sim_s": 0.06
+          },
+          "mount": {
+            "rail_pose": [
+              0.0,
+              0.0,
+              0.7,
+              0,
+              0,
+              0
+            ],
+            "probe_pose_relative_body": [
+              0.1,
+              0.15,
+              0.1,
+              0.0,
+              0.0,
+              0.3
+            ],
+            "probe_link": "workshop::probe",
+            "local_point": [
+              0.2,
+              0,
+              0
+            ],
+            "world_sha256": "fb38d1cc3962d03ffb9cf90d9811281e885f4aa87dd4b17d90b20e0c91c1e9d8"
+          },
+          "match_statistics": {
+            "baseline_exact": 10,
+            "offset_exact": 0,
+            "offset_approx": 0,
+            "expected_offset_exact": false,
+            "expected_offset_approx": false,
+            "offset_approx_outcome": "expected_mismatch",
+            "same_transaction_seq_verified": true,
+            "same_transaction_identity": "Independent source_observation_seq mapped through (topic kind, raw stamp, per-Publisher Header.seq); raw Header.seq need not agree across topics",
+            "source_identity_pair_counts": {
+              "baseline_exact": {
+                "source_verified": 10,
+                "unmapped_capture_boundary_pairs": 0
+              },
+              "offset_exact": {
+                "source_verified": 0,
+                "unmapped_capture_boundary_pairs": 0
+              },
+              "offset_approx": {
+                "source_verified": 0,
+                "unmapped_capture_boundary_pairs": 0
+              }
+            },
+            "strict_slop": true
+          },
+          "elapsed_wall_s": 0.8606682719982928
+        }
+      },
+      {
+        "name": "all_owned_processes_cleaned",
+        "passed": true
+      }
+    ],
+    "elapsed_seconds": 36.855
+  },
+  "desktop": {
+    "ok": true,
+    "lesson": "45",
+    "profile": "classic11-noetic",
+    "data_dir": "/tmp/gazeboteach-addon-desktop-xkys0izp",
+    "checks": [
+      {
+        "name": "real_desktop_material_selected",
+        "passed": true,
+        "document_characters": 6637
+      },
+      {
+        "name": "start_button_initialized_real_world_gui_and_ptys",
+        "passed": true,
+        "session": "/tmp/gazeboteach-addon-desktop-xkys0izp/data/sessions/classic11-noetic-45-20261104-004454-639811",
+        "token": "24e48b880e534f5781fe2c0468bc4a74"
+      },
+      {
+        "name": "real_owned_native_gui_window",
+        "passed": true,
+        "window_id": "0x5e00012",
+        "pid": 177975,
+        "width": 2488,
+        "height": 1376,
+        "screenshot": "/home/ikaros/GazeboTeach/.deploy/addons/A45/desktop-gazebo.png",
+        "properties": "_NET_WM_PID(CARDINAL) = 177975\n_NET_WM_NAME(UTF8_STRING) = \"Gazebo\"",
+        "image_metrics": {
+          "nontrivial_pixels": true,
+          "sample_count": 1568,
+          "distinct_sampled_colors": 78,
+          "luma_range": 231,
+          "nonblack_fraction": 1.0,
+          "non_dominant_fraction": 0.79847
+        },
+        "manual_scene_review_required": true
+      },
+      {
+        "name": "verify_button_checks_real_behavior",
+        "passed": true
+      },
+      {
+        "name": "desktop_exit_cleans_owned_processes",
+        "passed": true
+      }
+    ],
+    "elapsed_seconds": 17.408
+  },
+  "standalone_gui": {
+    "window_id": "0x5c00012",
+    "pid": 175885,
+    "width": 2488,
+    "height": 1376,
+    "screenshot": "/home/ikaros/GazeboTeach/.deploy/addons/A45/tf-probe-scene.png",
+    "properties": "_NET_WM_PID(CARDINAL) = 175885\n_NET_WM_NAME(UTF8_STRING) = \"Gazebo\"",
+    "image_metrics": {
+      "nontrivial_pixels": true,
+      "sample_count": 1568,
+      "distinct_sampled_colors": 22,
+      "luma_range": 176,
+      "nonblack_fraction": 1.0,
+      "non_dominant_fraction": 0.57972
+    },
+    "manual_scene_review_required": true
+  },
+  "manual_scene_review": {
+    "passed": true,
+    "image": "docs/images/a45-tf-probe.png",
+    "observed": "Actual unobscured Gazebo: cyan slider, yellow rail and attached red probe/green marker are visible; TF/point claims use independent native link readbacks."
+  },
+  "limits": [
+    "Pose/Twist teaching channels come from one actual joint query, not independent sensors or native sensor acquisition stamps.",
+    "Shadow header offset is deliberately injected; approximate matching does not correct a clock.",
+    "Raw Header.seq is per Publisher and kept intact; source identity is independently mapped from publication traces.",
+    "Receive wall lag and source publish-call simulator time are different evidence, neither is wire-transmission latency.",
+    "Latest-common-time TF and native GetLinkState are asynchronous and compared with explicit tolerances.",
+    "Separate student formulas remain blank and ungraded by reference acceptance."
+  ],
+  "source_sha256": {
+    "courses/classic11_noetic/45-ros1-tf-synchronization/instrument.py": "5514bba35bf8c4e77eb98a9c8f6021ea15514301e5de1a21a34cd324f8596e5f",
+    "courses/classic11_noetic/45-ros1-tf-synchronization/lab.py": "f1fd0e08aaf005b918000098804bf63ef5e3fe2420fcaca7613832b11a2a20f2",
+    "courses/classic11_noetic/45-ros1-tf-synchronization/lesson.json": "99d829ccd93c07790417a64a51732f88e433868937660717a04df801b20f89cd",
+    "courses/classic11_noetic/45-ros1-tf-synchronization/lesson.md": "ae2833ab655370076a9a87e01e21b6520afc57156a951f3bcf84a1ff48b3a2eb",
+    "courses/classic11_noetic/45-ros1-tf-synchronization/prepare.py": "782f9935a71949e9882d121c4bbda316a9cfe193b0dbfcd84cf90ae1c140a77c",
+    "courses/classic11_noetic/45-ros1-tf-synchronization/reference.md": "720b95d49f41193af02a83b20f1210dbde5a8b469a6294474ba68739a4ad6ff5",
+    "courses/classic11_noetic/45-ros1-tf-synchronization/reference.py": "43c748cbd66433a3cbb8329548f1d40f4934325aa95cd3515559ce3fb9652b37",
+    "courses/classic11_noetic/45-ros1-tf-synchronization/ros_ws/src/gazeboteach_workshop45/config/controller.yaml": "1e74b64591ede50a79721017f84fa301c58e6db465eb574692d1bf75816d7488",
+    "courses/classic11_noetic/45-ros1-tf-synchronization/ros_ws/src/gazeboteach_workshop45/launch/lab.launch": "6271ccdaed43760d3918c70d6e8a3fcd84cf3b16833e59114c5b915650981fd6",
+    "courses/classic11_noetic/45-ros1-tf-synchronization/ros_ws/src/gazeboteach_workshop45/package.xml": "ea609bdcaef2cb06f996773b3a34ee28532d953702cf97aeeb51f78333f6a1bb",
+    "courses/classic11_noetic/45-ros1-tf-synchronization/ros_ws/src/gazeboteach_workshop45/scripts/node.py": "af56037f72c9c64e666e1fc4a98558b8df1aa79ede913d3196e1b6a8bf0040b6",
+    "courses/classic11_noetic/45-ros1-tf-synchronization/student.py": "91999632dfc5d46d48e61cbe64555018aee37a7fd513d843f7b2e4f42d88b49c",
+    "courses/classic11_noetic/45-ros1-tf-synchronization/verify.py": "1a7585abbc79cf9e4736095bc3af682a6637f585c6dd607b3bebe94170518398",
+    "courses/classic11_noetic/45-ros1-tf-synchronization/world.sdf": "19f4b7dd618f1cfabd47c17790287e94430b89f06a4c185e9f9f6e2f85cddeea"
+  }
+}

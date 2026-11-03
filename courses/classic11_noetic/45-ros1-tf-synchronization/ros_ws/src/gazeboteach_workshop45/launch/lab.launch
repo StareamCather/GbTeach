@@ -1,0 +1,1 @@
+<launch><arg name="namespace" default="workshop45"/><group ns="$(arg namespace)"><node pkg="gazeboteach_workshop45" type="node.py" name="instrument" args="daemon" output="screen" required="true"><rosparam command="load" file="$(find gazeboteach_workshop45)/config/controller.yaml"/></node></group></launch>
