@@ -1,0 +1,2402 @@
+{
+  "acceptance": {
+    "lesson": "47",
+    "ok": true,
+    "data_dir": "/tmp/gazeboteach-a47-djmb215q",
+    "checks": [
+      {
+        "name": "private_endpoint_and_abrupt_client_eof_restore_running",
+        "passed": true,
+        "before": {
+          "seq": 2,
+          "iterations": 2408,
+          "paused": false,
+          "sim_time": 2.408,
+          "sim_sec": 2,
+          "sim_nsec": 408000000
+        },
+        "after": {
+          "seq": 3,
+          "iterations": 2607,
+          "paused": false,
+          "sim_time": 2.607,
+          "sim_sec": 2,
+          "sim_nsec": 607000000
+        },
+        "mode_octal": "0600"
+      },
+      {
+        "name": "actual_training_and_exact_independent_native_world_step_total",
+        "passed": true,
+        "before": {
+          "seq": 6,
+          "iterations": 2807,
+          "paused": true,
+          "sim_time": 2.807,
+          "sim_sec": 2,
+          "sim_nsec": 807000000
+        },
+        "after": {
+          "seq": 103,
+          "iterations": 21619,
+          "paused": true,
+          "sim_time": 21.619,
+          "sim_sec": 21,
+          "sim_nsec": 619000000
+        },
+        "idle": {
+          "seq": 105,
+          "iterations": 21619,
+          "paused": true,
+          "sim_time": 21.619,
+          "sim_sec": 21,
+          "sim_nsec": 619000000
+        },
+        "verification": {
+          "schema": 2,
+          "passed": true,
+          "algorithm": "behavior_cloning_numpy_tanh_mlp",
+          "assignment_pass": false,
+          "execution_mode": "reference_demo",
+          "run_directory": "results/run-4efed619d3b84605b85866782266b38e",
+          "normalization": {
+            "method": "fixed_physical_scales_not_fitted",
+            "position_error_scale_m": 1.0,
+            "velocity_scale_m_s": 2.0,
+            "force_scale_n": 8.0,
+            "feature_order": [
+              "target_minus_x",
+              "velocity"
+            ],
+            "translation_prior": "Absolute target enters only through target_minus_x"
+          },
+          "split": {
+            "unit": "whole_episode",
+            "train_episode_ids": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "held_out_episode_ids": [
+              8,
+              9
+            ],
+            "training_target_m": 0.0
+          },
+          "generalization": {
+            "unseen_target_m": [
+              -0.3,
+              0.3
+            ],
+            "initial_x_m": 0.0,
+            "claim": "Translation-structured unseen absolute goals, not arbitrary out-of-distribution dynamics"
+          },
+          "physics": "Real Gazebo ODE joint only; Python has no dynamics integration or expert fallback in evaluation",
+          "source": {
+            "lab_sha256": "18f55a11c642f1f50654f528378ccafddcab38c3474b4b2d58e4ae88fd162120",
+            "network_sha256": "2532ceb7ccc7b3d0ac937681e425ecefdb4342b8e709877054ae2bb248e602c0"
+          },
+          "data": "results/run-4efed619d3b84605b85866782266b38e/expert.json",
+          "policy": "results/run-4efed619d3b84605b85866782266b38e/imitation-policy.npz",
+          "traces": "results/run-4efed619d3b84605b85866782266b38e/rollouts.json",
+          "report": "results/run-4efed619d3b84605b85866782266b38e/report.json",
+          "native_endpoint": {
+            "path": "/tmp/gt-learning-bf80f14a28b04b56aa2664c34f29c2c7.sock",
+            "uid": 1000,
+            "mode": "0o600",
+            "device": 66309,
+            "inode": 27043847,
+            "peer": {
+              "pid": 205044,
+              "uid": 1000,
+              "gid": 1000
+            }
+          },
+          "build": {
+            "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+            "gazebo": "11.15.1",
+            "compiler": "/usr/bin/x86_64-linux-gnu-g++-7",
+            "compiler_version": "x86_64-linux-gnu-g++-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0\nCopyright (C) 2017 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+            "compile_options": [
+              "-shared",
+              "-fPIC",
+              "-std=c++17",
+              "-O2",
+              "-pthread",
+              "-Wno-deprecated-declarations",
+              "-DGT_PLANT_SOURCE_SHA=\"fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3\""
+            ],
+            "pkg_config_flags": [
+              "-std=c++11",
+              "-std=c++17",
+              "-isystem",
+              "/usr/include/mit-krb5",
+              "-std=c++17",
+              "-pthread",
+              "-std=c++17",
+              "-I/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//include/gazebo-11",
+              "-I/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//include/sdformat-9.10",
+              "-I/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//include/ignition/fuel_tools4",
+              "-I/usr/include/x86_64-linux-gnu",
+              "-I/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//include/ignition/common3",
+              "-I/usr/include/uuid",
+              "-I/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//include/ignition/transport8",
+              "-I/usr/include/pgm-5.2",
+              "-I/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//include/ignition/msgs5",
+              "-I/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//include/ignition/math6",
+              "-I/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//include/ignition/cmake2",
+              "-L/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//lib/x86_64-linux-gnu",
+              "-L/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//lib/x86_64-linux-gnu/gazebo-11/plugins",
+              "-L/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//lib/x86_64-linux-gnu",
+              "-Wl,-rpath,/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//lib/x86_64-linux-gnu/gazebo-11/plugins",
+              "-lgazebo_transport",
+              "-lgazebo_physics",
+              "-lgazebo_sensors",
+              "-lgazebo_rendering",
+              "-lgazebo_gui",
+              "-lgazebo_client",
+              "-lgazebo_msgs",
+              "-lgazebo_common",
+              "-lgazebo",
+              "-lboost_thread",
+              "-lboost_system",
+              "-lboost_filesystem",
+              "-lboost_program_options",
+              "-lboost_regex",
+              "-lboost_iostreams",
+              "-lboost_date_time",
+              "-lsdformat9",
+              "-ltbb",
+              "-latomic",
+              "-lignition-fuel_tools4",
+              "-lignition-transport8",
+              "-lignition-msgs5",
+              "-lprotobuf",
+              "-pthread",
+              "-lignition-math6"
+            ],
+            "cache_key": "351f2ff010c0b505863be1cc5c09429137a67a42e47fae0c74723c133d1cfdab",
+            "library_sha256": "1abbb15d4c9fe2431d9ad95c4c20bf149bb421bf2abcd66620aa7a86ec722e8a",
+            "library_path": "/home/ikaros/.cache/gazeboteach/learning-plant/351f2ff010c0b505863be1cc5c09429137a67a42e47fae0c74723c133d1cfdab/libgazeboteach_learning.so"
+          },
+          "native_initial_state": {
+            "iterations": 2807,
+            "sim_time_s": 2.807,
+            "x_m": 0,
+            "v_m_s": 0,
+            "paused": true,
+            "callbacks": 2807
+          },
+          "expert_data_sha256": "f6ddd1c8ca81edd05ebb71c355aff2d18afe11cbeacac09db7b9de8fbe0525fa",
+          "training_rows": 480,
+          "held_out_episode_rows": 120,
+          "test_mse_before": 2.7251282435543818,
+          "test_mse_after": 9.419484185313789e-05,
+          "mse_unit": "N^2",
+          "loss_history": [
+            {
+              "epoch": 0,
+              "training_mse_normalized": 0.034498837847776014,
+              "gradient_norm_before_clip": 0.05247978024900964
+            },
+            {
+              "epoch": 200,
+              "training_mse_normalized": 0.02263323779919029,
+              "gradient_norm_before_clip": 0.045826341536122216
+            },
+            {
+              "epoch": 400,
+              "training_mse_normalized": 0.013291367669278655,
+              "gradient_norm_before_clip": 0.04017427166072437
+            },
+            {
+              "epoch": 600,
+              "training_mse_normalized": 0.006677840764934506,
+              "gradient_norm_before_clip": 0.03203750725844846
+            },
+            {
+              "epoch": 800,
+              "training_mse_normalized": 0.002869610759405941,
+              "gradient_norm_before_clip": 0.02291159280609859
+            },
+            {
+              "epoch": 1000,
+              "training_mse_normalized": 0.0010828456128876868,
+              "gradient_norm_before_clip": 0.014904717370324656
+            },
+            {
+              "epoch": 1200,
+              "training_mse_normalized": 0.00037292563547224316,
+              "gradient_norm_before_clip": 0.009045380324647655
+            },
+            {
+              "epoch": 1400,
+              "training_mse_normalized": 0.00012193071998124072,
+              "gradient_norm_before_clip": 0.005247132320395422
+            },
+            {
+              "epoch": 1600,
+              "training_mse_normalized": 3.952018625647601e-05,
+              "gradient_norm_before_clip": 0.002962082343315665
+            },
+            {
+              "epoch": 1800,
+              "training_mse_normalized": 1.3626714999786303e-05,
+              "gradient_norm_before_clip": 0.0016461079158456124
+            },
+            {
+              "epoch": 2000,
+              "training_mse_normalized": 5.69313694470289e-06,
+              "gradient_norm_before_clip": 0.0009067747516758013
+            },
+            {
+              "epoch": 2200,
+              "training_mse_normalized": 3.296138316303567e-06,
+              "gradient_norm_before_clip": 0.0004971215486797951
+            },
+            {
+              "epoch": 2400,
+              "training_mse_normalized": 2.5772837187700655e-06,
+              "gradient_norm_before_clip": 0.00027190528749052923
+            },
+            {
+              "epoch": 2599,
+              "training_mse_normalized": 2.362903897603783e-06,
+              "gradient_norm_before_clip": 0.00014913603923578014
+            }
+          ],
+          "physical_trials": [
+            {
+              "initial_x_m": 0.0,
+              "initial_v_m_s": 0.0,
+              "target_m": -0.3,
+              "actual_initial_state": {
+                "iterations": 14818,
+                "sim_time_s": 14.818,
+                "x_m": 0,
+                "v_m_s": 0,
+                "paused": true,
+                "callbacks": 14818
+              },
+              "reset_native_reply": {
+                "protocol": 2,
+                "id": 1212,
+                "kind": "reset",
+                "ok": true,
+                "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                "before": {
+                  "iterations": 14817,
+                  "sim_time_s": 14.817,
+                  "x_m": -0.07168335419585213,
+                  "v_m_s": 0.16779107278859617,
+                  "paused": true,
+                  "callbacks": 14817
+                },
+                "after": {
+                  "iterations": 14818,
+                  "sim_time_s": 14.818,
+                  "x_m": 0,
+                  "v_m_s": 0,
+                  "paused": true,
+                  "callbacks": 14818
+                },
+                "force_n": 0,
+                "steps": 1,
+                "physics_dt_s": 0.001,
+                "original_paused": true,
+                "mutation_started": true
+              },
+              "setting": "unseen_absolute_target_with_translation_prior",
+              "terminal_error_rms_m": 0.0005668951429196522,
+              "terminal_velocity_rms_m_s": 0.003851977722182785,
+              "peak_abs_x_m": 0.3142899469984698,
+              "actual_position_change_m": -0.2993403977414278,
+              "trace_summary": {
+                "count": 170,
+                "canonical_json_sha256": "9bec9b734035b3b5ef4aafcc6718e39fd2bdc2ea107e11fa48dec8f9f82aa3b2",
+                "first": {
+                  "step": 0,
+                  "target_m": -0.3,
+                  "before": {
+                    "iterations": 14818,
+                    "sim_time_s": 14.818,
+                    "x_m": 0,
+                    "v_m_s": 0,
+                    "paused": true,
+                    "callbacks": 14818
+                  },
+                  "features": [
+                    -0.3,
+                    0.0
+                  ],
+                  "network_output_normalized": -0.22705061139109184,
+                  "unclipped_network_force_n": -1.8164048911287347,
+                  "actual_force_n": -1.8164048911287347,
+                  "after": {
+                    "iterations": 14838,
+                    "sim_time_s": 14.838000000000001,
+                    "x_m": -0.00038048043676122917,
+                    "v_m_s": -0.036190381800590435,
+                    "paused": true,
+                    "callbacks": 14838
+                  },
+                  "transition": {
+                    "protocol": 2,
+                    "id": 1213,
+                    "kind": "step",
+                    "ok": true,
+                    "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                    "before": {
+                      "iterations": 14818,
+                      "sim_time_s": 14.818,
+                      "x_m": 0,
+                      "v_m_s": 0,
+                      "paused": true,
+                      "callbacks": 14818
+                    },
+                    "after": {
+                      "iterations": 14838,
+                      "sim_time_s": 14.838000000000001,
+                      "x_m": -0.00038048043676122917,
+                      "v_m_s": -0.036190381800590435,
+                      "paused": true,
+                      "callbacks": 14838
+                    },
+                    "force_n": -1.8164048911287347,
+                    "steps": 20,
+                    "physics_dt_s": 0.001,
+                    "original_paused": true,
+                    "mutation_started": true
+                  },
+                  "independent_native_readback": {
+                    "protocol": 2,
+                    "id": 1214,
+                    "kind": "state",
+                    "ok": true,
+                    "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                    "before": {
+                      "iterations": 14838,
+                      "sim_time_s": 14.838000000000001,
+                      "x_m": -0.00038048043676122917,
+                      "v_m_s": -0.036190381800590435,
+                      "paused": true,
+                      "callbacks": 14838
+                    },
+                    "after": {
+                      "iterations": 14838,
+                      "sim_time_s": 14.838000000000001,
+                      "x_m": -0.00038048043676122917,
+                      "v_m_s": -0.036190381800590435,
+                      "paused": true,
+                      "callbacks": 14838
+                    },
+                    "force_n": 0,
+                    "steps": 0,
+                    "physics_dt_s": 0.001,
+                    "original_paused": true,
+                    "mutation_started": false
+                  }
+                },
+                "last": {
+                  "step": 169,
+                  "target_m": -0.3,
+                  "before": {
+                    "iterations": 18198,
+                    "sim_time_s": 18.198,
+                    "x_m": -0.29935098175575886,
+                    "v_m_s": 0.0005918289359076584,
+                    "paused": true,
+                    "callbacks": 18198
+                  },
+                  "features": [
+                    -0.0006490182442411285,
+                    0.0002959144679538292
+                  ],
+                  "network_output_normalized": -0.0007178727653271933,
+                  "unclipped_network_force_n": -0.005742982122617546,
+                  "actual_force_n": -0.005742982122617546,
+                  "after": {
+                    "iterations": 18218,
+                    "sim_time_s": 18.218,
+                    "x_m": -0.2993403977414278,
+                    "v_m_s": 0.00047268803136105717,
+                    "paused": true,
+                    "callbacks": 18218
+                  },
+                  "transition": {
+                    "protocol": 2,
+                    "id": 1551,
+                    "kind": "step",
+                    "ok": true,
+                    "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                    "before": {
+                      "iterations": 18198,
+                      "sim_time_s": 18.198,
+                      "x_m": -0.29935098175575886,
+                      "v_m_s": 0.0005918289359076584,
+                      "paused": true,
+                      "callbacks": 18198
+                    },
+                    "after": {
+                      "iterations": 18218,
+                      "sim_time_s": 18.218,
+                      "x_m": -0.2993403977414278,
+                      "v_m_s": 0.00047268803136105717,
+                      "paused": true,
+                      "callbacks": 18218
+                    },
+                    "force_n": -0.005742982122617546,
+                    "steps": 20,
+                    "physics_dt_s": 0.001,
+                    "original_paused": true,
+                    "mutation_started": true
+                  },
+                  "independent_native_readback": {
+                    "protocol": 2,
+                    "id": 1552,
+                    "kind": "state",
+                    "ok": true,
+                    "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                    "before": {
+                      "iterations": 18218,
+                      "sim_time_s": 18.218,
+                      "x_m": -0.2993403977414278,
+                      "v_m_s": 0.00047268803136105717,
+                      "paused": true,
+                      "callbacks": 18218
+                    },
+                    "after": {
+                      "iterations": 18218,
+                      "sim_time_s": 18.218,
+                      "x_m": -0.2993403977414278,
+                      "v_m_s": 0.00047268803136105717,
+                      "paused": true,
+                      "callbacks": 18218
+                    },
+                    "force_n": 0,
+                    "steps": 0,
+                    "physics_dt_s": 0.001,
+                    "original_paused": true,
+                    "mutation_started": false
+                  }
+                }
+              }
+            },
+            {
+              "initial_x_m": 0.0,
+              "initial_v_m_s": 0.0,
+              "target_m": 0.3,
+              "actual_initial_state": {
+                "iterations": 18219,
+                "sim_time_s": 18.219,
+                "x_m": 0,
+                "v_m_s": 0,
+                "paused": true,
+                "callbacks": 18219
+              },
+              "reset_native_reply": {
+                "protocol": 2,
+                "id": 1553,
+                "kind": "reset",
+                "ok": true,
+                "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                "before": {
+                  "iterations": 18218,
+                  "sim_time_s": 18.218,
+                  "x_m": -0.2993403977414278,
+                  "v_m_s": 0.00047268803136105717,
+                  "paused": true,
+                  "callbacks": 18218
+                },
+                "after": {
+                  "iterations": 18219,
+                  "sim_time_s": 18.219,
+                  "x_m": 0,
+                  "v_m_s": 0,
+                  "paused": true,
+                  "callbacks": 18219
+                },
+                "force_n": 0,
+                "steps": 1,
+                "physics_dt_s": 0.001,
+                "original_paused": true,
+                "mutation_started": true
+              },
+              "setting": "unseen_absolute_target_with_translation_prior",
+              "terminal_error_rms_m": 0.0005668951429196522,
+              "terminal_velocity_rms_m_s": 0.003851977722182783,
+              "peak_abs_x_m": 0.3142899469984698,
+              "actual_position_change_m": 0.2993403977414278,
+              "trace_summary": {
+                "count": 170,
+                "canonical_json_sha256": "60308342466ec1dbcc406bc8d438dcab767a1628a27fb2315b09c0afab7c6ad1",
+                "first": {
+                  "step": 0,
+                  "target_m": 0.3,
+                  "before": {
+                    "iterations": 18219,
+                    "sim_time_s": 18.219,
+                    "x_m": 0,
+                    "v_m_s": 0,
+                    "paused": true,
+                    "callbacks": 18219
+                  },
+                  "features": [
+                    0.3,
+                    0.0
+                  ],
+                  "network_output_normalized": 0.22705061139109184,
+                  "unclipped_network_force_n": 1.8164048911287347,
+                  "actual_force_n": 1.8164048911287347,
+                  "after": {
+                    "iterations": 18239,
+                    "sim_time_s": 18.239,
+                    "x_m": 0.00038048043676122917,
+                    "v_m_s": 0.036190381800590435,
+                    "paused": true,
+                    "callbacks": 18239
+                  },
+                  "transition": {
+                    "protocol": 2,
+                    "id": 1554,
+                    "kind": "step",
+                    "ok": true,
+                    "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                    "before": {
+                      "iterations": 18219,
+                      "sim_time_s": 18.219,
+                      "x_m": 0,
+                      "v_m_s": 0,
+                      "paused": true,
+                      "callbacks": 18219
+                    },
+                    "after": {
+                      "iterations": 18239,
+                      "sim_time_s": 18.239,
+                      "x_m": 0.00038048043676122917,
+                      "v_m_s": 0.036190381800590435,
+                      "paused": true,
+                      "callbacks": 18239
+                    },
+                    "force_n": 1.8164048911287347,
+                    "steps": 20,
+                    "physics_dt_s": 0.001,
+                    "original_paused": true,
+                    "mutation_started": true
+                  },
+                  "independent_native_readback": {
+                    "protocol": 2,
+                    "id": 1555,
+                    "kind": "state",
+                    "ok": true,
+                    "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                    "before": {
+                      "iterations": 18239,
+                      "sim_time_s": 18.239,
+                      "x_m": 0.00038048043676122917,
+                      "v_m_s": 0.036190381800590435,
+                      "paused": true,
+                      "callbacks": 18239
+                    },
+                    "after": {
+                      "iterations": 18239,
+                      "sim_time_s": 18.239,
+                      "x_m": 0.00038048043676122917,
+                      "v_m_s": 0.036190381800590435,
+                      "paused": true,
+                      "callbacks": 18239
+                    },
+                    "force_n": 0,
+                    "steps": 0,
+                    "physics_dt_s": 0.001,
+                    "original_paused": true,
+                    "mutation_started": false
+                  }
+                },
+                "last": {
+                  "step": 169,
+                  "target_m": 0.3,
+                  "before": {
+                    "iterations": 21599,
+                    "sim_time_s": 21.599,
+                    "x_m": 0.29935098175575886,
+                    "v_m_s": -0.0005918289359076565,
+                    "paused": true,
+                    "callbacks": 21599
+                  },
+                  "features": [
+                    0.0006490182442411285,
+                    -0.00029591446795382823
+                  ],
+                  "network_output_normalized": 0.0007178727653271935,
+                  "unclipped_network_force_n": 0.005742982122617548,
+                  "actual_force_n": 0.005742982122617548,
+                  "after": {
+                    "iterations": 21619,
+                    "sim_time_s": 21.619,
+                    "x_m": 0.2993403977414278,
+                    "v_m_s": -0.0004726880313610552,
+                    "paused": true,
+                    "callbacks": 21619
+                  },
+                  "transition": {
+                    "protocol": 2,
+                    "id": 1892,
+                    "kind": "step",
+                    "ok": true,
+                    "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                    "before": {
+                      "iterations": 21599,
+                      "sim_time_s": 21.599,
+                      "x_m": 0.29935098175575886,
+                      "v_m_s": -0.0005918289359076565,
+                      "paused": true,
+                      "callbacks": 21599
+                    },
+                    "after": {
+                      "iterations": 21619,
+                      "sim_time_s": 21.619,
+                      "x_m": 0.2993403977414278,
+                      "v_m_s": -0.0004726880313610552,
+                      "paused": true,
+                      "callbacks": 21619
+                    },
+                    "force_n": 0.005742982122617548,
+                    "steps": 20,
+                    "physics_dt_s": 0.001,
+                    "original_paused": true,
+                    "mutation_started": true
+                  },
+                  "independent_native_readback": {
+                    "protocol": 2,
+                    "id": 1893,
+                    "kind": "state",
+                    "ok": true,
+                    "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                    "before": {
+                      "iterations": 21619,
+                      "sim_time_s": 21.619,
+                      "x_m": 0.2993403977414278,
+                      "v_m_s": -0.0004726880313610552,
+                      "paused": true,
+                      "callbacks": 21619
+                    },
+                    "after": {
+                      "iterations": 21619,
+                      "sim_time_s": 21.619,
+                      "x_m": 0.2993403977414278,
+                      "v_m_s": -0.0004726880313610552,
+                      "paused": true,
+                      "callbacks": 21619
+                    },
+                    "force_n": 0,
+                    "steps": 0,
+                    "physics_dt_s": 0.001,
+                    "original_paused": true,
+                    "mutation_started": false
+                  }
+                }
+              }
+            }
+          ],
+          "real_gazebo_transitions": 940,
+          "native_final_state": {
+            "iterations": 21619,
+            "sim_time_s": 21.619,
+            "x_m": 0.2993403977414278,
+            "v_m_s": -0.0004726880313610552,
+            "paused": true,
+            "callbacks": 21619
+          },
+          "policy_sha256": "8264c6004b4b76e33a55194ef042a409d58e495e273c46667bea82c57a527a46",
+          "rollouts_sha256": "2adb52ffc3e736d5be24070df3143dbae1fe288a1ea673165c6d8d0c6e4671a8",
+          "auxiliary_reset_physics_steps": 12,
+          "reset_observations": [
+            {
+              "requested_x_m": -0.8,
+              "requested_v_m_s": 0.0,
+              "native_reply": {
+                "protocol": 2,
+                "id": 2,
+                "kind": "reset",
+                "ok": true,
+                "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                "before": {
+                  "iterations": 2807,
+                  "sim_time_s": 2.807,
+                  "x_m": 0,
+                  "v_m_s": 0,
+                  "paused": true,
+                  "callbacks": 2807
+                },
+                "after": {
+                  "iterations": 2808,
+                  "sim_time_s": 2.808,
+                  "x_m": -0.8,
+                  "v_m_s": 0,
+                  "paused": true,
+                  "callbacks": 2808
+                },
+                "force_n": 0,
+                "steps": 1,
+                "physics_dt_s": 0.001,
+                "original_paused": true,
+                "mutation_started": true
+              },
+              "actual_x_m": -0.8,
+              "actual_v_m_s": 0
+            },
+            {
+              "requested_x_m": 0.8,
+              "requested_v_m_s": 0.0,
+              "native_reply": {
+                "protocol": 2,
+                "id": 123,
+                "kind": "reset",
+                "ok": true,
+                "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                "before": {
+                  "iterations": 4008,
+                  "sim_time_s": 4.008,
+                  "x_m": -0.025516008539567012,
+                  "v_m_s": 0.29161600330924475,
+                  "paused": true,
+                  "callbacks": 4008
+                },
+                "after": {
+                  "iterations": 4009,
+                  "sim_time_s": 4.009,
+                  "x_m": 0.8,
+                  "v_m_s": 0,
+                  "paused": true,
+                  "callbacks": 4009
+                },
+                "force_n": 0,
+                "steps": 1,
+                "physics_dt_s": 0.001,
+                "original_paused": true,
+                "mutation_started": true
+              },
+              "actual_x_m": 0.8,
+              "actual_v_m_s": 0
+            },
+            {
+              "requested_x_m": -0.55,
+              "requested_v_m_s": 1.0,
+              "native_reply": {
+                "protocol": 2,
+                "id": 244,
+                "kind": "reset",
+                "ok": true,
+                "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                "before": {
+                  "iterations": 5209,
+                  "sim_time_s": 5.209,
+                  "x_m": 0.025516008539567012,
+                  "v_m_s": -0.29161600330924475,
+                  "paused": true,
+                  "callbacks": 5209
+                },
+                "after": {
+                  "iterations": 5210,
+                  "sim_time_s": 5.21,
+                  "x_m": -0.5490004,
+                  "v_m_s": 0.9996,
+                  "paused": true,
+                  "callbacks": 5210
+                },
+                "force_n": 0,
+                "steps": 1,
+                "physics_dt_s": 0.001,
+                "original_paused": true,
+                "mutation_started": true
+              },
+              "actual_x_m": -0.5490004,
+              "actual_v_m_s": 0.9996
+            },
+            {
+              "requested_x_m": 0.55,
+              "requested_v_m_s": -1.0,
+              "native_reply": {
+                "protocol": 2,
+                "id": 365,
+                "kind": "reset",
+                "ok": true,
+                "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                "before": {
+                  "iterations": 6410,
+                  "sim_time_s": 6.41,
+                  "x_m": 0.041278979357525614,
+                  "v_m_s": 0.02935594580658272,
+                  "paused": true,
+                  "callbacks": 6410
+                },
+                "after": {
+                  "iterations": 6411,
+                  "sim_time_s": 6.411,
+                  "x_m": 0.5490004,
+                  "v_m_s": -0.9996,
+                  "paused": true,
+                  "callbacks": 6411
+                },
+                "force_n": 0,
+                "steps": 1,
+                "physics_dt_s": 0.001,
+                "original_paused": true,
+                "mutation_started": true
+              },
+              "actual_x_m": 0.5490004,
+              "actual_v_m_s": -0.9996
+            },
+            {
+              "requested_x_m": -0.3,
+              "requested_v_m_s": -0.8,
+              "native_reply": {
+                "protocol": 2,
+                "id": 486,
+                "kind": "reset",
+                "ok": true,
+                "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                "before": {
+                  "iterations": 7611,
+                  "sim_time_s": 7.611,
+                  "x_m": -0.041278979357525614,
+                  "v_m_s": -0.02935594580658272,
+                  "paused": true,
+                  "callbacks": 7611
+                },
+                "after": {
+                  "iterations": 7612,
+                  "sim_time_s": 7.612,
+                  "x_m": -0.30079968,
+                  "v_m_s": -0.7996800000000001,
+                  "paused": true,
+                  "callbacks": 7612
+                },
+                "force_n": 0,
+                "steps": 1,
+                "physics_dt_s": 0.001,
+                "original_paused": true,
+                "mutation_started": true
+              },
+              "actual_x_m": -0.30079968,
+              "actual_v_m_s": -0.7996800000000001
+            },
+            {
+              "requested_x_m": 0.3,
+              "requested_v_m_s": 0.8,
+              "native_reply": {
+                "protocol": 2,
+                "id": 607,
+                "kind": "reset",
+                "ok": true,
+                "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                "before": {
+                  "iterations": 8812,
+                  "sim_time_s": 8.812,
+                  "x_m": -0.05662549138511946,
+                  "v_m_s": 0.24626004641578486,
+                  "paused": true,
+                  "callbacks": 8812
+                },
+                "after": {
+                  "iterations": 8813,
+                  "sim_time_s": 8.813,
+                  "x_m": 0.30079968,
+                  "v_m_s": 0.7996800000000001,
+                  "paused": true,
+                  "callbacks": 8813
+                },
+                "force_n": 0,
+                "steps": 1,
+                "physics_dt_s": 0.001,
+                "original_paused": true,
+                "mutation_started": true
+              },
+              "actual_x_m": 0.30079968,
+              "actual_v_m_s": 0.7996800000000001
+            },
+            {
+              "requested_x_m": -0.7,
+              "requested_v_m_s": -0.2,
+              "native_reply": {
+                "protocol": 2,
+                "id": 728,
+                "kind": "reset",
+                "ok": true,
+                "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                "before": {
+                  "iterations": 10013,
+                  "sim_time_s": 10.013,
+                  "x_m": 0.05662549138511946,
+                  "v_m_s": -0.24626004641578486,
+                  "paused": true,
+                  "callbacks": 10013
+                },
+                "after": {
+                  "iterations": 10014,
+                  "sim_time_s": 10.014,
+                  "x_m": -0.70019992,
+                  "v_m_s": -0.19992000000000001,
+                  "paused": true,
+                  "callbacks": 10014
+                },
+                "force_n": 0,
+                "steps": 1,
+                "physics_dt_s": 0.001,
+                "original_paused": true,
+                "mutation_started": true
+              },
+              "actual_x_m": -0.70019992,
+              "actual_v_m_s": -0.19992000000000001
+            },
+            {
+              "requested_x_m": 0.7,
+              "requested_v_m_s": 0.2,
+              "native_reply": {
+                "protocol": 2,
+                "id": 849,
+                "kind": "reset",
+                "ok": true,
+                "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                "before": {
+                  "iterations": 11214,
+                  "sim_time_s": 11.214,
+                  "x_m": -0.03409075451781608,
+                  "v_m_s": 0.28939001418929294,
+                  "paused": true,
+                  "callbacks": 11214
+                },
+                "after": {
+                  "iterations": 11215,
+                  "sim_time_s": 11.215,
+                  "x_m": 0.70019992,
+                  "v_m_s": 0.19992000000000001,
+                  "paused": true,
+                  "callbacks": 11215
+                },
+                "force_n": 0,
+                "steps": 1,
+                "physics_dt_s": 0.001,
+                "original_paused": true,
+                "mutation_started": true
+              },
+              "actual_x_m": 0.70019992,
+              "actual_v_m_s": 0.19992000000000001
+            },
+            {
+              "requested_x_m": -0.15,
+              "requested_v_m_s": 1.3,
+              "native_reply": {
+                "protocol": 2,
+                "id": 970,
+                "kind": "reset",
+                "ok": true,
+                "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                "before": {
+                  "iterations": 12415,
+                  "sim_time_s": 12.415,
+                  "x_m": 0.03409075451781608,
+                  "v_m_s": -0.28939001418929294,
+                  "paused": true,
+                  "callbacks": 12415
+                },
+                "after": {
+                  "iterations": 12416,
+                  "sim_time_s": 12.416,
+                  "x_m": -0.14870052000000003,
+                  "v_m_s": 1.29948,
+                  "paused": true,
+                  "callbacks": 12416
+                },
+                "force_n": 0,
+                "steps": 1,
+                "physics_dt_s": 0.001,
+                "original_paused": true,
+                "mutation_started": true
+              },
+              "actual_x_m": -0.14870052000000003,
+              "actual_v_m_s": 1.29948
+            },
+            {
+              "requested_x_m": 0.15,
+              "requested_v_m_s": -1.3,
+              "native_reply": {
+                "protocol": 2,
+                "id": 1091,
+                "kind": "reset",
+                "ok": true,
+                "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                "before": {
+                  "iterations": 13616,
+                  "sim_time_s": 13.616,
+                  "x_m": 0.07168335419585213,
+                  "v_m_s": -0.16779107278859615,
+                  "paused": true,
+                  "callbacks": 13616
+                },
+                "after": {
+                  "iterations": 13617,
+                  "sim_time_s": 13.617,
+                  "x_m": 0.14870052,
+                  "v_m_s": -1.29948,
+                  "paused": true,
+                  "callbacks": 13617
+                },
+                "force_n": 0,
+                "steps": 1,
+                "physics_dt_s": 0.001,
+                "original_paused": true,
+                "mutation_started": true
+              },
+              "actual_x_m": 0.14870052,
+              "actual_v_m_s": -1.29948
+            },
+            {
+              "requested_x_m": 0.0,
+              "requested_v_m_s": 0.0,
+              "native_reply": {
+                "protocol": 2,
+                "id": 1212,
+                "kind": "reset",
+                "ok": true,
+                "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                "before": {
+                  "iterations": 14817,
+                  "sim_time_s": 14.817,
+                  "x_m": -0.07168335419585213,
+                  "v_m_s": 0.16779107278859617,
+                  "paused": true,
+                  "callbacks": 14817
+                },
+                "after": {
+                  "iterations": 14818,
+                  "sim_time_s": 14.818,
+                  "x_m": 0,
+                  "v_m_s": 0,
+                  "paused": true,
+                  "callbacks": 14818
+                },
+                "force_n": 0,
+                "steps": 1,
+                "physics_dt_s": 0.001,
+                "original_paused": true,
+                "mutation_started": true
+              },
+              "actual_x_m": 0,
+              "actual_v_m_s": 0
+            },
+            {
+              "requested_x_m": 0.0,
+              "requested_v_m_s": 0.0,
+              "native_reply": {
+                "protocol": 2,
+                "id": 1553,
+                "kind": "reset",
+                "ok": true,
+                "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                "before": {
+                  "iterations": 18218,
+                  "sim_time_s": 18.218,
+                  "x_m": -0.2993403977414278,
+                  "v_m_s": 0.00047268803136105717,
+                  "paused": true,
+                  "callbacks": 18218
+                },
+                "after": {
+                  "iterations": 18219,
+                  "sim_time_s": 18.219,
+                  "x_m": 0,
+                  "v_m_s": 0,
+                  "paused": true,
+                  "callbacks": 18219
+                },
+                "force_n": 0,
+                "steps": 1,
+                "physics_dt_s": 0.001,
+                "original_paused": true,
+                "mutation_started": true
+              },
+              "actual_x_m": 0,
+              "actual_v_m_s": 0
+            }
+          ],
+          "total_native_physics_steps": 18812,
+          "readback_semantics": "Separate state RPC reads the actual UpdateEnd cache version; root acceptance additionally checks independent WorldStatistics",
+          "pause_restoration": {
+            "confirmed": true,
+            "original_paused": true,
+            "native_reply": {
+              "protocol": 2,
+              "id": 1895,
+              "kind": "end",
+              "ok": true,
+              "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+              "before": {
+                "iterations": 21619,
+                "sim_time_s": 21.619,
+                "x_m": 0.2993403977414278,
+                "v_m_s": -0.0004726880313610552,
+                "paused": true,
+                "callbacks": 21619
+              },
+              "after": {
+                "iterations": 21619,
+                "sim_time_s": 21.619,
+                "x_m": 0.2993403977414278,
+                "v_m_s": -0.0004726880313610552,
+                "paused": true,
+                "callbacks": 21619
+              },
+              "force_n": 0,
+              "steps": 0,
+              "physics_dt_s": 0.001,
+              "original_paused": true,
+              "mutation_started": true,
+              "restored_paused": true
+            }
+          },
+          "elapsed_wall_s": 19.167093128002307
+        }
+      },
+      {
+        "name": "temporary_student_fixture_native_training_and_checkpoint_audit",
+        "passed": true,
+        "before": {
+          "seq": 5,
+          "iterations": 2592,
+          "paused": true,
+          "sim_time": 2.592,
+          "sim_sec": 2,
+          "sim_nsec": 592000000
+        },
+        "after": {
+          "seq": 103,
+          "iterations": 21404,
+          "paused": true,
+          "sim_time": 21.404,
+          "sim_sec": 21,
+          "sim_nsec": 404000000
+        },
+        "verification": {
+          "schema": 2,
+          "passed": true,
+          "algorithm": "behavior_cloning_numpy_tanh_mlp",
+          "assignment_pass": true,
+          "execution_mode": "student",
+          "run_directory": "results/run-514a3b9cec09407fa8e2fcb77a93edc7",
+          "normalization": {
+            "method": "fixed_physical_scales_not_fitted",
+            "position_error_scale_m": 1.0,
+            "velocity_scale_m_s": 2.0,
+            "force_scale_n": 8.0,
+            "feature_order": [
+              "target_minus_x",
+              "velocity"
+            ],
+            "translation_prior": "Absolute target enters only through target_minus_x"
+          },
+          "split": {
+            "unit": "whole_episode",
+            "train_episode_ids": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "held_out_episode_ids": [
+              8,
+              9
+            ],
+            "training_target_m": 0.0
+          },
+          "generalization": {
+            "unseen_target_m": [
+              -0.3,
+              0.3
+            ],
+            "initial_x_m": 0.0,
+            "claim": "Translation-structured unseen absolute goals, not arbitrary out-of-distribution dynamics"
+          },
+          "physics": "Real Gazebo ODE joint only; Python has no dynamics integration or expert fallback in evaluation",
+          "source": {
+            "lab_sha256": "18f55a11c642f1f50654f528378ccafddcab38c3474b4b2d58e4ae88fd162120",
+            "network_sha256": "2532ceb7ccc7b3d0ac937681e425ecefdb4342b8e709877054ae2bb248e602c0",
+            "personal_learner_sha256": "1634be88be5ac94a314259d3bde788f461a58acde191ed83da4781b35bbada67"
+          },
+          "data": "results/run-514a3b9cec09407fa8e2fcb77a93edc7/expert.json",
+          "policy": "results/run-514a3b9cec09407fa8e2fcb77a93edc7/imitation-policy.npz",
+          "traces": "results/run-514a3b9cec09407fa8e2fcb77a93edc7/rollouts.json",
+          "report": "results/run-514a3b9cec09407fa8e2fcb77a93edc7/report.json",
+          "native_endpoint": {
+            "path": "/tmp/gt-learning-c7d9d6ebdfea4d17ada736bb0b1be292.sock",
+            "uid": 1000,
+            "mode": "0o600",
+            "device": 66309,
+            "inode": 27043847,
+            "peer": {
+              "pid": 205615,
+              "uid": 1000,
+              "gid": 1000
+            }
+          },
+          "build": {
+            "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+            "gazebo": "11.15.1",
+            "compiler": "/usr/bin/x86_64-linux-gnu-g++-7",
+            "compiler_version": "x86_64-linux-gnu-g++-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0\nCopyright (C) 2017 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+            "compile_options": [
+              "-shared",
+              "-fPIC",
+              "-std=c++17",
+              "-O2",
+              "-pthread",
+              "-Wno-deprecated-declarations",
+              "-DGT_PLANT_SOURCE_SHA=\"fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3\""
+            ],
+            "pkg_config_flags": [
+              "-std=c++11",
+              "-std=c++17",
+              "-isystem",
+              "/usr/include/mit-krb5",
+              "-std=c++17",
+              "-pthread",
+              "-std=c++17",
+              "-I/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//include/gazebo-11",
+              "-I/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//include/sdformat-9.10",
+              "-I/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//include/ignition/fuel_tools4",
+              "-I/usr/include/x86_64-linux-gnu",
+              "-I/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//include/ignition/common3",
+              "-I/usr/include/uuid",
+              "-I/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//include/ignition/transport8",
+              "-I/usr/include/pgm-5.2",
+              "-I/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//include/ignition/msgs5",
+              "-I/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//include/ignition/math6",
+              "-I/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//include/ignition/cmake2",
+              "-L/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//lib/x86_64-linux-gnu",
+              "-L/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//lib/x86_64-linux-gnu/gazebo-11/plugins",
+              "-L/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//lib/x86_64-linux-gnu",
+              "-Wl,-rpath,/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//lib/x86_64-linux-gnu/gazebo-11/plugins",
+              "-lgazebo_transport",
+              "-lgazebo_physics",
+              "-lgazebo_sensors",
+              "-lgazebo_rendering",
+              "-lgazebo_gui",
+              "-lgazebo_client",
+              "-lgazebo_msgs",
+              "-lgazebo_common",
+              "-lgazebo",
+              "-lboost_thread",
+              "-lboost_system",
+              "-lboost_filesystem",
+              "-lboost_program_options",
+              "-lboost_regex",
+              "-lboost_iostreams",
+              "-lboost_date_time",
+              "-lsdformat9",
+              "-ltbb",
+              "-latomic",
+              "-lignition-fuel_tools4",
+              "-lignition-transport8",
+              "-lignition-msgs5",
+              "-lprotobuf",
+              "-pthread",
+              "-lignition-math6"
+            ],
+            "cache_key": "351f2ff010c0b505863be1cc5c09429137a67a42e47fae0c74723c133d1cfdab",
+            "library_sha256": "1abbb15d4c9fe2431d9ad95c4c20bf149bb421bf2abcd66620aa7a86ec722e8a",
+            "library_path": "/home/ikaros/.cache/gazeboteach/learning-plant/351f2ff010c0b505863be1cc5c09429137a67a42e47fae0c74723c133d1cfdab/libgazeboteach_learning.so"
+          },
+          "native_initial_state": {
+            "iterations": 2592,
+            "sim_time_s": 2.592,
+            "x_m": 0,
+            "v_m_s": 0,
+            "paused": true,
+            "callbacks": 2592
+          },
+          "expert_data_sha256": "7d2aa5326efe61d0360728841cc552a491da687a49f8b7bd2df904ac46108225",
+          "training_rows": 480,
+          "held_out_episode_rows": 120,
+          "test_mse_before": 2.7251282435543818,
+          "test_mse_after": 9.419484185313789e-05,
+          "mse_unit": "N^2",
+          "loss_history": [
+            {
+              "epoch": 0,
+              "training_mse_normalized": 0.034498837847776014,
+              "gradient_norm_before_clip": 0.05247978024900964
+            },
+            {
+              "epoch": 200,
+              "training_mse_normalized": 0.02263323779919029,
+              "gradient_norm_before_clip": 0.045826341536122216
+            },
+            {
+              "epoch": 400,
+              "training_mse_normalized": 0.013291367669278655,
+              "gradient_norm_before_clip": 0.04017427166072437
+            },
+            {
+              "epoch": 600,
+              "training_mse_normalized": 0.006677840764934506,
+              "gradient_norm_before_clip": 0.03203750725844846
+            },
+            {
+              "epoch": 800,
+              "training_mse_normalized": 0.002869610759405941,
+              "gradient_norm_before_clip": 0.02291159280609859
+            },
+            {
+              "epoch": 1000,
+              "training_mse_normalized": 0.0010828456128876868,
+              "gradient_norm_before_clip": 0.014904717370324656
+            },
+            {
+              "epoch": 1200,
+              "training_mse_normalized": 0.00037292563547224316,
+              "gradient_norm_before_clip": 0.009045380324647655
+            },
+            {
+              "epoch": 1400,
+              "training_mse_normalized": 0.00012193071998124072,
+              "gradient_norm_before_clip": 0.005247132320395422
+            },
+            {
+              "epoch": 1600,
+              "training_mse_normalized": 3.952018625647601e-05,
+              "gradient_norm_before_clip": 0.002962082343315665
+            },
+            {
+              "epoch": 1800,
+              "training_mse_normalized": 1.3626714999786303e-05,
+              "gradient_norm_before_clip": 0.0016461079158456124
+            },
+            {
+              "epoch": 2000,
+              "training_mse_normalized": 5.69313694470289e-06,
+              "gradient_norm_before_clip": 0.0009067747516758013
+            },
+            {
+              "epoch": 2200,
+              "training_mse_normalized": 3.296138316303567e-06,
+              "gradient_norm_before_clip": 0.0004971215486797951
+            },
+            {
+              "epoch": 2400,
+              "training_mse_normalized": 2.5772837187700655e-06,
+              "gradient_norm_before_clip": 0.00027190528749052923
+            },
+            {
+              "epoch": 2599,
+              "training_mse_normalized": 2.362903897603783e-06,
+              "gradient_norm_before_clip": 0.00014913603923578014
+            }
+          ],
+          "physical_trials": [
+            {
+              "initial_x_m": 0.0,
+              "initial_v_m_s": 0.0,
+              "target_m": -0.3,
+              "actual_initial_state": {
+                "iterations": 14603,
+                "sim_time_s": 14.603,
+                "x_m": 0,
+                "v_m_s": 0,
+                "paused": true,
+                "callbacks": 14603
+              },
+              "reset_native_reply": {
+                "protocol": 2,
+                "id": 1212,
+                "kind": "reset",
+                "ok": true,
+                "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                "before": {
+                  "iterations": 14602,
+                  "sim_time_s": 14.602,
+                  "x_m": -0.07168335419585213,
+                  "v_m_s": 0.16779107278859617,
+                  "paused": true,
+                  "callbacks": 14602
+                },
+                "after": {
+                  "iterations": 14603,
+                  "sim_time_s": 14.603,
+                  "x_m": 0,
+                  "v_m_s": 0,
+                  "paused": true,
+                  "callbacks": 14603
+                },
+                "force_n": 0,
+                "steps": 1,
+                "physics_dt_s": 0.001,
+                "original_paused": true,
+                "mutation_started": true
+              },
+              "setting": "unseen_absolute_target_with_translation_prior",
+              "terminal_error_rms_m": 0.0005668951429196522,
+              "terminal_velocity_rms_m_s": 0.003851977722182785,
+              "peak_abs_x_m": 0.3142899469984698,
+              "actual_position_change_m": -0.2993403977414278,
+              "trace_summary": {
+                "count": 170,
+                "canonical_json_sha256": "4bed7b031c72eef492504467cd39bc33331b0b78193e71e387a722fb70cb45df",
+                "first": {
+                  "step": 0,
+                  "target_m": -0.3,
+                  "before": {
+                    "iterations": 14603,
+                    "sim_time_s": 14.603,
+                    "x_m": 0,
+                    "v_m_s": 0,
+                    "paused": true,
+                    "callbacks": 14603
+                  },
+                  "features": [
+                    -0.3,
+                    0.0
+                  ],
+                  "network_output_normalized": -0.22705061139109184,
+                  "unclipped_network_force_n": -1.8164048911287347,
+                  "actual_force_n": -1.8164048911287347,
+                  "after": {
+                    "iterations": 14623,
+                    "sim_time_s": 14.623,
+                    "x_m": -0.00038048043676122917,
+                    "v_m_s": -0.036190381800590435,
+                    "paused": true,
+                    "callbacks": 14623
+                  },
+                  "transition": {
+                    "protocol": 2,
+                    "id": 1213,
+                    "kind": "step",
+                    "ok": true,
+                    "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                    "before": {
+                      "iterations": 14603,
+                      "sim_time_s": 14.603,
+                      "x_m": 0,
+                      "v_m_s": 0,
+                      "paused": true,
+                      "callbacks": 14603
+                    },
+                    "after": {
+                      "iterations": 14623,
+                      "sim_time_s": 14.623,
+                      "x_m": -0.00038048043676122917,
+                      "v_m_s": -0.036190381800590435,
+                      "paused": true,
+                      "callbacks": 14623
+                    },
+                    "force_n": -1.8164048911287347,
+                    "steps": 20,
+                    "physics_dt_s": 0.001,
+                    "original_paused": true,
+                    "mutation_started": true
+                  },
+                  "independent_native_readback": {
+                    "protocol": 2,
+                    "id": 1214,
+                    "kind": "state",
+                    "ok": true,
+                    "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                    "before": {
+                      "iterations": 14623,
+                      "sim_time_s": 14.623,
+                      "x_m": -0.00038048043676122917,
+                      "v_m_s": -0.036190381800590435,
+                      "paused": true,
+                      "callbacks": 14623
+                    },
+                    "after": {
+                      "iterations": 14623,
+                      "sim_time_s": 14.623,
+                      "x_m": -0.00038048043676122917,
+                      "v_m_s": -0.036190381800590435,
+                      "paused": true,
+                      "callbacks": 14623
+                    },
+                    "force_n": 0,
+                    "steps": 0,
+                    "physics_dt_s": 0.001,
+                    "original_paused": true,
+                    "mutation_started": false
+                  }
+                },
+                "last": {
+                  "step": 169,
+                  "target_m": -0.3,
+                  "before": {
+                    "iterations": 17983,
+                    "sim_time_s": 17.983,
+                    "x_m": -0.29935098175575886,
+                    "v_m_s": 0.0005918289359076584,
+                    "paused": true,
+                    "callbacks": 17983
+                  },
+                  "features": [
+                    -0.0006490182442411285,
+                    0.0002959144679538292
+                  ],
+                  "network_output_normalized": -0.0007178727653271933,
+                  "unclipped_network_force_n": -0.005742982122617546,
+                  "actual_force_n": -0.005742982122617546,
+                  "after": {
+                    "iterations": 18003,
+                    "sim_time_s": 18.003,
+                    "x_m": -0.2993403977414278,
+                    "v_m_s": 0.00047268803136105717,
+                    "paused": true,
+                    "callbacks": 18003
+                  },
+                  "transition": {
+                    "protocol": 2,
+                    "id": 1551,
+                    "kind": "step",
+                    "ok": true,
+                    "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                    "before": {
+                      "iterations": 17983,
+                      "sim_time_s": 17.983,
+                      "x_m": -0.29935098175575886,
+                      "v_m_s": 0.0005918289359076584,
+                      "paused": true,
+                      "callbacks": 17983
+                    },
+                    "after": {
+                      "iterations": 18003,
+                      "sim_time_s": 18.003,
+                      "x_m": -0.2993403977414278,
+                      "v_m_s": 0.00047268803136105717,
+                      "paused": true,
+                      "callbacks": 18003
+                    },
+                    "force_n": -0.005742982122617546,
+                    "steps": 20,
+                    "physics_dt_s": 0.001,
+                    "original_paused": true,
+                    "mutation_started": true
+                  },
+                  "independent_native_readback": {
+                    "protocol": 2,
+                    "id": 1552,
+                    "kind": "state",
+                    "ok": true,
+                    "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                    "before": {
+                      "iterations": 18003,
+                      "sim_time_s": 18.003,
+                      "x_m": -0.2993403977414278,
+                      "v_m_s": 0.00047268803136105717,
+                      "paused": true,
+                      "callbacks": 18003
+                    },
+                    "after": {
+                      "iterations": 18003,
+                      "sim_time_s": 18.003,
+                      "x_m": -0.2993403977414278,
+                      "v_m_s": 0.00047268803136105717,
+                      "paused": true,
+                      "callbacks": 18003
+                    },
+                    "force_n": 0,
+                    "steps": 0,
+                    "physics_dt_s": 0.001,
+                    "original_paused": true,
+                    "mutation_started": false
+                  }
+                }
+              }
+            },
+            {
+              "initial_x_m": 0.0,
+              "initial_v_m_s": 0.0,
+              "target_m": 0.3,
+              "actual_initial_state": {
+                "iterations": 18004,
+                "sim_time_s": 18.004,
+                "x_m": 0,
+                "v_m_s": 0,
+                "paused": true,
+                "callbacks": 18004
+              },
+              "reset_native_reply": {
+                "protocol": 2,
+                "id": 1553,
+                "kind": "reset",
+                "ok": true,
+                "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                "before": {
+                  "iterations": 18003,
+                  "sim_time_s": 18.003,
+                  "x_m": -0.2993403977414278,
+                  "v_m_s": 0.00047268803136105717,
+                  "paused": true,
+                  "callbacks": 18003
+                },
+                "after": {
+                  "iterations": 18004,
+                  "sim_time_s": 18.004,
+                  "x_m": 0,
+                  "v_m_s": 0,
+                  "paused": true,
+                  "callbacks": 18004
+                },
+                "force_n": 0,
+                "steps": 1,
+                "physics_dt_s": 0.001,
+                "original_paused": true,
+                "mutation_started": true
+              },
+              "setting": "unseen_absolute_target_with_translation_prior",
+              "terminal_error_rms_m": 0.0005668951429196522,
+              "terminal_velocity_rms_m_s": 0.003851977722182783,
+              "peak_abs_x_m": 0.3142899469984698,
+              "actual_position_change_m": 0.2993403977414278,
+              "trace_summary": {
+                "count": 170,
+                "canonical_json_sha256": "eaea8fb2cb9a8e23c4890905bc363547c1037f0bc10050f97b7c5189d95a5efd",
+                "first": {
+                  "step": 0,
+                  "target_m": 0.3,
+                  "before": {
+                    "iterations": 18004,
+                    "sim_time_s": 18.004,
+                    "x_m": 0,
+                    "v_m_s": 0,
+                    "paused": true,
+                    "callbacks": 18004
+                  },
+                  "features": [
+                    0.3,
+                    0.0
+                  ],
+                  "network_output_normalized": 0.22705061139109184,
+                  "unclipped_network_force_n": 1.8164048911287347,
+                  "actual_force_n": 1.8164048911287347,
+                  "after": {
+                    "iterations": 18024,
+                    "sim_time_s": 18.024,
+                    "x_m": 0.00038048043676122917,
+                    "v_m_s": 0.036190381800590435,
+                    "paused": true,
+                    "callbacks": 18024
+                  },
+                  "transition": {
+                    "protocol": 2,
+                    "id": 1554,
+                    "kind": "step",
+                    "ok": true,
+                    "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                    "before": {
+                      "iterations": 18004,
+                      "sim_time_s": 18.004,
+                      "x_m": 0,
+                      "v_m_s": 0,
+                      "paused": true,
+                      "callbacks": 18004
+                    },
+                    "after": {
+                      "iterations": 18024,
+                      "sim_time_s": 18.024,
+                      "x_m": 0.00038048043676122917,
+                      "v_m_s": 0.036190381800590435,
+                      "paused": true,
+                      "callbacks": 18024
+                    },
+                    "force_n": 1.8164048911287347,
+                    "steps": 20,
+                    "physics_dt_s": 0.001,
+                    "original_paused": true,
+                    "mutation_started": true
+                  },
+                  "independent_native_readback": {
+                    "protocol": 2,
+                    "id": 1555,
+                    "kind": "state",
+                    "ok": true,
+                    "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                    "before": {
+                      "iterations": 18024,
+                      "sim_time_s": 18.024,
+                      "x_m": 0.00038048043676122917,
+                      "v_m_s": 0.036190381800590435,
+                      "paused": true,
+                      "callbacks": 18024
+                    },
+                    "after": {
+                      "iterations": 18024,
+                      "sim_time_s": 18.024,
+                      "x_m": 0.00038048043676122917,
+                      "v_m_s": 0.036190381800590435,
+                      "paused": true,
+                      "callbacks": 18024
+                    },
+                    "force_n": 0,
+                    "steps": 0,
+                    "physics_dt_s": 0.001,
+                    "original_paused": true,
+                    "mutation_started": false
+                  }
+                },
+                "last": {
+                  "step": 169,
+                  "target_m": 0.3,
+                  "before": {
+                    "iterations": 21384,
+                    "sim_time_s": 21.384,
+                    "x_m": 0.29935098175575886,
+                    "v_m_s": -0.0005918289359076565,
+                    "paused": true,
+                    "callbacks": 21384
+                  },
+                  "features": [
+                    0.0006490182442411285,
+                    -0.00029591446795382823
+                  ],
+                  "network_output_normalized": 0.0007178727653271935,
+                  "unclipped_network_force_n": 0.005742982122617548,
+                  "actual_force_n": 0.005742982122617548,
+                  "after": {
+                    "iterations": 21404,
+                    "sim_time_s": 21.404,
+                    "x_m": 0.2993403977414278,
+                    "v_m_s": -0.0004726880313610552,
+                    "paused": true,
+                    "callbacks": 21404
+                  },
+                  "transition": {
+                    "protocol": 2,
+                    "id": 1892,
+                    "kind": "step",
+                    "ok": true,
+                    "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                    "before": {
+                      "iterations": 21384,
+                      "sim_time_s": 21.384,
+                      "x_m": 0.29935098175575886,
+                      "v_m_s": -0.0005918289359076565,
+                      "paused": true,
+                      "callbacks": 21384
+                    },
+                    "after": {
+                      "iterations": 21404,
+                      "sim_time_s": 21.404,
+                      "x_m": 0.2993403977414278,
+                      "v_m_s": -0.0004726880313610552,
+                      "paused": true,
+                      "callbacks": 21404
+                    },
+                    "force_n": 0.005742982122617548,
+                    "steps": 20,
+                    "physics_dt_s": 0.001,
+                    "original_paused": true,
+                    "mutation_started": true
+                  },
+                  "independent_native_readback": {
+                    "protocol": 2,
+                    "id": 1893,
+                    "kind": "state",
+                    "ok": true,
+                    "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                    "before": {
+                      "iterations": 21404,
+                      "sim_time_s": 21.404,
+                      "x_m": 0.2993403977414278,
+                      "v_m_s": -0.0004726880313610552,
+                      "paused": true,
+                      "callbacks": 21404
+                    },
+                    "after": {
+                      "iterations": 21404,
+                      "sim_time_s": 21.404,
+                      "x_m": 0.2993403977414278,
+                      "v_m_s": -0.0004726880313610552,
+                      "paused": true,
+                      "callbacks": 21404
+                    },
+                    "force_n": 0,
+                    "steps": 0,
+                    "physics_dt_s": 0.001,
+                    "original_paused": true,
+                    "mutation_started": false
+                  }
+                }
+              }
+            }
+          ],
+          "real_gazebo_transitions": 940,
+          "native_final_state": {
+            "iterations": 21404,
+            "sim_time_s": 21.404,
+            "x_m": 0.2993403977414278,
+            "v_m_s": -0.0004726880313610552,
+            "paused": true,
+            "callbacks": 21404
+          },
+          "policy_sha256": "8264c6004b4b76e33a55194ef042a409d58e495e273c46667bea82c57a527a46",
+          "rollouts_sha256": "0f2d769abb8d2d5642c5587a5dfa3ce434a66aadb85485fc8c969035830b2257",
+          "auxiliary_reset_physics_steps": 12,
+          "reset_observations": [
+            {
+              "requested_x_m": -0.8,
+              "requested_v_m_s": 0.0,
+              "native_reply": {
+                "protocol": 2,
+                "id": 2,
+                "kind": "reset",
+                "ok": true,
+                "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                "before": {
+                  "iterations": 2592,
+                  "sim_time_s": 2.592,
+                  "x_m": 0,
+                  "v_m_s": 0,
+                  "paused": true,
+                  "callbacks": 2592
+                },
+                "after": {
+                  "iterations": 2593,
+                  "sim_time_s": 2.593,
+                  "x_m": -0.8,
+                  "v_m_s": 0,
+                  "paused": true,
+                  "callbacks": 2593
+                },
+                "force_n": 0,
+                "steps": 1,
+                "physics_dt_s": 0.001,
+                "original_paused": true,
+                "mutation_started": true
+              },
+              "actual_x_m": -0.8,
+              "actual_v_m_s": 0
+            },
+            {
+              "requested_x_m": 0.8,
+              "requested_v_m_s": 0.0,
+              "native_reply": {
+                "protocol": 2,
+                "id": 123,
+                "kind": "reset",
+                "ok": true,
+                "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                "before": {
+                  "iterations": 3793,
+                  "sim_time_s": 3.793,
+                  "x_m": -0.025516008539567012,
+                  "v_m_s": 0.29161600330924475,
+                  "paused": true,
+                  "callbacks": 3793
+                },
+                "after": {
+                  "iterations": 3794,
+                  "sim_time_s": 3.794,
+                  "x_m": 0.8,
+                  "v_m_s": 0,
+                  "paused": true,
+                  "callbacks": 3794
+                },
+                "force_n": 0,
+                "steps": 1,
+                "physics_dt_s": 0.001,
+                "original_paused": true,
+                "mutation_started": true
+              },
+              "actual_x_m": 0.8,
+              "actual_v_m_s": 0
+            },
+            {
+              "requested_x_m": -0.55,
+              "requested_v_m_s": 1.0,
+              "native_reply": {
+                "protocol": 2,
+                "id": 244,
+                "kind": "reset",
+                "ok": true,
+                "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                "before": {
+                  "iterations": 4994,
+                  "sim_time_s": 4.994,
+                  "x_m": 0.025516008539567012,
+                  "v_m_s": -0.29161600330924475,
+                  "paused": true,
+                  "callbacks": 4994
+                },
+                "after": {
+                  "iterations": 4995,
+                  "sim_time_s": 4.995,
+                  "x_m": -0.5490004,
+                  "v_m_s": 0.9996,
+                  "paused": true,
+                  "callbacks": 4995
+                },
+                "force_n": 0,
+                "steps": 1,
+                "physics_dt_s": 0.001,
+                "original_paused": true,
+                "mutation_started": true
+              },
+              "actual_x_m": -0.5490004,
+              "actual_v_m_s": 0.9996
+            },
+            {
+              "requested_x_m": 0.55,
+              "requested_v_m_s": -1.0,
+              "native_reply": {
+                "protocol": 2,
+                "id": 365,
+                "kind": "reset",
+                "ok": true,
+                "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                "before": {
+                  "iterations": 6195,
+                  "sim_time_s": 6.195,
+                  "x_m": 0.041278979357525614,
+                  "v_m_s": 0.02935594580658272,
+                  "paused": true,
+                  "callbacks": 6195
+                },
+                "after": {
+                  "iterations": 6196,
+                  "sim_time_s": 6.196,
+                  "x_m": 0.5490004,
+                  "v_m_s": -0.9996,
+                  "paused": true,
+                  "callbacks": 6196
+                },
+                "force_n": 0,
+                "steps": 1,
+                "physics_dt_s": 0.001,
+                "original_paused": true,
+                "mutation_started": true
+              },
+              "actual_x_m": 0.5490004,
+              "actual_v_m_s": -0.9996
+            },
+            {
+              "requested_x_m": -0.3,
+              "requested_v_m_s": -0.8,
+              "native_reply": {
+                "protocol": 2,
+                "id": 486,
+                "kind": "reset",
+                "ok": true,
+                "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                "before": {
+                  "iterations": 7396,
+                  "sim_time_s": 7.396,
+                  "x_m": -0.041278979357525614,
+                  "v_m_s": -0.02935594580658272,
+                  "paused": true,
+                  "callbacks": 7396
+                },
+                "after": {
+                  "iterations": 7397,
+                  "sim_time_s": 7.397,
+                  "x_m": -0.30079968,
+                  "v_m_s": -0.7996800000000001,
+                  "paused": true,
+                  "callbacks": 7397
+                },
+                "force_n": 0,
+                "steps": 1,
+                "physics_dt_s": 0.001,
+                "original_paused": true,
+                "mutation_started": true
+              },
+              "actual_x_m": -0.30079968,
+              "actual_v_m_s": -0.7996800000000001
+            },
+            {
+              "requested_x_m": 0.3,
+              "requested_v_m_s": 0.8,
+              "native_reply": {
+                "protocol": 2,
+                "id": 607,
+                "kind": "reset",
+                "ok": true,
+                "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                "before": {
+                  "iterations": 8597,
+                  "sim_time_s": 8.597,
+                  "x_m": -0.05662549138511946,
+                  "v_m_s": 0.24626004641578486,
+                  "paused": true,
+                  "callbacks": 8597
+                },
+                "after": {
+                  "iterations": 8598,
+                  "sim_time_s": 8.598,
+                  "x_m": 0.30079968,
+                  "v_m_s": 0.7996800000000001,
+                  "paused": true,
+                  "callbacks": 8598
+                },
+                "force_n": 0,
+                "steps": 1,
+                "physics_dt_s": 0.001,
+                "original_paused": true,
+                "mutation_started": true
+              },
+              "actual_x_m": 0.30079968,
+              "actual_v_m_s": 0.7996800000000001
+            },
+            {
+              "requested_x_m": -0.7,
+              "requested_v_m_s": -0.2,
+              "native_reply": {
+                "protocol": 2,
+                "id": 728,
+                "kind": "reset",
+                "ok": true,
+                "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                "before": {
+                  "iterations": 9798,
+                  "sim_time_s": 9.798,
+                  "x_m": 0.05662549138511946,
+                  "v_m_s": -0.24626004641578486,
+                  "paused": true,
+                  "callbacks": 9798
+                },
+                "after": {
+                  "iterations": 9799,
+                  "sim_time_s": 9.799,
+                  "x_m": -0.70019992,
+                  "v_m_s": -0.19992000000000001,
+                  "paused": true,
+                  "callbacks": 9799
+                },
+                "force_n": 0,
+                "steps": 1,
+                "physics_dt_s": 0.001,
+                "original_paused": true,
+                "mutation_started": true
+              },
+              "actual_x_m": -0.70019992,
+              "actual_v_m_s": -0.19992000000000001
+            },
+            {
+              "requested_x_m": 0.7,
+              "requested_v_m_s": 0.2,
+              "native_reply": {
+                "protocol": 2,
+                "id": 849,
+                "kind": "reset",
+                "ok": true,
+                "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                "before": {
+                  "iterations": 10999,
+                  "sim_time_s": 10.999,
+                  "x_m": -0.03409075451781608,
+                  "v_m_s": 0.28939001418929294,
+                  "paused": true,
+                  "callbacks": 10999
+                },
+                "after": {
+                  "iterations": 11000,
+                  "sim_time_s": 11,
+                  "x_m": 0.70019992,
+                  "v_m_s": 0.19992000000000001,
+                  "paused": true,
+                  "callbacks": 11000
+                },
+                "force_n": 0,
+                "steps": 1,
+                "physics_dt_s": 0.001,
+                "original_paused": true,
+                "mutation_started": true
+              },
+              "actual_x_m": 0.70019992,
+              "actual_v_m_s": 0.19992000000000001
+            },
+            {
+              "requested_x_m": -0.15,
+              "requested_v_m_s": 1.3,
+              "native_reply": {
+                "protocol": 2,
+                "id": 970,
+                "kind": "reset",
+                "ok": true,
+                "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                "before": {
+                  "iterations": 12200,
+                  "sim_time_s": 12.2,
+                  "x_m": 0.03409075451781608,
+                  "v_m_s": -0.28939001418929294,
+                  "paused": true,
+                  "callbacks": 12200
+                },
+                "after": {
+                  "iterations": 12201,
+                  "sim_time_s": 12.201,
+                  "x_m": -0.14870052000000003,
+                  "v_m_s": 1.29948,
+                  "paused": true,
+                  "callbacks": 12201
+                },
+                "force_n": 0,
+                "steps": 1,
+                "physics_dt_s": 0.001,
+                "original_paused": true,
+                "mutation_started": true
+              },
+              "actual_x_m": -0.14870052000000003,
+              "actual_v_m_s": 1.29948
+            },
+            {
+              "requested_x_m": 0.15,
+              "requested_v_m_s": -1.3,
+              "native_reply": {
+                "protocol": 2,
+                "id": 1091,
+                "kind": "reset",
+                "ok": true,
+                "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                "before": {
+                  "iterations": 13401,
+                  "sim_time_s": 13.401,
+                  "x_m": 0.07168335419585213,
+                  "v_m_s": -0.16779107278859615,
+                  "paused": true,
+                  "callbacks": 13401
+                },
+                "after": {
+                  "iterations": 13402,
+                  "sim_time_s": 13.402,
+                  "x_m": 0.14870052,
+                  "v_m_s": -1.29948,
+                  "paused": true,
+                  "callbacks": 13402
+                },
+                "force_n": 0,
+                "steps": 1,
+                "physics_dt_s": 0.001,
+                "original_paused": true,
+                "mutation_started": true
+              },
+              "actual_x_m": 0.14870052,
+              "actual_v_m_s": -1.29948
+            },
+            {
+              "requested_x_m": 0.0,
+              "requested_v_m_s": 0.0,
+              "native_reply": {
+                "protocol": 2,
+                "id": 1212,
+                "kind": "reset",
+                "ok": true,
+                "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                "before": {
+                  "iterations": 14602,
+                  "sim_time_s": 14.602,
+                  "x_m": -0.07168335419585213,
+                  "v_m_s": 0.16779107278859617,
+                  "paused": true,
+                  "callbacks": 14602
+                },
+                "after": {
+                  "iterations": 14603,
+                  "sim_time_s": 14.603,
+                  "x_m": 0,
+                  "v_m_s": 0,
+                  "paused": true,
+                  "callbacks": 14603
+                },
+                "force_n": 0,
+                "steps": 1,
+                "physics_dt_s": 0.001,
+                "original_paused": true,
+                "mutation_started": true
+              },
+              "actual_x_m": 0,
+              "actual_v_m_s": 0
+            },
+            {
+              "requested_x_m": 0.0,
+              "requested_v_m_s": 0.0,
+              "native_reply": {
+                "protocol": 2,
+                "id": 1553,
+                "kind": "reset",
+                "ok": true,
+                "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+                "before": {
+                  "iterations": 18003,
+                  "sim_time_s": 18.003,
+                  "x_m": -0.2993403977414278,
+                  "v_m_s": 0.00047268803136105717,
+                  "paused": true,
+                  "callbacks": 18003
+                },
+                "after": {
+                  "iterations": 18004,
+                  "sim_time_s": 18.004,
+                  "x_m": 0,
+                  "v_m_s": 0,
+                  "paused": true,
+                  "callbacks": 18004
+                },
+                "force_n": 0,
+                "steps": 1,
+                "physics_dt_s": 0.001,
+                "original_paused": true,
+                "mutation_started": true
+              },
+              "actual_x_m": 0,
+              "actual_v_m_s": 0
+            }
+          ],
+          "total_native_physics_steps": 18812,
+          "readback_semantics": "Separate state RPC reads the actual UpdateEnd cache version; root acceptance additionally checks independent WorldStatistics",
+          "pause_restoration": {
+            "confirmed": true,
+            "original_paused": true,
+            "native_reply": {
+              "protocol": 2,
+              "id": 1895,
+              "kind": "end",
+              "ok": true,
+              "source_sha256": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+              "before": {
+                "iterations": 21404,
+                "sim_time_s": 21.404,
+                "x_m": 0.2993403977414278,
+                "v_m_s": -0.0004726880313610552,
+                "paused": true,
+                "callbacks": 21404
+              },
+              "after": {
+                "iterations": 21404,
+                "sim_time_s": 21.404,
+                "x_m": 0.2993403977414278,
+                "v_m_s": -0.0004726880313610552,
+                "paused": true,
+                "callbacks": 21404
+              },
+              "force_n": 0,
+              "steps": 0,
+              "physics_dt_s": 0.001,
+              "original_paused": true,
+              "mutation_started": true,
+              "restored_paused": true
+            }
+          },
+          "elapsed_wall_s": 19.285240623998106
+        }
+      },
+      {
+        "name": "reentry_preserved_learner_and_training_artifacts_then_cleaned_owned_endpoint",
+        "passed": true,
+        "artifact_sha256": {
+          "/tmp/gazeboteach-a47-djmb215q/workspaces/classic11-noetic/47/results/run-4efed619d3b84605b85866782266b38e/expert.json": "f6ddd1c8ca81edd05ebb71c355aff2d18afe11cbeacac09db7b9de8fbe0525fa",
+          "/tmp/gazeboteach-a47-djmb215q/workspaces/classic11-noetic/47/results/run-4efed619d3b84605b85866782266b38e/imitation-policy.npz": "8264c6004b4b76e33a55194ef042a409d58e495e273c46667bea82c57a527a46",
+          "/tmp/gazeboteach-a47-djmb215q/workspaces/classic11-noetic/47/results/run-4efed619d3b84605b85866782266b38e/rollouts.json": "2adb52ffc3e736d5be24070df3143dbae1fe288a1ea673165c6d8d0c6e4671a8",
+          "/tmp/gazeboteach-a47-djmb215q/workspaces/classic11-noetic/47/results/run-4efed619d3b84605b85866782266b38e/report.json": "1f37ab93d3636d28a2516811a6b9aceac028089899d8eab924d5968d01db8476"
+        }
+      }
+    ],
+    "elapsed_seconds": 53.088
+  },
+  "desktop": {
+    "ok": true,
+    "lesson": "47",
+    "profile": "classic11-noetic",
+    "data_dir": "/tmp/gazeboteach-addon-desktop-6tac0tj4",
+    "checks": [
+      {
+        "name": "real_desktop_material_selected",
+        "passed": true,
+        "document_characters": 7172
+      },
+      {
+        "name": "start_button_initialized_real_world_gui_and_ptys",
+        "passed": true,
+        "session": "/tmp/gazeboteach-addon-desktop-6tac0tj4/data/sessions/classic11-noetic-47-20261104-013300-598967",
+        "token": "e2c242be79574a8ebe144e8b9fbff5b3"
+      },
+      {
+        "name": "real_owned_native_gui_window",
+        "passed": true,
+        "window_id": "0x5e00012",
+        "pid": 207088,
+        "width": 2488,
+        "height": 1376,
+        "screenshot": "/home/ikaros/GazeboTeach/.deploy/addons/A47/desktop-gazebo.png",
+        "properties": "_NET_WM_PID(CARDINAL) = 207088\n_NET_WM_NAME(UTF8_STRING) = \"Gazebo\"",
+        "image_metrics": {
+          "nontrivial_pixels": true,
+          "sample_count": 1568,
+          "distinct_sampled_colors": 77,
+          "luma_range": 231,
+          "nonblack_fraction": 1.0,
+          "non_dominant_fraction": 0.66964
+        },
+        "manual_scene_review_required": true
+      },
+      {
+        "name": "verify_button_checks_real_behavior",
+        "passed": true
+      },
+      {
+        "name": "desktop_exit_cleans_owned_processes",
+        "passed": true
+      }
+    ],
+    "elapsed_seconds": 31.798
+  },
+  "standalone_gui": {
+    "window_id": "0x5c00012",
+    "pid": 207899,
+    "width": 2488,
+    "height": 1376,
+    "screenshot": "/home/ikaros/GazeboTeach/.deploy/addons/A47/imitation-scene.png",
+    "properties": "_NET_WM_PID(CARDINAL) = 207899\n_NET_WM_NAME(UTF8_STRING) = \"Gazebo\"",
+    "image_metrics": {
+      "nontrivial_pixels": true,
+      "sample_count": 1568,
+      "distinct_sampled_colors": 23,
+      "luma_range": 179,
+      "nonblack_fraction": 1.0,
+      "non_dominant_fraction": 0.23469
+    },
+    "manual_scene_review_required": true
+  },
+  "sigint_probe": {
+    "signal": "SIGINT",
+    "returncode": 0,
+    "endpoint_removed": true,
+    "socket": "/tmp/gt-learning-1345041a73b24199bf398e1f7ca1a77c.sock",
+    "log": "/tmp/gazeboteach-a47-sigint-kty69d61/sessions/classic11-noetic-47-20261104-013046-162405/runtime.log"
+  },
+  "raw_acceptance": {
+    "path": ".deploy\\addons\\A47\\acceptance.json",
+    "sha256": "e0ab2c8d927ba68bccd4fbd5670161c9a3063a4547898e825a817a060f23dc61",
+    "scope": "Full traces kept on both hosts; this report retains their counts, ordered digests and endpoints."
+  },
+  "source_sha256": {
+    "courses/classic11_noetic/47-mlp-imitation/lab.py": "18f55a11c642f1f50654f528378ccafddcab38c3474b4b2d58e4ae88fd162120",
+    "courses/classic11_noetic/47-mlp-imitation/learner.py": "9ff93aabf4868ddf76e52fd12b4c1936fd67be9eeb0965a85aa6aeec3278ea46",
+    "courses/classic11_noetic/47-mlp-imitation/lesson.json": "57683f12e134b130077993e620972abbc4b0880231adad4c00e7813d9cb4bc42",
+    "courses/classic11_noetic/47-mlp-imitation/lesson.md": "8a0a9b607512696511e0527817faf899b5f2d5ceccf07b15dd34c3061238b1f2",
+    "courses/classic11_noetic/47-mlp-imitation/network.py": "2532ceb7ccc7b3d0ac937681e425ecefdb4342b8e709877054ae2bb248e602c0",
+    "courses/classic11_noetic/47-mlp-imitation/plant.cc": "fe7f80bae3d72141f43aea2fef79ed2a42aeb8b1b1d951afeb07e00f72d892f3",
+    "courses/classic11_noetic/47-mlp-imitation/plant.py": "83a5a414f8928f668321af64a9ff4703e8216416bbac809fe55827af67421dca",
+    "courses/classic11_noetic/47-mlp-imitation/prepare.py": "b13f47e3b9326145c75d99dd32a687b5f2a32fe3c8ca8e023623cacadaa65fc8",
+    "courses/classic11_noetic/47-mlp-imitation/reference.md": "9608802651cf9c4bf942ed0de42f546dd17a2b6651bbf6ccc38464fb46d8812e",
+    "courses/classic11_noetic/47-mlp-imitation/reference.py": "e6bb64aa87348b81b3a73774e566a6470f3f0b6a5906fbb2543318aa2f61376a",
+    "courses/classic11_noetic/47-mlp-imitation/verify.py": "6a7134427c8f4aa951dfd10145c43c3cde24fa2782b6a7d0daa0112fe22a4f7f",
+    "courses/classic11_noetic/47-mlp-imitation/world.sdf": "8b9fdc55ebba29dc86e274301ef9b2b8be3e7fac611fb6e5f8f255509fd752d8"
+  }
+}
