@@ -1,0 +1,1849 @@
+{
+  "acceptance": {
+    "lesson": "49",
+    "ok": true,
+    "data_dir": "/tmp/gazeboteach-a49-1ce24wsi",
+    "checks": [
+      {
+        "name": "private_endpoint_and_abrupt_client_eof_restore_running",
+        "passed": true,
+        "before": {
+          "seq": 2,
+          "iterations": 2398,
+          "paused": false,
+          "sim_time": 2.398,
+          "sim_sec": 2,
+          "sim_nsec": 398000000
+        },
+        "after": {
+          "seq": 3,
+          "iterations": 2597,
+          "paused": false,
+          "sim_time": 2.597,
+          "sim_sec": 2,
+          "sim_nsec": 597000000
+        },
+        "mode_octal": "0600"
+      },
+      {
+        "name": "actual_training_and_exact_independent_native_world_step_total",
+        "passed": true,
+        "before": {
+          "seq": 6,
+          "iterations": 2799,
+          "paused": true,
+          "sim_time": 2.799,
+          "sim_sec": 2,
+          "sim_nsec": 799000000
+        },
+        "after": {
+          "seq": 88,
+          "iterations": 18801,
+          "paused": true,
+          "sim_time": 18.801,
+          "sim_sec": 18,
+          "sim_nsec": 801000000
+        },
+        "idle": {
+          "seq": 90,
+          "iterations": 18801,
+          "paused": true,
+          "sim_time": 18.801,
+          "sim_sec": 18,
+          "sim_nsec": 801000000
+        },
+        "verification": {
+          "schema": 2,
+          "passed": true,
+          "assignment_pass": false,
+          "execution_mode": "reference_demo",
+          "algorithm": "Position/attitude cascade PID/PD plus four-rotor force allocation",
+          "run_directory": "results/run-c0ef34f6f0764cfe9347cd76a42e1e12",
+          "report": "results/run-c0ef34f6f0764cfe9347cd76a42e1e12/report.json",
+          "trace_log": "results/run-c0ef34f6f0764cfe9347cd76a42e1e12/flight-trace.jsonl",
+          "trials": [
+            {
+              "initial_z": 0.45,
+              "requested_initial_pose": [
+                0.0,
+                0.0,
+                0.45,
+                0.1,
+                0.0,
+                0.25
+              ],
+              "complete": true,
+              "actual_initial_state": {
+                "iterations": 2800,
+                "sim_time_s": 2.8,
+                "state": [
+                  0,
+                  0,
+                  0.44999019,
+                  0.09999999999999999,
+                  0,
+                  0.25,
+                  0,
+                  0,
+                  -0.009810000000000001,
+                  0,
+                  0,
+                  0
+                ],
+                "paused": true,
+                "callbacks": 2800
+              },
+              "reset_native_reply": {
+                "protocol": 2,
+                "id": 2,
+                "kind": "reset",
+                "ok": true,
+                "source_sha256": "8b9a9581234d865677a21cbb9b4dfa90af0be1d06298bb0b2b9b236baa852bfc",
+                "before": {
+                  "iterations": 2799,
+                  "sim_time_s": 2.799,
+                  "state": [
+                    8.222910638520039e-19,
+                    1.4792461933761868e-18,
+                    0.059999999995095,
+                    -2.1818355296872132e-17,
+                    1.2128637121827875e-17,
+                    3.738601418897433e-24,
+                    -5.961887108112578e-16,
+                    5.561228202387719e-16,
+                    4.905186386239269e-11,
+                    -9.2687136706462e-15,
+                    -9.936478513520968e-15,
+                    -3.861611491736617e-31
+                  ],
+                  "paused": true,
+                  "callbacks": 2799
+                },
+                "after": {
+                  "iterations": 2800,
+                  "sim_time_s": 2.8,
+                  "state": [
+                    0,
+                    0,
+                    0.44999019,
+                    0.09999999999999999,
+                    0,
+                    0.25,
+                    0,
+                    0,
+                    -0.009810000000000001,
+                    0,
+                    0,
+                    0
+                  ],
+                  "paused": true,
+                  "callbacks": 2800
+                },
+                "applied_rotors_n": [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "wind_force_n": [
+                  0,
+                  0
+                ],
+                "steps": 1,
+                "physics_dt_s": 0.001,
+                "original_paused": true,
+                "mutation_started": true
+              },
+              "terminal_z_rms": 0.019357895026361625,
+              "terminal_xy_rms": 0.0012125624711767453,
+              "terminal_attitude_rms": 0.00024286448274706506,
+              "terminal_sim_window_s": 1.5,
+              "terminal_samples": 75,
+              "actual_sim_interval_min_s": 0.019999999999999574,
+              "actual_sim_interval_max_s": 0.02000000000000135,
+              "actual_flight_duration_s": 8.0,
+              "peak_horizontal_excursion_from_pre_gust_m": 0.26140905334781167,
+              "min_altitude_m": 0.45014620869446337,
+              "max_altitude_m": 1.0342646102496622,
+              "gust_action_count": 75,
+              "saturated_action_count": 0
+            },
+            {
+              "initial_z": 1.55,
+              "requested_initial_pose": [
+                0.0,
+                0.0,
+                1.55,
+                0.1,
+                0.0,
+                0.25
+              ],
+              "complete": true,
+              "actual_initial_state": {
+                "iterations": 10801,
+                "sim_time_s": 10.801,
+                "state": [
+                  0,
+                  0,
+                  1.54999019,
+                  0.09999999999999999,
+                  0,
+                  0.25,
+                  0,
+                  0,
+                  -0.009810000000000001,
+                  0,
+                  0,
+                  0
+                ],
+                "paused": true,
+                "callbacks": 10801
+              },
+              "reset_native_reply": {
+                "protocol": 2,
+                "id": 803,
+                "kind": "reset",
+                "ok": true,
+                "source_sha256": "8b9a9581234d865677a21cbb9b4dfa90af0be1d06298bb0b2b9b236baa852bfc",
+                "before": {
+                  "iterations": 10800,
+                  "sim_time_s": 10.8,
+                  "state": [
+                    0.000459452471604591,
+                    -0.0002558093119676763,
+                    1.018655906016707,
+                    1.4555232655097228e-05,
+                    2.6332550225063982e-05,
+                    1.6607725005825834e-07,
+                    -0.0005932477759145429,
+                    0.0003298178984718745,
+                    -0.0009514554543594987,
+                    4.366891055210923e-05,
+                    7.847452046718422e-05,
+                    -9.609369596751519e-07
+                  ],
+                  "paused": true,
+                  "callbacks": 10800
+                },
+                "after": {
+                  "iterations": 10801,
+                  "sim_time_s": 10.801,
+                  "state": [
+                    0,
+                    0,
+                    1.54999019,
+                    0.09999999999999999,
+                    0,
+                    0.25,
+                    0,
+                    0,
+                    -0.009810000000000001,
+                    0,
+                    0,
+                    0
+                  ],
+                  "paused": true,
+                  "callbacks": 10801
+                },
+                "applied_rotors_n": [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "wind_force_n": [
+                  0,
+                  0
+                ],
+                "steps": 1,
+                "physics_dt_s": 0.001,
+                "original_paused": true,
+                "mutation_started": true
+              },
+              "terminal_z_rms": 0.019116526570016376,
+              "terminal_xy_rms": 0.0011955594065090642,
+              "terminal_attitude_rms": 0.0002423087248589508,
+              "terminal_sim_window_s": 1.5,
+              "terminal_samples": 75,
+              "actual_sim_interval_min_s": 0.019999999999999574,
+              "actual_sim_interval_max_s": 0.020000000000003126,
+              "actual_flight_duration_s": 7.999999999999998,
+              "peak_horizontal_excursion_from_pre_gust_m": 0.2680829570034287,
+              "min_altitude_m": 0.9660003506071859,
+              "max_altitude_m": 1.5494530339154373,
+              "gust_action_count": 75,
+              "saturated_action_count": 0
+            }
+          ],
+          "state_fields": [
+            "x_m",
+            "y_m",
+            "z_m",
+            "roll_rad",
+            "pitch_rad",
+            "yaw_rad",
+            "vx_m_s",
+            "vy_m_s",
+            "vz_m_s",
+            "wx_body_rad_s",
+            "wy_body_rad_s",
+            "wz_body_rad_s"
+          ],
+          "mass_kg": 1,
+          "arm_m": 0.22,
+          "reaction_torque_per_thrust_m": 0.018,
+          "rotor_bound_n": [
+            0.0,
+            6.0
+          ],
+          "rotor_order": [
+            "front",
+            "left",
+            "rear",
+            "right"
+          ],
+          "gust": {
+            "start_action": 100,
+            "end_action_exclusive": 175,
+            "world_xy_force_n": [
+              0.45,
+              -0.25
+            ]
+          },
+          "scope": "Ideal thrust actuators, ground-truth state and simulated rigid-body hover",
+          "source": {
+            "lab_sha256": "e0c8ac55a617b705fbac145f5f341228f498eeb440fa15268e90654e8e5f4d59",
+            "controller_sha256": "dba4b249087bc701948729a7206e8c595420d3e63689ec5aa97eb2f69bb72486"
+          },
+          "native_endpoint": {
+            "path": "/tmp/gt-quad-165f950aa4e44378bcf6c9ddfc98a793.sock",
+            "uid": 1000,
+            "mode": "0o600",
+            "device": 66309,
+            "inode": 27043857,
+            "peer": {
+              "pid": 219982,
+              "uid": 1000,
+              "gid": 1000
+            }
+          },
+          "build": {
+            "source_sha256": "8b9a9581234d865677a21cbb9b4dfa90af0be1d06298bb0b2b9b236baa852bfc",
+            "gazebo": "11.15.1",
+            "compiler": "/usr/bin/x86_64-linux-gnu-g++-7",
+            "compiler_version": "x86_64-linux-gnu-g++-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0\nCopyright (C) 2017 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+            "compile_options": [
+              "-shared",
+              "-fPIC",
+              "-std=c++17",
+              "-O2",
+              "-pthread",
+              "-Wno-deprecated-declarations",
+              "-DGT_PLANT_SOURCE_SHA=\"8b9a9581234d865677a21cbb9b4dfa90af0be1d06298bb0b2b9b236baa852bfc\""
+            ],
+            "pkg_config_flags": [
+              "-std=c++11",
+              "-std=c++17",
+              "-isystem",
+              "/usr/include/mit-krb5",
+              "-std=c++17",
+              "-pthread",
+              "-std=c++17",
+              "-I/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//include/gazebo-11",
+              "-I/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//include/sdformat-9.10",
+              "-I/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//include/ignition/fuel_tools4",
+              "-I/usr/include/x86_64-linux-gnu",
+              "-I/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//include/ignition/common3",
+              "-I/usr/include/uuid",
+              "-I/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//include/ignition/transport8",
+              "-I/usr/include/pgm-5.2",
+              "-I/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//include/ignition/msgs5",
+              "-I/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//include/ignition/math6",
+              "-I/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//include/ignition/cmake2",
+              "-L/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//lib/x86_64-linux-gnu",
+              "-L/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//lib/x86_64-linux-gnu/gazebo-11/plugins",
+              "-L/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//lib/x86_64-linux-gnu",
+              "-Wl,-rpath,/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//lib/x86_64-linux-gnu/gazebo-11/plugins",
+              "-lgazebo_transport",
+              "-lgazebo_physics",
+              "-lgazebo_sensors",
+              "-lgazebo_rendering",
+              "-lgazebo_gui",
+              "-lgazebo_client",
+              "-lgazebo_msgs",
+              "-lgazebo_common",
+              "-lgazebo",
+              "-lboost_thread",
+              "-lboost_system",
+              "-lboost_filesystem",
+              "-lboost_program_options",
+              "-lboost_regex",
+              "-lboost_iostreams",
+              "-lboost_date_time",
+              "-lsdformat9",
+              "-ltbb",
+              "-latomic",
+              "-lignition-fuel_tools4",
+              "-lignition-transport8",
+              "-lignition-msgs5",
+              "-lprotobuf",
+              "-pthread",
+              "-lignition-math6"
+            ],
+            "cache_key": "7ac01bd01e9666a78b1c6ea6542cc538151a5a863e959590800847a2c5976f96",
+            "library_sha256": "1deec54e792f399a5116b497914f21433dc50761ed7ff1d68205b4bcc9566af3",
+            "library_path": "/home/ikaros/.cache/gazeboteach/quadrotor-plant/7ac01bd01e9666a78b1c6ea6542cc538151a5a863e959590800847a2c5976f96/libgazeboteach_quadrotor.so"
+          },
+          "native_initial_state": {
+            "iterations": 2799,
+            "sim_time_s": 2.799,
+            "state": [
+              8.222910638520039e-19,
+              1.4792461933761868e-18,
+              0.059999999995095,
+              -2.1818355296872132e-17,
+              1.2128637121827875e-17,
+              3.738601418897433e-24,
+              -5.961887108112578e-16,
+              5.561228202387719e-16,
+              4.905186386239269e-11,
+              -9.2687136706462e-15,
+              -9.936478513520968e-15,
+              -3.861611491736617e-31
+            ],
+            "paused": true,
+            "callbacks": 2799
+          },
+          "native_final_state": {
+            "iterations": 18801,
+            "sim_time_s": 18.801,
+            "state": [
+              0.00045604974324993635,
+              -0.0002539852711595669,
+              0.9815729503257467,
+              1.4029939741722695e-05,
+              2.5324999872758544e-05,
+              1.6604665089891952e-07,
+              -0.0005866632087830721,
+              0.00032648428845419644,
+              0.000938961045570061,
+              4.434156550772979e-05,
+              7.945069131073795e-05,
+              -9.560349230858768e-07
+            ],
+            "paused": true,
+            "callbacks": 18801
+          },
+          "real_gazebo_transitions": 800,
+          "pause_restoration": {
+            "confirmed": true,
+            "original_paused": true,
+            "native_reply": {
+              "protocol": 2,
+              "id": 1605,
+              "kind": "end",
+              "ok": true,
+              "source_sha256": "8b9a9581234d865677a21cbb9b4dfa90af0be1d06298bb0b2b9b236baa852bfc",
+              "before": {
+                "iterations": 18801,
+                "sim_time_s": 18.801,
+                "state": [
+                  0.00045604974324993635,
+                  -0.0002539852711595669,
+                  0.9815729503257467,
+                  1.4029939741722695e-05,
+                  2.5324999872758544e-05,
+                  1.6604665089891952e-07,
+                  -0.0005866632087830721,
+                  0.00032648428845419644,
+                  0.000938961045570061,
+                  4.434156550772979e-05,
+                  7.945069131073795e-05,
+                  -9.560349230858768e-07
+                ],
+                "paused": true,
+                "callbacks": 18801
+              },
+              "after": {
+                "iterations": 18801,
+                "sim_time_s": 18.801,
+                "state": [
+                  0.00045604974324993635,
+                  -0.0002539852711595669,
+                  0.9815729503257467,
+                  1.4029939741722695e-05,
+                  2.5324999872758544e-05,
+                  1.6604665089891952e-07,
+                  -0.0005866632087830721,
+                  0.00032648428845419644,
+                  0.000938961045570061,
+                  4.434156550772979e-05,
+                  7.945069131073795e-05,
+                  -9.560349230858768e-07
+                ],
+                "paused": true,
+                "callbacks": 18801
+              },
+              "applied_rotors_n": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "wind_force_n": [
+                0,
+                0
+              ],
+              "steps": 0,
+              "physics_dt_s": 0.001,
+              "original_paused": true,
+              "mutation_started": true,
+              "restored_paused": true
+            }
+          },
+          "auxiliary_reset_physics_steps": 2,
+          "total_native_physics_steps": 16002,
+          "reset_observations": [
+            {
+              "requested_state": [
+                0,
+                0,
+                0.45,
+                0.1,
+                0,
+                0.25,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "actual_state": [
+                0,
+                0,
+                0.44999019,
+                0.09999999999999999,
+                0,
+                0.25,
+                0,
+                0,
+                -0.009810000000000001,
+                0,
+                0,
+                0
+              ],
+              "native_reply": {
+                "protocol": 2,
+                "id": 2,
+                "kind": "reset",
+                "ok": true,
+                "source_sha256": "8b9a9581234d865677a21cbb9b4dfa90af0be1d06298bb0b2b9b236baa852bfc",
+                "before": {
+                  "iterations": 2799,
+                  "sim_time_s": 2.799,
+                  "state": [
+                    8.222910638520039e-19,
+                    1.4792461933761868e-18,
+                    0.059999999995095,
+                    -2.1818355296872132e-17,
+                    1.2128637121827875e-17,
+                    3.738601418897433e-24,
+                    -5.961887108112578e-16,
+                    5.561228202387719e-16,
+                    4.905186386239269e-11,
+                    -9.2687136706462e-15,
+                    -9.936478513520968e-15,
+                    -3.861611491736617e-31
+                  ],
+                  "paused": true,
+                  "callbacks": 2799
+                },
+                "after": {
+                  "iterations": 2800,
+                  "sim_time_s": 2.8,
+                  "state": [
+                    0,
+                    0,
+                    0.44999019,
+                    0.09999999999999999,
+                    0,
+                    0.25,
+                    0,
+                    0,
+                    -0.009810000000000001,
+                    0,
+                    0,
+                    0
+                  ],
+                  "paused": true,
+                  "callbacks": 2800
+                },
+                "applied_rotors_n": [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "wind_force_n": [
+                  0,
+                  0
+                ],
+                "steps": 1,
+                "physics_dt_s": 0.001,
+                "original_paused": true,
+                "mutation_started": true
+              }
+            },
+            {
+              "requested_state": [
+                0,
+                0,
+                1.55,
+                0.1,
+                0,
+                0.25,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "actual_state": [
+                0,
+                0,
+                1.54999019,
+                0.09999999999999999,
+                0,
+                0.25,
+                0,
+                0,
+                -0.009810000000000001,
+                0,
+                0,
+                0
+              ],
+              "native_reply": {
+                "protocol": 2,
+                "id": 803,
+                "kind": "reset",
+                "ok": true,
+                "source_sha256": "8b9a9581234d865677a21cbb9b4dfa90af0be1d06298bb0b2b9b236baa852bfc",
+                "before": {
+                  "iterations": 10800,
+                  "sim_time_s": 10.8,
+                  "state": [
+                    0.000459452471604591,
+                    -0.0002558093119676763,
+                    1.018655906016707,
+                    1.4555232655097228e-05,
+                    2.6332550225063982e-05,
+                    1.6607725005825834e-07,
+                    -0.0005932477759145429,
+                    0.0003298178984718745,
+                    -0.0009514554543594987,
+                    4.366891055210923e-05,
+                    7.847452046718422e-05,
+                    -9.609369596751519e-07
+                  ],
+                  "paused": true,
+                  "callbacks": 10800
+                },
+                "after": {
+                  "iterations": 10801,
+                  "sim_time_s": 10.801,
+                  "state": [
+                    0,
+                    0,
+                    1.54999019,
+                    0.09999999999999999,
+                    0,
+                    0.25,
+                    0,
+                    0,
+                    -0.009810000000000001,
+                    0,
+                    0,
+                    0
+                  ],
+                  "paused": true,
+                  "callbacks": 10801
+                },
+                "applied_rotors_n": [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "wind_force_n": [
+                  0,
+                  0
+                ],
+                "steps": 1,
+                "physics_dt_s": 0.001,
+                "original_paused": true,
+                "mutation_started": true
+              }
+            }
+          ],
+          "watchdog": {
+            "client_lease_poisoned": false,
+            "pause_restoration_confirmed": true,
+            "action_retry_on_unknown_outcome": false
+          },
+          "trace_sha256": "60f05d45d75994764b70a475e4c866c49b13d88c0c0da705211469471c922276",
+          "elapsed_wall_s": 16.221552191003866
+        }
+      },
+      {
+        "name": "temporary_student_fixture_native_training_and_checkpoint_audit",
+        "passed": true,
+        "before": {
+          "seq": 5,
+          "iterations": 2546,
+          "paused": true,
+          "sim_time": 2.5460000000000003,
+          "sim_sec": 2,
+          "sim_nsec": 546000000
+        },
+        "after": {
+          "seq": 86,
+          "iterations": 18548,
+          "paused": true,
+          "sim_time": 18.548000000000002,
+          "sim_sec": 18,
+          "sim_nsec": 548000000
+        },
+        "verification": {
+          "schema": 2,
+          "passed": true,
+          "assignment_pass": true,
+          "execution_mode": "student",
+          "algorithm": "Position/attitude cascade PID/PD plus four-rotor force allocation",
+          "run_directory": "results/run-bf2764e36683458089813360fbdb3e05",
+          "report": "results/run-bf2764e36683458089813360fbdb3e05/report.json",
+          "trace_log": "results/run-bf2764e36683458089813360fbdb3e05/flight-trace.jsonl",
+          "trials": [
+            {
+              "initial_z": 0.45,
+              "requested_initial_pose": [
+                0.0,
+                0.0,
+                0.45,
+                0.1,
+                0.0,
+                0.25
+              ],
+              "complete": true,
+              "actual_initial_state": {
+                "iterations": 2547,
+                "sim_time_s": 2.547,
+                "state": [
+                  0,
+                  0,
+                  0.44999019,
+                  0.09999999999999999,
+                  0,
+                  0.25,
+                  0,
+                  0,
+                  -0.009810000000000001,
+                  0,
+                  0,
+                  0
+                ],
+                "paused": true,
+                "callbacks": 2547
+              },
+              "reset_native_reply": {
+                "protocol": 2,
+                "id": 2,
+                "kind": "reset",
+                "ok": true,
+                "source_sha256": "8b9a9581234d865677a21cbb9b4dfa90af0be1d06298bb0b2b9b236baa852bfc",
+                "before": {
+                  "iterations": 2546,
+                  "sim_time_s": 2.5460000000000003,
+                  "state": [
+                    1.4034824808808518e-18,
+                    8.971008333546448e-19,
+                    0.059999999995095,
+                    -1.2115932792026188e-17,
+                    2.181516004894657e-17,
+                    3.6454822976057196e-24,
+                    5.561785440479075e-16,
+                    -5.966206915849193e-16,
+                    4.905186559711616e-11,
+                    9.943678193081987e-15,
+                    9.269642400798456e-15,
+                    6.5856223182392654e-31
+                  ],
+                  "paused": true,
+                  "callbacks": 2546
+                },
+                "after": {
+                  "iterations": 2547,
+                  "sim_time_s": 2.547,
+                  "state": [
+                    0,
+                    0,
+                    0.44999019,
+                    0.09999999999999999,
+                    0,
+                    0.25,
+                    0,
+                    0,
+                    -0.009810000000000001,
+                    0,
+                    0,
+                    0
+                  ],
+                  "paused": true,
+                  "callbacks": 2547
+                },
+                "applied_rotors_n": [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "wind_force_n": [
+                  0,
+                  0
+                ],
+                "steps": 1,
+                "physics_dt_s": 0.001,
+                "original_paused": true,
+                "mutation_started": true
+              },
+              "terminal_z_rms": 0.019357895026361625,
+              "terminal_xy_rms": 0.001212562471176749,
+              "terminal_attitude_rms": 0.00024286448274706465,
+              "terminal_sim_window_s": 1.5,
+              "terminal_samples": 75,
+              "actual_sim_interval_min_s": 0.019999999999999574,
+              "actual_sim_interval_max_s": 0.02000000000000135,
+              "actual_flight_duration_s": 8.0,
+              "peak_horizontal_excursion_from_pre_gust_m": 0.2614090533478116,
+              "min_altitude_m": 0.45014620869446337,
+              "max_altitude_m": 1.0342646102496622,
+              "gust_action_count": 75,
+              "saturated_action_count": 0
+            },
+            {
+              "initial_z": 1.55,
+              "requested_initial_pose": [
+                0.0,
+                0.0,
+                1.55,
+                0.1,
+                0.0,
+                0.25
+              ],
+              "complete": true,
+              "actual_initial_state": {
+                "iterations": 10548,
+                "sim_time_s": 10.548,
+                "state": [
+                  0,
+                  0,
+                  1.54999019,
+                  0.09999999999999999,
+                  0,
+                  0.25,
+                  0,
+                  0,
+                  -0.009810000000000001,
+                  0,
+                  0,
+                  0
+                ],
+                "paused": true,
+                "callbacks": 10548
+              },
+              "reset_native_reply": {
+                "protocol": 2,
+                "id": 803,
+                "kind": "reset",
+                "ok": true,
+                "source_sha256": "8b9a9581234d865677a21cbb9b4dfa90af0be1d06298bb0b2b9b236baa852bfc",
+                "before": {
+                  "iterations": 10547,
+                  "sim_time_s": 10.547,
+                  "state": [
+                    0.00045945247160455993,
+                    -0.00025580931196769144,
+                    1.018655906016707,
+                    1.4555232655102956e-05,
+                    2.6332550225069965e-05,
+                    1.660772500694185e-07,
+                    -0.0005932477759145583,
+                    0.000329817898471914,
+                    -0.0009514554543595072,
+                    4.366891055218379e-05,
+                    7.847452046723755e-05,
+                    -9.609369596763259e-07
+                  ],
+                  "paused": true,
+                  "callbacks": 10547
+                },
+                "after": {
+                  "iterations": 10548,
+                  "sim_time_s": 10.548,
+                  "state": [
+                    0,
+                    0,
+                    1.54999019,
+                    0.09999999999999999,
+                    0,
+                    0.25,
+                    0,
+                    0,
+                    -0.009810000000000001,
+                    0,
+                    0,
+                    0
+                  ],
+                  "paused": true,
+                  "callbacks": 10548
+                },
+                "applied_rotors_n": [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "wind_force_n": [
+                  0,
+                  0
+                ],
+                "steps": 1,
+                "physics_dt_s": 0.001,
+                "original_paused": true,
+                "mutation_started": true
+              },
+              "terminal_z_rms": 0.019116526570016376,
+              "terminal_xy_rms": 0.0011955594065090436,
+              "terminal_attitude_rms": 0.00024230872485894804,
+              "terminal_sim_window_s": 1.5,
+              "terminal_samples": 75,
+              "actual_sim_interval_min_s": 0.019999999999999574,
+              "actual_sim_interval_max_s": 0.020000000000003126,
+              "actual_flight_duration_s": 8.000000000000002,
+              "peak_horizontal_excursion_from_pre_gust_m": 0.26808295700342855,
+              "min_altitude_m": 0.966000350607186,
+              "max_altitude_m": 1.5494530339154373,
+              "gust_action_count": 75,
+              "saturated_action_count": 0
+            }
+          ],
+          "state_fields": [
+            "x_m",
+            "y_m",
+            "z_m",
+            "roll_rad",
+            "pitch_rad",
+            "yaw_rad",
+            "vx_m_s",
+            "vy_m_s",
+            "vz_m_s",
+            "wx_body_rad_s",
+            "wy_body_rad_s",
+            "wz_body_rad_s"
+          ],
+          "mass_kg": 1,
+          "arm_m": 0.22,
+          "reaction_torque_per_thrust_m": 0.018,
+          "rotor_bound_n": [
+            0.0,
+            6.0
+          ],
+          "rotor_order": [
+            "front",
+            "left",
+            "rear",
+            "right"
+          ],
+          "gust": {
+            "start_action": 100,
+            "end_action_exclusive": 175,
+            "world_xy_force_n": [
+              0.45,
+              -0.25
+            ]
+          },
+          "scope": "Ideal thrust actuators, ground-truth state and simulated rigid-body hover",
+          "source": {
+            "lab_sha256": "e0c8ac55a617b705fbac145f5f341228f498eeb440fa15268e90654e8e5f4d59",
+            "controller_sha256": "dba4b249087bc701948729a7206e8c595420d3e63689ec5aa97eb2f69bb72486",
+            "personal_learner_sha256": "9eb68ec48f766cf28fbf1fbda5cf2149f21f9fa85cb688bc0e3a85ae3107be5d"
+          },
+          "native_endpoint": {
+            "path": "/tmp/gt-quad-6c08e0304f8740a79e02e5238972f2fd.sock",
+            "uid": 1000,
+            "mode": "0o600",
+            "device": 66309,
+            "inode": 27043857,
+            "peer": {
+              "pid": 220554,
+              "uid": 1000,
+              "gid": 1000
+            }
+          },
+          "build": {
+            "source_sha256": "8b9a9581234d865677a21cbb9b4dfa90af0be1d06298bb0b2b9b236baa852bfc",
+            "gazebo": "11.15.1",
+            "compiler": "/usr/bin/x86_64-linux-gnu-g++-7",
+            "compiler_version": "x86_64-linux-gnu-g++-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0\nCopyright (C) 2017 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+            "compile_options": [
+              "-shared",
+              "-fPIC",
+              "-std=c++17",
+              "-O2",
+              "-pthread",
+              "-Wno-deprecated-declarations",
+              "-DGT_PLANT_SOURCE_SHA=\"8b9a9581234d865677a21cbb9b4dfa90af0be1d06298bb0b2b9b236baa852bfc\""
+            ],
+            "pkg_config_flags": [
+              "-std=c++11",
+              "-std=c++17",
+              "-isystem",
+              "/usr/include/mit-krb5",
+              "-std=c++17",
+              "-pthread",
+              "-std=c++17",
+              "-I/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//include/gazebo-11",
+              "-I/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//include/sdformat-9.10",
+              "-I/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//include/ignition/fuel_tools4",
+              "-I/usr/include/x86_64-linux-gnu",
+              "-I/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//include/ignition/common3",
+              "-I/usr/include/uuid",
+              "-I/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//include/ignition/transport8",
+              "-I/usr/include/pgm-5.2",
+              "-I/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//include/ignition/msgs5",
+              "-I/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//include/ignition/math6",
+              "-I/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//include/ignition/cmake2",
+              "-L/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//lib/x86_64-linux-gnu",
+              "-L/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//lib/x86_64-linux-gnu/gazebo-11/plugins",
+              "-L/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//lib/x86_64-linux-gnu",
+              "-Wl,-rpath,/usr/lib/x86_64-linux-gnu/pkgconfig/../../..//lib/x86_64-linux-gnu/gazebo-11/plugins",
+              "-lgazebo_transport",
+              "-lgazebo_physics",
+              "-lgazebo_sensors",
+              "-lgazebo_rendering",
+              "-lgazebo_gui",
+              "-lgazebo_client",
+              "-lgazebo_msgs",
+              "-lgazebo_common",
+              "-lgazebo",
+              "-lboost_thread",
+              "-lboost_system",
+              "-lboost_filesystem",
+              "-lboost_program_options",
+              "-lboost_regex",
+              "-lboost_iostreams",
+              "-lboost_date_time",
+              "-lsdformat9",
+              "-ltbb",
+              "-latomic",
+              "-lignition-fuel_tools4",
+              "-lignition-transport8",
+              "-lignition-msgs5",
+              "-lprotobuf",
+              "-pthread",
+              "-lignition-math6"
+            ],
+            "cache_key": "7ac01bd01e9666a78b1c6ea6542cc538151a5a863e959590800847a2c5976f96",
+            "library_sha256": "1deec54e792f399a5116b497914f21433dc50761ed7ff1d68205b4bcc9566af3",
+            "library_path": "/home/ikaros/.cache/gazeboteach/quadrotor-plant/7ac01bd01e9666a78b1c6ea6542cc538151a5a863e959590800847a2c5976f96/libgazeboteach_quadrotor.so"
+          },
+          "native_initial_state": {
+            "iterations": 2546,
+            "sim_time_s": 2.5460000000000003,
+            "state": [
+              1.4034824808808518e-18,
+              8.971008333546448e-19,
+              0.059999999995095,
+              -1.2115932792026188e-17,
+              2.181516004894657e-17,
+              3.6454822976057196e-24,
+              5.561785440479075e-16,
+              -5.966206915849193e-16,
+              4.905186559711616e-11,
+              9.943678193081987e-15,
+              9.269642400798456e-15,
+              6.5856223182392654e-31
+            ],
+            "paused": true,
+            "callbacks": 2546
+          },
+          "native_final_state": {
+            "iterations": 18548,
+            "sim_time_s": 18.548000000000002,
+            "state": [
+              0.0004560497432499587,
+              -0.00025398527115954195,
+              0.9815729503257467,
+              1.4029939741732777e-05,
+              2.5324999872755813e-05,
+              1.6604665088579802e-07,
+              -0.0005866632087830342,
+              0.000326484288454141,
+              0.0009389610455700369,
+              4.4341565507752206e-05,
+              7.945069131080714e-05,
+              -9.560349230807527e-07
+            ],
+            "paused": true,
+            "callbacks": 18548
+          },
+          "real_gazebo_transitions": 800,
+          "pause_restoration": {
+            "confirmed": true,
+            "original_paused": true,
+            "native_reply": {
+              "protocol": 2,
+              "id": 1605,
+              "kind": "end",
+              "ok": true,
+              "source_sha256": "8b9a9581234d865677a21cbb9b4dfa90af0be1d06298bb0b2b9b236baa852bfc",
+              "before": {
+                "iterations": 18548,
+                "sim_time_s": 18.548000000000002,
+                "state": [
+                  0.0004560497432499587,
+                  -0.00025398527115954195,
+                  0.9815729503257467,
+                  1.4029939741732777e-05,
+                  2.5324999872755813e-05,
+                  1.6604665088579802e-07,
+                  -0.0005866632087830342,
+                  0.000326484288454141,
+                  0.0009389610455700369,
+                  4.4341565507752206e-05,
+                  7.945069131080714e-05,
+                  -9.560349230807527e-07
+                ],
+                "paused": true,
+                "callbacks": 18548
+              },
+              "after": {
+                "iterations": 18548,
+                "sim_time_s": 18.548000000000002,
+                "state": [
+                  0.0004560497432499587,
+                  -0.00025398527115954195,
+                  0.9815729503257467,
+                  1.4029939741732777e-05,
+                  2.5324999872755813e-05,
+                  1.6604665088579802e-07,
+                  -0.0005866632087830342,
+                  0.000326484288454141,
+                  0.0009389610455700369,
+                  4.4341565507752206e-05,
+                  7.945069131080714e-05,
+                  -9.560349230807527e-07
+                ],
+                "paused": true,
+                "callbacks": 18548
+              },
+              "applied_rotors_n": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "wind_force_n": [
+                0,
+                0
+              ],
+              "steps": 0,
+              "physics_dt_s": 0.001,
+              "original_paused": true,
+              "mutation_started": true,
+              "restored_paused": true
+            }
+          },
+          "auxiliary_reset_physics_steps": 2,
+          "total_native_physics_steps": 16002,
+          "reset_observations": [
+            {
+              "requested_state": [
+                0,
+                0,
+                0.45,
+                0.1,
+                0,
+                0.25,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "actual_state": [
+                0,
+                0,
+                0.44999019,
+                0.09999999999999999,
+                0,
+                0.25,
+                0,
+                0,
+                -0.009810000000000001,
+                0,
+                0,
+                0
+              ],
+              "native_reply": {
+                "protocol": 2,
+                "id": 2,
+                "kind": "reset",
+                "ok": true,
+                "source_sha256": "8b9a9581234d865677a21cbb9b4dfa90af0be1d06298bb0b2b9b236baa852bfc",
+                "before": {
+                  "iterations": 2546,
+                  "sim_time_s": 2.5460000000000003,
+                  "state": [
+                    1.4034824808808518e-18,
+                    8.971008333546448e-19,
+                    0.059999999995095,
+                    -1.2115932792026188e-17,
+                    2.181516004894657e-17,
+                    3.6454822976057196e-24,
+                    5.561785440479075e-16,
+                    -5.966206915849193e-16,
+                    4.905186559711616e-11,
+                    9.943678193081987e-15,
+                    9.269642400798456e-15,
+                    6.5856223182392654e-31
+                  ],
+                  "paused": true,
+                  "callbacks": 2546
+                },
+                "after": {
+                  "iterations": 2547,
+                  "sim_time_s": 2.547,
+                  "state": [
+                    0,
+                    0,
+                    0.44999019,
+                    0.09999999999999999,
+                    0,
+                    0.25,
+                    0,
+                    0,
+                    -0.009810000000000001,
+                    0,
+                    0,
+                    0
+                  ],
+                  "paused": true,
+                  "callbacks": 2547
+                },
+                "applied_rotors_n": [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "wind_force_n": [
+                  0,
+                  0
+                ],
+                "steps": 1,
+                "physics_dt_s": 0.001,
+                "original_paused": true,
+                "mutation_started": true
+              }
+            },
+            {
+              "requested_state": [
+                0,
+                0,
+                1.55,
+                0.1,
+                0,
+                0.25,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "actual_state": [
+                0,
+                0,
+                1.54999019,
+                0.09999999999999999,
+                0,
+                0.25,
+                0,
+                0,
+                -0.009810000000000001,
+                0,
+                0,
+                0
+              ],
+              "native_reply": {
+                "protocol": 2,
+                "id": 803,
+                "kind": "reset",
+                "ok": true,
+                "source_sha256": "8b9a9581234d865677a21cbb9b4dfa90af0be1d06298bb0b2b9b236baa852bfc",
+                "before": {
+                  "iterations": 10547,
+                  "sim_time_s": 10.547,
+                  "state": [
+                    0.00045945247160455993,
+                    -0.00025580931196769144,
+                    1.018655906016707,
+                    1.4555232655102956e-05,
+                    2.6332550225069965e-05,
+                    1.660772500694185e-07,
+                    -0.0005932477759145583,
+                    0.000329817898471914,
+                    -0.0009514554543595072,
+                    4.366891055218379e-05,
+                    7.847452046723755e-05,
+                    -9.609369596763259e-07
+                  ],
+                  "paused": true,
+                  "callbacks": 10547
+                },
+                "after": {
+                  "iterations": 10548,
+                  "sim_time_s": 10.548,
+                  "state": [
+                    0,
+                    0,
+                    1.54999019,
+                    0.09999999999999999,
+                    0,
+                    0.25,
+                    0,
+                    0,
+                    -0.009810000000000001,
+                    0,
+                    0,
+                    0
+                  ],
+                  "paused": true,
+                  "callbacks": 10548
+                },
+                "applied_rotors_n": [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "wind_force_n": [
+                  0,
+                  0
+                ],
+                "steps": 1,
+                "physics_dt_s": 0.001,
+                "original_paused": true,
+                "mutation_started": true
+              }
+            }
+          ],
+          "watchdog": {
+            "client_lease_poisoned": false,
+            "pause_restoration_confirmed": true,
+            "action_retry_on_unknown_outcome": false
+          },
+          "trace_sha256": "ae37ac36fee3c5ba18069606a006b0758b78ede633e00bb721587d531e91f597",
+          "elapsed_wall_s": 16.042837379995035
+        }
+      },
+      {
+        "name": "reentry_preserved_learner_and_flight_artifacts_then_cleaned_owned_endpoint",
+        "passed": true,
+        "artifact_sha256": {
+          "/tmp/gazeboteach-a49-1ce24wsi/workspaces/classic11-noetic/49/results/run-c0ef34f6f0764cfe9347cd76a42e1e12/flight-trace.jsonl": "60f05d45d75994764b70a475e4c866c49b13d88c0c0da705211469471c922276"
+        }
+      }
+    ],
+    "elapsed_seconds": 46.349
+  },
+  "desktop": {
+    "ok": true,
+    "lesson": "49",
+    "profile": "classic11-noetic",
+    "data_dir": "/tmp/gazeboteach-addon-desktop-l4y48lty",
+    "checks": [
+      {
+        "name": "real_desktop_material_selected",
+        "passed": true,
+        "document_characters": 4116
+      },
+      {
+        "name": "start_button_initialized_real_world_gui_and_ptys",
+        "passed": true,
+        "session": "/tmp/gazeboteach-addon-desktop-l4y48lty/data/sessions/classic11-noetic-49-20261104-014543-445361",
+        "token": "ec63b8bd6b784a53b7efe02cba008f88"
+      },
+      {
+        "name": "real_owned_native_gui_window",
+        "passed": true,
+        "window_id": "0x5e00012",
+        "pid": 221905,
+        "width": 2488,
+        "height": 1376,
+        "screenshot": "/home/ikaros/GazeboTeach/.deploy/addons/A49/desktop-gazebo.png",
+        "properties": "_NET_WM_PID(CARDINAL) = 221905\n_NET_WM_NAME(UTF8_STRING) = \"Gazebo\"",
+        "image_metrics": {
+          "nontrivial_pixels": true,
+          "sample_count": 1568,
+          "distinct_sampled_colors": 96,
+          "luma_range": 231,
+          "nonblack_fraction": 1.0,
+          "non_dominant_fraction": 0.73469
+        },
+        "manual_scene_review_required": true
+      },
+      {
+        "name": "verify_button_checks_real_behavior",
+        "passed": true
+      },
+      {
+        "name": "desktop_exit_cleans_owned_processes",
+        "passed": true
+      }
+    ],
+    "elapsed_seconds": 29.119
+  },
+  "standalone_hover": {
+    "window_id": "0x5c00012",
+    "pid": 223707,
+    "width": 2488,
+    "height": 1376,
+    "screenshot": "/home/ikaros/GazeboTeach/.deploy/addons/A49/flight-scene.png",
+    "properties": "_NET_WM_PID(CARDINAL) = 223707\n_NET_WM_NAME(UTF8_STRING) = \"Gazebo\"",
+    "image_metrics": {
+      "nontrivial_pixels": true,
+      "sample_count": 1568,
+      "distinct_sampled_colors": 22,
+      "luma_range": 185,
+      "nonblack_fraction": 1.0,
+      "non_dominant_fraction": 0.44069
+    },
+    "manual_scene_review_required": true,
+    "actual_hover_state": {
+      "iterations": 9182,
+      "sim_time_s": 9.182,
+      "state": [
+        0.00046541129843011926,
+        -0.0006361487020895487,
+        1.02494409283047,
+        0.0007905938379675521,
+        0.00043258480963713974,
+        -1.8044747289724464e-05,
+        -0.0012788895015191659,
+        0.001658590893022679,
+        -0.00699365990150069,
+        -0.002701852602230618,
+        -0.0011733931001121768,
+        -0.00012501114627404717
+      ],
+      "paused": true,
+      "callbacks": 9182
+    }
+  },
+  "rotor_probe": {
+    "ok": true,
+    "before": {
+      "seq": 5,
+      "iterations": 2637,
+      "paused": true,
+      "sim_time": 2.637,
+      "sim_sec": 2,
+      "sim_nsec": 637000000
+    },
+    "after": {
+      "seq": 7,
+      "iterations": 2742,
+      "paused": true,
+      "sim_time": 2.742,
+      "sim_sec": 2,
+      "sim_nsec": 742000000
+    },
+    "idle": {
+      "seq": 9,
+      "iterations": 2742,
+      "paused": true,
+      "sim_time": 2.742,
+      "sim_sec": 2,
+      "sim_nsec": 742000000
+    },
+    "running_eof_restored": true,
+    "trials": [
+      {
+        "rotor_index": 0,
+        "expected_rate_sign": [
+          0,
+          -1,
+          1
+        ],
+        "transition": {
+          "protocol": 2,
+          "id": 3,
+          "kind": "step",
+          "ok": true,
+          "source_sha256": "8b9a9581234d865677a21cbb9b4dfa90af0be1d06298bb0b2b9b236baa852bfc",
+          "before": {
+            "iterations": 2638,
+            "sim_time_s": 2.638,
+            "state": [
+              0,
+              0,
+              0.99999019,
+              0,
+              0,
+              0,
+              0,
+              0,
+              -0.009810000000000001,
+              0,
+              0,
+              0
+            ],
+            "paused": true,
+            "callbacks": 2638
+          },
+          "after": {
+            "iterations": 2658,
+            "sim_time_s": 2.658,
+            "state": [
+              -5.090194468348744e-07,
+              -9.3198890309787e-12,
+              0.9999516172482795,
+              -2.254392887818569e-08,
+              -0.0013831950787356797,
+              6.292915396630759e-05,
+              -9.251235095520316e-05,
+              -2.4389621397504124e-09,
+              0.005196392969280347,
+              3.8937794657428405e-06,
+              -0.1315994893466423,
+              0.005989877467393482
+            ],
+            "paused": true,
+            "callbacks": 2658
+          },
+          "applied_rotors_n": [
+            3.2025,
+            2.4525,
+            2.4525,
+            2.4525
+          ],
+          "wind_force_n": [
+            0,
+            0
+          ],
+          "steps": 20,
+          "physics_dt_s": 0.001,
+          "original_paused": true,
+          "mutation_started": true
+        }
+      },
+      {
+        "rotor_index": 1,
+        "expected_rate_sign": [
+          1,
+          0,
+          -1
+        ],
+        "transition": {
+          "protocol": 2,
+          "id": 6,
+          "kind": "step",
+          "ok": true,
+          "source_sha256": "8b9a9581234d865677a21cbb9b4dfa90af0be1d06298bb0b2b9b236baa852bfc",
+          "before": {
+            "iterations": 2659,
+            "sim_time_s": 2.659,
+            "state": [
+              0,
+              0,
+              0.99999019,
+              0,
+              0,
+              0,
+              0,
+              0,
+              -0.009810000000000001,
+              0,
+              0,
+              0
+            ],
+            "paused": true,
+            "callbacks": 2659
+          },
+          "after": {
+            "iterations": 2679,
+            "sim_time_s": 2.6790000000000003,
+            "state": [
+              -9.31988903095053e-12,
+              -5.090194468348744e-07,
+              0.9999516172482795,
+              0.0013831950787356806,
+              2.2543907312347433e-08,
+              -6.292912278366607e-05,
+              -2.4389621397468356e-09,
+              -9.251235095520316e-05,
+              0.005196392969280347,
+              0.13159948934664237,
+              -3.893779465747826e-06,
+              -0.005989877467393482
+            ],
+            "paused": true,
+            "callbacks": 2679
+          },
+          "applied_rotors_n": [
+            2.4525,
+            3.2025,
+            2.4525,
+            2.4525
+          ],
+          "wind_force_n": [
+            0,
+            0
+          ],
+          "steps": 20,
+          "physics_dt_s": 0.001,
+          "original_paused": true,
+          "mutation_started": true
+        }
+      },
+      {
+        "rotor_index": 2,
+        "expected_rate_sign": [
+          0,
+          1,
+          1
+        ],
+        "transition": {
+          "protocol": 2,
+          "id": 9,
+          "kind": "step",
+          "ok": true,
+          "source_sha256": "8b9a9581234d865677a21cbb9b4dfa90af0be1d06298bb0b2b9b236baa852bfc",
+          "before": {
+            "iterations": 2680,
+            "sim_time_s": 2.68,
+            "state": [
+              0,
+              0,
+              0.99999019,
+              0,
+              0,
+              0,
+              0,
+              0,
+              -0.009810000000000001,
+              0,
+              0,
+              0
+            ],
+            "paused": true,
+            "callbacks": 2680
+          },
+          "after": {
+            "iterations": 2700,
+            "sim_time_s": 2.7,
+            "state": [
+              5.090194468348744e-07,
+              9.3198890309787e-12,
+              0.9999516172482795,
+              2.2543928878185707e-08,
+              0.0013831950787356801,
+              6.292915396630759e-05,
+              9.251235095520316e-05,
+              2.4389621397504128e-09,
+              0.005196392969280347,
+              -3.893779465742839e-06,
+              0.13159948934664237,
+              0.005989877467393482
+            ],
+            "paused": true,
+            "callbacks": 2700
+          },
+          "applied_rotors_n": [
+            2.4525,
+            2.4525,
+            3.2025,
+            2.4525
+          ],
+          "wind_force_n": [
+            0,
+            0
+          ],
+          "steps": 20,
+          "physics_dt_s": 0.001,
+          "original_paused": true,
+          "mutation_started": true
+        }
+      },
+      {
+        "rotor_index": 3,
+        "expected_rate_sign": [
+          -1,
+          0,
+          -1
+        ],
+        "transition": {
+          "protocol": 2,
+          "id": 12,
+          "kind": "step",
+          "ok": true,
+          "source_sha256": "8b9a9581234d865677a21cbb9b4dfa90af0be1d06298bb0b2b9b236baa852bfc",
+          "before": {
+            "iterations": 2701,
+            "sim_time_s": 2.701,
+            "state": [
+              0,
+              0,
+              0.99999019,
+              0,
+              0,
+              0,
+              0,
+              0,
+              -0.009810000000000001,
+              0,
+              0,
+              0
+            ],
+            "paused": true,
+            "callbacks": 2701
+          },
+          "after": {
+            "iterations": 2721,
+            "sim_time_s": 2.721,
+            "state": [
+              9.319889030989385e-12,
+              5.090194468348744e-07,
+              0.9999516172482795,
+              -0.0013831950787356806,
+              -2.2543907312353514e-08,
+              -6.292912278366607e-05,
+              2.4389621397514137e-09,
+              9.251235095520316e-05,
+              0.005196392969280355,
+              -0.13159948934664237,
+              3.893779465738265e-06,
+              -0.005989877467393482
+            ],
+            "paused": true,
+            "callbacks": 2721
+          },
+          "applied_rotors_n": [
+            2.4525,
+            2.4525,
+            2.4525,
+            3.2025
+          ],
+          "wind_force_n": [
+            0,
+            0
+          ],
+          "steps": 20,
+          "physics_dt_s": 0.001,
+          "original_paused": true,
+          "mutation_started": true
+        }
+      },
+      {
+        "wind_x_n": 0.6,
+        "transition": {
+          "protocol": 2,
+          "id": 15,
+          "kind": "step",
+          "ok": true,
+          "source_sha256": "8b9a9581234d865677a21cbb9b4dfa90af0be1d06298bb0b2b9b236baa852bfc",
+          "before": {
+            "iterations": 2722,
+            "sim_time_s": 2.722,
+            "state": [
+              0,
+              0,
+              0.99999019,
+              0,
+              0,
+              0,
+              0,
+              0,
+              -0.009810000000000001,
+              0,
+              0,
+              0
+            ],
+            "paused": true,
+            "callbacks": 2722
+          },
+          "after": {
+            "iterations": 2742,
+            "sim_time_s": 2.742,
+            "state": [
+              0.00012590429168930892,
+              0,
+              0.9997942370242204,
+              0,
+              0,
+              0,
+              0.011986329844578631,
+              0,
+              -0.009786482820844938,
+              0,
+              0,
+              0
+            ],
+            "paused": true,
+            "callbacks": 2742
+          },
+          "applied_rotors_n": [
+            2.4525,
+            2.4525,
+            2.4525,
+            2.4525
+          ],
+          "wind_force_n": [
+            0.6,
+            0
+          ],
+          "steps": 20,
+          "physics_dt_s": 0.001,
+          "original_paused": true,
+          "mutation_started": true
+        }
+      }
+    ],
+    "runtime_log": "/tmp/gt-a49-native-dofe8p3e/sessions/classic11-noetic-49-20261104-014416-992270/runtime.log",
+    "owned_endpoint_and_processes_cleaned": true
+  },
+  "raw_artifact_sha256": {
+    ".deploy/addons/A49/artifacts/run-c0ef34f6f0764cfe9347cd76a42e1e12/report.json": "578c560b9391920746ec5374bd8cf91db7b61156fd513af313d946fb34b1a278",
+    ".deploy/addons/A49/artifacts/run-c0ef34f6f0764cfe9347cd76a42e1e12/flight-trace.jsonl": "60f05d45d75994764b70a475e4c866c49b13d88c0c0da705211469471c922276",
+    ".deploy/addons/A49/artifacts/run-bf2764e36683458089813360fbdb3e05/report.json": "11f5255a192404f5e8874a8143ac36c8b5795cb733ac1755ca3ad5a4e2c8bcb3",
+    ".deploy/addons/A49/artifacts/run-bf2764e36683458089813360fbdb3e05/flight-trace.jsonl": "ae37ac36fee3c5ba18069606a006b0758b78ede633e00bb721587d531e91f597"
+  },
+  "source_sha256": {
+    "courses/classic11_noetic/49-quadrotor-flight/controller.py": "dba4b249087bc701948729a7206e8c595420d3e63689ec5aa97eb2f69bb72486",
+    "courses/classic11_noetic/49-quadrotor-flight/lab.py": "e0c8ac55a617b705fbac145f5f341228f498eeb440fa15268e90654e8e5f4d59",
+    "courses/classic11_noetic/49-quadrotor-flight/learner.py": "01c118faa257df3da811af165ca9f8bd5df5c39d790e120a5f93990627401763",
+    "courses/classic11_noetic/49-quadrotor-flight/lesson.json": "d6e11a1706ed48bf0995865c9d263539e67aa6de9237bbc37158d13b9fbf9601",
+    "courses/classic11_noetic/49-quadrotor-flight/lesson.md": "2c762d599cc037a44ebf3f0cfa4e6a45423795b249f7e355e05f6aa8c406b619",
+    "courses/classic11_noetic/49-quadrotor-flight/plant.cc": "8b9a9581234d865677a21cbb9b4dfa90af0be1d06298bb0b2b9b236baa852bfc",
+    "courses/classic11_noetic/49-quadrotor-flight/plant.py": "487da26cd3dc4abc61b192a8bbd515338eb26a3c2a2f9b6aecde4bbbbbdb855f",
+    "courses/classic11_noetic/49-quadrotor-flight/prepare.py": "7e16e09dd558d2fb6e663e7b4acdd1c15e3bbf283bccafdd0d032a2ab51b9cea",
+    "courses/classic11_noetic/49-quadrotor-flight/reference.md": "fc69c0c4c1c1690791134be4bffad7ebc9d0a0a5dfa106da2c3037957527819f",
+    "courses/classic11_noetic/49-quadrotor-flight/reference.py": "f1153c2b9086b37cf438ecdedfdc006bcac629ef1288b032b3eb04436f5e0024",
+    "courses/classic11_noetic/49-quadrotor-flight/verify.py": "b238a2fce86fa354625497d35ae9c3080e415d37cb24b613565c0e8e85250433",
+    "courses/classic11_noetic/49-quadrotor-flight/world.sdf": "55f4071124ebcb0d7088a3e0e5bd33a96abf88f86b296049ab94d4d34d3f5035"
+  }
+}

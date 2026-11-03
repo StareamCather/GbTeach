@@ -1,0 +1,55 @@
+{
+  "id": "49",
+  "title": "四旋翼简易飞控：级联控制、混控与阵风恢复",
+  "module": "附加专项·学习控制与飞行",
+  "order": 49,
+  "profile": "classic11-noetic",
+  "requires_ros": false,
+  "requires_tools": [
+    "g++",
+    "pkg-config"
+  ],
+  "requires_pkg_config": {
+    "gazebo": "11.15.1"
+  },
+  "requires_native_server": true,
+  "requires_python_modules": [
+    "numpy"
+  ],
+  "world": "world.sdf",
+  "prepare": [
+    "python3 prepare.py"
+  ],
+  "prepare_timeout": 90,
+  "verify": "verify.py",
+  "verify_timeout": 150,
+  "reference": "reference.md",
+  "objectives": [
+    "理解世界/机体坐标、总推力与三个力矩",
+    "填写高度PID和四旋翼混控关键公式",
+    "用实际六自由度刚体飞行轨迹验证悬停和外力恢复"
+  ],
+  "commands": [
+    {
+      "title": "完整参考实验（不计作业完成）",
+      "command": "python3 lab.py demo"
+    },
+    {
+      "title": "编辑关键代码",
+      "command": "gedit --new-window learner.py"
+    },
+    {
+      "title": "检查个人代数实现",
+      "command": "python3 lab.py student-check"
+    },
+    {
+      "title": "执行个人实现与真实物理验收",
+      "command": "python3 lab.py student"
+    }
+  ],
+  "graceful_server_shutdown": true,
+  "owned_socket_prefix": "gt-quad-",
+  "after_startup": [
+    "python3 lab.py ready"
+  ]
+}
