@@ -56,5 +56,32 @@
       "name": "URDF与关节桥接launch",
       "command": "ros2 launch ./robot.launch.py"
     }
-  ]
+  ],
+  "variants": {
+    "fortress-humble": {
+      "world": "world.fortress.sdf",
+      "commands": [
+        {
+          "title": "验证原生关节、URDF TF 和停车",
+          "command": "python3 lab.py"
+        },
+        {
+          "title": "查看实际关节状态",
+          "command": "ros2 topic echo /joint_states --once --no-daemon"
+        },
+        {
+          "title": "查看 launch 参数",
+          "command": "ros2 launch ./robot.launch.py --show-args"
+        },
+        {
+          "title": "查看原生连杆位姿",
+          "command": "ign topic -e -t /model/urdf_arm/pose -n 1"
+        },
+        {
+          "title": "查看转换后的 SDF",
+          "command": "less build/robot.converted.sdf"
+        }
+      ]
+    }
+  }
 }

@@ -6,21 +6,27 @@ from pathlib import Path
 import xml.etree.ElementTree as ET
 
 import _bootstrap  # Adds the installed course support directory.
-from common import run, service
+from common import FORTRESS, SIM_CLI, SYSTEM_NAMESPACE, run, service
 
 
 def main():
     urdf = Path("robot.urdf").resolve()
-    converted = run(["gz", "sdf", "-p", str(urdf)], timeout=10)
+    converted = run([SIM_CLI, "sdf", "-p", str(urdf)], timeout=10)
     root = ET.fromstring(converted[converted.index("<sdf"):].strip())
     model = root.find("model")
     if model is None:
         raise RuntimeError("URDF conversion did not produce an SDF model")
     joints = {row.get("name"): row.get("type") for row in model.findall("joint")}
     links = {row.get("name") for row in model.findall("link")}
+    if FORTRESS:
+        for plugin in model.findall("plugin"):
+            name, filename = plugin.get("name", ""), plugin.get("filename", "")
+            if name.startswith("gz::sim::systems::") and filename.startswith("gz-sim-"):
+                plugin.set("name", SYSTEM_NAMESPACE + name.removeprefix("gz::sim::systems::"))
+                plugin.set("filename", "ignition-gazebo-" + filename.removeprefix("gz-sim-"))
     plugins = {row.get("name") for row in model.findall("plugin")}
-    expected_plugins = {"gz::sim::systems::JointStatePublisher",
-                        "gz::sim::systems::JointPositionController", "gz::sim::systems::PosePublisher"}
+    expected_plugins = {SYSTEM_NAMESPACE + name for name in
+                        ("JointStatePublisher", "JointPositionController", "PosePublisher")}
     if (not {"base", "arm", "tool"} <= links or joints.get("shoulder") != "revolute"
             or joints.get("anchor") != "fixed" or joints.get("tool_mount") != "fixed"
             or not expected_plugins <= plugins):

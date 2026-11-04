@@ -9,11 +9,11 @@ import time
 from uuid import uuid4
 
 import _bootstrap  # Adds the installed course support directory.
-from common import ensure_running, result, topic, yaw
+from common import FORTRESS, ensure_running, result, topic, yaw
 
 import rclpy
+from rcl_interfaces.srv import GetParameters
 from rclpy.node import Node
-from rclpy.parameter_client import AsyncParameterClient
 from rclpy.qos import qos_profile_sensor_data
 from rclpy.signals import SignalHandlerOptions
 from rclpy.time import Time
@@ -53,7 +53,8 @@ def native_joint():
 
 
 def native_links():
-    poses = topic("/gt/arm_link_poses", timeout=4).get("pose", [])
+    pose_topic = "/model/urdf_arm/pose" if FORTRESS else "/gt/arm_link_poses"
+    poses = topic(pose_topic, timeout=4).get("pose", [])
     links = {item.get("name", "").split("::")[-1]: item for item in poses}
     if not {"base", "arm", "tool"} <= links.keys():
         raise RuntimeError(f"Missing native link poses: {list(links)}")
@@ -94,7 +95,7 @@ def experiment():
 
     node.create_subscription(JointState, "/joint_states", observe, qos_profile_sensor_data)
     publisher = node.create_publisher(Float64, "/gt/shoulder", 10)
-    parameter_client = AsyncParameterClient(node, "/m25_state_publisher")
+    parameter_client = node.create_client(GetParameters, "/m25_state_publisher/get_parameters")
 
     def wait(predicate, description, timeout=10):
         deadline = time.monotonic() + timeout
@@ -106,9 +107,9 @@ def experiment():
         raise RuntimeError("Timed out waiting for " + description)
 
     def verify_description():
-        if not parameter_client.wait_for_services(timeout_sec=8):
+        if not parameter_client.wait_for_service(timeout_sec=8):
             raise RuntimeError("Actual robot_state_publisher parameter services missing")
-        future = parameter_client.get_parameters(["robot_description", "use_sim_time"])
+        future = parameter_client.call_async(GetParameters.Request(names=["robot_description", "use_sim_time"]))
         wait(future.done, "robot_state_publisher parameters")
         description, use_sim_time = future.result().values
         expected = Path("robot.urdf").read_text(encoding="utf-8")

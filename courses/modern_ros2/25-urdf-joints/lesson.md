@@ -2,6 +2,8 @@
 
 机械臂在Gazebo里转过一个角度，ROS 2中的TF怎样知道它转了多少？本课把同一份机器人描述交给Harmonic和robot_state_publisher，再用真实关节反馈核对TF。建议先完成M24的变换方向与时间查询。
 
+Fortress/Humble 从同一个个人 `robot.urdf` 读取运动学描述，并通过 `ign sdf -p` 生成 SDF。生成文件的系统插件名转换为 Fortress 的名称，连杆与关节保持原有校验。Fortress 的 PosePublisher 把位姿发布到 `/model/urdf_arm/pose`，可用 `ign topic -e -t /model/urdf_arm/pose -n 1` 观察。检查程序通过标准 `GetParameters` 服务核对 RSP 的原始 URDF，再以实测关节时刻查询 TF。[Fortress PosePublisher 源码](https://github.com/gazebosim/gz-sim/blob/ign-gazebo6/src/systems/pose_publisher/PosePublisher.cc)
+
 ## 一个URDF，两条消费路径
 
 URDF描述机器人树。link保存连杆几何、惯性与碰撞。joint指定父子连杆、安装位姿、运动轴、类型和边界。转动关节的`origin`先定位关节坐标系，`axis`在该坐标系中给出转轴。改变几何尺寸后也应核对质量、质心和惯性。在相同质量、细杆近似下，长度增加会按平方增大垂直于杆轴的转动惯量。
