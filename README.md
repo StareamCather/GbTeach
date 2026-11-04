@@ -2,15 +2,15 @@
 
 GazeboTeach 是中文桌面教学工作台，通过真实 Gazebo 场景、终端和观测数据学习建模、物理、传感器、ROS 集成与插件开发。
 
-**当前源码有 62 个独立项目。** Classic 11／Noetic 有 55 个，七门 ROS 2 专项可选 Jazzy／Harmonic 或 Humble／Fortress。课表按运行配置列出 69 个入口，练习和学习记录按课包区分。
+**v2.2.0 有 62 个独立项目。** Classic 11／Noetic 有 55 个，七门 ROS 2 专项可选 Jazzy／Harmonic 或 Humble／Fortress。课表按运行配置列出 69 个入口，练习和学习记录按课包区分。
 
-[2.1 安装运行指南](docs/V2_1_INSTALL.md) · [专项课表](docs/EXPANSION_PLAN.md) · [逐阶段验证](docs/EXPANSION_VALIDATION.md) · [ROS 2 / Gazebo Sim 环境](docs/MODERN_GAZEBO.md) · [2.1 发行资源](https://github.com/StareamCather/GazeboTeach/releases/tag/v2.1.0)
+[2.2 安装部署指南](docs/V2_2_INSTALL.md) · [2.2 验收记录](docs/V2_2_VERIFICATION.json) · [专项课表](docs/EXPANSION_PLAN.md) · [ROS 2 / Gazebo Sim 环境](docs/MODERN_GAZEBO.md) · [2.2 发行资源](https://github.com/StareamCather/GazeboTeach/releases/tag/v2.2.0)
 
-ikaros 原生 Ubuntu 20.04 用于 Classic／Noetic。ROS 2 课程分别在 Ubuntu 24.04 的 Jazzy／Harmonic 和 Ubuntu 22.04 的 Humble／Fortress GPU 容器验证。使用 Humble 时从当前源码运行 `./launch.sh --profile fortress-humble`，依赖和检查命令见 ROS 2 指南。上面的 v2.1.0 发行链接指向此前的安装包。
+ikaros 原生 Ubuntu 20.04 用于 Classic／Noetic。ROS 2 课程分别在 Ubuntu 24.04 的 Jazzy／Harmonic 和 Ubuntu 22.04 的 Humble／Fortress GPU 容器验证。下载 v2.2.0 安装器后，在 Linux 图形环境运行 `bash GazeboTeach-2.2.0-linux-x86_64.sh`，再用安装入口启动。原生依赖、Docker 手动部署、升级和验证命令见安装部署指南。
 
 ![V2启动环境检测](docs/images/v2-environment.png)
 
-历史发行版 [V2.0](https://github.com/StareamCather/GazeboTeach/releases/tag/v2.0.0) 保留原 39 个项目。V1 保留 24 门主课及 2 项选做的历史快照，见[V1指南](docs/V1_INSTALL.md)与[V1发行资源](https://github.com/StareamCather/GazeboTeach/releases/tag/v1.0.0)。
+历史发行版 [V2.1](https://github.com/StareamCather/GazeboTeach/releases/tag/v2.1.0) 提供 Classic／Noetic 与 Jazzy／Harmonic 的 62 个项目。[V2.0](https://github.com/StareamCather/GazeboTeach/releases/tag/v2.0.0) 包含原 39 个项目。V1 的 24 门主课及 2 项选做见[V1指南](docs/V1_INSTALL.md)与[V1发行资源](https://github.com/StareamCather/GazeboTeach/releases/tag/v1.0.0)。
 
 在已验证的 Classic 11.15.1 SDK 环境中，暂停、单步和模型复位复用持久原生连接，逐次检查真实状态并在退出时完成线程清理；详见[控制后端与算法](docs/NATIVE_CONTROL.md)。缺少匹配SDK时会明确报告原有CLI后端。
 

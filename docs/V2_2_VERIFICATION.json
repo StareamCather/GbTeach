@@ -1,0 +1,354 @@
+{
+  "schema_version": 1,
+  "passed": true,
+  "tested_code_commit": "aa9011c8330f3feaee75c1f2ac0b5f64aa3392e7",
+  "classic_baseline_commit": "e9e1387b504d145e8e96856e308062ea904d31e5",
+  "classic_baseline_verification_sha256": "9b0c97e00aa961714e26d98bd4d64058c98f84c2b0fe7fb38039b61f0115ac7d",
+  "profiles": {
+    "classic11-noetic": {
+      "passed": true,
+      "course_count": 55,
+      "cases": [
+        {
+          "id": "01",
+          "gui_requested": false,
+          "returncode": 0,
+          "elapsed_seconds": 18.805,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "verification": {
+            "passed": true,
+            "returncode": 0,
+            "log": "/home/ikaros/GazeboTeach/.deploy/release22/final-classic/lesson-01/data/sessions/classic11-noetic-01-20261104-111913-109551/runtime.log"
+          },
+          "error": null,
+          "passed": true,
+          "owned_leftovers": {
+            "f7ddc7cb15354538be60a3cce787bba3": []
+          }
+        }
+      ],
+      "report_sha256": "6e2401800732d106f14dddb9c5c3a575e4f8bdf5cdaf43eab87e17319d679d6f",
+      "scope": "current representative course plus unchanged historical full baseline"
+    },
+    "fortress-humble": {
+      "passed": true,
+      "course_count": 7,
+      "cases": [
+        {
+          "id": "01",
+          "gui_requested": true,
+          "returncode": 0,
+          "elapsed_seconds": 14.795,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "verification": {
+            "passed": true,
+            "returncode": 0,
+            "log": "/tmp/gt-release22-fortress-aa9011c/lesson-01/data/sessions/fortress-humble-01-20261104-111457-501516/runtime.log"
+          },
+          "error": null,
+          "passed": true,
+          "owned_leftovers": {
+            "a7c87c6d3dfc4cd3ac03803ed376e725": []
+          }
+        },
+        {
+          "id": "11",
+          "gui_requested": true,
+          "returncode": 0,
+          "elapsed_seconds": 16.558,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "verification": {
+            "passed": true,
+            "returncode": 0,
+            "log": "/tmp/gt-release22-fortress-aa9011c/lesson-11/data/sessions/fortress-humble-11-20261104-111512-321855/runtime.log"
+          },
+          "error": null,
+          "passed": true,
+          "owned_leftovers": {
+            "602273056a7c412fa2a9a7b2bacb1574": []
+          }
+        },
+        {
+          "id": "22",
+          "gui_requested": true,
+          "returncode": 0,
+          "elapsed_seconds": 11.248,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "verification": {
+            "passed": true,
+            "returncode": 0,
+            "log": "/tmp/gt-release22-fortress-aa9011c/lesson-22/data/sessions/fortress-humble-22-20261104-111528-882593/runtime.log"
+          },
+          "error": null,
+          "passed": true,
+          "owned_leftovers": {
+            "47a09650dd394719a8ed0d29f2e84a2c": []
+          }
+        },
+        {
+          "id": "23",
+          "gui_requested": true,
+          "returncode": 0,
+          "elapsed_seconds": 16.713,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "verification": {
+            "passed": true,
+            "returncode": 0,
+            "log": "/tmp/gt-release22-fortress-aa9011c/lesson-23/data/sessions/fortress-humble-23-20261104-111540-124412/runtime.log"
+          },
+          "error": null,
+          "passed": true,
+          "owned_leftovers": {
+            "826e7fd7b86f4605b95d8b6303941cbc": []
+          }
+        },
+        {
+          "id": "24",
+          "gui_requested": true,
+          "returncode": 0,
+          "elapsed_seconds": 16.203,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "verification": {
+            "passed": true,
+            "returncode": 0,
+            "log": "/tmp/gt-release22-fortress-aa9011c/lesson-24/data/sessions/fortress-humble-24-20261104-111556-849200/runtime.log"
+          },
+          "error": null,
+          "passed": true,
+          "owned_leftovers": {
+            "d62af8029b234ed090627f69d584f3f8": []
+          }
+        },
+        {
+          "id": "25",
+          "gui_requested": true,
+          "returncode": 0,
+          "elapsed_seconds": 14.151,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "verification": {
+            "passed": true,
+            "returncode": 0,
+            "log": "/tmp/gt-release22-fortress-aa9011c/lesson-25/data/sessions/fortress-humble-25-20261104-111613-046439/runtime.log"
+          },
+          "error": null,
+          "passed": true,
+          "owned_leftovers": {
+            "f3f6882fce824ef2b5e9e5cd7bb3f02f": []
+          }
+        },
+        {
+          "id": "26",
+          "gui_requested": true,
+          "returncode": 0,
+          "elapsed_seconds": 16.158,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "verification": {
+            "passed": true,
+            "returncode": 0,
+            "log": "/tmp/gt-release22-fortress-aa9011c/lesson-26/data/sessions/fortress-humble-26-20261104-111627-209105/runtime.log"
+          },
+          "error": null,
+          "passed": true,
+          "owned_leftovers": {
+            "e513984100924cfa8ae593f1a1c3cc3d": []
+          }
+        }
+      ],
+      "report_sha256": "3aa409b578c65616d2f6fa190c1c2fcdcbd37e8b264b842fa9f0576fd50ffbf5",
+      "scope": "current full profile"
+    },
+    "harmonic-jazzy": {
+      "passed": true,
+      "course_count": 7,
+      "cases": [
+        {
+          "id": "01",
+          "gui_requested": false,
+          "returncode": 0,
+          "elapsed_seconds": 8.635,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "verification": {
+            "passed": true,
+            "returncode": 0,
+            "log": "/tmp/gt-release22-jazzy-aa9011c/lesson-01/data/sessions/harmonic-jazzy-01-20261104-111643-666855/runtime.log"
+          },
+          "error": null,
+          "passed": true,
+          "owned_leftovers": {
+            "3477526785b746c28e0ccfd4a5febf03": []
+          }
+        },
+        {
+          "id": "11",
+          "gui_requested": false,
+          "returncode": 0,
+          "elapsed_seconds": 11.387,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "verification": {
+            "passed": true,
+            "returncode": 0,
+            "log": "/tmp/gt-release22-jazzy-aa9011c/lesson-11/data/sessions/harmonic-jazzy-11-20261104-111652-314191/runtime.log"
+          },
+          "error": null,
+          "passed": true,
+          "owned_leftovers": {
+            "b34b7c126abf4e3e8886d70f4124468a": []
+          }
+        },
+        {
+          "id": "22",
+          "gui_requested": false,
+          "returncode": 0,
+          "elapsed_seconds": 5.427,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "verification": {
+            "passed": true,
+            "returncode": 0,
+            "log": "/tmp/gt-release22-jazzy-aa9011c/lesson-22/data/sessions/harmonic-jazzy-22-20261104-111703-717638/runtime.log"
+          },
+          "error": null,
+          "passed": true,
+          "owned_leftovers": {
+            "f6b11d987d584b6fa74edd6dcd66593a": []
+          }
+        },
+        {
+          "id": "23",
+          "gui_requested": true,
+          "returncode": 0,
+          "elapsed_seconds": 16.155,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "verification": {
+            "passed": true,
+            "returncode": 0,
+            "log": "/tmp/gt-release22-jazzy-23-retry/lesson-23/data/sessions/harmonic-jazzy-23-20261104-111854-627539/runtime.log"
+          },
+          "error": null,
+          "passed": true,
+          "owned_leftovers": {
+            "9691ba91be99461a95853c6750f7bdd9": []
+          }
+        },
+        {
+          "id": "24",
+          "gui_requested": false,
+          "returncode": 0,
+          "elapsed_seconds": 8.889,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "verification": {
+            "passed": true,
+            "returncode": 0,
+            "log": "/tmp/gt-release22-jazzy-aa9011c/lesson-24/data/sessions/harmonic-jazzy-24-20261104-111727-608132/runtime.log"
+          },
+          "error": null,
+          "passed": true,
+          "owned_leftovers": {
+            "35493f3a64da46f7b5120eac868b7483": []
+          }
+        },
+        {
+          "id": "25",
+          "gui_requested": false,
+          "returncode": 0,
+          "elapsed_seconds": 9.387,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "verification": {
+            "passed": true,
+            "returncode": 0,
+            "log": "/tmp/gt-release22-jazzy-aa9011c/lesson-25/data/sessions/harmonic-jazzy-25-20261104-111736-518501/runtime.log"
+          },
+          "error": null,
+          "passed": true,
+          "owned_leftovers": {
+            "27c0f02f18a44c3792a8076aef6f316d": []
+          }
+        },
+        {
+          "id": "26",
+          "gui_requested": false,
+          "returncode": 0,
+          "elapsed_seconds": 10.285,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "verification": {
+            "passed": true,
+            "returncode": 0,
+            "log": "/tmp/gt-release22-jazzy-aa9011c/lesson-26/data/sessions/harmonic-jazzy-26-20261104-111745-901308/runtime.log"
+          },
+          "error": null,
+          "passed": true,
+          "owned_leftovers": {
+            "36eb4e3cf56c4033a1e31e2704bd6729": []
+          }
+        }
+      ],
+      "report_sha256": "284aa365e3c28820e5193d01265bfbb45082d2b8aaaac2d3762d9160c2ca7db6",
+      "scope": "current full profile"
+    }
+  },
+  "unit_tests": {
+    "classic": {
+      "passed": true,
+      "count": 286,
+      "log_sha256": "8a982d686de6bb0aec40e4f3e039cda53f731b1d7815edcd75bf93f25ba3c2b7"
+    },
+    "humble": {
+      "passed": true,
+      "count": 286,
+      "log_sha256": "79301a4ab0c1ae127ba00f8794a37272bafb014fa1d654513b7e4338ce6f5c33"
+    },
+    "jazzy": {
+      "passed": true,
+      "count": 286,
+      "log_sha256": "da4166a813fb8f18d31d9863ab7c44bcd0515019032d9cf804b1d568d2b97ca3"
+    }
+  },
+  "failures_and_retries": [
+    {
+      "profile": "harmonic-jazzy",
+      "initial_failed_cases": [
+        {
+          "id": "23",
+          "gui_requested": false,
+          "returncode": 1,
+          "elapsed_seconds": 18.445,
+          "source_unchanged": true,
+          "private_learner_preserved": true,
+          "verification": {
+            "passed": false,
+            "returncode": 1,
+            "log": "/tmp/gt-release22-jazzy-aa9011c/lesson-23/data/sessions/harmonic-jazzy-23-20261104-111709-217978/runtime.log"
+          },
+          "error": null,
+          "passed": false,
+          "owned_leftovers": {
+            "a5c4433950bc41e48d1cea85602c41fa": []
+          }
+        }
+      ],
+      "initial_report_sha256": "284aa365e3c28820e5193d01265bfbb45082d2b8aaaac2d3762d9160c2ca7db6",
+      "retry_report_sha256": "ae688ad156035d7af521c451d9ec8127285d54b2e50606415447f9d439b6fadb",
+      "cause": "Rail controller rejected stale joint feedback; fresh serial GUI retry required."
+    }
+  ],
+  "installation_verification": "The exact built assets receive separate representative GUI installation checks before publication.",
+  "tested_environments": {
+    "classic11-noetic": "Ubuntu 20.04 native / Classic 11.15.1 / Noetic",
+    "fortress-humble": "Ubuntu 22.04.5 GPU container / Fortress 6.18.0 / Humble",
+    "harmonic-jazzy": "Ubuntu 24.04 GPU container / Harmonic 8.15.0 / Jazzy"
+  }
+}

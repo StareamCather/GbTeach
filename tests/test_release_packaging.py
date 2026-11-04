@@ -71,6 +71,7 @@ class ReleasePackagingTests(unittest.TestCase):
         cls.installer = cls.output / "GazeboTeach-2.0.0-ubuntu20.04-x86_64.sh"
         cls.installer_python = cls.embedded_python(cls.installer)
         cls.add_expansion_fixtures()
+        cls.add_compatibility_fixtures()
 
     @classmethod
     def add_expansion_fixtures(cls):
@@ -116,6 +117,68 @@ class ReleasePackagingTests(unittest.TestCase):
         cls.git("add", ".")
         cls.git("commit", "-qm", "Rejected untested code fixture")
         cls.untested_code_commit = cls.git("rev-parse", "HEAD").strip()
+
+    @classmethod
+    def add_compatibility_fixtures(cls):
+        cls.git("checkout", "-q", cls.expansion_commit)
+        cls.git("tag", "v2.1.0")
+        for lesson in (cls.repo/"courses/modern_ros2").glob("*/lesson.json"):
+            item = json.loads(lesson.read_text(encoding="utf-8"))
+            item["variants"] = {"fortress-humble": {"world": "world.fortress.sdf"}}
+            lesson.write_text(json.dumps(item), encoding="utf-8")
+            (lesson.parent/"world.fortress.sdf").write_text("<sdf version='1.9'/>\n", encoding="utf-8")
+        cls.git("add", ".")
+        cls.git("commit", "-qm", "Compatibility tested code fixture")
+        cls.tested_compatibility = cls.git("rev-parse", "HEAD").strip()
+        cls.compatibility_documents = ("V2_2_INSTALL.md", "V2_2_VERIFICATION.json")
+        (cls.repo/"docs/V2_2_INSTALL.md").write_text("Compatibility installation fixture\n", encoding="utf-8")
+        cls.compatibility_report = {
+            "schema_version": 1, "passed": True,
+            "tested_code_commit": cls.tested_compatibility,
+            "classic_baseline_commit": cls.expansion_commit,
+            "profiles": {
+                "classic11-noetic": {"passed": True, "course_count": 55, "cases": [{"id": "01", "passed": True}]},
+                **{profile: {"passed": True, "course_count": 7,
+                             "cases": [{"id": key, "passed": True} for key in ("01", "11", "22", "23", "24", "25", "26")]}
+                   for profile in ("harmonic-jazzy", "fortress-humble")},
+            },
+        }
+        cls.compatibility_proof = cls.repo/"docs/V2_2_VERIFICATION.json"
+        cls.compatibility_proof.write_text(json.dumps(cls.compatibility_report), encoding="utf-8")
+        (cls.repo/"gazeboteach/__init__.py").write_bytes(b'__version__ = "2.2.0"\n')
+        cls.git("add", ".")
+        cls.git("commit", "-qm", "Complete compatibility release fixture")
+        cls.compatibility_commit = cls.git("rev-parse", "HEAD").strip()
+        cls.compatibility_rejections = []
+        mutations = (
+            ("passed evidence for fortress-humble", "failed-modern"),
+            ("representative regression", "missing-classic"),
+            ("historical V2.1 verification was changed", "historical-proof"),
+            ("Classic course files differ", "changed-classic"),
+            ("application or course changes", "untested-modern"),
+            ("lacks its tracked world", "missing-world"),
+        )
+        for expected, mutation in mutations:
+            cls.git("checkout", "-q", cls.compatibility_commit)
+            report = json.loads(json.dumps(cls.compatibility_report))
+            if mutation == "failed-modern":
+                report["profiles"]["fortress-humble"]["cases"][0]["passed"] = False
+                cls.compatibility_proof.write_text(json.dumps(report), encoding="utf-8")
+            elif mutation == "missing-classic":
+                report["profiles"]["classic11-noetic"]["cases"] = []
+                cls.compatibility_proof.write_text(json.dumps(report), encoding="utf-8")
+            elif mutation == "historical-proof":
+                path = cls.repo/"docs/EXPANSION_VERIFICATION.json"
+                path.write_bytes(path.read_bytes()+b"\n")
+            elif mutation == "changed-classic":
+                (cls.repo/"courses/classic11_noetic/01-fixture/unaccepted.txt").write_text("changed\n")
+            elif mutation == "untested-modern":
+                (cls.repo/"courses/modern_ros2/01-fixture/lab.py").write_text("# changed after test\n")
+            elif mutation == "missing-world":
+                cls.git("rm", "courses/modern_ros2/01-fixture/world.fortress.sdf")
+            cls.git("add", ".")
+            cls.git("commit", "-qm", "Rejected compatibility fixture "+mutation)
+            cls.compatibility_rejections.append((cls.git("rev-parse", "HEAD").strip(), expected))
 
     @staticmethod
     def embedded_python(installer):
@@ -213,6 +276,39 @@ class ReleasePackagingTests(unittest.TestCase):
         for revision, message in cases:
             with self.subTest(revision=revision), self.assertRaises(subprocess.CalledProcessError) as caught:
                 self.build(self.base/"rejected-expansion", "--version", "2.1.0", "--revision", revision)
+            self.assertIn(message, caught.exception.stderr)
+
+    def test_compatibility_includes_declared_variants_and_six_verified_assets(self):
+        output = self.base/"compatibility-artifacts"
+        self.build(output, "--version", "2.2.0", "--revision", self.compatibility_commit)
+        manifest = json.loads((output/"release-manifest.json").read_text(encoding="utf-8"))
+        self.assertEqual(manifest["course_count"], 69)
+        self.assertEqual(manifest["project_count"], 62)
+        self.assertEqual(manifest["course_counts_by_profile"],
+                         {"classic11-noetic": 55, "harmonic-jazzy": 7, "fortress-humble": 7})
+        self.assertEqual(manifest["tested_platforms"]["fortress-humble"]["version"], "22.04")
+        self.assertEqual(manifest["verification"]["tested_code_commit"], self.tested_compatibility)
+        self.assertEqual(manifest["verification"]["classic_baseline_commit"], self.expansion_commit)
+        self.assertEqual(manifest["verification"]["classic_baseline_verification_sha256"],
+                         manifest["files"]["docs/EXPANSION_VERIFICATION.json"]["sha256"])
+        self.assertEqual({item["profile"] for item in manifest["courses"] if item["id"] == "01"},
+                         {"classic11-noetic", "harmonic-jazzy", "fortress-humble"})
+        expected_assets = {"GazeboTeach-2.2.0-linux-x86_64.sh", "GazeboTeach-2.2.0-linux-x86_64.tar.gz",
+                           "release-manifest.json", "SHA256SUMS", *self.compatibility_documents}
+        self.assertEqual({path.name for path in output.iterdir()}, expected_assets)
+        installer = output/"GazeboTeach-2.2.0-linux-x86_64.sh"
+        checked = subprocess.run([sys.executable, "-c", self.embedded_python(installer), str(installer), "--check"],
+                                 check=True, capture_output=True, text=True)
+        self.assertEqual(json.loads(checked.stdout)["course_count"], 69)
+        second = self.base/"compatibility-repeat"
+        self.build(second, "--version", "2.2.0", "--revision", self.compatibility_commit)
+        for path in output.iterdir():
+            self.assertEqual(path.read_bytes(), (second/path.name).read_bytes())
+
+    def test_compatibility_rejects_missing_proof_changed_baseline_and_untested_code(self):
+        for revision, message in self.compatibility_rejections:
+            with self.subTest(revision=revision), self.assertRaises(subprocess.CalledProcessError) as caught:
+                self.build(self.base/"rejected-compatibility", "--version", "2.2.0", "--revision", revision)
             self.assertIn(message, caught.exception.stderr)
 
     def test_dirty_tracked_source_is_rejected(self):

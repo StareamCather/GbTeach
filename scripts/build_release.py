@@ -19,6 +19,10 @@ EXPANSION_COURSE_IDS = {
 }
 EXPANSION_VERIFICATION = "EXPANSION_VERIFICATION.json"
 EXPANSION_DOCUMENTS = ("V2_1_INSTALL.md", "EXPANSION_VALIDATION.md", EXPANSION_VERIFICATION)
+COMPATIBILITY_COURSE_IDS = {**EXPANSION_COURSE_IDS,
+                            "fortress-humble": set(EXPANSION_COURSE_IDS["harmonic-jazzy"])}
+COMPATIBILITY_VERIFICATION = "V2_2_VERIFICATION.json"
+COMPATIBILITY_DOCUMENTS = ("V2_2_INSTALL.md", COMPATIBILITY_VERIFICATION)
 
 
 def git(root, *arguments, **kwargs):
@@ -107,6 +111,105 @@ def expansion_verification(root, commit, files, lessons, version):
             "tested_code_commit": tested}
 
 
+def compatibility_lessons(files):
+    """Read declared variants directly from immutable manifest bytes."""
+    lessons = []
+    projects = 0
+    for name, (content, _) in files.items():
+        if not (name.startswith("courses/") and name.endswith("/lesson.json")):
+            continue
+        item = json.loads(content.decode("utf-8"))
+        lessons.append({key: item[key] for key in ("id", "title", "profile")})
+        projects += 1
+        variants = item.get("variants", {})
+        if not isinstance(variants, dict):
+            raise RuntimeError("V2.2 lesson variants must map profiles to override objects")
+        for profile, override in variants.items():
+            if (item["profile"] != "harmonic-jazzy" or profile != "fortress-humble"
+                    or not isinstance(override, dict) or {"id", "profile", "variants"} & override.keys()):
+                raise RuntimeError("V2.2 invalid course variant: "+name)
+            variant = {**item, **override, "profile": profile}
+            world = PurePosixPath(variant.get("world", "world.sdf"))
+            world_name = (PurePosixPath(name).parent/world).as_posix()
+            if world.is_absolute() or ".." in world.parts or world_name not in files:
+                raise RuntimeError("V2.2 course variant lacks its tracked world: "+name)
+            lessons.append({key: variant[key] for key in ("id", "title", "profile")})
+    return lessons, projects
+
+
+def passed_cases(evidence, expected, label):
+    cases = evidence.get("cases") if isinstance(evidence, dict) else None
+    if (not isinstance(evidence, dict) or evidence.get("passed") is not True
+            or type(evidence.get("course_count")) is not int or evidence["course_count"] != len(expected)
+            or not isinstance(cases, list) or len(cases) != len(expected)
+            or {case.get("id") for case in cases if isinstance(case, dict) and case.get("passed") is True} != expected):
+        raise RuntimeError("V2.2 verification lacks passed evidence for "+label)
+
+
+def compatibility_verification(root, commit, files, lessons, projects, version):
+    expected = {(profile, lesson_id) for profile, ids in COMPATIBILITY_COURSE_IDS.items() for lesson_id in ids}
+    if projects != 62 or len(lessons) != 69 or {(item["profile"], item["id"]) for item in lessons} != expected:
+        raise RuntimeError("V2.2 requires 62 projects and 69 entries across Classic, Harmonic and Fortress")
+    for name in ("resources/native_control.cc", "gazeboteach/native_control.py", "gazeboteach/backends.py",
+                 "docs/"+EXPANSION_VERIFICATION, *("docs/"+name for name in COMPATIBILITY_DOCUMENTS)):
+        if name not in files:
+            raise RuntimeError("V2.2 tracked source payload is incomplete: "+name)
+    content = files["docs/"+COMPATIBILITY_VERIFICATION][0]
+    report = json.loads(content.decode("utf-8"))
+    if not isinstance(report, dict) or report.get("schema_version") != 1 or report.get("passed") is not True:
+        raise RuntimeError("V2.2 requires a passed schema_version 1 verification report")
+    tested, baseline = report.get("tested_code_commit"), report.get("classic_baseline_commit")
+    if any(not isinstance(value, str) or not re.fullmatch(r"[0-9a-f]{40}", value) for value in (tested, baseline)):
+        raise RuntimeError("V2.2 verification requires full tested and baseline commit SHAs")
+    tag = git(root, "rev-parse", "--verify", "refs/tags/v2.1.0^{commit}").decode().strip()
+    if baseline != tag:
+        raise RuntimeError("V2.2 Classic baseline must be the published v2.1.0 tag")
+    for ancestor, descendant in ((baseline, tested), (tested, commit)):
+        if subprocess.run(["git", "-C", str(root), "merge-base", "--is-ancestor", ancestor, descendant],
+                          stdout=subprocess.PIPE, stderr=subprocess.PIPE).returncode:
+            raise RuntimeError("V2.2 baseline and tested code must be ancestors of the release")
+    baseline_proof = git(root, "show", baseline+":docs/"+EXPANSION_VERIFICATION)
+    if files["docs/"+EXPANSION_VERIFICATION][0] != baseline_proof:
+        raise RuntimeError("V2.2 historical V2.1 verification was changed")
+    old = json.loads(baseline_proof.decode("utf-8"))
+    old_profiles = old.get("profiles", {}) if isinstance(old, dict) else {}
+    if set(old_profiles) != set(EXPANSION_COURSE_IDS):
+        raise RuntimeError("V2.2 historical V2.1 verification profile scope differs")
+    for profile, ids in EXPANSION_COURSE_IDS.items():
+        passed_cases(old_profiles[profile], ids, "historical "+profile)
+    if git(root, "diff", "--name-only", "-z", baseline, commit, "--", "courses/classic11_noetic").strip(b"\0"):
+        raise RuntimeError("V2.2 Classic course files differ from the accepted V2.1 baseline")
+    changed = set(git(root, "diff", "--name-only", "-z", tested, commit).decode("utf-8").split("\0"))
+    version_path = "gazeboteach/__init__.py"
+    if version_path in changed:
+        before = git(root, "show", tested+":"+version_path)
+        expected_version, count = re.subn(rb'(?m)^__version__ = "2\.1\.0"$',
+                                         b'__version__ = "'+version.encode("ascii")+b'"', before)
+        before_mode = git(root, "ls-tree", tested, "--", version_path).split(b" ", 1)[0]
+        if count == 1 and files.get(version_path) == (expected_version, 0o644) and before_mode == b"100644":
+            changed.remove(version_path)
+    if any(path and path != "README.md" and not path.startswith(("docs/", "scripts/", "tests/")) for path in changed):
+        raise RuntimeError("V2.2 release contains application or course changes after tested_code_commit")
+    profiles = report.get("profiles")
+    if not isinstance(profiles, dict) or set(profiles) != set(COMPATIBILITY_COURSE_IDS):
+        raise RuntimeError("V2.2 verification must describe exactly three course profiles")
+    for profile in ("harmonic-jazzy", "fortress-humble"):
+        passed_cases(profiles[profile], COMPATIBILITY_COURSE_IDS[profile], profile)
+    classic = profiles["classic11-noetic"]
+    cases = classic.get("cases") if isinstance(classic, dict) else None
+    if (not isinstance(classic, dict) or classic.get("passed") is not True
+            or type(classic.get("course_count")) is not int or classic["course_count"] != 55
+            or not isinstance(cases, list) or not cases
+            or len({case.get("id") for case in cases if isinstance(case, dict)}) != len(cases)
+            or any(not isinstance(case, dict) or case.get("passed") is not True
+                   or case.get("id") not in COMPATIBILITY_COURSE_IDS["classic11-noetic"] for case in cases)
+            or "01" not in {case["id"] for case in cases}):
+        raise RuntimeError("V2.2 requires the current Classic 01 representative regression")
+    return {"asset": COMPATIBILITY_VERIFICATION, "sha256": hashlib.sha256(content).hexdigest(),
+            "tested_code_commit": tested, "classic_baseline_commit": baseline,
+            "classic_baseline_verification_sha256": hashlib.sha256(baseline_proof).hexdigest()}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--repo", type=Path, default=Path(__file__).resolve().parents[1])
@@ -120,8 +223,9 @@ def main():
     major, minor = map(int, version.groups())
     is_v2_legacy = (major, minor) == (2, 0)
     is_expansion = (major, minor) == (2, 1)
-    if major != 1 and not (is_v2_legacy or is_expansion):
-        raise ValueError("Supported release lines are 1.x, 2.0.x and 2.1.x")
+    is_compatibility = (major, minor) == (2, 2)
+    if major != 1 and not (is_v2_legacy or is_expansion or is_compatibility):
+        raise ValueError("Supported release lines are 1.x, 2.0.x, 2.1.x and 2.2.x")
     root = args.repo.resolve()
     if git(root, "status", "--porcelain", "--untracked-files=no").strip():
         raise RuntimeError("Commit tracked changes before building a release; payload bytes come from the selected Git commit")
@@ -134,6 +238,9 @@ def main():
         if name.startswith("courses/") and name.endswith("/lesson.json"):
             item = json.loads(content.decode("utf-8"))
             lessons.append({key: item[key] for key in ("id", "title", "profile")})
+    projects = len(lessons)
+    if is_compatibility:
+        lessons, projects = compatibility_lessons(files)
     verification = None
     documents = ()
     if is_v2_legacy:
@@ -148,13 +255,16 @@ def main():
     elif is_expansion:
         documents = EXPANSION_DOCUMENTS
         verification = expansion_verification(root, commit, files, lessons, args.version)
+    elif is_compatibility:
+        documents = COMPATIBILITY_DOCUMENTS
+        verification = compatibility_verification(root, commit, files, lessons, projects, args.version)
     elif len(lessons) < 26:
         raise RuntimeError("V1 requires the 26 delivered projects (L01–L24 plus two pendulum additions)")
     manifest = {"application": "GazeboTeach", "schema_version": 1, "version": args.version,
         "source_commit": commit, "source_tree": git(root, "rev-parse", commit+"^{tree}").decode().strip(),
         "tested_platform": {"os": "Ubuntu", "version": "20.04", "architecture": "x86_64", "gazebo": "Classic 11", "ros": "Noetic"},
         "course_count": len(lessons), "courses": sorted(
-            lessons, key=(lambda value: (value["profile"], value["id"])) if is_expansion else (lambda value: value["id"])),
+            lessons, key=(lambda value: (value["profile"], value["id"])) if is_expansion or is_compatibility else (lambda value: value["id"])),
         "files": {name: {"size": len(content), "sha256": hashlib.sha256(content).hexdigest(), "mode": mode}
             for name, (content, mode) in sorted(files.items())},
         "exclusions": "Git history, checkpoints, caches, generated builds, private keys and host dependencies are not included."}
@@ -166,7 +276,7 @@ def main():
             "docker": "Backend/configuration interface and manual setup guide only; automatic course container execution and container end-to-end validation are not provided.",
             "modern_gazebo_ros2": "Reading and diagnostics remain available; modern Gazebo and ROS 2 do not implement the Classic/Noetic course API.",
             "validation": "Consult the separately published V2_VERIFICATION.md/json; packaging does not certify experiment outcomes."}
-    elif is_expansion:
+    elif is_expansion or is_compatibility:
         del manifest["tested_platform"]
         manifest["tested_platforms"] = {
             "classic11-noetic": {"os": "Ubuntu", "version": "20.04", "architecture": "x86_64",
@@ -176,6 +286,13 @@ def main():
                                "environment": "ikaros isolated GPU container"},
         }
         manifest["course_counts_by_profile"] = {profile: len(ids) for profile, ids in EXPANSION_COURSE_IDS.items()}
+        if is_compatibility:
+            manifest["project_count"] = projects
+            manifest["tested_platforms"]["fortress-humble"] = {
+                "os": "Ubuntu", "version": "22.04", "architecture": "x86_64",
+                "gazebo": "Fortress (Gazebo Sim 6.18.0)", "ros": "ROS 2 Humble",
+                "environment": "ikaros isolated GPU container"}
+            manifest["course_counts_by_profile"] = {profile: len(ids) for profile, ids in COMPATIBILITY_COURSE_IDS.items()}
         manifest["verification"] = verification
         manifest["compatibility"] = {
             "profiles": "Select the matching simulator and ROS profile. Shared course numbers are scoped by profile.",
@@ -185,6 +302,10 @@ def main():
             "docker": "The isolated modern test environment was prepared externally. The installer does not provision or run containers.",
             "validation": "Consult EXPANSION_VERIFICATION.json for the tested code commit and scope. Packaging checks file integrity.",
         }
+        if is_compatibility:
+            manifest["compatibility"]["validation"] = (
+                "V2_2_VERIFICATION.json records current modern-course and representative Classic checks. "
+                "EXPANSION_VERIFICATION.json records the unchanged Classic course baseline from V2.1.")
     manifest_bytes = (json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True)+"\n").encode("utf-8")
     epoch = int(git(root, "show", "-s", "--format=%ct", commit).decode().strip())
     folder = "GazeboTeach-"+args.version
@@ -207,7 +328,7 @@ def main():
     installer = template.encode("utf-8")+b"\n__GAZEBOTEACH_PAYLOAD__\n"+payload
     output = (args.output or root/"build/releases"/args.version).resolve()
     output.mkdir(parents=True, exist_ok=True)
-    base = folder+("-linux-x86_64" if is_expansion else "-ubuntu20.04-x86_64")
+    base = folder+("-linux-x86_64" if is_expansion or is_compatibility else "-ubuntu20.04-x86_64")
     assets = {base+".sh": installer, base+".tar.gz": payload, "release-manifest.json": manifest_bytes}
     assets.update({name: files["docs/"+name][0] for name in documents})
     sums = []
