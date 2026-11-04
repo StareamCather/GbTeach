@@ -1,6 +1,8 @@
 # M26 · ROS 2工作区与受管理节点
 
-一个节点可以已经出现在ROS图里，但还没准备好处理传感器数据。本课从可安装的Python包启动生命周期节点，再用状态服务和实际消息检查它何时处理数据、何时停止以及何时释放资源。环境为Harmonic/Jazzy，所有课程构建产物保存在个人练习的工作区。
+一个节点可以已经出现在ROS图里，但还没准备好处理传感器数据。本课从可安装的Python包启动生命周期节点，再用状态服务和实际消息检查它何时处理数据、何时停止以及何时释放资源。所有课程构建产物保存在个人练习的工作区。
+
+Fortress/Humble 在当前 ROS 基础环境构建并加载本课 overlay。已安装的 launch 根据教学包选择时钟和 IMU 的 Gazebo 消息类型。验收通过标准 `GetParameters` 服务核对节点加载的位置，之后检查生命周期转换和实际 IMU 数据。[Humble 生命周期服务](https://github.com/ros2/rclpy/blob/humble/rclpy/rclpy/lifecycle/node.py)
 
 ## 从源码到可发现的包
 
@@ -17,7 +19,7 @@
 
 构建后`build`保存中间文件，`install`保存可运行的包，`log`保存构建日志。ROS 2基础环境是underlay，当前课程安装是overlay。加载overlay后，工具会在环境中的安装前缀里查包名、入口和已安装的launch。系统和个人工作区若有同名包，先用`ros2 pkg prefix`核对实际解析位置，再检查执行文件。本课按顺序构建包并安装文件。修改个人包源码、入口、launch或依赖后，重新构建并重启节点，确保当前进程加载新的安装结果。[Jazzy colcon工作区教程](https://github.com/ros2/ros2_documentation/blob/jazzy/source/Tutorials/Beginner-Client-Libraries/Colcon-Tutorial.rst) · [ament资源索引](https://github.com/ament/ament_cmake/blob/master/ament_cmake_core/doc/resource_index.md)
 
-平台按`build.sh → start.sh → ros2 launch`运行。构建脚本在个人工作区安装本课包，启动脚本在已有Jazzy基础环境上加载本课`local_setup.bash`，然后用包名找到已安装的launch。操作终端可执行下面的检查。
+平台按`build.sh → start.sh → ros2 launch`运行。构建脚本在个人工作区安装本课包，启动脚本在当前 ROS 2 基础环境上加载本课`local_setup.bash`，然后用包名找到已安装的launch。操作终端可执行下面的检查。
 
 ```bash
 . ros_ws/install/local_setup.bash

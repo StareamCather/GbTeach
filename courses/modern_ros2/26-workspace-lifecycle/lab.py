@@ -16,9 +16,9 @@ from common import ensure_running, result, topic
 from ament_index_python.packages import get_package_prefix
 from lifecycle_msgs.msg import State, Transition
 from lifecycle_msgs.srv import ChangeState, GetAvailableTransitions, GetState
+from rcl_interfaces.srv import GetParameters
 import rclpy
 from rclpy.node import Node
-from rclpy.parameter_client import AsyncParameterClient
 from rclpy.qos import qos_profile_sensor_data
 from rclpy.serialization import serialize_message
 from rclpy.signals import SignalHandlerOptions
@@ -57,7 +57,7 @@ def experiment():
     change = node.create_client(ChangeState, f"/{NAME}/change_state")
     get = node.create_client(GetState, f"/{NAME}/get_state")
     available = node.create_client(GetAvailableTransitions, f"/{NAME}/get_available_transitions")
-    params = AsyncParameterClient(node, f"/{NAME}")
+    params = node.create_client(GetParameters, f"/{NAME}/get_parameters")
 
     def observe(queue, message):
         stamp = message.header.stamp.sec * 10**9 + message.header.stamp.nanosec
@@ -167,9 +167,10 @@ def experiment():
         local = Path("ros_ws/install").resolve()
         if local not in prefix.parents or not (prefix / "lib/gazeboteach_lifecycle/sensor").is_file():
             raise AssertionError(f"Package was not resolved from the practice install space: {prefix}")
-        if not params.wait_for_services(timeout_sec=8):
+        if not params.wait_for_service(timeout_sec=8):
             raise RuntimeError("Installed lifecycle node parameter service missing")
-        module, sim = done(params.get_parameters(["installed_source", "use_sim_time"])).values
+        request = GetParameters.Request(names=["installed_source", "use_sim_time"])
+        module, sim = done(params.call_async(request)).values
         loaded = Path(module.string_value).resolve()
         source = Path("ros_ws/src/gazeboteach_lifecycle/gazeboteach_lifecycle/sensor.py").resolve()
         if prefix not in loaded.parents or loaded == source or not sim.bool_value or loaded.read_bytes() != source.read_bytes():
