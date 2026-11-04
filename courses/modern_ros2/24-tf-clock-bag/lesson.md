@@ -2,6 +2,8 @@
 
 一个坐标系的位姿会随滑块运动改变。若把过去采到的点用最新位姿变换，即使坐标系名称正确，也会画到错误位置。本课从Gazebo真实位置和时钟出发，练习在指定时刻查TF，再将实时消息保存并隔离回放。建议先完成M22的QoS和发现。
 
+Fortress/Humble 的桥以 `ignition.msgs.Clock` 和 `ignition.msgs.Pose_V` 读取原生数据，SQLite3 由 `rosbag2_storage_default_plugins` 提供。写入器按照 Humble 的 `TopicMetadata` 接口登记话题名、类型和 CDR 格式。关闭写入器后重新读回逐条记录。Humble 从 ROS 图核对暂停中的播放器身份、话题类型及其发布 QoS，随后请求继续播放并逐条核对实际收到的字节。[Humble rosbag2 存储接口](https://github.com/ros2/rosbag2/blob/humble/rosbag2_py/src/rosbag2_py/_storage.cpp)
+
 ## TF2的方向和时间
 
 一条TransformStamped的`header.frame_id`是父坐标系，`child_frame_id`是子坐标系，变换描述子系相对于父系的位姿。记T_AB为把B系中的坐标变到A系的变换。本课动态边从`world`到`m24_rig`，静态边从`m24_rig`到`m24_sensor`。令W、R、S分别表示这三系，组合为`T_WS(t) = T_WR(t) · T_RS`。逆向查询会取逆变换。

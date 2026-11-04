@@ -11,14 +11,14 @@ import time
 from uuid import uuid4
 
 import _bootstrap  # Adds the installed course support directory.
-from common import ensure_running, pose, result, service, topic, yaw
+from common import FORTRESS, ensure_running, pose, result, service, topic, yaw
 
 from geometry_msgs.msg import TransformStamped
 import rclpy
 from rclpy.executors import SingleThreadedExecutor
 from rclpy.node import Node
 from rclpy.parameter import Parameter
-from rclpy.qos import DurabilityPolicy, QoSProfile, qos_profile_sensor_data
+from rclpy.qos import DurabilityPolicy, QoSProfile, ReliabilityPolicy, qos_profile_sensor_data
 from rclpy.serialization import deserialize_message
 from rclpy.time import Time
 from rosbag2_interfaces.srv import Resume
@@ -154,12 +154,17 @@ def write_and_read_bag(path, rows):
     writer.open(storage, converter)
     try:
         for name, (_, type_name) in CHANNELS.items():
-            writer.create_topic(rosbag2_py.TopicMetadata(id=0, name=name, type=type_name,
-                                                        serialization_format="cdr"))
+            fields = {"name": name, "type": type_name, "serialization_format": "cdr"}
+            if not FORTRESS:
+                fields["id"] = 0
+            writer.create_topic(rosbag2_py.TopicMetadata(**fields))
         for when, name, payload in rows:
             writer.write(name, payload, when)
     finally:
-        writer.close()
+        if hasattr(writer, "close"):
+            writer.close()
+        # Older Humble writer bindings finalize metadata on destruction.
+        del writer
 
     reader = rosbag2_py.SequentialReader()
     reader.open(storage, converter)
@@ -189,6 +194,26 @@ def replay(executor, live, clock_ns, clock_publishers, bag, expected, token, obs
         for name, (kind, _) in CHANNELS.items()
     ]
     resume = observer.create_client(Resume, "/" + player_name + "/resume")
+
+    def replay_publishers_ready():
+        if not FORTRESS:
+            return all(sub.get_publisher_count() == 1 for sub in subscriptions)
+        # Humble does not expose the subscriber's matched-publisher count.
+        # Discover the expected player's actual writer and its offered QoS.
+        for name, (_, type_name) in CHANNELS.items():
+            endpoints = observer.get_publishers_info_by_topic(namespace + name)
+            if len(endpoints) != 1:
+                return False
+            publisher = endpoints[0]
+            expected_durability = (DurabilityPolicy.TRANSIENT_LOCAL if name == STATIC
+                                   else DurabilityPolicy.VOLATILE)
+            if (publisher.node_name != player_name or publisher.node_namespace != "/"
+                    or publisher.topic_type != type_name
+                    or publisher.qos_profile.reliability != ReliabilityPolicy.RELIABLE
+                    or publisher.qos_profile.durability != expected_durability):
+                return False
+        return True
+
     arguments = ["ros2", "bag", "play", str(bag), "--start-paused", "--disable-keyboard-controls",
                  "--wait-for-all-acked", "2000", "--qos-profile-overrides-path", str(Path("replay_qos.yaml").resolve()),
                  "--remap", "__node:=" + player_name, *remaps]
@@ -199,7 +224,7 @@ def replay(executor, live, clock_ns, clock_publishers, bag, expected, token, obs
             process = subprocess.Popen(arguments, stdin=subprocess.DEVNULL, stdout=log, stderr=subprocess.STDOUT,
                                        start_new_session=True)
             spin_until(executor, lambda: process.poll() is not None or
-                       (resume.service_is_ready() and all(sub.get_publisher_count() == 1 for sub in subscriptions)),
+                       (resume.service_is_ready() and replay_publishers_ready()),
                        "paused player discovery", timeout=10)
             if process.poll() is not None or any(received.values()):
                 raise RuntimeError(f"Player did not remain paused awaiting reader discovery: {log_path}")
@@ -223,6 +248,7 @@ def replay(executor, live, clock_ns, clock_publishers, bag, expected, token, obs
                 transform = spin_until(executor, lambda: lookup(buffer, when), "archived-time replay TF lookup")
                 restored_tf.append(check_tf(transform, native, when))
             return {"namespace": namespace, "received_counts": {name: len(received[name]) for name in CHANNELS},
+                    "discovery": "player_graph_and_qos" if FORTRESS else "matched_publisher_count",
                     "live_clock_before_ns": live_before, "live_clock_after_ns": clock_ns(),
                     "live_clock_publishers_unchanged": True, "historical_tf": restored_tf,
                     "player_log": str(log_path)}
