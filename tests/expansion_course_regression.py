@@ -11,6 +11,7 @@ import time
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
 from gazeboteach.catalog import load_catalog
+from gazeboteach.modern import MODERN_PROFILES
 from gazeboteach.runtime import _token_processes
 from gazeboteach.storage import Storage
 
@@ -28,7 +29,7 @@ def write(path,value):
 
 def main():
     p=argparse.ArgumentParser()
-    p.add_argument('--profile',required=True,choices=['classic11-noetic','harmonic-jazzy'])
+    p.add_argument('--profile',required=True,choices=['classic11-noetic',*MODERN_PROFILES])
     p.add_argument('--output',required=True,type=Path)
     p.add_argument('--ids',nargs='*')
     p.add_argument('--all-gui',action='store_true')
@@ -40,7 +41,10 @@ def main():
     expected=({f'{i:02d}' for i in range(1,54)}|{'091','092'} if args.profile=='classic11-noetic'
               else {'01','11','22','23','24','25','26'})
     available={x.id:x for x in lessons if x.profile==args.profile}
-    assert set(available)==expected
+    if args.ids:
+        assert set(args.ids)<=set(available)<=expected
+    else:
+        assert set(available)==expected
     ids=args.ids or [x.id for x in sorted(available.values(),key=lambda x:x.order)]
     source=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
     result={'passed':False,'complete':False,'source_commit':source,'profile':args.profile,

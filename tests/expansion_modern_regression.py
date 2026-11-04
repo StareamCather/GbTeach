@@ -1,4 +1,4 @@
-"""Real G04 desktop integration in an isolated user-data and settings directory."""
+"""Real modern desktop integration in an isolated user-data and settings directory."""
 
 import argparse
 import hashlib
@@ -12,7 +12,7 @@ import time
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-MODERN = "harmonic-jazzy"
+from gazeboteach.modern import MODERN_PROFILES, PROFILE
 CLASSIC = "classic11-noetic"
 
 
@@ -22,9 +22,11 @@ def time_ns(stats):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--profile", choices=MODERN_PROFILES, default=PROFILE)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--timeout", type=float, default=210)
     options = parser.parse_args()
+    active_profile = options.profile
 
     output = options.output.resolve()
     output.parent.mkdir(parents=True, exist_ok=True)
@@ -56,7 +58,8 @@ def main():
     window.settings.setFallbacksEnabled(False)
     window.autostart.setChecked(False)
     window.show()
-    report = {"ok": False, "scope": "G04 real Qt cross-profile navigation and modern sessions",
+    report = {"ok": False, "scope": "Real Qt cross-profile navigation and modern sessions",
+              "profile": active_profile,
               "data_directory": str(private), "checks": [], "sessions": []}
     sessions = []
     current = None
@@ -85,7 +88,7 @@ def main():
 
     def register(lesson):
         session = window.session
-        if not session or not session.running or (session.lesson.id, session.lesson.profile) != (lesson, MODERN):
+        if not session or not session.running or (session.lesson.id, session.lesson.profile) != (lesson, active_profile):
             raise AssertionError(f"Real modern session {lesson} failed: {window.session_status.text()}")
         if any(previous.token == session.token or previous.env["GZ_PARTITION"] == session.env["GZ_PARTITION"]
                for previous in sessions):
@@ -150,9 +153,11 @@ def main():
                     return
                 if Path(window.settings.fileName()).resolve() != configured_file:
                     raise AssertionError("Unexpected desktop settings file: {}".format(window.settings.fileName()))
-                if not window.select_profile(MODERN) or not window.select_lesson("01"):
+                if window.profile_selector.currentData() != active_profile:
+                    raise AssertionError("Desktop did not auto-select the detected profile")
+                if not window.select_lesson("01"):
                     raise AssertionError("Modern course map cannot select M01")
-                if not selected("01", MODERN) or not window.document.toPlainText().strip():
+                if not selected("01", active_profile) or not window.document.toPlainText().strip():
                     raise AssertionError("Modern M01 material is not visible")
                 passed("private_settings_and_live_environment", settings_file=window.settings.fileName(),
                        detected_profiles=window.environment.get("profiles", []))
@@ -178,13 +183,13 @@ def main():
                 if not after["paused"] or after["iterations"] != paused["iterations"] + 1 or time_ns(after) - time_ns(paused) != 1_000_000:
                     raise AssertionError(f"Qt step did not advance exactly 1 ms and one iteration: {paused}, {after}")
                 if window.buttons["reset"].isEnabled():
-                    raise AssertionError("Harmonic offered unsupported model-only reset")
+                    raise AssertionError("Gazebo Sim offered unsupported model-only reset")
                 passed("m01_qt_pause_and_exact_native_step", before=paused, after=after)
                 workspace = current.workspace
-                template = current.lesson.folder / "world.sdf"
+                template = current.lesson.world
                 source_digest = hashlib.sha256(template.read_bytes()).hexdigest()
-                world = workspace / "world.sdf"
-                modified_world = world.read_bytes() + b"\n<!-- G04 private learner edit -->\n"
+                world = workspace / template.relative_to(current.lesson.folder)
+                modified_world = world.read_bytes() + b"\n<!-- private learner edit -->\n"
                 world.write_bytes(modified_world)
                 (workspace / "regression-scratch.txt").write_bytes(scratch)
                 phase = "switch_m26"
@@ -192,7 +197,7 @@ def main():
                     raise AssertionError("Qt did not select M26")
             elif phase == "switch_m26" and not window.busy:
                 assert_released(current)
-                if not selected("26", MODERN):
+                if not selected("26", active_profile):
                     raise AssertionError("Qt did not display M26 after cleaning M01")
                 passed("same_profile_switch_releases_old_gazebo_and_dds", old_token=current.token)
                 phase = "start_m26"
@@ -222,20 +227,20 @@ def main():
                 passed("cross_profile_switch_releases_m26_and_keeps_classic_readable",
                        old_token=current.token, classic_runtime_executed=False,
                        classic_compatibility=reason or "ready", classic_workspace=str(classic_workspace))
-                if not window.select_profile(MODERN) or not window.select_lesson("01") or not selected("01", MODERN):
+                if not window.select_profile(active_profile) or not window.select_lesson("01") or not selected("01", active_profile):
                     raise AssertionError("Cannot return to M01 after reading Classic L01")
                 phase = "reenter_m01"
                 click("start")
             elif phase == "reenter_m01" and not window.busy:
                 current = register("01")
-                template = current.lesson.folder / "world.sdf"
-                if (current.workspace != workspace or (workspace / "world.sdf").read_bytes() != modified_world
+                template = current.lesson.world
+                if (current.workspace != workspace or (workspace / template.relative_to(current.lesson.folder)).read_bytes() != modified_world
                         or (workspace / "regression-scratch.txt").read_bytes() != scratch
                         or hashlib.sha256(template.read_bytes()).hexdigest() != source_digest):
                     raise AssertionError("Private practice edit/scratch was lost or template changed")
                 passed("edited_private_workspace_survives_switch_and_new_session", workspace=str(workspace))
                 progress = storage.progress()
-                for key in (MODERN + ":01", MODERN + ":26"):
+                for key in (active_profile + ":01", active_profile + ":26"):
                     if not {"read", "started", "verified"} <= progress.get(key, set()):
                         raise AssertionError(f"Missing profile-scoped learning records for {key}")
                 if progress.get(CLASSIC + ":01") != {"read"}:

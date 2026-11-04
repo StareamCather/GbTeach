@@ -39,14 +39,15 @@ class GeneratedPythonPathTests(unittest.TestCase):
     def test_generated_missing_directory_is_predeclared_and_private_per_workspace(self):
         with mock.patch.dict(os.environ, {"PYTHONPATH": "/fixture/parent"}):
             before = dict(os.environ)
-            for profile in ("classic11-noetic", "harmonic-jazzy"):
+            for profile in ("classic11-noetic", "harmonic-jazzy", "fortress-humble"):
                 lesson = Lesson(self.lesson.folder, dict(self.lesson.data, profile=profile))
                 for personal in ("personal-a", "personal-b"):
                     workspace = self.root / personal
                     generated = (workspace / self.relative).resolve()
                     self.assertFalse(generated.exists())
-                    def setup(_path, env):
-                        return dict(env, PYTHONPATH="/fixture/selected-ros")
+                    def setup(path, env):
+                        return dict(env, PYTHONPATH="/fixture/selected-ros", ROS_DISTRO=path.parent.name,
+                                    ROS_VERSION="1" if profile == "classic11-noetic" else "2")
                     with mock.patch("gazeboteach.environment.Path.is_file", return_value=True), \
                             mock.patch("gazeboteach.environment._load_setup", side_effect=setup):
                         if profile == "classic11-noetic":

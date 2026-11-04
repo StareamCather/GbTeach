@@ -9,5 +9,10 @@
   "objectives": [
     "真实落块与独立统计验证"
   ],
-  "commands": []
+  "commands": [],
+  "variants": {
+    "fortress-humble": {
+      "world": "fortress.sdf"
+    }
+  }
 }

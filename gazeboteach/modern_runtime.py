@@ -1,4 +1,4 @@
-"""Owned Harmonic sessions using Gazebo Sim services, never Classic controls."""
+"""Owned Gazebo Sim sessions using native world-control services."""
 
 import json
 import os
@@ -14,6 +14,7 @@ import xml.etree.ElementTree as ET
 
 from .catalog import compatibility
 from .environment import detect_environment
+from .modern import MODERN_PROFILES
 from .runtime import LessonSession, terminate_owned
 
 
@@ -61,14 +62,20 @@ class DomainLease:
 class ModernLessonSession(LessonSession):
     def __init__(self, root, lesson, storage=None, notify=None):
         self.domain_lease = None
+        self.simulator = MODERN_PROFILES[lesson.profile]
         super().__init__(root, lesson, storage=storage, notify=notify)
-        self.native_control_diagnosis = {'backend': 'harmonic-world-control',
+        self.native_control_diagnosis = {'backend': self.simulator['sim_name'].lower() + '-world-control',
                                          'reason': 'Gazebo Sim WorldControl 服务及实际 WorldStatistics 回读'}
         self.last_stats = None
         self.domain_lease = DomainLease()
         self.env['ROS_DOMAIN_ID'] = str(self.domain_lease.domain)
-        self.gz = shutil.which('gz', path=self.env.get('PATH'))
+        self.sim_cli = shutil.which(self.simulator['command'], path=self.env.get('PATH'))
+        self.partition_key = {'gz': 'GZ_PARTITION', 'ign': 'IGN_PARTITION'}[self.simulator['command']]
         self._save_metadata()
+
+    def _sim_command(self, *arguments):
+        return [self.sim_cli, self.simulator['sim_subcommand'],
+                '--force-version', str(self.simulator['sim_major']), *arguments]
 
     def _capture(self, arguments, timeout=5):
         capture = self.session_dir / ('.modern-' + uuid.uuid4().hex + '.txt')
@@ -83,15 +90,17 @@ class ModernLessonSession(LessonSession):
                 pass
 
     def _stats(self, timeout=5):
-        text = self._capture([self.gz, 'topic', '-e', '-t', '/world/' + self.world_name + '/stats', '-n', '1'], timeout)
+        text = self._capture([self.sim_cli, 'topic', '-e', '-t', '/world/' + self.world_name + '/stats', '-n', '1'],
+                             timeout)
         self.last_stats = parse_stats(text)
         return self.last_stats
 
     def _control(self, request):
         # A mutation is sent exactly once. A successful Boolean only confirms
         # acceptance; callers must still inspect actual world statistics.
-        text = self._capture([self.gz, 'service', '-s', '/world/' + self.world_name + '/control',
-            '--reqtype', 'gz.msgs.WorldControl', '--reptype', 'gz.msgs.Boolean',
+        prefix = self.simulator['msg_prefix']
+        text = self._capture([self.sim_cli, 'service', '-s', '/world/' + self.world_name + '/control',
+            '--reqtype', prefix + '.WorldControl', '--reptype', prefix + '.Boolean',
             '--timeout', '3000', '--req', request], timeout=5)
         if not re.search(r'\bdata:\s*true\b', text):
             raise RuntimeError('WorldControl 未确认接收；保留现场，不自动重发：' + text[-1000:])
@@ -103,7 +112,7 @@ class ModernLessonSession(LessonSession):
             if not self.running:
                 raise RuntimeError('Gazebo Sim 服务端提前退出，请查看日志。')
             try:
-                text = self._capture([self.gz, 'service', '-l'], timeout=min(5, max(.2, deadline-time.monotonic())))
+                text = self._capture([self.sim_cli, 'service', '-l'], timeout=min(5, max(.2, deadline-time.monotonic())))
                 if '/world/' + self.world_name + '/control' in text.splitlines():
                     self._stats(timeout=min(5, max(.2, deadline-time.monotonic())))
                     self.log('实际 WorldStatistics 和本课 control 服务均已就绪。')
@@ -122,7 +131,9 @@ class ModernLessonSession(LessonSession):
             reason = compatibility(self.lesson, report, gui=gui, terminals=terminals)
             if reason:
                 raise RuntimeError(reason)
-            self.log('独立 GZ_PARTITION：' + self.env['GZ_PARTITION'])
+            if not self.sim_cli:
+                raise RuntimeError('当前课程子环境缺少程序：' + self.simulator['command'])
+            self.log('独立 ' + self.partition_key + '：' + self.env[self.partition_key])
             self.log('独立 ROS_DOMAIN_ID：' + self.env['ROS_DOMAIN_ID'])
             self.log('个人练习副本：' + str(self.workspace))
             for command in self.lesson.data.get('prepare', []):
@@ -134,7 +145,7 @@ class ModernLessonSession(LessonSession):
             if element is None or not re.fullmatch(r'[A-Za-z0-9_]+', element.get('name', '')):
                 raise RuntimeError('SDF 缺少合法命名 world。')
             self.world_name = element.get('name')
-            self.server = self._spawn('Gazebo 服务端', [self.gz, 'sim', '--force-version', '8', '-s', '-r', '-v', '3']
+            self.server = self._spawn('Gazebo 服务端', self._sim_command('-s', '-r', '-v', '3')
                                       + self.lesson.data.get('server_args', []) + [str(world)])
             self._wait_world(self.lesson.data.get('ready_timeout', 45))
             for command in self.lesson.data.get('after_start', []):
@@ -154,9 +165,10 @@ class ModernLessonSession(LessonSession):
                 raise RuntimeError('服务端在初始化完成前退出。')
             self.state = '运行中'
             self._save_metadata()
-            self._record('started', session=str(self.session_dir), gz_partition=self.env['GZ_PARTITION'],
-                         ros_domain_id=self.env['ROS_DOMAIN_ID'], backend='harmonic-world-control', gui=gui)
-            self.log('Gazebo Harmonic 实验已准备好。')
+            self._record('started', session=str(self.session_dir), ros_domain_id=self.env['ROS_DOMAIN_ID'],
+                         backend=self.native_control_diagnosis['backend'], gui=gui,
+                         **{self.partition_key.lower(): self.env[self.partition_key]})
+            self.log('Gazebo ' + self.simulator['sim_name'] + ' 实验已准备好。')
         except Exception as error:
             self.error = str(error)
             self.stop(reason='现代课程启动失败，清理本课进程')
@@ -170,7 +182,7 @@ class ModernLessonSession(LessonSession):
         if self.gui and self.gui.poll() is None:
             self.log('Gazebo Sim GUI 仍在运行。')
             return
-        self.gui = self._spawn('Gazebo 图形窗口', [self.gz, 'sim', '--force-version', '8', '-g', '-v', '3']
+        self.gui = self._spawn('Gazebo 图形窗口', self._sim_command('-g', '-v', '3')
                                + self.lesson.data.get('gui_args', []))
         deadline = time.monotonic() + self.lesson.data.get('gui_ready_timeout', 3)
         while time.monotonic() < deadline and not self.cancelled.is_set():
@@ -216,14 +228,14 @@ class ModernLessonSession(LessonSession):
         raise RuntimeError('单步未确认精确迭代增量；控制不会自动重发。')
 
     def reset_models(self):
-        # Sim 8's WorldControl accepts the request but logs that model_only is
-        # unsupported. Never report a successful no-op or substitute all=true,
-        # which would silently rewind the clock and invalidate ROS time data.
-        raise RuntimeError('Gazebo Harmonic 不支持保持时钟的仅模型复位。请使用“重启实验”完整恢复场景；重启会将本课仿真时钟归零。')
+        # Fortress and Harmonic acknowledge WorldControl before logging that
+        # model_only is unsupported. A full reset would rewind the clock.
+        raise RuntimeError('当前 Gazebo Sim 不支持保持时钟的仅模型复位。请使用“重启实验”完整恢复场景；重启会将本课仿真时钟归零。')
 
     def stop(self, reason='结束实验'):
         try:
             super().stop(reason)
         finally:
-            if self.domain_lease:
-                self.domain_lease.close()
+            with self.lock:
+                if self.domain_lease:
+                    self.domain_lease.close()

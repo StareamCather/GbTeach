@@ -17,6 +17,7 @@ from .backends import get_backend
 from .environment import detect_environment
 from .environment_dialog import EnvironmentDialog
 from .markdown import render
+from .modern import MODERN_PROFILES, is_modern, modern_capability
 from .reader import DocumentRegistry, MarkdownReader
 from .storage import Storage
 
@@ -157,8 +158,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.profile_selector.setObjectName("profile_selector")
         profiles = sorted(set(lesson.profile for lesson in self.lessons)) or ["classic11-noetic"]
         for profile in profiles:
-            label = {"classic11-noetic": "Classic 11 / ROS Noetic",
-                     "harmonic-jazzy": "Gazebo Harmonic / ROS 2 Jazzy"}.get(profile, profile)
+            config = MODERN_PROFILES.get(profile)
+            label = ("Gazebo {} / ROS 2 {}".format(config["sim_name"], config["ros_distro"].capitalize())
+                     if config else {"classic11-noetic": "Classic 11 / ROS Noetic"}.get(profile, profile))
             self.profile_selector.addItem(label, profile)
         self.profile_selector.setEnabled(len(profiles) > 1)
         self.profile_selector.setToolTip("按实际环境选择独立教学包；教材可阅读，实验依版本与本课依赖开放。")
@@ -371,9 +373,14 @@ class MainWindow(QtWidgets.QMainWindow):
         environment, self.docker_probe = environment
         self.environment = environment
         self.environment_report = build_compatibility_report(self.lessons, environment, self.catalog_errors)
-        classic = environment.get("classic_version") or "未检测到 Classic"
-        modern = environment.get("modern", {})
-        simulator = ("Harmonic " + modern.get("sim_version", "8")) if modern.get("sim_major") == 8 else ("Classic " + classic)
+        simulators = []
+        for profile, config in MODERN_PROFILES.items():
+            capability = modern_capability(environment, profile) or {}
+            if capability.get("sim_major") == config["sim_major"]:
+                simulators.append(config["sim_name"] + " " + capability.get("sim_version", ""))
+        if environment.get("classic_version"):
+            simulators.append("Classic " + environment["classic_version"])
+        simulator = " / ".join(simulators) or "未检测到支持的版本"
         ros = ", ".join(environment.get("ros_installed", [])) or "未检测到 ROS"
         self.environment_badge.setText("{}\nGazebo {} · ROS {}".format(environment.get("os", ""), simulator, ros))
         self.environment_view.setPlainText(json.dumps({"detected": environment, "compatibility": self.environment_report,
@@ -636,9 +643,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.buttons["start"].setEnabled(not busy and bool(compatible) and not running)
         for name in ("stop", "pause", "step", "reset", "gui", "terminal", "verify"):
             self.buttons[name].setEnabled(not busy and running)
-        if selected and self.current_lesson.profile == "harmonic-jazzy":
+        if selected and is_modern(self.current_lesson):
             self.buttons["reset"].setEnabled(False)
-            self.buttons["reset"].setToolTip("Harmonic 不支持保留时钟的 model-only reset；使用重载项目恢复完整初始状态。")
+            self.buttons["reset"].setToolTip("当前 Gazebo Sim 不支持保留时钟的 model-only reset。使用重载项目恢复完整初始状态。")
         else:
             self.buttons["reset"].setToolTip("执行 Gazebo MODEL reset，保留仿真时钟；插件私有状态或关节内部状态可能需要重载项目。")
         self.buttons["restart"].setEnabled(not busy and bool(compatible))

@@ -70,7 +70,8 @@ class EnvironmentDialog(QtWidgets.QDialog):
         self.table.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         for row, lesson in enumerate(report["courses"]):
             reason = "；".join(item["message"] for item in lesson["reasons"])
-            values = [lesson["id"], lesson["title"], STATUS_LABELS[lesson["status"]], reason or "可开始实验并观察真实结果"]
+            values = [lesson["id"], "{} [{}]".format(lesson["title"], lesson["profile"]),
+                      STATUS_LABELS[lesson["status"]], reason or "可开始实验并观察真实结果"]
             for column, value in enumerate(values):
                 item = QtWidgets.QTableWidgetItem(value)
                 item.setToolTip(value)
@@ -124,7 +125,7 @@ class EnvironmentDialog(QtWidgets.QDialog):
             modern = QtWidgets.QTextBrowser()
             modern.setOpenExternalLinks(True)
             modern.setHtml(render(modern_guide.read_text(encoding="utf-8")))
-            tabs.addTab(modern, "ROS 2 / Harmonic 指南")
+            tabs.addTab(modern, "ROS 2 / Gazebo Sim 指南")
         self.backends = backend_descriptors()
         buttons = QtWidgets.QDialogButtonBox()
         self.retry_button = buttons.addButton("重新检测", QtWidgets.QDialogButtonBox.ActionRole)

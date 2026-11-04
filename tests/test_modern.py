@@ -5,9 +5,9 @@ import tempfile
 import unittest
 from unittest import mock
 
-from gazeboteach.catalog import compatibility
+from gazeboteach.catalog import compatibility, load_catalog
 from gazeboteach.compatibility import build_compatibility_report, lesson_compatibility
-from gazeboteach.modern import PROFILE, detect_modern, ros2_base_environment
+from gazeboteach.modern import FORTRESS_PROFILE, PROFILE, detect_modern, modern_capability, ros2_base_environment
 from gazeboteach.modern_runtime import ModernLessonSession, parse_stats
 from tests.test_core import make_lesson
 
@@ -75,7 +75,8 @@ class ModernCompatibilityTests(unittest.TestCase):
     def test_probe_and_runtime_snapshot_use_jazzy_child_tools(self):
         def setup(path, environment):
             self.assertNotIn('GZ_CONFIG_PATH', environment)
-            return {'PATH': '/selected/jazzy/bin', 'GZ_SIM_SYSTEM_PLUGIN_PATH': '/selected/jazzy/plugins'}
+            return {'PATH': '/selected/jazzy/bin', 'GZ_SIM_SYSTEM_PLUGIN_PATH': '/selected/jazzy/plugins',
+                    'ROS_DISTRO': 'jazzy', 'ROS_VERSION': '2'}
         def which(name, path=None):
             self.assertEqual(path, '/selected/jazzy/bin')
             return '/selected/jazzy/bin/' + name
@@ -90,6 +91,45 @@ class ModernCompatibilityTests(unittest.TestCase):
         self.assertEqual(selected['tools']['colcon'], '/selected/jazzy/bin/colcon')
         self.assertEqual(selected['gz'], '/selected/jazzy/bin/gz')
         self.assertEqual(selected['sim_major'], 8)
+
+    def test_colocated_profiles_read_versions_and_packages_in_separate_ros_setups(self):
+        def setup(path, environment):
+            distro = path.parent.name
+            self.assertNotIn('ROS_DISTRO', environment)
+            return {'PATH': '/selected/' + distro, 'ROS_DISTRO': distro, 'ROS_VERSION': '2'}
+
+        def output(command, **options):
+            selected = options['env']['ROS_DISTRO']
+            if command[0] == 'ros2':
+                return 'rclpy\n' + ('ros_gz_bridge' if selected == 'humble' else 'service_msgs')
+            self.assertEqual(command[1], 'gazebo' if selected == 'humble' else 'sim')
+            return '6.18.0' if selected == 'humble' else '8.15.0'
+
+        with mock.patch.dict(os.environ, {'ROS_DISTRO': 'noetic'}), \
+                mock.patch('gazeboteach.environment._load_setup', side_effect=setup), \
+                mock.patch('gazeboteach.modern.shutil.which', side_effect=lambda name, path: path + '/' + name), \
+                mock.patch('gazeboteach.environment._output', side_effect=output):
+            result = detect_modern({}, ['humble', 'jazzy'], [])
+        self.assertEqual(result['profiles'], [PROFILE, FORTRESS_PROFILE])
+        self.environment['modern'] = result
+        fortress = make_lesson(Path(self.temp.name) / 'fortress', profile=FORTRESS_PROFILE, requires_ros=True,
+                               requires_ros_packages=['ros_gz_bridge'])
+        self.assertIsNone(compatibility(fortress, self.environment, gui=False))
+        self.assertIn('ros_gz_bridge', compatibility(self.lesson, self.environment, gui=False))
+        self.assertEqual(modern_capability(self.environment, FORTRESS_PROFILE)['ign'], '/selected/humble/ign')
+
+    def test_declared_variant_keeps_distinct_storage_and_selects_own_world(self):
+        root = Path(self.temp.name)
+        folder = root / 'courses' / 'modern' / '01-fixture'
+        make_lesson(folder, profile=PROFILE, variants={FORTRESS_PROFILE: {'world': 'fortress.sdf'}})
+        (folder / 'fortress.sdf').write_text("<sdf version='1.9'><world name='fortress'/></sdf>", encoding='utf-8')
+        lessons, errors = load_catalog(root)
+        self.assertFalse(errors)
+        self.assertEqual({lesson.key: lesson.world.name for lesson in lessons},
+                         {PROFILE + ':01': 'world.sdf', FORTRESS_PROFILE + ':01': 'fortress.sdf'})
+        from gazeboteach.storage import Storage
+        storage = Storage(root / 'data')
+        self.assertNotEqual(storage.prepare(lessons[0]), storage.prepare(lessons[1]))
 
     def test_outer_tool_cannot_fill_a_missing_selected_tool_or_hide_available_tool(self):
         self.lesson.data['requires_tools'] = ['colcon']

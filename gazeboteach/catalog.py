@@ -112,15 +112,36 @@ class Lesson:
         return self.file(self.data.get("lesson", "lesson.md")).read_text(encoding="utf-8")
 
 
+def lesson_variants(folder, data):
+    """Load a base lesson and its explicitly declared runtime variants."""
+    from .modern import MODERN_PROFILES
+
+    if not isinstance(data, dict):
+        raise ValueError("Lesson manifest must be an object")
+    base = dict(data)
+    variants = base.pop("variants", {})
+    if not isinstance(variants, dict):
+        raise ValueError("Lesson variants must map a profile to an override object")
+    lessons = [Lesson(folder, base)]
+    for profile, overrides in variants.items():
+        if (profile == lessons[0].profile or profile not in MODERN_PROFILES
+                or lessons[0].profile not in MODERN_PROFILES or not isinstance(overrides, dict)
+                or {"id", "profile", "variants"} & overrides.keys()):
+            raise ValueError("Invalid modern lesson variant: " + str(profile))
+        lessons.append(Lesson(folder, {**base, **overrides, "profile": profile}))
+    return lessons
+
+
 def load_catalog(root):
     lessons, errors, keys = [], [], set()
     for manifest in sorted((Path(root) / "courses").glob("*/*/lesson.json")):
         try:
-            lesson = Lesson(manifest.parent, json.loads(manifest.read_text(encoding="utf-8-sig")))
-            if lesson.key in keys:
+            variants = lesson_variants(manifest.parent, json.loads(manifest.read_text(encoding="utf-8-sig")))
+            variants_keys = {lesson.key for lesson in variants}
+            if keys & variants_keys:
                 raise ValueError("Duplicate lesson id in profile")
-            keys.add(lesson.key)
-            lessons.append(lesson)
+            keys.update(variants_keys)
+            lessons.extend(variants)
         except (OSError, ValueError, KeyError, TypeError) as exc:
             errors.append("{}: {}".format(manifest, exc))
     return sorted(lessons, key=lambda x: (x.profile, x.order, x.id)), errors

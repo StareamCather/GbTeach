@@ -1,4 +1,4 @@
-"""Real Harmonic G03 acceptance; separate fixture, not a course completion."""
+"""Exercise both modern Gazebo runtimes with a dedicated simulator fixture."""
 import argparse
 from collections import Counter
 import json
@@ -13,7 +13,8 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from gazeboteach.backends import get_backend
-from gazeboteach.catalog import Lesson
+from gazeboteach.catalog import lesson_variants
+from gazeboteach.modern import MODERN_PROFILES, PROFILE
 from gazeboteach.runtime import terminate_owned, _token_processes
 from gazeboteach.storage import Storage
 
@@ -84,21 +85,26 @@ def capture_owned_gui(session, target):
 
 def main():
     parser = argparse.ArgumentParser()
+    parser.add_argument('--profile', choices=MODERN_PROFILES, default=PROFILE)
     parser.add_argument('--gui', action='store_true')
     parser.add_argument('--terminals', action='store_true')
     parser.add_argument('--output', required=True)
     arguments = parser.parse_args()
     folder = ROOT / 'tests/fixtures/modern_diagnostic'
-    lesson = Lesson(folder, json.loads((folder/'lesson.json').read_text(encoding='utf-8')))
+    manifest = json.loads((folder/'lesson.json').read_text(encoding='utf-8'))
+    lessons = {lesson.profile: lesson for lesson in lesson_variants(folder, manifest)}
+    lesson = lessons[arguments.profile]
     directory = Path(tempfile.mkdtemp(prefix='gazeboteach-modern-framework-'))
     storage = Storage(directory/'first')
     session = other = None
     checks = []
     started = time.monotonic()
-    report = {'ok': False, 'scope': 'G03 modern runner diagnostic, not course acceptance',
-              'data_dir': str(directory), 'checks': checks}
+    report = {'ok': False, 'scope': 'Modern runner diagnostic fixture',
+              'profile': lesson.profile, 'data_dir': str(directory), 'checks': checks}
     def passed(name, **details):
         checks.append({'name': name, 'passed': True, **details})
+    def nanoseconds(stats):
+        return stats['sim_sec'] * 1_000_000_000 + stats['sim_nsec']
     try:
         session = get_backend('native').create_session(ROOT, lesson, storage=storage)
         session.start(gui=arguments.gui, terminals=arguments.terminals)
@@ -112,26 +118,27 @@ def main():
         session.step()
         after = session._stats()
         assert after['iterations'] == before['iterations'] + 1 and after['paused']
-        assert 0 < after['sim_time'] - before['sim_time'] < .00101
+        assert nanoseconds(after) - nanoseconds(before) == 1_000_000
         passed('one_step_exact', before=before, after=after)
         session.step(10)
         multiple = session._stats()
-        assert multiple['iterations'] == after['iterations'] + 10
-        passed('ten_steps_exact', after=multiple)
+        assert multiple['iterations'] == after['iterations'] + 10 and multiple['paused']
+        assert nanoseconds(multiple) - nanoseconds(after) == 10_000_000
+        passed('ten_steps_exact', before=after, after=multiple)
         try:
             session.reset_models()
         except RuntimeError as error:
             assert '不支持' in str(error)
             passed('unsupported_model_only_reset_is_explicit', message=str(error))
         else:
-            raise AssertionError('Harmonic model_only reset was falsely accepted')
+            raise AssertionError('Gazebo Sim model_only reset was falsely accepted')
         session.pause(False)
         before = session._stats(); time.sleep(.3); after = session._stats()
         assert after['sim_time'] > before['sim_time']
         passed('resume_real_time_progression', before=before, after=after)
         if arguments.gui:
-            evidence = Path(arguments.output).resolve().parent
-            captured = capture_owned_gui(session, evidence/'g03-modern-gui-initial.png')
+            evidence = Path(arguments.output).resolve()
+            captured = capture_owned_gui(session, evidence.with_name(evidence.stem + '-gui-initial.png'))
             passed('real_owned_gui_window_initial', **captured)
             first = session.gui.pid
             session.open_gui()
@@ -140,24 +147,33 @@ def main():
             session.open_gui()
             assert session.gui.pid != first and session.running
             passed('gui_reopen_preserves_server', old_pid=first, new_pid=session.gui.pid)
-            captured = capture_owned_gui(session, evidence/'g03-modern-gui-reopened.png')
+            captured = capture_owned_gui(session, evidence.with_name(evidence.stem + '-gui-reopened.png'))
             passed('real_owned_gui_window_reopened', **captured)
         if arguments.terminals:
             assert session.health()['terminal_running'] == 2
             passed('real_isolated_log_and_interactive_ptys')
         other = get_backend('native').create_session(ROOT, lesson, storage=Storage(directory/'other'))
         other.start(gui=False, terminals=False)
-        assert session.env['GZ_PARTITION'] != other.env['GZ_PARTITION']
-        assert session.env['ROS_DOMAIN_ID'] != other.env['ROS_DOMAIN_ID']
-        passed('two_sessions_unique_partitions_and_dds_domains', domains=[session.env['ROS_DOMAIN_ID'], other.env['ROS_DOMAIN_ID']])
+        partitions = [item.env[item.partition_key] for item in (session, other)]
+        domains = [item.env['ROS_DOMAIN_ID'] for item in (session, other)]
+        assert partitions[0] != partitions[1] and domains[0] != domains[1]
+        passed('two_sessions_unique_partitions_and_dds_domains', domains=domains, partitions=partitions)
+        session.pause(True)
+        paused = session._stats()
+        running = other._stats()
+        time.sleep(.2)
+        other_after = other._stats()
+        assert session._stats()['iterations'] == paused['iterations']
+        assert not other_after['paused'] and other_after['iterations'] > running['iterations']
+        passed('pausing_first_preserves_other_real_world', paused=paused, other_after=other_after)
         session.stop()
-        assert not _token_processes(session.token)
+        assert not _token_processes(session.token) and session.domain_lease.handle is None
         assert other.running
         before = other._stats();time.sleep(.2);after = other._stats()
         assert after['iterations'] > before['iterations']
         passed('stopping_first_preserves_other_real_world', other_token=other.token)
         other.stop()
-        assert not _token_processes(other.token)
+        assert not _token_processes(other.token) and other.domain_lease.handle is None
         passed('all_test_owned_processes_cleaned')
         report['ok'] = True
     except Exception as error:
@@ -166,7 +182,7 @@ def main():
         for owned in (session, other):
             if owned:
                 try:
-                    owned.stop(reason='G03运行器验收结束')
+                    owned.stop(reason='现代运行器验收结束')
                 except Exception as error:
                     report.update(ok=False, cleanup_error=str(error))
         report['elapsed_seconds'] = round(time.monotonic()-started, 3)
