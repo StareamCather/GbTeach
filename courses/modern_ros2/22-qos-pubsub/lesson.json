@@ -40,5 +40,16 @@
       "name": "仿真时钟桥",
       "command": "ros2 run ros_gz_bridge parameter_bridge \"/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock\""
     }
-  ]
+  ],
+  "variants": {
+    "fortress-humble": {
+      "world": "world.fortress.sdf",
+      "startup": [
+        {
+          "name": "仿真时钟桥",
+          "command": "ros2 run ros_gz_bridge parameter_bridge \"/clock@rosgraph_msgs/msg/Clock[ignition.msgs.Clock\""
+        }
+      ]
+    }
+  }
 }

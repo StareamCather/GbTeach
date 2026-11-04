@@ -1,6 +1,8 @@
 # M22 · 从ROS 2发现到QoS实际收包
 
-两个订阅者使用相同话题名和类型，一个有数据，另一个却一直没有回调。再换一个场景，两个订阅者都能收到新消息，但只有一个能补收加入前的样本。本课在Harmonic/Jazzy会话中实际创建发布端和订阅端，观察可靠性、持久性与历史深度。
+两个订阅者使用相同话题名和类型，一个有数据，另一个却一直没有回调。再换一个场景，两个订阅者都能收到新消息，但只有一个能补收加入前的样本。本课在当前 ROS 2 教学包会话中实际创建发布端和订阅端，观察可靠性、持久性与历史深度。
+
+Fortress/Humble 使用 `ign` 查询原生世界时间，时钟桥读取 `ignition.msgs.Clock`。Humble 的订阅事件回调来自 `rclpy.qos_event`，Jazzy 从 `rclpy.event_handler` 导入同一接口。两套实验均等待实际 DDS 事件，再核对接收序号和原生时钟。[Humble QoS 事件接口](https://github.com/ros2/rclpy/blob/humble/rclpy/rclpy/qos_event.py)
 
 ## 节点、端点和ROS图
 

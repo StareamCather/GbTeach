@@ -4,17 +4,21 @@ import time
 from uuid import uuid4
 
 import _bootstrap  # Adds the installed course support directory.
-from common import ensure_running, result, topic
+from common import FORTRESS, ensure_running, result, topic
 
 import rclpy
 from rclpy.duration import Duration
-from rclpy.event_handler import SubscriptionEventCallbacks
 from rclpy.executors import SingleThreadedExecutor
 from rclpy.node import Node
 from rclpy.qos import DurabilityPolicy, HistoryPolicy, QoSPolicyKind, QoSProfile, ReliabilityPolicy
 from rclpy.utilities import get_rmw_implementation_identifier
 from rosgraph_msgs.msg import Clock
 from std_msgs.msg import Int32
+
+if FORTRESS:
+    from rclpy.qos_event import SubscriptionEventCallbacks
+else:
+    from rclpy.event_handler import SubscriptionEventCallbacks
 
 
 def qos(depth, reliability=ReliabilityPolicy.RELIABLE, durability=DurabilityPolicy.VOLATILE):
