@@ -11,10 +11,10 @@ from common import ensure_running, result, xyz
 
 import rclpy
 from action_msgs.msg import GoalStatus
+from rcl_interfaces.srv import GetParameters, SetParameters
 from rclpy.action import ActionClient
 from rclpy.node import Node
 from rclpy.parameter import Parameter
-from rclpy.parameter_client import AsyncParameterClient
 from rclpy.signals import SignalHandlerOptions
 
 from gazeboteach_rail_interfaces.action import MoveRail
@@ -67,7 +67,8 @@ def experiment():
     node = Node("rail_client_" + uuid4().hex[:8])
     state_client = node.create_client(ReadRail, "/gt/rail/state")
     action = ActionClient(node, MoveRail, "/gt/rail/move")
-    parameters = AsyncParameterClient(node, "/control_contract")
+    read_parameters = node.create_client(GetParameters, "/control_contract/get_parameters")
+    write_parameters = node.create_client(SetParameters, "/control_contract/set_parameters")
     active = None
     original_gain = None
 
@@ -99,13 +100,14 @@ def experiment():
                 "sim_time_s": sample.sim_time_s, "active": sample.active}
 
     def get_gain():
-        value = complete(parameters.get_parameters(["gain"])).values[0]
+        value = complete(read_parameters.call_async(GetParameters.Request(names=["gain"]))).values[0]
         if value.type != Parameter.Type.DOUBLE.value:
             raise RuntimeError("Server gain is not typed as double")
         return value.double_value
 
     def set_gain(value):
-        return complete(parameters.set_parameters([Parameter("gain", value=value)])).results[0]
+        request = SetParameters.Request(parameters=[Parameter("gain", value=value).to_parameter_msg()])
+        return complete(write_parameters.call_async(request)).results[0]
 
     def validate_feedback(rows, target):
         if not rows:
@@ -123,7 +125,7 @@ def experiment():
         wait_for_rail(node, state_client)
         if not action.wait_for_server(timeout_sec=8):
             raise RuntimeError("Rail service/action server unavailable")
-        if not parameters.wait_for_services(timeout_sec=8):
+        if not all(client.wait_for_service(timeout_sec=8) for client in (read_parameters, write_parameters)):
             raise RuntimeError("Rail parameter services unavailable")
 
         original_gain = get_gain()

@@ -67,5 +67,31 @@
   "after_startup": [
     ". ros_ws/install/local_setup.bash && python3 lab.py --ready"
   ],
-  "after_startup_timeout": 25
+  "after_startup_timeout": 25,
+  "variants": {
+    "fortress-humble": {
+      "world": "world.fortress.sdf",
+      "startup": [
+        {
+          "name": "导轨关节桥",
+          "command": "ros2 run ros_gz_bridge parameter_bridge --ros-args -p config_file:=\"$(pwd)/bridge.fortress.yaml\""
+        },
+        {
+          "name": "导轨服务、动作与参数节点",
+          "command": ". ros_ws/install/local_setup.bash && exec python3 server.py"
+        }
+      ],
+      "requires_ros_packages": [
+        "rclpy",
+        "rcl_interfaces",
+        "action_msgs",
+        "ament_cmake",
+        "rosidl_default_generators",
+        "rosidl_default_runtime",
+        "ros_gz_bridge",
+        "std_msgs",
+        "sensor_msgs"
+      ]
+    }
+  }
 }

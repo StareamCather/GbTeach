@@ -1,6 +1,8 @@
 # M23 · ROS 2服务、动作与滑轨闭环
 
-读取滑块当前位置只需一次问答。让滑块移到目标位置则要持续观测状态，中途还可能取消。两种需求分别使用ROS 2服务和动作。课程把它们接到Harmonic中的真实滑动关节，再用节点参数调整控制增益。建议先完成M22的ROS图与QoS。
+读取滑块当前位置只需一次问答。让滑块移到目标位置则要持续观测状态，中途还可能取消。两种需求分别使用ROS 2服务和动作。课程把它们接到Gazebo Sim 中的真实滑动关节，再用节点参数调整控制增益。建议先完成M22的ROS图与QoS。
+
+Fortress/Humble 加载自己的场景及桥接 YAML，滑块速度和关节状态仍走同一组 ROS 话题。验收直接调用标准 `GetParameters` 和 `SetParameters` 服务读写增益。返回值和真实动作反馈一起说明设置是否生效。Humble 的接口生成使用该发行版提供的 rosidl 工具链。[Humble 参数接口](https://github.com/ros2/rcl_interfaces/tree/humble/rcl_interfaces/srv)
 
 ## 请求、反馈与实际物理状态
 
