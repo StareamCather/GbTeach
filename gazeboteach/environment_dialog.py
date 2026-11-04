@@ -116,10 +116,12 @@ class EnvironmentDialog(QtWidgets.QDialog):
         tabs.addTab(docker, "Docker 接口（预留）")
         guide = QtWidgets.QTextBrowser()
         guide.setOpenExternalLinks(True)
-        path = root / "docs/V2_INSTALL.md"
+        path = root / "docs/V2_2_INSTALL.md"
+        if not path.is_file():
+            path = root / "docs/V2_INSTALL.md"
         guide.setHtml(render(path.read_text(encoding="utf-8") if path.is_file() else
-                             "# V2 安装指南\n\n请阅读发行包内 docs/V2_INSTALL.md。"))
-        tabs.addTab(guide, "V2 安装指南")
+                             "# 安装部署指南\n\n请阅读发行包内 docs/V2_2_INSTALL.md。"))
+        tabs.addTab(guide, "安装部署指南")
         modern_guide = root / "docs/MODERN_GAZEBO.md"
         if modern_guide.is_file():
             modern = QtWidgets.QTextBrowser()
