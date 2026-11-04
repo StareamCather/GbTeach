@@ -1,4 +1,4 @@
-"""Observe true Gazebo Harmonic landings for two independent geometry controls."""
+"""Observe true Gazebo Sim landings for two independent geometry controls."""
 
 import math
 from pathlib import Path
@@ -6,7 +6,7 @@ import time
 import xml.etree.ElementTree as ET
 
 import _bootstrap  # Adds the installed course support directory.
-from common import ensure_running, move_to, result, xyz
+from common import FORTRESS, ensure_running, move_to, result, xyz
 
 
 STATIONS = ("station_a", "station_b", "station_c")
@@ -53,7 +53,8 @@ def wait_for_landing(x, y, start_z, expected_z):
 
 
 def experiment():
-    world = ET.parse("world.sdf").getroot().find("world")
+    world_file = "world.fortress.sdf" if FORTRESS else "world.sdf"
+    world = ET.parse(world_file).getroot().find("world")
     arch = world.find("model[@name='arch']")
     if len(arch.findall("link/collision")) != 3:
         raise ValueError("The arch must have three separate collision shapes")
@@ -92,6 +93,7 @@ def experiment():
 
     return {
         "passed": True,
+        "world": world_file,
         "beam_landing": beam_landing,
         "floor_landing": floor_landing,
         "stations": stations,

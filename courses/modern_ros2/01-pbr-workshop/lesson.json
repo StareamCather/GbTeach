@@ -28,5 +28,24 @@
       "title": "查看Gazebo Sim服务",
       "command": "gz service -l"
     }
-  ]
+  ],
+  "variants": {
+    "fortress-humble": {
+      "world": "world.fortress.sdf",
+      "commands": [
+        {
+          "title": "测量横梁、地面和三个对照样台的落点",
+          "command": "python3 lab.py"
+        },
+        {
+          "title": "重新验收",
+          "command": "python3 verify.py"
+        },
+        {
+          "title": "查看Gazebo Sim服务",
+          "command": "ign service -l"
+        }
+      ]
+    }
+  }
 }

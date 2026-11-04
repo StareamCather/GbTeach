@@ -8,6 +8,17 @@ import subprocess
 import time
 
 
+FORTRESS = os.environ.get('GAZEBOTEACH_PROFILE') == 'fortress-humble'
+SIM_CLI = 'ign' if FORTRESS else 'gz'
+SYSTEM_NAMESPACE = 'ignition::gazebo::systems::' if FORTRESS else 'gz::sim::systems::'
+
+
+def native_message_type(name):
+    if FORTRESS and name.startswith('gz.msgs.'):
+        return 'ignition.msgs.' + name[len('gz.msgs.'):]
+    return name
+
+
 def run(arguments, timeout=8, check=True):
     process = subprocess.Popen(arguments, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                text=True, start_new_session=True)
@@ -27,7 +38,7 @@ def run(arguments, timeout=8, check=True):
 
 
 def topic(name, timeout=8):
-    text = run(['gz', 'topic', '-e', '-t', name, '-n', '1', '--json-output'], timeout)
+    text = run([SIM_CLI, 'topic', '-e', '-t', name, '-n', '1', '--json-output'], timeout)
     try:
         return json.JSONDecoder().raw_decode(text[text.index('{'):])[0]
     except (ValueError, json.JSONDecodeError) as error:
@@ -48,7 +59,8 @@ def xyz(name):
 
 
 def service(name, request_type, request, reply_type='gz.msgs.Boolean'):
-    text = run(['gz', 'service', '-s', name, '--reqtype', request_type, '--reptype', reply_type,
+    text = run([SIM_CLI, 'service', '-s', name, '--reqtype', native_message_type(request_type),
+                '--reptype', native_message_type(reply_type),
                 '--timeout', '3000', '--req', request], timeout=6)
     if reply_type == 'gz.msgs.Boolean' and 'data: true' not in text:
         raise RuntimeError('服务未确认接收：' + name + '\n' + text[-1200:])
@@ -56,7 +68,7 @@ def service(name, request_type, request, reply_type='gz.msgs.Boolean'):
 
 
 def publish(name, kind, value):
-    run(['gz', 'topic', '-t', name, '-m', kind, '-p', value])
+    run([SIM_CLI, 'topic', '-t', name, '-m', native_message_type(kind), '-p', value])
 
 
 def move_to(name, position):
