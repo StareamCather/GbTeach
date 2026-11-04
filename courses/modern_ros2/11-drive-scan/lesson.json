@@ -45,5 +45,34 @@
       "name": "速度里程计激光桥",
       "command": "ros2 run ros_gz_bridge parameter_bridge --ros-args -p config_file:=\"$(pwd)/bridge.yaml\""
     }
-  ]
+  ],
+  "variants": {
+    "fortress-humble": {
+      "world": "world.fortress.sdf",
+      "commands": [
+        {
+          "title": "直行、转向、停车及激光回波验收",
+          "command": "python3 lab.py"
+        },
+        {
+          "title": "重新验收",
+          "command": "python3 verify.py"
+        },
+        {
+          "title": "查看Gazebo Sim服务",
+          "command": "ign service -l"
+        },
+        {
+          "title": "查看实际左右轮关节状态",
+          "command": "ign topic -e -t /gt/wheels -n 1"
+        }
+      ],
+      "startup": [
+        {
+          "name": "速度里程计激光桥",
+          "command": "ros2 run ros_gz_bridge parameter_bridge --ros-args -p config_file:=\"$(pwd)/bridge.fortress.yaml\""
+        }
+      ]
+    }
+  }
 }

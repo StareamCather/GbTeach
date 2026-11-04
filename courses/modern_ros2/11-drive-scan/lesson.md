@@ -1,6 +1,8 @@
 # M11 · ROS 2差速车、原生轮速与GPU激光
 
-一条ROS 2速度指令发出后，怎样确认它真的让轮子转动、小车前进，且墙距与位移相符？本课在Harmonic/Jazzy中连接一辆差速车与三个ROS 2话题。先直行接近墙面，再原地左转，用原生状态和传感器数据检验整条链路。
+一条ROS 2速度指令发出后，怎样确认它真的让轮子转动、小车前进，且墙距与位移相符？本课在当前 ROS 2 教学包中连接一辆差速车与三个ROS 2话题。先直行接近墙面，再原地左转，用原生状态和传感器数据检验整条链路。
+
+Fortress/Humble 加载 `world.fortress.sdf` 和 `bridge.fortress.yaml`。桥保持同一组话题、方向及 ROS 类型，Gazebo 消息类型写成 `ignition.msgs.*`。Harmonic 的激光桥显式设置 `SENSOR_DATA`，Humble 桥使用该版本的默认发布 QoS。验收以 BEST_EFFORT 订阅观测激光，能匹配两种可靠性。Fortress 的原生话题观察使用 `ign topic`。[Humble 桥配置](https://github.com/gazebosim/ros_gz/tree/humble/ros_gz_bridge#example-5-configuring-the-bridge-via-yaml)
 
 ## 消息怎样到达车轮
 
@@ -51,7 +53,7 @@ gz topic -l
 python3 lab.py
 ```
 
-QoS是服务质量配置。读取端点详情时先看发布端提供的可靠性与订阅端请求的可靠性。激光桥采用`SENSOR_DATA`，偏向新鲜样本，使用BEST_EFFORT。订阅端请求RELIABLE时无法与只提供BEST_EFFORT的发布端匹配。使用BEST_EFFORT订阅可接受BEST_EFFORT或RELIABLE发布端。速度指令端点应按实际详细信息核对，不能把传感器QoS直接套到所有消息。主题能列出来只说明发现了名称，确认收到数据还要读取端点与消息。[Jazzy QoS策略与兼容表](https://github.com/ros2/ros2_documentation/blob/jazzy/source/Concepts/Intermediate/About-Quality-of-Service-Settings.rst)
+QoS是服务质量配置。读取端点详情时先看发布端提供的可靠性与订阅端请求的可靠性。Harmonic 的激光桥显式采用 `SENSOR_DATA`，偏向新鲜样本并使用 BEST_EFFORT。Fortress 的桥使用默认发布 QoS，可用话题详情查看实际配置。订阅端请求RELIABLE时无法与只提供BEST_EFFORT的发布端匹配。使用BEST_EFFORT订阅可接受BEST_EFFORT或RELIABLE发布端。速度指令端点应按实际详细信息核对，不能把传感器QoS直接套到所有消息。主题能列出来只说明发现了名称，确认收到数据还要读取端点与消息。[Jazzy QoS策略与兼容表](https://github.com/ros2/ros2_documentation/blob/jazzy/source/Concepts/Intermediate/About-Quality-of-Service-Settings.rst)
 
 脚本先等待实际Odometry、LaserScan和指令订阅端，发送零速度并将车体放回物理基准位姿。里程计仍保留累计坐标，因此读取起止变化量。脚本在每个动作阶段反复发有限速度，按实际Odometry时间戳计量仿真时长，并用墙钟超时退出失去反馈的阶段。直行后先发零速度，再读取位姿、里程计和前向墙距，然后执行原地转向。原生JointStatePublisher在`/gt/wheels`提供左右轮速度，分别核对直行、转向与停止的读数。退出路径会尝试再次发送零速度。修改SDF或桥配置后，通过桌面的“重启实验”重新加载。
 
